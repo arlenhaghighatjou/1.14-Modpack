@@ -25,6 +25,10 @@ public class AxeItem extends ToolItem {
         super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_ON, builder);
     }
 
+	public static void addEffectiveBlock(Block block) {
+		EFFECTIVE_ON.add(block);
+	}
+
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         Material material = state.getMaterial();
         return material != Material.WOOD && material != Material.PLANTS && material != Material.TALL_PLANTS && material != Material.BAMBOO ? super.getDestroySpeed(stack, state) : this.efficiency;

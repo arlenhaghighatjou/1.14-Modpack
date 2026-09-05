@@ -17,22 +17,20 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvents;
-import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
 
 import static biomesoplenty.api.block.BOPBlocks.*;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks
 {
-    @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event)
+    public static void registerBlocks()
     {
         //Terrain
-    	white_sand = registerBlock(new WhiteSandBlock(0xF3F1E4, Block.Properties.create(Material.SAND, MaterialColor.QUARTZ).hardnessAndResistance(0.5F).sound(SoundType.SAND).harvestLevel(0).harvestTool(ToolType.SHOVEL)), "white_sand");
+		white_sand = registerBlock(new WhiteSandBlock(0xF3F1E4, Block.Properties.create(Material.SAND, MaterialColor.QUARTZ).hardnessAndResistance(0.5F).sound(SoundType.SAND)), "white_sand");
     	white_sandstone = registerBlock(new Block(Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(0.8F)), "white_sandstone");
         white_sandstone_stairs = registerBlock(new StairsBlock(white_sandstone.getDefaultState(), Block.Properties.from(white_sandstone)), "white_sandstone_stairs");
     	white_sandstone_slab = registerBlock(new SlabBlock(Block.Properties.from(white_sandstone)), "white_sandstone_slab");
@@ -44,15 +42,15 @@ public class ModBlocks
         cut_white_sandstone_slab = registerBlock(new SlabBlock(Block.Properties.from(cut_white_sandstone)), "cut_white_sandstone_slab");
         chiseled_white_sandstone = registerBlock(new Block(Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(0.8F)), "chiseled_white_sandstone");
 
-        mud = registerBlock(new MudBlock(Block.Properties.create(Material.EARTH, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.6F).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(new SoundType(1.0F, 0.5F, SoundEvents.BLOCK_SLIME_BLOCK_BREAK, SoundEvents.BLOCK_SLIME_BLOCK_STEP, SoundEvents.BLOCK_SLIME_BLOCK_PLACE, SoundEvents.BLOCK_SLIME_BLOCK_HIT, SoundEvents.BLOCK_SLIME_BLOCK_FALL))), "mud");
+        mud = registerBlock(new MudBlock(Block.Properties.create(Material.EARTH, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.6F).sound(new SoundType(1.0F, 0.5F, SoundEvents.BLOCK_SLIME_BLOCK_BREAK, SoundEvents.BLOCK_SLIME_BLOCK_STEP, SoundEvents.BLOCK_SLIME_BLOCK_PLACE, SoundEvents.BLOCK_SLIME_BLOCK_HIT, SoundEvents.BLOCK_SLIME_BLOCK_FALL))), "mud");
         mud_bricks = registerBlock(new Block(Block.Properties.create(Material.ROCK, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(1.0F)), "mud_bricks");
         mud_brick_stairs = registerBlock(new StairsBlock(mud_bricks.getDefaultState(), Block.Properties.from(mud_bricks)), "mud_brick_stairs");
         mud_brick_slab = registerBlock(new SlabBlock(Block.Properties.from(mud_bricks)), "mud_brick_slab");
         mud_brick_wall = registerBlock(new WallBlock(Block.Properties.from(mud_bricks)),"mud_brick_wall");
 
-        dried_sand = registerBlock(new DriedSandBlock(Block.Properties.create(Material.EARTH, MaterialColor.WOOD).hardnessAndResistance(1.0F).harvestLevel(0).harvestTool(ToolType.PICKAXE).sound(new SoundType(1.0F, 0.5F, SoundEvents.BLOCK_GRAVEL_BREAK, SoundEvents.BLOCK_GRAVEL_STEP, SoundEvents.BLOCK_GRAVEL_PLACE, SoundEvents.BLOCK_GRAVEL_HIT, SoundEvents.BLOCK_GRAVEL_FALL))), "dried_sand");
-        ash_block = registerBlock(new AshBlock(Block.Properties.create(Material.SAND, MaterialColor.BLACK_TERRACOTTA).hardnessAndResistance(0.4F).harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.SAND)), "ash_block");
-        flesh = registerBlock(new FleshBlock(Block.Properties.create(Material.SPONGE, MaterialColor.RED_TERRACOTTA).hardnessAndResistance(0.4F).harvestLevel(0).harvestTool(ToolType.AXE).sound(new SoundType(1.0F, 0.5F, SoundEvents.BLOCK_CORAL_BLOCK_BREAK, SoundEvents.BLOCK_CORAL_BLOCK_STEP, SoundEvents.BLOCK_CORAL_BLOCK_PLACE, SoundEvents.BLOCK_CORAL_BLOCK_HIT, SoundEvents.BLOCK_CORAL_BLOCK_FALL))), "flesh");
+        dried_sand = registerBlock(new DriedSandBlock(Block.Properties.create(Material.EARTH, MaterialColor.WOOD).hardnessAndResistance(1.0F).sound(new SoundType(1.0F, 0.5F, SoundEvents.BLOCK_GRAVEL_BREAK, SoundEvents.BLOCK_GRAVEL_STEP, SoundEvents.BLOCK_GRAVEL_PLACE, SoundEvents.BLOCK_GRAVEL_HIT, SoundEvents.BLOCK_GRAVEL_FALL))), "dried_sand");
+        ash_block = registerBlock(new AshBlock(Block.Properties.create(Material.SAND, MaterialColor.BLACK_TERRACOTTA).hardnessAndResistance(0.4F).sound(SoundType.SAND)), "ash_block");
+        flesh = registerBlock(new FleshBlock(Block.Properties.create(Material.SPONGE, MaterialColor.RED_TERRACOTTA).hardnessAndResistance(0.4F).sound(new SoundType(1.0F, 0.5F, SoundEvents.BLOCK_CORAL_BLOCK_BREAK, SoundEvents.BLOCK_CORAL_BLOCK_STEP, SoundEvents.BLOCK_CORAL_BLOCK_PLACE, SoundEvents.BLOCK_CORAL_BLOCK_HIT, SoundEvents.BLOCK_CORAL_BLOCK_FALL))), "flesh");
 
         //Trees
         origin_sapling = registerBlock(new SaplingBlockBOP(new OriginTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.PLANT)), "origin_sapling");
@@ -294,7 +292,7 @@ public class ModBlocks
         watergrass = registerBlock(new DoubleWaterPlantBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.PLANT)), "watergrass");
         mangrove_root = registerBlock(new DoubleWaterPlantBlock(Block.Properties.create(Material.PLANTS, MaterialColor.WHITE_TERRACOTTA).doesNotBlockMovement().hardnessAndResistance(1.0F, 1.5F).sound(SoundType.WOOD)), "mangrove_root");
 
-        bramble = registerBlock(new BrambleBlock(Block.Properties.create(Material.PLANTS, MaterialColor.NETHERRACK).hardnessAndResistance(0.4F).harvestLevel(0).harvestTool(ToolType.AXE).sound(SoundType.WOOD)), "bramble");
+        bramble = registerBlock(new BrambleBlock(Block.Properties.create(Material.PLANTS, MaterialColor.NETHERRACK).hardnessAndResistance(0.4F).sound(SoundType.WOOD)), "bramble");
         toadstool = registerBlock(new MushroomBlockBOP(Block.Properties.create(Material.PLANTS, MaterialColor.ADOBE).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.PLANT)), "toadstool");
         glowshroom = registerBlock(new MushroomBlockBOP(Block.Properties.create(Material.PLANTS, MaterialColor.DIAMOND).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.PLANT).lightValue(6)), "glowshroom");
 
@@ -330,37 +328,34 @@ public class ModBlocks
         potted_sprout = registerBlockNoGroup(new FlowerPotBlock(sprout, Block.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance()), "potted_sprout");
         potted_toadstool = registerBlockNoGroup(new FlowerPotBlock(toadstool, Block.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance()), "potted_toadstool");
         potted_glowshroom = registerBlockNoGroup(new FlowerPotBlock(glowshroom, Block.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().lightValue(6)), "potted_glowshroom");
+		ShovelItem.addEffectiveBlock(white_sand);
+		ShovelItem.addEffectiveBlock(mud);
+		ShovelItem.addEffectiveBlock(ash_block);
+		PickaxeItem.addEffectiveBlock(dried_sand);
+		AxeItem.addEffectiveBlock(flesh);
+		AxeItem.addEffectiveBlock(bramble);
+
     }
 
-    public static Block registerBlock(Block block, String name)
-    {
-        BlockItem itemBlock = new BlockItem(block, new Item.Properties().group(ItemGroupBOP.instance));
-        block.setRegistryName(name);
-        itemBlock.setRegistryName(name);
-        ForgeRegistries.BLOCKS.register(block);
-        ForgeRegistries.ITEMS.register(itemBlock);
-        return block;
-    }
+	public static Block registerBlock(Block block, String name) {
+		return registerBlock(block, new BlockItem(block, new Item.Properties().group(ItemGroupBOP.instance)), name);
+	}
 
-    public static Block registerBlockNoGroup(Block block, String name)
-    {
-        BlockItem itemBlock = new BlockItem(block, new Item.Properties().group(null));
-        block.setRegistryName(name);
-        itemBlock.setRegistryName(name);
-        ForgeRegistries.BLOCKS.register(block);
-        ForgeRegistries.ITEMS.register(itemBlock);
-        return block;
-    }
-    
-    public static Block registerBlock(Block block, BlockItem itemBlock, String name) {
-        block.setRegistryName(name);
-        ForgeRegistries.BLOCKS.register(block);
+	public static Block registerBlockNoGroup(Block block, String name) {
+		return registerBlock(block, new BlockItem(block, new Item.Properties()), name);
+	}
 
-        if (itemBlock != null) {
-            itemBlock.setRegistryName(name);
-            ForgeRegistries.ITEMS.register(itemBlock);
-        }
-
-        return block;
-    }
+	public static Block registerBlock(Block block, BlockItem itemBlock, String name) {
+		ResourceLocation id = new ResourceLocation("biomesoplenty", name);
+		Registry.register(Registry.BLOCK, id, block);
+		for (BlockState state : block.getStateContainer().getValidStates()) {
+			state.func_215692_c();
+			Block.BLOCK_STATE_IDS.add(state);
+		}
+		if (itemBlock != null) {
+			itemBlock.addToBlockToItemMap(Item.BLOCK_TO_ITEM, itemBlock);
+			Registry.register(Registry.ITEM, id, itemBlock);
+		}
+		return block;
+	}
 }
