@@ -445,7 +445,7 @@ public class Block implements IItemProvider {
             LootContext lootcontext = builder.withParameter(LootParameters.BLOCK_STATE, state).build(LootParameterSets.BLOCK);
             ServerWorld serverworld = lootcontext.getWorld();
             LootTable loottable = serverworld.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
-            return loottable.generate(lootcontext);
+            return vectorwing.farmersdelight.loot.modifiers.LootModifiers.apply(state, lootcontext, loottable.generate(lootcontext));
         }
     }
 
