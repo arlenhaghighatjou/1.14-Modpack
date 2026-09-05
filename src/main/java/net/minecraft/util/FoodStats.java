@@ -110,6 +110,14 @@ public class FoodStats {
         return this.foodSaturationLevel;
     }
 
+	public float getExhaustionLevel() {
+		return this.foodExhaustionLevel;
+	}
+
+	public void setExhaustionLevel(float exhaustion) {
+		this.foodExhaustionLevel = exhaustion;
+	}
+
     public void setFoodLevel(int foodLevelIn) {
         this.foodLevel = foodLevelIn;
     }
