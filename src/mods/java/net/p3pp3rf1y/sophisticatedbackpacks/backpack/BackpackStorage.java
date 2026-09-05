@@ -118,7 +118,7 @@ public class BackpackStorage extends WorldSavedData {
 			updatedBackpackSettingsFlags.add(backpackUuid);
 		} else {
 			CompoundNBT currentContents = backpackContents.get(backpackUuid);
-			for (String key : contents.getAllKeys()) {
+			for (String key : contents.keySet()) {
 				//noinspection ConstantConditions - the key is one of the tag keys so there's no reason it wouldn't exist here
 				currentContents.put(key, contents.get(key));
 

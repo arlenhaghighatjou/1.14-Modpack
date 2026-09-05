@@ -162,7 +162,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 		}
 
 		ItemStack heldItem = player.getHeldItem(hand);
-		if (player.isShiftKeyDown() && heldItem.isEmpty()) {
+		if (player.isSneaking() && heldItem.isEmpty()) {
 			putInPlayersHandAndRemove(state, world, pos, player, hand);
 			return ActionResultType.SUCCESS;
 		}
@@ -197,7 +197,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	private static void putInPlayersHandAndRemove(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
 		ItemStack backpack = WorldHelper.getTile(world, pos, BackpackTileEntity.class).map(te -> te.getBackpackWrapper().getBackpack()).orElse(ItemStack.EMPTY);
-		player.setItemInHand(hand, backpack);
+		player.setHeldItem(hand, backpack);
 		player.getCooldowns().addCooldown(backpack.getItem(), 5);
 		world.removeBlock(pos, false);
 
@@ -218,7 +218,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 		World world = player.world;
 		BlockPos pos = event.getPos();
 
-		if (!player.isShiftKeyDown() || !hasEmptyMainHandAndSomethingInOffhand(player) || didntInteractWithBackpack(event)) {
+		if (!player.isSneaking() || !hasEmptyMainHandAndSomethingInOffhand(player) || didntInteractWithBackpack(event)) {
 			return;
 		}
 

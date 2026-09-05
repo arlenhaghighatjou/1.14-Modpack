@@ -312,7 +312,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 
 	public void closeBackpackScreenIfSomethingMessedWithBackpackStack() {
 		if (!isClientSide() && isNotCorrectBackpack()) {
-			player.closeContainer();
+			player.closeScreen();
 		}
 	}
 
@@ -363,7 +363,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			if (slotStack.isEmpty()) {
 				slot.putStack(ItemStack.EMPTY);
 			} else {
-				slot.markDirty();
+				slot.onSlotChanged();
 			}
 			slot.onQuickCraft(slotStack, itemstack);
 
@@ -1184,7 +1184,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 					}
 				}
 
-				slot6.markDirty();
+				slot6.onSlotChanged();
 			}
 		} else if (clickType == ClickType.SWAP) {
 			Slot slot = getSlot(slotId);
@@ -1200,7 +1200,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 							slot.onTake(player, slotStack);
 						} else {
 							playerinventory.setInventorySlotContents(dragType, slotStack.split(slotStack.getMaxStackSize()));
-							slot.markDirty();
+							slot.onSlotChanged();
 						}
 					}
 				} else if (slotStack.isEmpty()) {
@@ -1360,13 +1360,13 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 							sourceStack.shrink(toTransfer);
 							destStack.setCount(j);
 							toTransfer = 0;
-							slot.markDirty();
+							slot.onSlotChanged();
 							mergedSomething = true;
 						} else if (destStack.getCount() < maxSize) {
 							sourceStack.shrink(maxSize - destStack.getCount());
 							toTransfer -= maxSize - destStack.getCount();
 							destStack.setCount(maxSize);
-							slot.markDirty();
+							slot.onSlotChanged();
 							mergedSomething = true;
 						}
 
@@ -1402,7 +1402,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 					ItemStack destStack = slot.getStack();
 					if (destStack.isEmpty()) {
 						slot.putStack(sourceStack.split(slot.getSlotStackLimit()));
-						slot.markDirty();
+						slot.onSlotChanged();
 						toTransfer = sourceStack.getCount();
 						mergedSomething = true;
 					}
@@ -1448,7 +1448,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 						}
 					}
 					if (!errorMerging) {
-						destSlot.markDirty();
+						destSlot.onSlotChanged();
 						mergedSomething = true;
 						break;
 					}

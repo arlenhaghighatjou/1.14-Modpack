@@ -43,7 +43,7 @@ public class SyncClientInfoMessage {
 		if (player == null || msg.renderInfoNbt == null || !(player.openContainer instanceof BackpackContainer)) {
 			return;
 		}
-		ItemStack backpack = player.inventory.items.get(msg.slotIndex);
+		ItemStack backpack = player.inventory.mainInventory.get(msg.slotIndex);
 		BackpackWrapperLookup.get(backpack).ifPresent(backpackWrapper -> {
 			backpackWrapper.getRenderInfo().deserializeFrom(msg.renderInfoNbt);
 			backpackWrapper.setColumnsTaken(msg.columnsTaken);

@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -353,7 +353,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			fill(matrixStack, i, j, i + 16, j + 16, -2130706433);
 		}
 
-		RenderSystem.enableDepthTest();
+		GlStateManager.enableDepthTest();
 		itemRenderer.renderAndDecorateItem(minecraft.player, itemstack, i, j);
 		if (shouldUseSpecialCountRender(itemstack)) {
 			itemRenderer.renderItemOverlayIntoGUI(font, itemstack, i, j, "");
@@ -406,11 +406,11 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	public void renderOverlay(MatrixStack matrixStack, int slotColor, int xPos, int yPos, int width, int height) {
-		RenderSystem.disableDepthTest();
-		RenderSystem.colorMask(true, true, true, false);
+		GlStateManager.disableDepthTest();
+		GlStateManager.colorMask(true, true, true, false);
 		fillGradient(matrixStack, xPos, yPos, xPos + width, yPos + height, slotColor, slotColor);
-		RenderSystem.colorMask(true, true, true, true);
-		RenderSystem.enableDepthTest();
+		GlStateManager.colorMask(true, true, true, true);
+		GlStateManager.enableDepthTest();
 	}
 
 	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
@@ -449,8 +449,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		BackpackBackgroundProperties backpackBackgroundProperties = getMenu().getBackpackBackgroundProperties();
 		BackpackGuiHelper.renderBackpackBackground(new Position((width - imageWidth) / 2, (height - imageHeight) / 2), matrixStack, getMenu().getNumberOfSlots(), getMenu().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), imageWidth, minecraft, menu.getNumberOfRows());
 
-		RenderSystem.pushMatrix();
-		RenderSystem.translatef(getGuiLeft(), (float) getGuiTop(), 0.0F);
+		GlStateManager.pushMatrix();
+		GlStateManager.translatef(getGuiLeft(), (float) getGuiTop(), 0.0F);
 		for (int slotNumber = 0; slotNumber < menu.getNumberOfSlots(); slotNumber++) {
 			List<Integer> colors = menu.getSlotOverlayColors(slotNumber);
 			if (!colors.isEmpty()) {
@@ -463,7 +463,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 				}
 			}
 		}
-		RenderSystem.popMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	private void drawUpgradeBackground(MatrixStack matrixStack) {
@@ -471,7 +471,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			return;
 		}
 
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		minecraft.getTextureManager().bind(GUI_CONTROLS);
 
 		int firstHalfHeight = getUpgradeHeightWithoutBottom();
@@ -623,15 +623,15 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		matrixStack.translate(0.0D, 0.0D, itemRenderer.zLevel + 200.0F);
 		IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 
-		RenderSystem.pushMatrix();
+		GlStateManager.pushMatrix();
 		float scale = Math.min(1f, (float) 16 / font.getStringWidth(count));
 		if (scale < 1f) {
-			RenderSystem.scalef(scale, scale, 1.0F);
+			GlStateManager.scalef(scale, scale, 1.0F);
 		}
 		font.drawInBatch(count, (x + 19 - 2 - (font.getStringWidth(count) * scale)) / scale,
 				(y + 6 + 3 + (1 / (scale * scale) - 1)) / scale, 16777215, true, matrixStack.last().pose(), renderBuffer, false, 0, 15728880);
 		renderBuffer.endBatch();
-		RenderSystem.popMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	@Override
@@ -665,8 +665,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	private void renderErrorOverlay(MatrixStack matrixStack) {
 		menu.getErrorUpgradeSlotChangeResult().ifPresent(upgradeSlotChangeResult -> upgradeSlotChangeResult.getErrorMessage().ifPresent(overlayErrorMessage -> {
-			RenderSystem.pushMatrix();
-			RenderSystem.translatef(getGuiLeft(), (float) getGuiTop(), 0.0F);
+			GlStateManager.pushMatrix();
+			GlStateManager.translatef(getGuiLeft(), (float) getGuiTop(), 0.0F);
 			upgradeSlotChangeResult.getErrorUpgradeSlots().forEach(slotIndex -> renderSlotOverlay(matrixStack, menu.getSlot(menu.getFirstUpgradeSlot() + slotIndex), DyeColor.RED.getColorValue() | 0xAA000000));
 			upgradeSlotChangeResult.getErrorInventorySlots().forEach(slotIndex -> {
 				Slot slot = menu.getSlot(slotIndex);
@@ -679,16 +679,16 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 					inventoryParts.get(partIndex).renderErrorOverlay(matrixStack);
 				}
 			});
-			RenderSystem.popMatrix();
+			GlStateManager.popMatrix();
 
 			renderErrorMessage(matrixStack, overlayErrorMessage);
 		}));
 	}
 
 	private void renderErrorMessage(MatrixStack matrixStack, ITextComponent overlayErrorMessage) {
-		RenderSystem.pushMatrix();
-		RenderSystem.disableDepthTest();
-		RenderSystem.translatef((float) width / 2, guiTop + inventoryLabelY + 4, 300F);
+		GlStateManager.pushMatrix();
+		GlStateManager.disableDepthTest();
+		GlStateManager.translatef((float) width / 2, guiTop + inventoryLabelY + 4, 300F);
 		FontRenderer fontrenderer = Minecraft.getInstance().fontRenderer;
 
 		int tooltipWidth = font.getStringWidth(overlayErrorMessage);
@@ -722,7 +722,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		matrixStack.translate(0.0D, 0.0D, 400.0D);
 		GuiHelper.writeTooltipLines(wrappedTextLines, fontrenderer, leftX, 0, matrix4f, renderTypeBuffer, DyeColor.RED.getColorValue());
 		renderTypeBuffer.endBatch();
-		RenderSystem.popMatrix();
+		GlStateManager.popMatrix();
 	}
 
 	public interface IButtonReplacer {

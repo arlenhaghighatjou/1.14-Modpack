@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.settings;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.text.ITextComponent;
@@ -69,12 +69,12 @@ public class ColorToggleButton extends ButtonBase {
 
 	@Override
 	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		RenderSystem.disableDepthTest();
-		RenderSystem.colorMask(true, true, true, false);
+		GlStateManager.disableDepthTest();
+		GlStateManager.colorMask(true, true, true, false);
 		int color = getColor.get().getColorValue() | (200 << 24);
 		fillGradient(matrixStack, x + 3, y + 3, x + 15, y + 15, color, color);
-		RenderSystem.colorMask(true, true, true, true);
-		RenderSystem.enableDepthTest();
+		GlStateManager.colorMask(true, true, true, true);
+		GlStateManager.enableDepthTest();
 
 		if (isMouseOver(mouseX, mouseY)) {
 			GuiHelper.setTooltipToRender(TOOLTIP);

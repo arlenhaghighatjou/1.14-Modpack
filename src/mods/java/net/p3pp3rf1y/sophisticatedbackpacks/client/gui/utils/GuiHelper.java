@@ -3,7 +3,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils;
 import net.minecraft.util.registry.Registry;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -241,16 +241,16 @@ public class GuiHelper {
 		fillGradient(matrix4f, bufferbuilder, leftX + tooltipWidth + 2, topY - 3 + 1, leftX + tooltipWidth + 3, topY + tooltipHeight + 3 - 1, 400, borderColorStart, borderColorEnd);
 		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY - 3, leftX + tooltipWidth + 3, topY - 3 + 1, 400, borderColorStart, borderColorStart);
 		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY + tooltipHeight + 2, leftX + tooltipWidth + 3, topY + tooltipHeight + 3, 400, borderColorEnd, borderColorEnd);
-		RenderSystem.enableDepthTest();
-		RenderSystem.disableTexture();
-		RenderSystem.enableBlend();
-		RenderSystem.defaultBlendFunc();
-		RenderSystem.shadeModel(7425);
+		GlStateManager.enableDepthTest();
+		GlStateManager.disableTexture();
+		GlStateManager.enableBlend();
+		GlStateManager.defaultBlendFunc();
+		GlStateManager.shadeModel(7425);
 		bufferbuilder.end();
 		WorldVertexBufferUploader.end(bufferbuilder);
-		RenderSystem.shadeModel(7424);
-		RenderSystem.disableBlend();
-		RenderSystem.enableTexture();
+		GlStateManager.shadeModel(7424);
+		GlStateManager.disableBlend();
+		GlStateManager.enableTexture();
 	}
 
 	private static int getMaxLineWidth(List<? extends ITextComponent> tooltips, FontRenderer font) {
@@ -351,7 +351,7 @@ public class GuiHelper {
 
 		// finish drawing sprites
 		builder.end();
-		RenderSystem.enableAlphaTest();
+		GlStateManager.enableAlphaTest();
 		WorldVertexBufferUploader.end(builder);
 	}
 
@@ -406,11 +406,11 @@ public class GuiHelper {
 			catch (Throwable throwable) {
 				CrashReport crashreport = CrashReport.forThrowable(throwable, "Rendering item");
 				CrashReportCategory crashreportcategory = crashreport.addCategory("Item being rendered");
-				crashreportcategory.setDetail("Item Type", () -> String.valueOf(stack.getItem()));
-				crashreportcategory.setDetail("Registry Name", () -> String.valueOf(Registry.ITEM.getKey(stack.getItem())));
-				crashreportcategory.setDetail("Item Damage", () -> String.valueOf(stack.getDamage()));
-				crashreportcategory.setDetail("Item NBT", () -> String.valueOf(stack.getTag()));
-				crashreportcategory.setDetail("Item Foil", () -> String.valueOf(stack.hasFoil()));
+				crashreportcategory.addDetail("Item Type", () -> String.valueOf(stack.getItem()));
+				crashreportcategory.addDetail("Registry Name", () -> String.valueOf(Registry.ITEM.getKey(stack.getItem())));
+				crashreportcategory.addDetail("Item Damage", () -> String.valueOf(stack.getDamage()));
+				crashreportcategory.addDetail("Item NBT", () -> String.valueOf(stack.getTag()));
+				crashreportcategory.addDetail("Item Foil", () -> String.valueOf(stack.hasFoil()));
 				throw new ReportedException(crashreport);
 			}
 
@@ -419,22 +419,22 @@ public class GuiHelper {
 	}
 
 	private static void renderGuiItem(ItemRenderer itemRenderer, TextureManager textureManager, ItemStack pStack, int pX, int pY, IBakedModel pBakedmodel, int rotation) {
-		RenderSystem.pushMatrix();
+		GlStateManager.pushMatrix();
 		textureManager.bind(AtlasTexture.LOCATION_BLOCKS);
 		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS).setFilter(false, false);
-		RenderSystem.enableRescaleNormal();
-		RenderSystem.enableAlphaTest();
-		RenderSystem.defaultAlphaFunc();
-		RenderSystem.enableBlend();
-		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.translatef((float) pX, (float) pY, 100.0F + itemRenderer.zLevel);
-		RenderSystem.translatef(8.0F, 8.0F, 0.0F);
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.enableAlphaTest();
+		GlStateManager.defaultAlphaFunc();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.translatef((float) pX, (float) pY, 100.0F + itemRenderer.zLevel);
+		GlStateManager.translatef(8.0F, 8.0F, 0.0F);
 		if (rotation != 0) {
-			RenderSystem.rotatef(rotation, 0, 0, 1);
+			GlStateManager.rotatef(rotation, 0, 0, 1);
 		}
-		RenderSystem.scalef(1.0F, -1.0F, 1.0F);
-		RenderSystem.scalef(16.0F, 16.0F, 16.0F);
+		GlStateManager.scalef(1.0F, -1.0F, 1.0F);
+		GlStateManager.scalef(16.0F, 16.0F, 16.0F);
 		MatrixStack matrixstack = new MatrixStack();
 		IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
 		boolean flag = !pBakedmodel.usesBlockLight();
@@ -444,13 +444,13 @@ public class GuiHelper {
 
 		itemRenderer.render(pStack, ItemCameraTransforms.TransformType.GUI, false, matrixstack, irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, pBakedmodel);
 		irendertypebuffer$impl.endBatch();
-		RenderSystem.enableDepthTest();
+		GlStateManager.enableDepthTest();
 		if (flag) {
 			RenderHelper.setupFor3DItems();
 		}
 
-		RenderSystem.disableAlphaTest();
-		RenderSystem.disableRescaleNormal();
-		RenderSystem.popMatrix();
+		GlStateManager.disableAlphaTest();
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.popMatrix();
 	}
 }

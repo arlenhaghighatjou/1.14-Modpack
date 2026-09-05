@@ -69,9 +69,9 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		InventoryHelper.iterate(inventory, (slot, stack) -> {
 			if (stack.isEdible() && filterLogic.matchesFilter(stack) && (isHungryEnoughForFood(hungerLevel, stack) || shouldFeedImmediatelyWhenHurt() && hungerLevel > 0 && isHurt)) {
 				ItemStack mainHandItem = player.getHeldItemMainhand();
-				player.inventory.items.set(player.inventory.selected, stack);
+				player.inventory.mainInventory.set(player.inventory.currentItem, stack);
 				if (stack.use(world, player, Hand.MAIN_HAND).getResult() == ActionResultType.CONSUME) {
-					player.inventory.items.set(player.inventory.selected, mainHandItem);
+					player.inventory.mainInventory.set(player.inventory.currentItem, mainHandItem);
 					ItemStack containerItem = ForgeEventFactory.onItemUseFinish(player, stack.copy(), 0, stack.getItem().finishUsingItem(stack, world, player));
 					inventory.setStackInSlot(slot, stack);
 					if (!ItemStack.matches(containerItem, stack)) {
@@ -82,7 +82,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 					fedPlayer.set(true);
 					return true;
 				}
-				player.inventory.items.set(player.inventory.selected, mainHandItem);
+				player.inventory.mainInventory.set(player.inventory.currentItem, mainHandItem);
 			}
 			return false;
 		}, () -> false, ret -> ret);

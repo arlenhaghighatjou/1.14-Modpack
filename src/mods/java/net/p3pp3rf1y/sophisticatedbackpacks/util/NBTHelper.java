@@ -203,7 +203,7 @@ public class NBTHelper {
 	public static <K, V> Optional<Map<K, V>> getMap(CompoundNBT tag, Function<String, K> getKey, BiFunction<String, INBT, Optional<V>> getValue) {
 		Map<K, V> map = new HashMap<>();
 
-		for (String tagName : tag.getAllKeys()) {
+		for (String tagName : tag.keySet()) {
 			getValue.apply(tagName, tag.get(tagName)).ifPresent(value -> map.put(getKey.apply(tagName), value));
 		}
 

@@ -224,7 +224,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	private boolean fillContainerInHand(PlayerEntity player, Hand hand, IFluidHandlerItem itemFluidHandler, IFluidHandler backpackFluidHandler) {
 		boolean ret = fillFluidHandler(itemFluidHandler, backpackFluidHandler);
 		if (ret) {
-			player.setItemInHand(hand, itemFluidHandler.getContainer());
+			player.setHeldItem(hand, itemFluidHandler.getContainer());
 		}
 		return ret;
 	}
@@ -248,7 +248,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 
 	private boolean fillFromHand(PlayerEntity player, Hand hand, IFluidHandlerItem itemFluidHandler, IFluidHandler backpackFluidHandler) {
 		if (fillFromFluidHandler(itemFluidHandler, backpackFluidHandler)) {
-			player.setItemInHand(hand, itemFluidHandler.getContainer());
+			player.setHeldItem(hand, itemFluidHandler.getContainer());
 			return true;
 		}
 		return false;

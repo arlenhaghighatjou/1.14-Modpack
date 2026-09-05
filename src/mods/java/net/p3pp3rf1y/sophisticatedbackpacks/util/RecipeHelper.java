@@ -124,7 +124,7 @@ public class RecipeHelper {
 
 	private static boolean uncompactMatchesItem(ItemStack result, World w, Item item, int count) {
 		CraftingInventory craftingInventory = getFilledCraftingInventory(result.getItem(), 1, 1);
-		result = w.getRecipeManager().getRecipe(IRecipeType.CRAFTING, craftingInventory, w).map(r -> r.assemble(craftingInventory)).orElse(ItemStack.EMPTY);
+		result = w.getRecipeManager().getRecipe(IRecipeType.CRAFTING, craftingInventory, w).map(r -> r.getCraftingResult(craftingInventory)).orElse(ItemStack.EMPTY);
 		return result.getItem() == item && result.getCount() == count;
 	}
 
@@ -146,7 +146,7 @@ public class RecipeHelper {
 					remainingItems.add(stack);
 				}
 			});
-			return r.assemble(craftingInventory);
+			return r.getCraftingResult(craftingInventory);
 		}).orElse(ItemStack.EMPTY);
 
 		CompactingResult compactingResult = new CompactingResult(result, remainingItems);

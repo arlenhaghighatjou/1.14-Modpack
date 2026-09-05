@@ -22,8 +22,8 @@ public class PlayerInventoryProvider {
 	private final List<String> renderedHandlers = new ArrayList<>();
 
 	public PlayerInventoryProvider() {
-		addPlayerInventoryHandler(MAIN_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> player.inventory.items.size(),
-				(player, identifier, slot) -> player.inventory.items.get(slot), true, false, false);
+		addPlayerInventoryHandler(MAIN_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> player.inventory.mainInventory.size(),
+				(player, identifier, slot) -> player.inventory.mainInventory.get(slot), true, false, false);
 		addPlayerInventoryHandler(OFFHAND_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> player.inventory.offhand.size(),
 				(player, identifier, slot) -> player.inventory.offhand.get(slot), false, false, false);
 		addPlayerInventoryHandler(ARMOR_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> 1,

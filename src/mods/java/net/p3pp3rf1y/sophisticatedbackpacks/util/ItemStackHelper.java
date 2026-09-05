@@ -31,7 +31,7 @@ public class ItemStackHelper {
 			return false;
 		}
 
-		for (String key : tagA.getAllKeys()) {
+		for (String key : tagA.keySet()) {
 			if (!tagB.contains(key)) {
 				return false;
 			}

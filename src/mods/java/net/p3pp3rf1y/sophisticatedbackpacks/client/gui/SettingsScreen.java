@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ClickType;
@@ -82,10 +82,10 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		setBlitOffset(100);
 		itemRenderer.zLevel = 100.0F;
 
-		RenderSystem.enableDepthTest();
-		RenderSystem.pushMatrix();
+		GlStateManager.enableDepthTest();
+		GlStateManager.pushMatrix();
 		settingsTabControl.renderGuiItem(itemRenderer, itemstack, slot);
-		RenderSystem.popMatrix();
+		GlStateManager.popMatrix();
 		itemRenderer.zLevel = 0.0F;
 		setBlitOffset(0);
 
@@ -150,11 +150,11 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	private void renderSlotOverlay(MatrixStack matrixStack, int xPos, int yPos, int height, int slotColor) {
-		RenderSystem.disableDepthTest();
-		RenderSystem.colorMask(true, true, true, false);
+		GlStateManager.disableDepthTest();
+		GlStateManager.colorMask(true, true, true, false);
 		fillGradient(matrixStack, xPos, yPos, xPos + 16, yPos + height, slotColor, slotColor);
-		RenderSystem.colorMask(true, true, true, true);
-		RenderSystem.enableDepthTest();
+		GlStateManager.colorMask(true, true, true, true);
+		GlStateManager.enableDepthTest();
 	}
 
 	@Override

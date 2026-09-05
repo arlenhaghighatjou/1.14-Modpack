@@ -91,7 +91,7 @@ public class BackpackRenderInfo {
 	private void deserializeUpgrades() {
 		CompoundNBT renderInfo = getRenderInfoTag();
 		CompoundNBT upgrades = renderInfo.getCompound(UPGRADES_TAG);
-		upgrades.getAllKeys().forEach(key -> {
+		upgrades.keySet().forEach(key -> {
 			if (RENDER_DATA_TYPES.containsKey(key)) {
 				UpgradeRenderDataType<?> upgradeRenderDataType = RENDER_DATA_TYPES.get(key);
 				upgradeData.put(upgradeRenderDataType, upgradeRenderDataType.deserialize(upgrades.getCompound(key)));

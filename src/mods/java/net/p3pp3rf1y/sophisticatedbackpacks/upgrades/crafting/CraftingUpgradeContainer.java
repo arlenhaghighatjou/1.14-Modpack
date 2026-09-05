@@ -108,7 +108,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 			ServerPlayerEntity serverplayerentity = (ServerPlayerEntity) player;
 			ItemStack itemstack = ItemStack.EMPTY;
 			if (lastRecipe != null && lastRecipe.matches(inventory, world)) {
-				itemstack = lastRecipe.assemble(inventory);
+				itemstack = lastRecipe.getCraftingResult(inventory);
 			} else {
 				//noinspection ConstantConditions - we're on server and for sure in the world so getServer can't return null here
 				Optional<ICraftingRecipe> optional = world.getServer().getRecipeManager().getRecipe(IRecipeType.CRAFTING, inventory, world);
@@ -116,7 +116,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 					ICraftingRecipe craftingRecipe = optional.get();
 					if (inventoryResult.setRecipeUsed(world, serverplayerentity, craftingRecipe)) {
 						lastRecipe = craftingRecipe;
-						itemstack = lastRecipe.assemble(inventory);
+						itemstack = lastRecipe.getCraftingResult(inventory);
 					} else {
 						lastRecipe = null;
 					}

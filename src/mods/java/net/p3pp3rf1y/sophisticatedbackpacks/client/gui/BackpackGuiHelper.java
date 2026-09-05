@@ -1,7 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +15,7 @@ public class BackpackGuiHelper {
 	public static void renderBackpackBackground(Position position, MatrixStack matrixStack, int inventorySlots, int slotsOnLine, ResourceLocation textureName, int xSize, Minecraft minecraft, int numberOfSlotRows) {
 		int x = position.getX();
 		int y = position.getY();
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		minecraft.getTextureManager().bindTexture(textureName);
 		int slotRows = inventorySlots / slotsOnLine;
 		int remainingSlots = inventorySlots % slotsOnLine;

@@ -166,7 +166,7 @@ public class BackpackItem extends ItemBase {
     @Override
     public ActionResultType useOn(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
-        if (player == null || !player.isShiftKeyDown()) {
+        if (player == null || !player.isSneaking()) {
             return ActionResultType.PASS;
         }
 
@@ -243,7 +243,7 @@ public class BackpackItem extends ItemBase {
 
         if (!world.isRemote && player instanceof ServerPlayerEntity) {
             String handlerName = hand == Hand.MAIN_HAND ? PlayerInventoryProvider.MAIN_INVENTORY : PlayerInventoryProvider.OFFHAND_INVENTORY;
-            int slot = hand == Hand.MAIN_HAND ? player.inventory.selected : 0;
+            int slot = hand == Hand.MAIN_HAND ? player.inventory.currentItem : 0;
             BackpackContext.Item context = new BackpackContext.Item(handlerName, slot);
             NetworkHooks.openGui((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getDisplayName()),
                     context::toBuffer);

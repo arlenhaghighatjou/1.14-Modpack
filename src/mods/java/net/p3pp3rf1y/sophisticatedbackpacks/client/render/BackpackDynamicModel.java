@@ -309,10 +309,10 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 			BakedQuadBuilder builder = new BakedQuadBuilder(sprite);
 			Vector3i dirVec = face.getDirectionVec();
 			Vector3f normal = new Vector3f(dirVec.getX(), dirVec.getY(), dirVec.getZ());
-			putVertex(builder, normal, vecs.get(0).getX, vecs.get(0).getY, vecs.get(0).getZ, u1, v1, sprite, colors);
-			putVertex(builder, normal, vecs.get(1).getX, vecs.get(1).getY, vecs.get(1).getZ, u1, v2, sprite, colors);
-			putVertex(builder, normal, vecs.get(2).getX, vecs.get(2).getY, vecs.get(2).getZ, u2, v2, sprite, colors);
-			putVertex(builder, normal, vecs.get(3).getX, vecs.get(3).getY, vecs.get(3).getZ, u2, v1, sprite, colors);
+			putVertex(builder, normal, vecs.get(0).getX(), vecs.get(0).getY(), vecs.get(0).getZ(), u1, v1, sprite, colors);
+			putVertex(builder, normal, vecs.get(1).getX(), vecs.get(1).getY(), vecs.get(1).getZ(), u1, v2, sprite, colors);
+			putVertex(builder, normal, vecs.get(2).getX(), vecs.get(2).getY(), vecs.get(2).getZ(), u2, v2, sprite, colors);
+			putVertex(builder, normal, vecs.get(3).getX(), vecs.get(3).getY(), vecs.get(3).getZ(), u2, v1, sprite, colors);
 			builder.setQuadOrientation(face);
 			return builder.build();
 		}
@@ -338,7 +338,7 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 						}
 						break;
 					case NORMAL:
-						builder.put(e, normal.getX, normal.getY, normal.getZ);
+						builder.put(e, normal.getX(), normal.getY(), normal.getZ());
 						break;
 					default:
 						builder.put(e);
@@ -349,9 +349,9 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 
 		private void rotate(Vector3f posIn, Matrix4f transformIn) {
 			Vector3f originIn = new Vector3f(0.5f, 0.5f, 0.5f);
-			Vector4f vector4f = new Vector4f(posIn.getX - originIn.getX, posIn.getY - originIn.getY, posIn.getZ - originIn.getZ, 1.0F);
+			Vector4f vector4f = new Vector4f(posIn.getX() - originIn.getX(), posIn.getY() - originIn.getY(), posIn.getZ() - originIn.getZ(), 1.0F);
 			vector4f.transform(transformIn);
-			posIn.set(vector4f.getX + originIn.getX, vector4f.getY + originIn.getY, vector4f.getZ + originIn.getZ);
+			posIn.set(vector4f.getX() + originIn.getX(), vector4f.getY() + originIn.getY(), vector4f.getZ() + originIn.getZ());
 		}
 	}
 

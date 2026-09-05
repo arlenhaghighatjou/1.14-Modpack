@@ -105,7 +105,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		}, finished::get);
 		ItemStack tool = selectedTool.get();
 		if (!tool.isEmpty() && hasSpaceInBackpackOrCanPlaceInTheSlotOfSwappedTool(backpackInventory, mainHandItem, tool, selectedSlot.get())) {
-			player.setItemInHand(Hand.MAIN_HAND, backpackInventory.extractItem(selectedSlot.get(), 1, false));
+			player.setHeldItem(Hand.MAIN_HAND, backpackInventory.extractItem(selectedSlot.get(), 1, false));
 			backpackInventory.insertItem(mainHandItem, false);
 			return true;
 		}
@@ -248,7 +248,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 
 		InventoryHelper.extractFromInventory(sword, backpackInventory, false);
 		if (backpackInventory.insertItem(mainHandItem, true).isEmpty()) {
-			player.setItemInHand(Hand.MAIN_HAND, sword);
+			player.setHeldItem(Hand.MAIN_HAND, sword);
 			backpackInventory.insertItem(mainHandItem, false);
 			return true;
 		} else {
@@ -334,7 +334,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		tool = tool.copy().split(1);
 
 		if ((tool.getCount() == 1 || backpackInventory.insertItem(mainHandStack, true).isEmpty())) {
-			player.setItemInHand(Hand.MAIN_HAND, InventoryHelper.extractFromInventory(tool, backpackInventory, false));
+			player.setHeldItem(Hand.MAIN_HAND, InventoryHelper.extractFromInventory(tool, backpackInventory, false));
 			backpackInventory.insertItem(mainHandStack, false);
 			toolCache.offer(tool);
 		}

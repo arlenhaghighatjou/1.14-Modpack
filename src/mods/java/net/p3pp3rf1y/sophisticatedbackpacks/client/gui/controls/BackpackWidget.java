@@ -1,7 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -40,7 +40,7 @@ public abstract class BackpackWidget extends AbstractGui implements IRenderable,
 			matrixStack.pushPose();
 			matrixStack.translate(0, 0, zOffset);
 		}
-		RenderSystem.enableDepthTest();
+		GlStateManager.enableDepthTest();
 		renderBg(matrixStack, minecraft, mouseX, mouseY);
 		renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		if (zOffset != 0) {

@@ -180,7 +180,7 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 	}
 
 	public boolean handleMessage(CompoundNBT data) {
-		for (String key : data.getAllKeys()) {
+		for (String key : data.keySet()) {
 			switch (key) {
 				case DATA_IS_ALLOW_LIST:
 					setAllowList(data.getBoolean(DATA_IS_ALLOW_LIST));
