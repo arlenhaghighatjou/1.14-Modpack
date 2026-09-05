@@ -12,7 +12,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.INoiseRandom;
-import net.minecraftforge.common.BiomeManager.BiomeType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,6 +33,8 @@ public enum BOPClimates
     HOT_DESERT (BiomeType.DESERT),
     WASTELAND (null),
     NETHER (null);
+
+	public enum BiomeType { DESERT, WARM, COOL, ICY }
 
     public final BiomeType biomeType;
     private int totalBiomesWeight;

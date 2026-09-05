@@ -15,7 +15,6 @@ import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.area.IArea;
 import net.minecraft.world.gen.layer.traits.IAreaTransformer2;
 import net.minecraft.world.gen.layer.traits.IDimOffset0Transformer;
-import net.minecraftforge.common.BiomeManager;
 
 public enum GenLayerBiomeBOP implements IAreaTransformer2, IDimOffset0Transformer
 {
@@ -49,7 +48,7 @@ public enum GenLayerBiomeBOP implements IAreaTransformer2, IDimOffset0Transforme
         {
             return Registry.BIOME.getId(climate.getRandomOceanBiome(context, true));
         }
-        else if ((landSeaVal == MUSHROOM_FIELDS || ModBiomes.islandBiomes.contains(landSeaVal)) && climate.biomeType != BiomeManager.BiomeType.ICY) // TODO
+        else if ((landSeaVal == MUSHROOM_FIELDS || ModBiomes.islandBiomes.contains(landSeaVal)) && climate.biomeType != BOPClimates.BiomeType.ICY) // TODO
         {
             // keep islands, unless it's in an icy climate in which case, replace
             return landSeaVal;

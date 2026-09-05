@@ -19,7 +19,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import biomesoplenty.common.biome.BiomeBOP;
 
 import net.lax1dude.eaglercraft.crypto.SHA256Digest;
 import java.util.HashMap;
@@ -113,22 +113,22 @@ public class BiomeMapColours
         boolean treebased = false;
         int colour = getTopColour(biome);
 
-        if (BiomeDictionary.hasType(biome, BiomeDictionary.Type.FOREST))
+        if (BiomeBOP.hasType(biome, BiomeBOP.Type.FOREST))
         {
             colour = blend(biome.getFoliageColor(BlockPos.ZERO), 0xff0b7000, 0.35);
             treebased = true;
         }
 
-        if (BiomeDictionary.hasType(biome, BiomeDictionary.Type.LUSH) || BiomeDictionary.hasType(biome, BiomeDictionary.Type.CONIFEROUS) || BiomeDictionary.hasType(biome, BiomeDictionary.Type.JUNGLE))
+        if (BiomeBOP.hasType(biome, BiomeBOP.Type.LUSH) || BiomeBOP.hasType(biome, BiomeBOP.Type.CONIFEROUS) || BiomeBOP.hasType(biome, BiomeBOP.Type.JUNGLE))
         {
             colour = blend(colour, 0xff0b7000, Math.min(0.25, 0.25f * 0.025));
             colour = brightness(colour, 1.0 - Math.min(0.1, 0.25f * 0.015));
 
-            if (BiomeDictionary.hasType(biome, BiomeDictionary.Type.CONIFEROUS) || BiomeDictionary.hasType(biome, BiomeDictionary.Type.JUNGLE))
+            if (BiomeBOP.hasType(biome, BiomeBOP.Type.CONIFEROUS) || BiomeBOP.hasType(biome, BiomeBOP.Type.JUNGLE))
                 treebased = true;
         }
 
-        if (BiomeDictionary.hasType(biome, BiomeDictionary.Type.RIVER) || BiomeDictionary.hasType(biome, BiomeDictionary.Type.OCEAN))
+        if (BiomeBOP.hasType(biome, BiomeBOP.Type.RIVER) || BiomeBOP.hasType(biome, BiomeBOP.Type.OCEAN))
         {
             colour = blend(colour, 0xff4582ff, 0.7); // sea blue
         }

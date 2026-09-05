@@ -18,6 +18,41 @@ import java.util.Optional;
 
 public class BiomeBOP extends Biome
 {
+	public enum Type {
+		BEACH, COLD, CONIFEROUS, DEAD, DENSE, DRY, END, FOREST, HILLS, HOT, JUNGLE, LUSH, MAGICAL, MOUNTAIN, NETHER, OCEAN, PLAINS, RARE, RIVER, SANDY, SAVANNA, SNOWY, SPARSE, SPOOKY, SWAMP, WASTELAND, WATER, WET
+	}
+
+	private long traits;
+
+	public void addTypes(Type... types) {
+		for (int i = 0; i < types.length; ++i) {
+			traits |= 1L << types[i].ordinal();
+		}
+	}
+
+	public static boolean hasType(Biome biome, Type type) {
+		if (biome instanceof BiomeBOP) {
+			return (((BiomeBOP) biome).traits & 1L << type.ordinal()) != 0;
+		}
+		Biome.Category category = biome.getCategory();
+		switch (type) {
+		case FOREST:
+			return category == Biome.Category.FOREST || category == Biome.Category.TAIGA;
+		case CONIFEROUS:
+			return category == Biome.Category.TAIGA;
+		case JUNGLE:
+			return category == Biome.Category.JUNGLE;
+		case RIVER:
+			return category == Biome.Category.RIVER;
+		case OCEAN:
+			return category == Biome.Category.OCEAN;
+		case LUSH:
+			return category == Biome.Category.JUNGLE || category == Biome.Category.SWAMP;
+		default:
+			return false;
+		}
+	}
+
     protected Map<BOPClimates, Integer> weightMap = new HashMap<BOPClimates, Integer>();
 	public boolean canSpawnInBiome;
 	public int beachBiomeId = Registry.BIOME.getId(Biomes.BEACH);

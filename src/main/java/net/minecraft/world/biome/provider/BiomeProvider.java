@@ -19,6 +19,10 @@ public abstract class BiomeProvider {
     protected final Map<Structure<?>, Boolean> hasStructureCache = Maps.newHashMap();
     protected final Set<BlockState> topBlocksCache = Sets.newHashSet();
 
+	public static void addSpawnBiome(Biome biome) {
+		BIOMES_TO_SPAWN_IN.add(biome);
+	}
+
     public List<Biome> getBiomesToSpawnIn() {
         return BIOMES_TO_SPAWN_IN;
     }

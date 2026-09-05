@@ -9,6 +9,9 @@ package biomesoplenty.init;
 
 import biomesoplenty.api.enums.BOPClimates;
 import biomesoplenty.common.biome.BiomeBOP;
+import biomesoplenty.common.biome.BiomeBOP.Type;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import biomesoplenty.common.biome.end.DeadReefBiome;
 import biomesoplenty.common.biome.end.EtherealForestBiome;
 import biomesoplenty.common.biome.nether.*;
@@ -20,13 +23,6 @@ import com.google.common.collect.Multimap;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +30,6 @@ import java.util.Optional;
 
 import static biomesoplenty.api.biome.BOPBiomes.*;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBiomes
 {
     public static WorldTypeBOP worldType;
@@ -48,8 +43,7 @@ public class ModBiomes
         registerBiomeDictionaryTags();
     }
 
-    @SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event)
+    public static void registerBiomes()
     {
         //Technical Biomes (Need to be registered before main biomes that use them)
         mangrove = registerBiome(new MangroveBiome(), "mangrove");
@@ -234,18 +228,17 @@ public class ModBiomes
     {
         if (biome.isPresent())
         {
-            BiomeDictionary.addTypes(biome.get(), types);
+            ((BiomeBOP) biome.get()).addTypes(types);
         }
     }
 
     public static Optional<Biome> registerBiome(BiomeBOP biome, String name)
     {
-        biome.setRegistryName(name);
-        ForgeRegistries.BIOMES.register(biome);
+        Registry.register(Registry.BIOME, new ResourceLocation("biomesoplenty", name), biome);
         
         if (biome.canSpawnInBiome)
         {
-        	BiomeManager.addSpawnBiome(biome);
+			BiomeProvider.addSpawnBiome(biome);
         }
 
         for (Map.Entry<BOPClimates, Integer> entry : biome.getWeightMap().entrySet())
