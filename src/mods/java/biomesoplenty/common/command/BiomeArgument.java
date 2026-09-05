@@ -21,7 +21,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 
-import java.util.concurrent.CompletableFuture;
+import net.eymenwsmc.java.CompletableFuture;
 
 public class BiomeArgument implements ArgumentType<Biome>
 {

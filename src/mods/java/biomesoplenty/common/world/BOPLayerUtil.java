@@ -127,7 +127,6 @@ public class BOPLayerUtil
             riverSize = settings.getRiverSize();
         }
 
-        biomeSize = LayerUtil.getModdedBiomeSize(worldType, biomeSize);
 
         // Create the climates
         IAreaFactory<T> climateFactory = createClimateFactory(contextFactory, new BOPWorldSettings());

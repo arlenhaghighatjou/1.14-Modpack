@@ -19,7 +19,7 @@ public class PressurePlateBlock extends AbstractPressurePlateBlock {
    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
    private final PressurePlateBlock.Sensitivity sensitivity;
 
-   protected PressurePlateBlock(PressurePlateBlock.Sensitivity p_i48348_1_, Block.Properties p_i48348_2_) {
+   public PressurePlateBlock(PressurePlateBlock.Sensitivity p_i48348_1_, Block.Properties p_i48348_2_) {
       super(p_i48348_2_);
       this.setDefaultState(this.stateContainer.getBaseState().with(POWERED, Boolean.valueOf(false)));
       this.sensitivity = p_i48348_1_;

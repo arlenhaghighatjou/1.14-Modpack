@@ -54,7 +54,7 @@ public class CommandTpBiome
     {
         World world = player.world;
         BlockPos closestBiomePos = biome == null ? null : BiomeUtil.spiralOutwardsLookingForBiome(world, biome, player.posX, player.posZ);
-        String biomeName = biome != null && world.isRemote ? biome.getDisplayName().toString() : biome.getRegistryName().toString();
+        String biomeName = biome != null && world.isRemote ? biome.getDisplayName().toString() : net.minecraft.util.registry.Registry.BIOME.getKey(biome).toString();
 
         if (closestBiomePos != null)
         {

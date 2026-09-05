@@ -2141,6 +2141,10 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
         return this.timer.elapsedPartialTicks;
     }
 
+	public ItemColors getItemColors() {
+		return this.itemColors;
+	}
+
     public BlockColors getBlockColors() {
         return this.blockColors;
     }
