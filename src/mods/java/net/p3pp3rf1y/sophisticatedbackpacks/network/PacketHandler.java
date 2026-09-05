@@ -109,6 +109,15 @@ public class PacketHandler {
 		}
 	}
 
+	public static void openContainer(ServerPlayerEntity player, net.minecraft.inventory.container.INamedContainerProvider provider, net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContext context) {
+		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+		context.toBuffer(buffer);
+		byte[] data = new byte[buffer.readableBytes()];
+		buffer.readBytes(data);
+		sendToClient(player, new ContainerOpenDataMessage(data));
+		player.openContainer(provider);
+	}
+
 	public static void init() {
 
 		registerMessage(BackpackOpenMessage.class, BackpackOpenMessage::encode, BackpackOpenMessage::decode, BackpackOpenMessage::onMessage);
@@ -131,5 +140,6 @@ public class PacketHandler {
 		registerMessage(SyncPlayerSettingsMessage.class, SyncPlayerSettingsMessage::encode, SyncPlayerSettingsMessage::decode, SyncPlayerSettingsMessage::onMessage);
 		registerMessage(BackpackCloseMessage.class, (backpackCloseMessage, packetBuffer) -> {}, packetBuffer -> new BackpackCloseMessage(), (backpackCloseMessage, contextSupplier) -> BackpackCloseMessage.onMessage(contextSupplier));
 		registerMessage(BackpackInsertMessage.class, BackpackInsertMessage::encode, BackpackInsertMessage::decode, BackpackInsertMessage::onMessage);
+		registerMessage(ContainerOpenDataMessage.class, ContainerOpenDataMessage::encode, ContainerOpenDataMessage::decode, ContainerOpenDataMessage::onMessage);
 	}
 }

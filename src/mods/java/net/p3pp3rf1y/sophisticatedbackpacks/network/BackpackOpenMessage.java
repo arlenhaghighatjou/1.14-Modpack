@@ -4,7 +4,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContext;
@@ -78,14 +78,12 @@ public class BackpackOpenMessage {
 	private static void findAndOpenFirstBackpack(ServerPlayerEntity player) {
 		SophisticatedBackpacks.PROXY.getPlayerInventoryProvider().runOnBackpacks(player, (backpack, inventoryName, identifier, slot) -> {
 			BackpackContext.Item backpackContext = new BackpackContext.Item(inventoryName, identifier, slot);
-			NetworkHooks.openGui(player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext), backpack.getDisplayName()),
-					backpackContext::toBuffer);
+			PacketHandler.openContainer(player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext), backpack.getDisplayName()), backpackContext);
 			return true;
 		});
 	}
 
 	private static void openBackpack(ServerPlayerEntity player, BackpackContext backpackContext) {
-		NetworkHooks.openGui(player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext), backpackContext.getDisplayName(player)),
-				backpackContext::toBuffer);
+		PacketHandler.openContainer(player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext), backpackContext.getDisplayName(player)), backpackContext);
 	}
 }

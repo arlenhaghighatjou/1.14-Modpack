@@ -43,7 +43,7 @@ import net.minecraftforge.fluids.FluidActionResult;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
@@ -185,8 +185,8 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 		}
 
 		BackpackContext.Block backpackContext = new BackpackContext.Block(pos);
-		NetworkHooks.openGui((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext),
-				getBackpackDisplayName(world, pos)), backpackContext::toBuffer);
+		PacketHandler.openContainer((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext),
+				getBackpackDisplayName(world, pos)), backpackContext);
 		return ActionResultType.SUCCESS;
 	}
 

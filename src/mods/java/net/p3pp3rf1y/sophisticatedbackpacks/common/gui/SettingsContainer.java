@@ -215,8 +215,8 @@ public class SettingsContainer extends Container implements IContextAwareContain
 		return backpackBackgroundProperties;
 	}
 
-	public static SettingsContainer fromBuffer(int windowId, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-		return new SettingsContainer(windowId, playerInventory.player, BackpackContext.fromBuffer(packetBuffer));
+	public static SettingsContainer fromOpenData(int windowId, PlayerInventory playerInventory) {
+		return new SettingsContainer(windowId, playerInventory.player, BackpackContext.fromBuffer(net.p3pp3rf1y.sophisticatedbackpacks.network.ContainerOpenDataMessage.getPending()));
 	}
 
 	public void forEachSettingsContainer(BiConsumer<String, ? super SettingsContainerBase<?>> consumer) {

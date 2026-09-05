@@ -20,7 +20,7 @@ import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.SlotItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackUpgradeItem;
@@ -342,8 +342,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		return backpackContext.canInteractWith(player);
 	}
 
-	public static BackpackContainer fromBuffer(int windowId, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-		return new BackpackContainer(windowId, playerInventory.player, BackpackContext.fromBuffer(packetBuffer));
+	public static BackpackContainer fromOpenData(int windowId, PlayerInventory playerInventory) {
+		return new BackpackContainer(windowId, playerInventory.player, BackpackContext.fromBuffer(net.p3pp3rf1y.sophisticatedbackpacks.network.ContainerOpenDataMessage.getPending()));
 	}
 
 	@Override
@@ -754,8 +754,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			sendToServer(data -> data.putString(ACTION_TAG, "openSettings"));
 			return;
 		}
-		NetworkHooks.openGui((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new SettingsContainer(w, pl, backpackContext),
-				new TranslationTextComponent(TranslationHelper.translGui("settings.title"))), backpackContext::toBuffer);
+		PacketHandler.openContainer((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new SettingsContainer(w, pl, backpackContext),
+				new TranslationTextComponent(TranslationHelper.translGui("settings.title"))), backpackContext);
 	}
 
 	public List<Integer> getSlotOverlayColors(int slot) {

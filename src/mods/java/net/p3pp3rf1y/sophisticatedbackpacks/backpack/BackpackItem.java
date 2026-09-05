@@ -34,7 +34,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
@@ -244,8 +244,7 @@ public class BackpackItem extends ItemBase {
             String handlerName = hand == Hand.MAIN_HAND ? PlayerInventoryProvider.MAIN_INVENTORY : PlayerInventoryProvider.OFFHAND_INVENTORY;
             int slot = hand == Hand.MAIN_HAND ? player.inventory.currentItem : 0;
             BackpackContext.Item context = new BackpackContext.Item(handlerName, slot);
-            NetworkHooks.openGui((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getDisplayName()),
-                    context::toBuffer);
+            PacketHandler.openContainer((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getDisplayName()), context);
         }
         return ActionResult.success(stack);
     }

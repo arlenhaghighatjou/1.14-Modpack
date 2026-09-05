@@ -8,7 +8,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 @SuppressWarnings("java:S2160") //no need to override equals, the default implementation is good
 public class EverlastingBackpackItemEntity extends ItemEntity {
@@ -69,6 +68,6 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 
 	@Override
 	public IPacket<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+		return new net.minecraft.network.play.server.SSpawnObjectPacket(this);
 	}
 }
