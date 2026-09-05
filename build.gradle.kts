@@ -31,6 +31,7 @@ sourceSets {
 			"src/protocol-game/java",
 			"src/protocol-relay/java",
 			"src/platform-api/java"
+                        "src/mods/java"
 		)
 	}
 }
