@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.crafting;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.DyeItem;
@@ -105,7 +106,7 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 			}
 		}
 
-		coloredBackpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+		BackpackWrapperLookup.get(coloredBackpack)
 				.ifPresent(coloredWrapper -> coloredWrapper.setColors(calculateColor(coloredWrapper.getClothColor(), BackpackWrapper.DEFAULT_CLOTH_COLOR, clothDyes),
 						calculateColor(coloredWrapper.getBorderColor(), BackpackWrapper.DEFAULT_BORDER_COLOR, trimDyes)
 				));

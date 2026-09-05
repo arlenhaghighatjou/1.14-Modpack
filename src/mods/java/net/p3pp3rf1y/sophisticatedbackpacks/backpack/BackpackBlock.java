@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.util.concurrent.AtomicDouble;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -207,7 +208,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	private static void stopBackpackSounds(ItemStack backpack, World world, BlockPos pos) {
-		backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
+		BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
 				ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vector3d.atCenterOf(pos), uuid))
 		);
 	}

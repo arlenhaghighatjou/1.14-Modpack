@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.network;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -39,7 +40,7 @@ public class UpgradeToggleMessage {
 		}
 
 		SophisticatedBackpacks.PROXY.getPlayerInventoryProvider().runOnBackpacks(player, (backpack, inventoryName, identifier, slot) -> {
-			backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(w -> {
+			BackpackWrapperLookup.get(backpack).ifPresent(w -> {
 				Map<Integer, IUpgradeWrapper> slotWrappers = w.getUpgradeHandler().getSlotWrappers();
 				if (slotWrappers.containsKey(msg.upgradeSlot)) {
 					IUpgradeWrapper upgradeWrapper = slotWrappers.get(msg.upgradeSlot);

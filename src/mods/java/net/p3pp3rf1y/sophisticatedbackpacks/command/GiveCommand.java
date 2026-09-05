@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.command;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.util.registry.Registry;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import net.minecraft.command.CommandSource;
@@ -40,7 +41,7 @@ public class GiveCommand {
 			if (!backpack.getHoverName().getString().equals(alr.getBackpackName())) {
 				backpack.setHoverName(new StringTextComponent(alr.getBackpackName()));
 			}
-			backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(backpackWrapper -> {
+			BackpackWrapperLookup.get(backpack).ifPresent(backpackWrapper -> {
 				backpackWrapper.setColors(alr.getClothColor(), alr.getTrimColor());
 				backpackWrapper.setColumnsTaken(alr.getColumnsTaken());
 				backpackWrapper.setContentsUuid(backpackUuid);

@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -288,7 +289,7 @@ public class ClientProxy extends CommonProxy {
 					continue;
 				}
 
-				stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(backpackWrapper -> {
+				BackpackWrapperLookup.get(stack).ifPresent(backpackWrapper -> {
 					if (s == under) {
 						int x = event.getMouseX();
 						int y = event.getMouseY();

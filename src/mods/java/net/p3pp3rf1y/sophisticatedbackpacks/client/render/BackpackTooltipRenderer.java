@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -71,7 +72,7 @@ public class BackpackTooltipRenderer {
 	}
 
 	public static boolean renderBackpackTooltip(ItemStack backpack, Minecraft minecraft, ClientPlayerEntity player, MatrixStack poseStack, int x, int y, FontRenderer font) {
-		return backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).map(wrapper -> {
+		return BackpackWrapperLookup.get(backpack).map(wrapper -> {
 			initContents(minecraft, player, wrapper);
 
 			List<ITextComponent> lines = backpack.getTooltipLines(player, minecraft.options.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
@@ -92,7 +93,7 @@ public class BackpackTooltipRenderer {
 	}
 
 	public static void renderTooltipWithContents(ItemStack backpack, Minecraft minecraft, MatrixStack poseStack, int x, int y, FontRenderer font, List<ITextComponent> lines) {
-		backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> {
+		BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> {
 			if (minecraft.player != null) {
 				initContents(minecraft, minecraft.player, wrapper);
 				renderContentsTooltip(backpack, minecraft, poseStack, x, y, font, lines);

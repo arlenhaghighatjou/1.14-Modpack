@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.util;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -28,7 +29,7 @@ public class InventoryInteractionHelper {
 	public static boolean tryInventoryInteraction(BlockPos pos, World world, ItemStack backpack, Direction face, PlayerEntity player) {
 		return WorldHelper.getTile(world, pos)
 				.map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face)
-						.map(itemHandler -> player.level.isClientSide || backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+						.map(itemHandler -> player.level.isClientSide || BackpackWrapperLookup.get(backpack)
 								.map(wrapper -> tryRunningInteractionWrappers(itemHandler, wrapper, player))
 								.orElse(false)).orElse(false)
 				).orElse(false);

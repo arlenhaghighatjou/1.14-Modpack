@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
@@ -34,7 +35,7 @@ public class BackpackISTER extends ItemStackTileEntityRenderer {
 		RenderType rendertype = RenderTypeLookup.getRenderType(stack, true);
 		IVertexBuilder ivertexbuilder = ItemRenderer.getFoilBufferDirect(buffer, rendertype, true, stack.hasFoil());
 		itemRenderer.renderModelLists(model, stack, combinedLight, combinedOverlay, matrixStack, ivertexbuilder);
-		stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(backpackWrapper -> {
+		BackpackWrapperLookup.get(stack).ifPresent(backpackWrapper -> {
 			BackpackRenderInfo.ItemDisplayRenderInfo itemDisplayRenderInfo = backpackWrapper.getRenderInfo().getItemDisplayRenderInfo();
 			ItemStack displayItem = itemDisplayRenderInfo.getItem();
 			if (!displayItem.isEmpty()) {

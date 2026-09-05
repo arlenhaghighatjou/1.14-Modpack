@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.common;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.util.registry.Registry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -139,7 +140,7 @@ public class EntityBackpackAdditionHandler {
 	}
 
 	private static void equipBackpack(MonsterEntity monster, ItemStack backpack, int difficulty, boolean playMusicDisc) {
-		getSpawnEgg(monster.getType()).ifPresent(egg -> backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+		getSpawnEgg(monster.getType()).ifPresent(egg -> BackpackWrapperLookup.get(backpack)
 				.ifPresent(w -> {
 					w.setColors(getPrimaryColor(egg), getSecondaryColor(egg));
 					setLoot(monster, w, difficulty);
@@ -287,7 +288,7 @@ public class EntityBackpackAdditionHandler {
 	}
 
 	private static void removeContentsUuid(ItemStack stack) {
-		stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+		BackpackWrapperLookup.get(stack)
 				.ifPresent(backpackWrapper -> backpackWrapper.getContentsUuid().ifPresent(uuid -> BackpackStorage.get().removeBackpackContents(uuid)));
 	}
 
@@ -296,7 +297,7 @@ public class EntityBackpackAdditionHandler {
 		if (!entity.getTags().contains(SPAWNED_WITH_JUKEBOX_UPGRADE)) {
 			return;
 		}
-		entity.getItemBySlot(EquipmentSlotType.CHEST).getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+		BackpackWrapperLookup.get(entity.getItemBySlot(EquipmentSlotType.CHEST))
 				.ifPresent(backpackWrapper -> backpackWrapper.getUpgradeHandler().getTypeWrappers(JukeboxUpgradeItem.TYPE).forEach(wrapper -> {
 					if (wrapper.isPlaying()) {
 						wrapper.tick(entity, entity.level, entity.blockPosition());

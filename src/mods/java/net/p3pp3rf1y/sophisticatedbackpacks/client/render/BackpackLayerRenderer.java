@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
@@ -100,7 +101,7 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 			matrixStack.translate(translVector.x(), translVector.y(), translVector.z());
 		}
 
-		backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> {
+		BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> {
 			IVertexBuilder vertexBuilder = buffer.getBuffer(RenderType.entityCutoutNoCull(RenderHelper.BACKPACK_ENTITY_TEXTURE));
 
 			int clothColor = wrapper.getClothColor();

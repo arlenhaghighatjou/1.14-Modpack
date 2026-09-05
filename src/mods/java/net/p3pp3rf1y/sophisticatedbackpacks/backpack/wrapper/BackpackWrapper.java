@@ -354,7 +354,7 @@ public class BackpackWrapper implements IBackpackWrapper {
 	@Override
 	public ItemStack cloneBackpack() {
 		ItemStack clonedBackpack = cloneBackpack(this);
-		clonedBackpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(this::cloneSubbackpacks);
+		BackpackWrapperLookup.get(clonedBackpack).ifPresent(this::cloneSubbackpacks);
 		return clonedBackpack;
 	}
 
@@ -365,14 +365,14 @@ public class BackpackWrapper implements IBackpackWrapper {
 				return;
 			}
 			inventoryHandler.setStackInSlot(slot,
-					stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).map(this::cloneBackpack).orElse(ItemStack.EMPTY));
+					BackpackWrapperLookup.get(stack).map(this::cloneBackpack).orElse(ItemStack.EMPTY));
 		});
 	}
 
 	private ItemStack cloneBackpack(IBackpackWrapper originalWrapper) {
 		ItemStack backpackCopy = originalWrapper.getBackpack().copy();
 		backpackCopy.removeTagKey(CONTENTS_UUID_TAG);
-		return backpackCopy.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+		return BackpackWrapperLookup.get(backpackCopy)
 				.map(wrapperCopy -> {
 							originalWrapper.copyDataTo(wrapperCopy);
 							return wrapperCopy.getBackpack();

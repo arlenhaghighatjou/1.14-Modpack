@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.crafting;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -27,7 +28,7 @@ public class SmithingBackpackUpgradeRecipe extends SmithingRecipe implements IWr
 		ItemStack upgradedBackpack = getCraftingResult().copy();
 		if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
 			getBackpack(inv).flatMap(backpack -> Optional.ofNullable(backpack.getTag())).ifPresent(tag -> upgradedBackpack.setTag(tag.copy()));
-			upgradedBackpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+			BackpackWrapperLookup.get(upgradedBackpack)
 					.ifPresent(wrapper -> {
 						BackpackItem backpackItem = ((BackpackItem) upgradedBackpack.getItem());
 						wrapper.setSlotNumbers(backpackItem.getNumberOfSlots(), backpackItem.getNumberOfUpgradeSlots());

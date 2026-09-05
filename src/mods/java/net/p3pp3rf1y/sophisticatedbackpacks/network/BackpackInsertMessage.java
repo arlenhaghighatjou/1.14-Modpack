@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.network;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -37,7 +38,7 @@ public class BackpackInsertMessage {
 		}
 
 		Container containerMenu = player.containerMenu;
-		containerMenu.getSlot(msg.slotIndex).getItem().getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> {
+		containerMenu.getSlot(msg.slotIndex).BackpackWrapperLookup.get(getItem()).ifPresent(wrapper -> {
 			ItemStack heldItem = player.inventory.getCarried();
 			player.inventory.setCarried(wrapper.getInventoryForUpgradeProcessing().insertItem(heldItem, false));
 			player.ignoreSlotUpdateHack = false;

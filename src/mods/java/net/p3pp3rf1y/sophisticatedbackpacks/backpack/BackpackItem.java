@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -30,7 +31,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -111,7 +112,7 @@ public class BackpackItem extends ItemBase {
     public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         if (flagIn == ITooltipFlag.TooltipFlags.ADVANCED) {
-            stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+            BackpackWrapperLookup.get(stack)
                     .ifPresent(w -> w.getContentsUuid().ifPresent(uuid -> tooltip.add(new StringTextComponent("UUID: " + uuid).withStyle(TextFormatting.DARK_GRAY))));
         }
         if (!Screen.hasShiftDown()) {
@@ -128,7 +129,7 @@ public class BackpackItem extends ItemBase {
     }
 
     private boolean hasEverlastingUpgrade(ItemStack stack) {
-        return stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).map(w -> !w.getUpgradeHandler().getTypeWrappers(EverlastingUpgradeItem.TYPE).isEmpty()).orElse(false);
+        return BackpackWrapperLookup.get(stack).map(w -> !w.getUpgradeHandler().getTypeWrappers(EverlastingUpgradeItem.TYPE).isEmpty()).orElse(false);
     }
 
     @Nullable
@@ -217,7 +218,7 @@ public class BackpackItem extends ItemBase {
     }
 
     private static void stopBackpackSounds(ItemStack backpack, World world, BlockPos pos) {
-        backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
+        BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
                 ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vector3d.atCenterOf(pos), uuid))
         );
     }
@@ -226,7 +227,7 @@ public class BackpackItem extends ItemBase {
         if (player == null || !player.isCreative()) {
             return backpack.copy();
         }
-        return backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+        return BackpackWrapperLookup.get(backpack)
                 .map(IBackpackWrapper::cloneBackpack).orElse(new ItemStack(ModItems.BACKPACK.get()));
     }
 
@@ -284,7 +285,7 @@ public class BackpackItem extends ItemBase {
             return;
         }
         PlayerEntity player = (PlayerEntity) entityIn;
-        stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(
+        BackpackWrapperLookup.get(stack).ifPresent(
                 wrapper -> wrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class)
                         .forEach(upgrade -> upgrade.tick(player, player.level, player.blockPosition()))
         );

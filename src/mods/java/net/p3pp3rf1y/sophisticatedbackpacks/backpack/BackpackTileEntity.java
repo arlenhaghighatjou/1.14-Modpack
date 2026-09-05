@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -9,7 +10,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -35,7 +36,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 	public void setBackpack(ItemStack backpack) {
-		backpackWrapper = backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).orElse(NoopBackpackWrapper.INSTANCE);
+		backpackWrapper = BackpackWrapperLookup.get(backpack).orElse(NoopBackpackWrapper.INSTANCE);
 		backpackWrapper.setBackpackSaveHandler(() -> {
 			setChanged();
 			updateBlockRender = false;
