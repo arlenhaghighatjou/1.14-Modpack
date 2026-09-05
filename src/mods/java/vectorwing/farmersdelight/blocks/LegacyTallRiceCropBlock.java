@@ -68,7 +68,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
-		if (!worldIn.isAreaLoaded(pos, 1)) return;
+		if (!worldIn.isAreaLoaded(pos.add(-1, -1, -1), pos.add(1, 1, 1))) return;
 		if (state.get(HALF) == DoubleBlockHalf.UPPER && worldIn.getLightSubtracted(pos, 0) >= 9) {
 			int i = this.getAge(state);
 			if (i < this.getMaxAge()) {
@@ -145,7 +145,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
 		IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-		return blockpos.getY() < context.getWorld().getDimension().getHeight() - 1
+		return blockpos.getY() < 255
 				&& ifluidstate.isTagged(FluidTags.WATER)
 				&& ifluidstate.getLevel() == 8
 				&& context.getWorld().getBlockState(blockpos.up()).isReplaceable(context)

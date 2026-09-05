@@ -32,7 +32,7 @@ public class RiceBaleBlock extends Block
 	}
 
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		entityIn.onLivingFall(fallDistance, 0.2F);
+		entityIn.fall(fallDistance, 0.2F);
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {

@@ -41,25 +41,25 @@ public class RopeBlock extends PaneBlock
 		return state != null ? state.with(TIED_TO_BELL, iblockreader.getBlockState(posAbove).getBlock() == Blocks.BELL) : null;
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (player.getHeldItem(handIn).isEmpty()) {
-			BlockPos.Mutable blockpos$mutable = (new BlockPos.Mutable(pos)).move(Direction.UP);
+			BlockPos.MutableBlockPos blockpos$mutable = (new BlockPos.MutableBlockPos(pos)).move(Direction.UP);
 
 			for (int i = 0; i < 24; i++) {
 				BlockState blockStateAbove = worldIn.getBlockState(blockpos$mutable);
 				Block blockAbove = blockStateAbove.getBlock();
 				if (blockAbove == Blocks.BELL) {
 					((BellBlock)blockAbove).func_226885_a_(worldIn, blockpos$mutable, blockStateAbove.get(BellBlock.HORIZONTAL_FACING).rotateY());
-					return ActionResultType.SUCCESS;
+					return true;
 				} else if (blockAbove == ModBlocks.ROPE) {
 					blockpos$mutable.move(Direction.UP);
 				} else {
-					return ActionResultType.PASS;
+					return false;
 				}
 			}
 		}
 
-		return ActionResultType.PASS;
+		return false;
 	}
 
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {

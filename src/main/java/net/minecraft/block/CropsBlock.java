@@ -34,7 +34,7 @@ public class CropsBlock extends BushBlock implements IGrowable {
     }
 
     protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return state.getBlock() == Blocks.FARMLAND;
+        return state.getBlock() instanceof FarmlandBlock;
     }
 
     public IntegerProperty getAgeProperty() {
@@ -93,7 +93,7 @@ public class CropsBlock extends BushBlock implements IGrowable {
             for (int j = -1; j <= 1; ++j) {
                 float f1 = 0.0F;
                 BlockState blockstate = worldIn.getBlockState(blockpos.add(i, 0, j));
-                if (blockstate.getBlock() == Blocks.FARMLAND) {
+                if (blockstate.getBlock() instanceof FarmlandBlock) {
                     f1 = 1.0F;
                     if (blockstate.get(FarmlandBlock.MOISTURE) > 0) {
                         f1 = 3.0F;

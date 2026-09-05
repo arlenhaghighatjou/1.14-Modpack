@@ -65,19 +65,19 @@ public class PieBlock extends Block {
 		return SHAPES[state.get(BITES)];
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		ItemStack itemstack = player.getHeldItem(handIn);
 		if (worldIn.isRemote) {
 			if (ModTags.KNIVES.contains(itemstack.getItem())) {
 				return cutSlice(worldIn, pos, state);
 			}
 
-			if (this.consumeBite(worldIn, pos, state, player) == ActionResultType.SUCCESS) {
-				return ActionResultType.SUCCESS;
+			if (this.consumeBite(worldIn, pos, state, player)) {
+				return true;
 			}
 
 			if (itemstack.isEmpty()) {
-				return ActionResultType.CONSUME;
+				return true;
 			}
 		}
 
@@ -90,9 +90,9 @@ public class PieBlock extends Block {
 	/**
 	 * Eats a slice from the pie, feeding the player.
 	 */
-	private ActionResultType consumeBite(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn) {
+	private boolean consumeBite(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn) {
 		if (!playerIn.canEat(false)) {
-			return ActionResultType.PASS;
+			return false;
 		} else {
 			playerIn.getFoodStats().addStats(this.getBiteHunger(), this.getBiteSaturation());
 			if (this.getPieEffect() != null) {
@@ -105,14 +105,14 @@ public class PieBlock extends Block {
 				worldIn.removeBlock(pos, false);
 			}
 			worldIn.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.8F, 0.8F);
-			return ActionResultType.SUCCESS;
+			return true;
 		}
 	}
 
 	/**
 	 * Cuts off a bite and drops a slice item, without feeding the player.
 	 */
-	private ActionResultType cutSlice(World worldIn, BlockPos pos, BlockState state) {
+	private boolean cutSlice(World worldIn, BlockPos pos, BlockState state) {
 		int i = state.get(BITES);
 		if (i < getMaxBites() - 1) {
 			worldIn.setBlockState(pos, state.with(BITES, i + 1), 3);
@@ -121,7 +121,7 @@ public class PieBlock extends Block {
 		}
 		InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), this.getPieSliceItem());
 		worldIn.playSound(null, pos, SoundEvents.BLOCK_WOOL_BREAK, SoundCategory.PLAYERS, 0.8F, 0.8F);
-		return ActionResultType.SUCCESS;
+		return true;
 	}
 
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {

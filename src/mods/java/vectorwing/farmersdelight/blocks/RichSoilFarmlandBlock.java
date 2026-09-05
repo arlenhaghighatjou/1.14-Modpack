@@ -10,7 +10,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.PlantType;
 import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.utils.MathUtils;
 
@@ -23,7 +22,7 @@ public class RichSoilFarmlandBlock extends FarmlandBlock
 		super(builder);
 	}
 
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
 		if (!worldIn.isRemote) {
 			if (!state.isValidPosition(worldIn, pos)) {
 				turnToRichSoil(state, worldIn, pos);
@@ -64,11 +63,6 @@ public class RichSoilFarmlandBlock extends FarmlandBlock
 		return false;
 	}
 
-	@Override
-	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
-		net.minecraftforge.common.PlantType type = plantable.getPlantType(world, pos.offset(facing));
-		return type == PlantType.Crop || type == PlantType.Plains;
-	}
 
 	private static boolean hasWater(IWorldReader worldIn, BlockPos pos) {
 		for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-4, 0, -4), pos.add(4, 1, 4))) {
@@ -77,7 +71,7 @@ public class RichSoilFarmlandBlock extends FarmlandBlock
 			}
 		}
 
-		return net.minecraftforge.common.FarmlandWaterManager.hasBlockWaterTicket(worldIn, pos);
+		return false;
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {

@@ -96,7 +96,7 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
 											 Hand handIn, BlockRayTraceResult result) {
 		if (!worldIn.isRemote) {
 			TileEntity tile = worldIn.getTileEntity(pos);
@@ -109,9 +109,9 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 					NetworkHooks.openGui((ServerPlayerEntity) player, (CookingPotTileEntity) tile, pos);
 				}
 			}
-			return ActionResultType.SUCCESS;
+			return true;
 		}
-		return ActionResultType.SUCCESS;
+		return true;
 	}
 
 	@SuppressWarnings("deprecation")

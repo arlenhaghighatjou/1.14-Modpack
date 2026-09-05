@@ -45,7 +45,7 @@ public class StoveBlock extends Block
 				.lightValue(13));
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		ItemStack itemstack = player.getHeldItem(handIn);
 		Item usedItem = itemstack.getItem();
 		if (state.get(LIT)) {
@@ -56,17 +56,17 @@ public class StoveBlock extends Block
 				if (optional.isPresent()) {
 					if (!worldIn.isRemote && !stovetileentity.isStoveBlockedAbove() && stovetileentity.addItem(player.abilities.isCreativeMode ? itemstack.copy() : itemstack, optional.get().getCookTime())) {
 						player.addStat(Stats.INTERACT_WITH_CAMPFIRE);
-						return ActionResultType.SUCCESS;
+						return true;
 					}
-					return ActionResultType.CONSUME;
+					return true;
 				} else {
 					if (usedItem instanceof ShovelItem) {
 						extinguish(state, worldIn, pos);
-						return ActionResultType.SUCCESS;
+						return true;
 					} else if (usedItem == Items.WATER_BUCKET) {
 						extinguish(state, worldIn, pos);
 						player.setHeldItem(handIn, new ItemStack(Items.BUCKET));
-						return ActionResultType.SUCCESS;
+						return true;
 					}
 				}
 			}
@@ -80,11 +80,11 @@ public class StoveBlock extends Block
 					});
 				}
 
-				return ActionResultType.SUCCESS;
+				return true;
 			}
 		}
 
-		return ActionResultType.PASS;
+		return false;
 	}
 
 	public void extinguish(BlockState state, World worldIn, BlockPos pos) {

@@ -21,7 +21,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.Tags;
 import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.registry.ModItems;
 
@@ -45,7 +44,7 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
-		if (!worldIn.isAreaLoaded(pos, 1)) return;
+		if (!worldIn.isAreaLoaded(pos.add(-1, -1, -1), pos.add(1, 1, 1))) return;
 		if (worldIn.getLightSubtracted(pos.up(), 0) >= 6) {
 			int age = this.getAge(state);
 			if (age <= this.getMaxAge()) {
@@ -78,7 +77,7 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 
 	@Override
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return super.isValidGround(state, worldIn, pos) || Tags.Blocks.DIRT.contains(state.getBlock());
+		return super.isValidGround(state, worldIn, pos) || Block.isDirt(state.getBlock());
 	}
 
 	public IntegerProperty getAgeProperty() { return AGE; }

@@ -76,7 +76,7 @@ public class WildRiceBlock extends DoublePlantBlock implements IWaterLoggable {
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
 		IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
-		return blockpos.getY() < context.getWorld().getDimension().getHeight() - 1
+		return blockpos.getY() < 255
 				&& ifluidstate.isTagged(FluidTags.WATER)
 				&& ifluidstate.getLevel() == 8
 				&& context.getWorld().getBlockState(blockpos.up()).isAir(context.getWorld(), blockpos.up())

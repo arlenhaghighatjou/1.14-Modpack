@@ -34,7 +34,7 @@ public class RopeItem extends FuelBlockItem
 			}
 
 			int i = 0;
-			BlockPos.Mutable blockpos$mutable = (new BlockPos.Mutable(blockpos)).move(direction);
+			BlockPos.MutableBlockPos blockpos$mutable = (new BlockPos.MutableBlockPos(blockpos)).move(direction);
 
 			while(i < 256) {
 				blockstate = world.getBlockState(blockpos$mutable);

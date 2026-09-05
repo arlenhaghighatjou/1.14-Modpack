@@ -107,14 +107,14 @@ public class BasketBlock extends ContainerBlock implements IWaterLoggable
 		builder.add(FACING, ENABLED, WATERLOGGED);
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 			if (tileentity instanceof BasketTileEntity)	{
 				player.openContainer((BasketTileEntity) tileentity);
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return true;
 	}
 
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {

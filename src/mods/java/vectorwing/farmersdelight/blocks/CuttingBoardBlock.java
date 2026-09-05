@@ -59,7 +59,7 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 		return SHAPE;
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof CuttingBoardTileEntity) {
 			CuttingBoardTileEntity cuttingBoardTE = (CuttingBoardTileEntity) tileentity;
@@ -69,22 +69,22 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 			// Placing items on the board. It should prefer off-hand placement, unless it's a BlockItem (since it never passes to off-hand...)
 			if (cuttingBoardTE.isEmpty()) {
 				if (!itemOffhand.isEmpty() && handIn.equals(Hand.MAIN_HAND) && !(itemHeld.getItem() instanceof BlockItem)) {
-					return ActionResultType.PASS; // main-hand passes to off-hand
+					return false; // main-hand passes to off-hand
 				}
 				if (itemHeld.isEmpty())	{
-					return ActionResultType.PASS;
+					return false;
 				} else if (cuttingBoardTE.addItem(player.abilities.isCreativeMode ? itemHeld.copy() : itemHeld)) {
 					worldIn.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1.0F, 0.8F);
-					return ActionResultType.SUCCESS;
+					return true;
 				}
 			// Processing the item with the held tool
 			} else if (!itemHeld.isEmpty()) {
 				ItemStack boardItem = cuttingBoardTE.getStoredItem().copy();
 				if (cuttingBoardTE.processItemUsingTool(itemHeld, player)) {
 					spawnCuttingParticles(worldIn, pos, boardItem, 5);
-					return ActionResultType.SUCCESS;
+					return true;
 				}
-				return ActionResultType.PASS;
+				return false;
 			// Removing the board's item
 			} else if (handIn.equals(Hand.MAIN_HAND)) {
 				if (!player.isCreative()) {
@@ -93,11 +93,11 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 					cuttingBoardTE.removeItem();
 				}
 				worldIn.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 0.25F, 0.5F);
-				return ActionResultType.SUCCESS;
+				return true;
 			}
 
 		}
-		return ActionResultType.PASS;
+		return false;
 	}
 
 	public static void spawnCuttingParticles(World worldIn, BlockPos pos, ItemStack stack, int count) {
@@ -145,7 +145,7 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		BlockPos blockpos = pos.down();
-		return hasSolidSideOnTop(worldIn, blockpos) || hasEnoughSolidSide(worldIn, blockpos, Direction.UP);
+		return hasSolidSide(worldIn.getBlockState(blockpos), worldIn, blockpos, Direction.UP);
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 			BlockPos pos = event.getPos();
 			PlayerEntity player = event.getPlayer();
 			ItemStack heldItem = player.getHeldItemMainhand();
-			if (player.isSecondaryUseActive() && !heldItem.isEmpty() && world.getTileEntity(event.getPos()) instanceof CuttingBoardTileEntity) {
+			if (player.isSneaking() && !heldItem.isEmpty() && world.getTileEntity(event.getPos()) instanceof CuttingBoardTileEntity) {
 				if (heldItem.getItem() instanceof TieredItem ||
 					heldItem.getItem() instanceof TridentItem ||
 					heldItem.getItem() instanceof ShearsItem) {

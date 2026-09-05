@@ -40,9 +40,9 @@ public class PantryBlock extends ContainerBlock {
 		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OPEN, Boolean.FALSE));
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (worldIn.isRemote) {
-			return ActionResultType.SUCCESS;
+			return true;
 		} else {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 			if (tileentity instanceof PantryTileEntity) {
@@ -50,7 +50,7 @@ public class PantryBlock extends ContainerBlock {
 				player.addStat(Stats.OPEN_BARREL);
 			}
 
-			return ActionResultType.SUCCESS;
+			return true;
 		}
 	}
 

@@ -1,6 +1,7 @@
 package net.minecraft.block;
 
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Sets;
 import me.jellysquid.mods.sodium.client.render.occlusion.BlockOcclusionCache;
 import net.lax1dude.eaglercraft.Random;
 import net.minecraft.block.material.Material;
@@ -46,12 +47,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
+import java.util.Set;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class Block implements IItemProvider {
     protected static final Logger LOGGER = LogManager.getLogger();
     public static final ObjectIntIdentityMap<BlockState> BLOCK_STATE_IDS = new ObjectIntIdentityMap<>();
+    private static final Set<Block> DIRT_BLOCKS = Sets.newHashSet();
     private static final Direction[] UPDATE_ORDER = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.DOWN, Direction.UP};
 
     private static final VoxelShape field_220083_b = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D), IBooleanFunction.ONLY_FIRST);
@@ -726,7 +729,11 @@ public class Block implements IItemProvider {
     }
 
     public static boolean isDirt(Block blockIn) {
-        return blockIn == Blocks.DIRT || blockIn == Blocks.COARSE_DIRT || blockIn == Blocks.PODZOL;
+        return blockIn == Blocks.DIRT || blockIn == Blocks.COARSE_DIRT || blockIn == Blocks.PODZOL || DIRT_BLOCKS.contains(blockIn);
+    }
+
+    public static void addDirtBlock(Block block) {
+        DIRT_BLOCKS.add(block);
     }
 
     public static enum OffsetType {

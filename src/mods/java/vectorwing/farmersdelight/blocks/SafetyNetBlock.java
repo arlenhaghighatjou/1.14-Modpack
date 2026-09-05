@@ -65,16 +65,16 @@ public class SafetyNetBlock extends Block implements IWaterLoggable
 	}
 
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		if (entityIn.isSuppressingBounce()) {
+		if (entityIn.isSneaking()) {
 			super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
 		} else {
-			entityIn.onLivingFall(fallDistance, 0.0F);
+			entityIn.fall(fallDistance, 0.0F);
 		}
 
 	}
 
 	public void onLanded(IBlockReader worldIn, Entity entityIn) {
-		if (entityIn.isSuppressingBounce()) {
+		if (entityIn.isSneaking()) {
 			super.onLanded(worldIn, entityIn);
 		} else {
 			this.bounceEntity(entityIn);

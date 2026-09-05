@@ -29,7 +29,7 @@ public class RiceCropFeature extends Feature<BushConfig> {
 		BlockPos blockpos = worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, pos);
 
 		int i = 0;
-		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+		BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
 
 		for(int j = 0; j < TRY_COUNT; ++j) {
 			blockpos$mutable.setPos(blockpos).move(

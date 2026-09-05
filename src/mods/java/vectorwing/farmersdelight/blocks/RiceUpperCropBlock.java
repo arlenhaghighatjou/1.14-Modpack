@@ -64,6 +64,6 @@ public class RiceUpperCropBlock extends CropsBlock {
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return (worldIn.getLightSubtracted(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && worldIn.getBlockState(pos.down()).getBlock() == ModBlocks.RICE_CROP;
+		return (worldIn.getLightSubtracted(pos, 0) >= 8 || worldIn.isSkyLightMax(pos)) && worldIn.getBlockState(pos.down()).getBlock() == ModBlocks.RICE_CROP;
 	}
 }

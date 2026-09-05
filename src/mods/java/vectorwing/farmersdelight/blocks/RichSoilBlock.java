@@ -1,11 +1,8 @@
 package vectorwing.farmersdelight.blocks;
 
 import net.minecraft.block.*;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.PlantType;
+import net.minecraft.world.World;
 import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.utils.MathUtils;
 
@@ -24,7 +21,7 @@ public class RichSoilBlock extends Block
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
 		if (!worldIn.isRemote) {
 			BlockState plant = worldIn.getBlockState(pos.up());
 			if (plant.getBlock() instanceof TallFlowerBlock) {
@@ -43,11 +40,5 @@ public class RichSoilBlock extends Block
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
-		net.minecraftforge.common.PlantType type = plantable.getPlantType(world, pos.offset(facing));
-		return type != PlantType.Crop && type != PlantType.Nether;
 	}
 }

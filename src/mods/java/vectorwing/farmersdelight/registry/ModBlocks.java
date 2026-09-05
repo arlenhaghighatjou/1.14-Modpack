@@ -94,6 +94,8 @@ public class ModBlocks
 		RICE_CROP = registerBlock("rice_crop", new RiceCropBlock(Block.Properties.from(Blocks.WHEAT)));
 		RICE_UPPER_CROP = registerBlock("rice_upper_crop", new RiceUpperCropBlock(Block.Properties.from(Blocks.WHEAT)));
 		TALL_RICE_CROP = registerBlock("tall_rice_crop", new LegacyTallRiceCropBlock(Block.Properties.from(Blocks.WHEAT)));
+
+		Block.addDirtBlock(RICH_SOIL);
 	}
 
 	public static Block registerBlock(String name, Block block)
