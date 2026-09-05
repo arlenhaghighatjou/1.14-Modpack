@@ -458,7 +458,7 @@ public class ParticleManager implements IFutureReloadListener {
 
    @FunctionalInterface
    @OnlyIn(Dist.CLIENT)
-   interface IParticleMetaFactory<T extends IParticleData> {
+   public interface IParticleMetaFactory<T extends IParticleData> {
       IParticleFactory<T> create(IAnimatedSprite p_create_1_);
    }
 }

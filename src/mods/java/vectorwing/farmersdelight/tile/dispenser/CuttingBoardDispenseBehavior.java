@@ -32,7 +32,7 @@ public class CuttingBoardDispenseBehavior extends OptionalDispenseBehavior {
 	}
 
 	@Override
-	public final ItemStack dispense(IBlockSource source, ItemStack stack) {
+	protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 		if (tryDispenseStackOnCuttingBoard(source, stack)) {
 			this.playDispenseSound(source); // I added this because i completely overrode the super implementation which had the sounds.
 			this.spawnDispenseParticles(source, source.getBlockState().get(DispenserBlock.FACING)); // see above, same reasoning

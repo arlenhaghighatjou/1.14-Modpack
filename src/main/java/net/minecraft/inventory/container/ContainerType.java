@@ -46,7 +46,7 @@ public class ContainerType<T extends Container> {
         return this.factory.create(windowId, player);
     }
 
-    interface IFactory<T extends Container> {
+    public interface IFactory<T extends Container> {
         @OnlyIn(Dist.CLIENT)
         T create(int p_create_1_, PlayerInventory p_create_2_);
     }

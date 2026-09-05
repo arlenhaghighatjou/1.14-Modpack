@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.items;
 
+import net.minecraft.util.ActionResultType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +36,7 @@ public class HotCocoaItem extends Item
 			// Select eligible effects
 			while (itr.hasNext()) {
 				EffectInstance effect = itr.next();
-				if (effect.getPotion().getEffectType().equals(EffectType.HARMFUL) && effect.isCurativeItem(new ItemStack(Items.MILK_BUCKET))) {
+				if (effect.getPotion().getEffectType().equals(EffectType.HARMFUL)) {
 					compatibleEffects.add(effect.getPotion());
 				}
 			}
@@ -43,9 +44,7 @@ public class HotCocoaItem extends Item
 			// Randomly pick one, then remove
 			if (compatibleEffects.size() > 0) {
 				EffectInstance selectedEffect = entityLiving.getActivePotionEffect(compatibleEffects.get(worldIn.rand.nextInt(compatibleEffects.size())));
-				if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.living.PotionEvent.PotionRemoveEvent(entityLiving, selectedEffect))) {
-					entityLiving.removePotionEffect(selectedEffect.getPotion());
-				}
+				entityLiving.removePotionEffect(selectedEffect.getPotion());
 			}
 		}
 
@@ -83,6 +82,6 @@ public class HotCocoaItem extends Item
 
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		playerIn.setActiveHand(handIn);
-		return ActionResult.resultConsume(playerIn.getHeldItem(handIn));
+		return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 }

@@ -99,7 +99,7 @@ public class BellBlock extends ContainerBlock {
         }
     }
 
-    private void playRingSound(World worldIn, BlockPos pos) {
+    public void playRingSound(World worldIn, BlockPos pos) {
         worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 2.0F, 1.0F);
     }
 

@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class ItemGroup {
-    public static final ItemGroup[] GROUPS = new ItemGroup[12];
+    public static ItemGroup[] GROUPS = new ItemGroup[12];
     public static final ItemGroup BUILDING_BLOCKS = (new ItemGroup(0, "buildingBlocks") {
         @OnlyIn(Dist.CLIENT)
         public ItemStack createIcon() {
@@ -107,6 +107,12 @@ public abstract class ItemGroup {
         this.index = index;
         this.tabLabel = label;
         this.icon = ItemStack.EMPTY;
+        if (index >= GROUPS.length) {
+            ItemGroup[] aitemgroup = new ItemGroup[index + 1];
+            System.arraycopy(GROUPS, 0, aitemgroup, 0, GROUPS.length);
+            GROUPS = aitemgroup;
+        }
+
         GROUPS[index] = this;
     }
 

@@ -85,7 +85,7 @@ public class ScreenManager {
     }
 
     @OnlyIn(Dist.CLIENT)
-    interface IScreenFactory<T extends Container, U extends Screen & IHasContainer<T>> {
+    public interface IScreenFactory<T extends Container, U extends Screen & IHasContainer<T>> {
         default void createScreen(ITextComponent title, ContainerType<T> type, Minecraft mc, int windowId) {
             U u = this.create(type.create(windowId, mc.player.inventory), mc.player.inventory, title);
             mc.player.openContainer = ((IHasContainer) u).getContainer();

@@ -79,7 +79,7 @@ public class WildRiceBlock extends DoublePlantBlock implements IWaterLoggable {
 		return blockpos.getY() < 255
 				&& ifluidstate.isTagged(FluidTags.WATER)
 				&& ifluidstate.getLevel() == 8
-				&& context.getWorld().getBlockState(blockpos.up()).isAir(context.getWorld(), blockpos.up())
+				&& context.getWorld().getBlockState(blockpos.up()).isAir()
 				? super.getStateForPlacement(context) : null;
 	}
 

@@ -33,7 +33,7 @@ public class ClientRenderUtils
 		GlStateManager.scalef(width * 3.0F, height * 3.0F, 16.0F);
 
 		if (!bakedmodel.isGui3d()) {
-			RenderHelper.setupGuiFlatDiffuseLighting();
+			RenderHelper.enableGUIStandardItemLighting();
 		}
 
 		bakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);

@@ -75,8 +75,8 @@ public class ModBlocks
 		ORGANIC_COMPOST = registerBlock("organic_compost", new OrganicCompostBlock(Block.Properties.from(Blocks.DIRT)));
 		RICH_SOIL = registerBlock("rich_soil", new RichSoilBlock(Block.Properties.from(Blocks.DIRT).tickRandomly()));
 		RICH_SOIL_FARMLAND = registerBlock("rich_soil_farmland", new RichSoilFarmlandBlock(Block.Properties.from(Blocks.FARMLAND)));
-		BROWN_MUSHROOM_COLONY = registerBlock("brown_mushroom_colony", new MushroomColonyBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), Items.BROWN_MUSHROOM));
-		RED_MUSHROOM_COLONY = registerBlock("red_mushroom_colony", new MushroomColonyBlock(Block.Properties.from(Blocks.RED_MUSHROOM), Items.RED_MUSHROOM));
+		BROWN_MUSHROOM_COLONY = registerBlock("brown_mushroom_colony", new MushroomColonyBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), () -> Items.BROWN_MUSHROOM));
+		RED_MUSHROOM_COLONY = registerBlock("red_mushroom_colony", new MushroomColonyBlock(Block.Properties.from(Blocks.RED_MUSHROOM), () -> Items.RED_MUSHROOM));
 		ROPE = registerBlock("rope", new RopeBlock());
 		APPLE_PIE = registerBlock("apple_pie", new PieBlock(Block.Properties.from(Blocks.CAKE), () -> ModItems.APPLE_PIE_SLICE));
 		SWEET_BERRY_CHEESECAKE = registerBlock("sweet_berry_cheesecake", new PieBlock(Block.Properties.from(Blocks.CAKE), () -> ModItems.SWEET_BERRY_CHEESECAKE_SLICE));

@@ -10,7 +10,7 @@ public class FDItemGroup extends ItemGroup
 {
 	public FDItemGroup(String label)
 	{
-		super(label);
+		super(ItemGroup.GROUPS.length, label);
 	}
 
 	@Override

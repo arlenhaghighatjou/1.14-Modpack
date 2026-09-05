@@ -262,4 +262,15 @@ public class BasketTileEntity extends LockableLootTileEntity implements IBasket,
 			}
 		}
 	}
+
+	@Override
+	public boolean isEmpty() {
+		for (ItemStack itemstack : this.getItems()) {
+			if (!itemstack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

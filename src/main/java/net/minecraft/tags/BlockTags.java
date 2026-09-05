@@ -75,7 +75,7 @@ public class BlockTags {
         return new BlockTags.Wrapper(new ResourceLocation(id));
     }
 
-    static class Wrapper extends Tag<Block> {
+    public static class Wrapper extends Tag<Block> {
         private int lastKnownGeneration = -1;
         private Tag<Block> cachedTag;
 

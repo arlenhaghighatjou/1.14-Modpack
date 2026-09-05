@@ -1,5 +1,7 @@
 package vectorwing.farmersdelight.blocks;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.BellTileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -26,7 +28,7 @@ public class RopeBlock extends PaneBlock
 	public static final BooleanProperty TIED_TO_BELL = BooleanProperty.create("tied_to_bell");
 
 	public RopeBlock() {
-		super(Properties.create(Material.CARPET).doesNotBlockMovement().notSolid().hardnessAndResistance(0.1F).sound(SoundType.CLOTH));
+		super(Properties.create(Material.CARPET).doesNotBlockMovement().hardnessAndResistance(0.1F).sound(SoundType.CLOTH));
 		this.setDefaultState(this.stateContainer.getBaseState().with(TIED_TO_BELL, false));
 	}
 
@@ -50,7 +52,11 @@ public class RopeBlock extends PaneBlock
 				BlockState blockStateAbove = worldIn.getBlockState(blockpos$mutable);
 				Block blockAbove = blockStateAbove.getBlock();
 				if (blockAbove == Blocks.BELL) {
-					((BellBlock)blockAbove).func_226885_a_(worldIn, blockpos$mutable, blockStateAbove.get(BellBlock.HORIZONTAL_FACING).rotateY());
+					TileEntity bell = worldIn.getTileEntity(blockpos$mutable);
+					if (bell instanceof BellTileEntity) {
+						((BellTileEntity)bell).func_213939_a(blockStateAbove.get(BellBlock.field_220133_a).rotateY());
+						((BellBlock)blockAbove).playRingSound(worldIn, blockpos$mutable.toImmutable());
+					}
 					return true;
 				} else if (blockAbove == ModBlocks.ROPE) {
 					blockpos$mutable.move(Direction.UP);
@@ -90,7 +96,6 @@ public class RopeBlock extends PaneBlock
 		builder.add(NORTH, EAST, WEST, SOUTH, WATERLOGGED, TIED_TO_BELL);
 	}
 
-	@Override public boolean isLadder(BlockState state, IWorldReader world, BlockPos pos, net.minecraft.entity.LivingEntity entity) { return true; }
 
 	@Override
 	public BlockRenderLayer getRenderLayer() {

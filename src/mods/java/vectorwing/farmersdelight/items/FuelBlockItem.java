@@ -2,7 +2,6 @@ package vectorwing.farmersdelight.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
 
 public class FuelBlockItem extends BlockItem {
 	public final int burnTime;
@@ -17,8 +16,4 @@ public class FuelBlockItem extends BlockItem {
 		this.burnTime = burnTime;
 	}
 
-	@Override
-	public int getBurnTime(ItemStack itemStack) {
-		return this.burnTime;
-	}
 }

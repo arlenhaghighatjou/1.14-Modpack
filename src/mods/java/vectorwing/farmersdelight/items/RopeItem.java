@@ -27,7 +27,7 @@ public class RopeItem extends FuelBlockItem
 			return context;
 		} else {
 			Direction direction;
-			if (context.func_225518_g_()) {
+			if (context.getPlayer() != null && context.getPlayer().isSneaking()) {
 				direction = context.getFace();
 			} else {
 				direction = Direction.DOWN;

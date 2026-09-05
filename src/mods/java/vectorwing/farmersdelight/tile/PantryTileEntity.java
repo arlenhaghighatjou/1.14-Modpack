@@ -101,7 +101,7 @@ public class PantryTileEntity extends LockableLootTileEntity {
 		int i = this.pos.getX();
 		int j = this.pos.getY();
 		int k = this.pos.getZ();
-		this.numPlayersUsing = ChestTileEntity.calculatePlayersUsing(this.world, this, i, j, k);
+		this.numPlayersUsing = ChestTileEntity.func_213976_a(this.world, this, i, j, k);
 		if (this.numPlayersUsing > 0) {
 			this.scheduleTick();
 		} else {
@@ -137,5 +137,16 @@ public class PantryTileEntity extends LockableLootTileEntity {
 		double d1 = (double)this.pos.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
 		double d2 = (double)this.pos.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
 		this.world.playSound((PlayerEntity)null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for (ItemStack itemstack : this.getItems()) {
+			if (!itemstack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

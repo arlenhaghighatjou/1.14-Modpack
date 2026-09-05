@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class FoodStats {
     private int foodLevel = 20;
     private float foodSaturationLevel;
-    private float foodExhaustionLevel;
+    public float foodExhaustionLevel;
     private int foodTimer;
     private int prevFoodLevel = 20;
 

@@ -1,6 +1,7 @@
 package vectorwing.farmersdelight.registry;
 
 import net.minecraft.item.*;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.FarmersDelight;
@@ -209,6 +210,14 @@ public class ModItems
 		if (item instanceof BlockItem)
 		{
 			((BlockItem) item).addToBlockToItemMap(Item.BLOCK_TO_ITEM, item);
+		}
+		if (item instanceof FuelItem)
+		{
+			AbstractFurnaceTileEntity.addBurnTime(item, ((FuelItem) item).burnTime);
+		}
+		else if (item instanceof FuelBlockItem)
+		{
+			AbstractFurnaceTileEntity.addBurnTime(item, ((FuelBlockItem) item).burnTime);
 		}
 		return Registry.register(Registry.ITEM, new ResourceLocation(FarmersDelight.MODID, name), item);
 	}

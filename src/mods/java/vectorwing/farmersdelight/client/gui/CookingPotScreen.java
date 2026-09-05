@@ -1,6 +1,6 @@
 package vectorwing.farmersdelight.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public class CookingPotScreen extends ContainerScreen<CookingPotContainer>
 	}
 
 	protected void renderHoveredToolTip(int mouseX, int mouseY) {
-		if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
+		if (this.mc.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
 			if (this.hoveredSlot.slotNumber == 6) {
 				List<String> tooltip = new ArrayList<>();
 
@@ -69,8 +69,8 @@ public class CookingPotScreen extends ContainerScreen<CookingPotContainer>
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		// Render UI background
-		RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-		this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+		this.mc.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.blit(x, y, 0, 0, this.xSize, this.ySize);

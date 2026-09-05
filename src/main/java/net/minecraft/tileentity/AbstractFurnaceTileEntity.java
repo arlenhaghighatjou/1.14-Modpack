@@ -81,7 +81,13 @@ public abstract class AbstractFurnaceTileEntity extends LockableTileEntity imple
         this.recipeType = recipeTypeIn;
     }
 
+    private static Map<Item, Integer> burnTimes;
+
     public static Map<Item, Integer> getBurnTimes() {
+        if (burnTimes != null) {
+            return burnTimes;
+        }
+
         Map<Item, Integer> map = Maps.newLinkedHashMap();
         addItemBurnTime(map, Items.LAVA_BUCKET, 20000);
         addItemBurnTime(map, Blocks.COAL_BLOCK, 16000);
@@ -143,7 +149,12 @@ public abstract class AbstractFurnaceTileEntity extends LockableTileEntity imple
         addItemBurnTime(map, Blocks.FLETCHING_TABLE, 300);
         addItemBurnTime(map, Blocks.SMITHING_TABLE, 300);
         addItemBurnTime(map, Blocks.COMPOSTER, 300);
+        burnTimes = map;
         return map;
+    }
+
+    public static void addBurnTime(IItemProvider itemProvider, int burnTimeIn) {
+        addItemBurnTime(getBurnTimes(), itemProvider, burnTimeIn);
     }
 
     private static void addItemTagBurnTime(Map<Item, Integer> map, Tag<Item> itemTag, int p_213992_2_) {

@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.world;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.ResourceLocation;
@@ -38,15 +39,13 @@ public class VillageStructures {
 	}
 
 	private static void addToPool(ResourceLocation pool, ResourceLocation toAdd, int weight) {
-		JigsawPattern old = JigsawManager.REGISTRY.get(pool);
-		List<JigsawPiece> shuffled = old.getShuffledPieces(MathUtils.RAND);
+		JigsawPattern old = JigsawManager.field_214891_a.get(pool);
 		List<Pair<JigsawPiece, Integer>> newPieces = new ArrayList<>();
-		for(JigsawPiece p : shuffled)
+		for(JigsawPiece piece : old.func_214943_b(MathUtils.RAND))
 		{
-			newPieces.add(new Pair<>(p, 1));
+			newPieces.add(Pair.of(piece, 1));
 		}
-		newPieces.add(new Pair<>(new SingleJigsawPiece(toAdd.toString()), weight));
-		ResourceLocation name = old.getName();
-		JigsawManager.REGISTRY.register(new JigsawPattern(pool, name, newPieces, JigsawPattern.PlacementBehaviour.RIGID));
+		newPieces.add(Pair.of(new SingleJigsawPiece(toAdd.toString(), ImmutableList.of()), weight));
+		JigsawManager.field_214891_a.register(new JigsawPattern(pool, old.func_214947_b(), newPieces, JigsawPattern.PlacementBehaviour.RIGID));
 	}
 }
