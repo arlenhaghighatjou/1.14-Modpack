@@ -19,7 +19,7 @@ public class SoundStopNotificationMessage {
 	}
 
 	public static SoundStopNotificationMessage decode(PacketBuffer packetBuffer) {
-		return new SoundStopNotificationMessage(packetBuffer.readUniqueId();
+		return new SoundStopNotificationMessage(packetBuffer.readUniqueId());
 	}
 
 	public static void onMessage(SoundStopNotificationMessage msg, ServerPlayerEntity player) {

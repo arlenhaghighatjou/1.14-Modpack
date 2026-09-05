@@ -25,7 +25,7 @@ public class InventoryInteractionMessage {
 	}
 
 	public static InventoryInteractionMessage decode(PacketBuffer packetBuffer) {
-		return new InventoryInteractionMessage(BlockPos.of(packetBuffer.readLong()), packetBuffer.readEnum(Direction.class);
+		return new InventoryInteractionMessage(BlockPos.of(packetBuffer.readLong()), packetBuffer.readEnum(Direction.class));
 	}
 
 	static void onMessage(InventoryInteractionMessage msg, ServerPlayerEntity player) {

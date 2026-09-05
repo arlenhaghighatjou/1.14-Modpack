@@ -27,7 +27,7 @@ public class SyncSlotStackMessage {
 	}
 
 	public static SyncSlotStackMessage decode(PacketBuffer packetBuffer) {
-		return new SyncSlotStackMessage(packetBuffer.readUnsignedByte(), packetBuffer.readShort(), PacketHelper.readItemStack(packetBuffer);
+		return new SyncSlotStackMessage(packetBuffer.readUnsignedByte(), packetBuffer.readShort(), PacketHelper.readItemStack(packetBuffer));
 	}
 
 	static void onMessage(SyncSlotStackMessage msg, ServerPlayerEntity player) {

@@ -20,7 +20,7 @@ public class SyncContainerClientDataMessage {
 	}
 
 	public static SyncContainerClientDataMessage decode(PacketBuffer packetBuffer) {
-		return new SyncContainerClientDataMessage(packetBuffer.readCompoundTag();
+		return new SyncContainerClientDataMessage(packetBuffer.readCompoundTag());
 	}
 
 	public static void onMessage(SyncContainerClientDataMessage msg, ServerPlayerEntity player) {

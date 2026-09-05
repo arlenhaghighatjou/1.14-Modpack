@@ -23,7 +23,7 @@ public class UpgradeToggleMessage {
 	}
 
 	public static UpgradeToggleMessage decode(PacketBuffer packetBuffer) {
-		return new UpgradeToggleMessage(packetBuffer.readInt();
+		return new UpgradeToggleMessage(packetBuffer.readInt());
 	}
 
 	static void onMessage(UpgradeToggleMessage msg, ServerPlayerEntity player) {

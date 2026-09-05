@@ -36,7 +36,7 @@ public class BackpackOpenMessage {
 	}
 
 	public static BackpackOpenMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackOpenMessage(packetBuffer.readInt(), packetBuffer.readString();
+		return new BackpackOpenMessage(packetBuffer.readInt(), packetBuffer.readString());
 	}
 
 	static void onMessage(BackpackOpenMessage msg, ServerPlayerEntity player) {
@@ -51,9 +51,9 @@ public class BackpackOpenMessage {
 		if (player.openContainer instanceof BackpackContainer) {
 			BackpackContext backpackContext = ((BackpackContainer) player.openContainer).getBackpackContext();
 			if (msg.slotIndex == -1) {
-				openBackpack(player, backpackContext.getParentBackpackContext();
+				openBackpack(player, backpackContext.getParentBackpackContext());
 			} else if (((BackpackContainer) player.openContainer).isBackpackInventorySlot(msg.slotIndex)) {
-				openBackpack(player, backpackContext.getSubBackpackContext(msg.slotIndex);
+				openBackpack(player, backpackContext.getSubBackpackContext(msg.slotIndex));
 			}
 		} else if (player.openContainer instanceof IContextAwareContainer) {
 			BackpackContext backpackContext = ((IContextAwareContainer) player.openContainer).getBackpackContext();

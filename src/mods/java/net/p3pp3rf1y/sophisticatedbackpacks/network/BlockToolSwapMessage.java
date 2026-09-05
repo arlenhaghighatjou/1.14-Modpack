@@ -20,11 +20,11 @@ public class BlockToolSwapMessage {
 	}
 
 	public static void encode(BlockToolSwapMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeLong(msg.pos.asLong();
+		packetBuffer.writeLong(msg.pos.asLong());
 	}
 
 	public static BlockToolSwapMessage decode(PacketBuffer packetBuffer) {
-		return new BlockToolSwapMessage(BlockPos.of(packetBuffer.readLong());
+		return new BlockToolSwapMessage(BlockPos.of(packetBuffer.readLong()));
 	}
 
 	static void onMessage(BlockToolSwapMessage msg, ServerPlayerEntity player) {
@@ -46,7 +46,7 @@ public class BlockToolSwapMessage {
 										}
 										anyUpgradeCanInteract.set(true);
 
-										result.set(upgrade.onBlockInteract(sender.world, msg.pos, sender.world.getBlockState(msg.pos), sender);
+										result.set(upgrade.onBlockInteract(sender.world, msg.pos, sender.world.getBlockState(msg.pos), sender));
 									});
 							return result.get();
 						}

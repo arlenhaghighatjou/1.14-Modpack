@@ -38,7 +38,7 @@ public class WindowClickMessage {
 
 	public static WindowClickMessage decode(PacketBuffer packetBuffer) {
 		return new WindowClickMessage(packetBuffer.readByte(), packetBuffer.readShort(), packetBuffer.readByte(), packetBuffer.readEnum(ClickType.class),
-				PacketHelper.readItemStack(packetBuffer), packetBuffer.readShort();
+				PacketHelper.readItemStack(packetBuffer), packetBuffer.readShort());
 	}
 
 	static void onMessage(WindowClickMessage msg, ServerPlayerEntity player) {
@@ -65,12 +65,12 @@ public class WindowClickMessage {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
 				player.openContainer.setSynched(player, false);
 				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
-				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack());
+				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}
 		}
 	}
 
 	private static void syncSlotsForSpectator(ServerPlayerEntity player) {
-		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems());
+		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
 	}
 }

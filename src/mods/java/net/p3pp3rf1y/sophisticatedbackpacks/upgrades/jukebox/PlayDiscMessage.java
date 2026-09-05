@@ -43,9 +43,9 @@ public class PlayDiscMessage {
 
 	public static PlayDiscMessage decode(PacketBuffer packetBuffer) {
 		if (packetBuffer.readBoolean()) {
-			return new PlayDiscMessage(packetBuffer.readUniqueId(), packetBuffer.readInt(), packetBuffer.readBlockPos();
+			return new PlayDiscMessage(packetBuffer.readUniqueId(), packetBuffer.readInt(), packetBuffer.readBlockPos());
 		}
-		return new PlayDiscMessage(packetBuffer.readUniqueId(), packetBuffer.readInt(), packetBuffer.readInt();
+		return new PlayDiscMessage(packetBuffer.readUniqueId(), packetBuffer.readInt(), packetBuffer.readInt());
 	}
 
 	public static void onMessage(PlayDiscMessage msg, ServerPlayerEntity player) {

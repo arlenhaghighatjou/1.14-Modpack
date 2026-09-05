@@ -27,7 +27,7 @@ public class BackpackContentsMessage {
 	}
 
 	public static BackpackContentsMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackContentsMessage(packetBuffer.readUniqueId(), packetBuffer.readCompoundTag();
+		return new BackpackContentsMessage(packetBuffer.readUniqueId(), packetBuffer.readCompoundTag());
 	}
 
 	static void onMessage(BackpackContentsMessage msg, ServerPlayerEntity player) {

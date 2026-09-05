@@ -21,7 +21,7 @@ public class BackpackInsertMessage {
 	}
 
 	public static BackpackInsertMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackInsertMessage(packetBuffer.readInt();
+		return new BackpackInsertMessage(packetBuffer.readInt());
 	}
 
 	static void onMessage(BackpackInsertMessage msg, ServerPlayerEntity player) {

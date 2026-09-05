@@ -24,7 +24,7 @@ public class SyncPlayerSettingsMessage {
 	}
 
 	public static SyncPlayerSettingsMessage decode(PacketBuffer packetBuffer) {
-		return new SyncPlayerSettingsMessage(packetBuffer.readCompoundTag();
+		return new SyncPlayerSettingsMessage(packetBuffer.readCompoundTag());
 	}
 
 	static void onMessage(SyncPlayerSettingsMessage msg, ServerPlayerEntity player) {

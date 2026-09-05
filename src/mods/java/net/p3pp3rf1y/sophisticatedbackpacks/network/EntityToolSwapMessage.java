@@ -25,7 +25,7 @@ public class EntityToolSwapMessage {
 	}
 
 	public static EntityToolSwapMessage decode(PacketBuffer packetBuffer) {
-		return new EntityToolSwapMessage(packetBuffer.readInt();
+		return new EntityToolSwapMessage(packetBuffer.readInt());
 	}
 
 	static void onMessage(EntityToolSwapMessage msg, ServerPlayerEntity player) {
@@ -55,7 +55,7 @@ public class EntityToolSwapMessage {
 										}
 										anyUpgradeCanInteract.set(true);
 
-										result.set(upgrade.onEntityInteract(world, entity, sender);
+										result.set(upgrade.onEntityInteract(world, entity, sender));
 									});
 							return result.get();
 						}

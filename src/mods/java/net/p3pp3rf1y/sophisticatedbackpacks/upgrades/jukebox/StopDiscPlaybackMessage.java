@@ -17,7 +17,7 @@ public class StopDiscPlaybackMessage {
 	}
 
 	public static StopDiscPlaybackMessage decode(PacketBuffer packetBuffer) {
-		return new StopDiscPlaybackMessage(packetBuffer.readUniqueId();
+		return new StopDiscPlaybackMessage(packetBuffer.readUniqueId());
 	}
 
 	public static void onMessage(StopDiscPlaybackMessage msg, ServerPlayerEntity player) {

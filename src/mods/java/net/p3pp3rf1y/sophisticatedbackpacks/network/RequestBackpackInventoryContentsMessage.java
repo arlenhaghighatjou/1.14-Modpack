@@ -23,7 +23,7 @@ public class RequestBackpackInventoryContentsMessage {
 	}
 
 	public static RequestBackpackInventoryContentsMessage decode(PacketBuffer packetBuffer) {
-		return new RequestBackpackInventoryContentsMessage(packetBuffer.readUniqueId();
+		return new RequestBackpackInventoryContentsMessage(packetBuffer.readUniqueId());
 	}
 
 	static void onMessage(RequestBackpackInventoryContentsMessage msg, ServerPlayerEntity player) {
@@ -47,6 +47,6 @@ public class RequestBackpackInventoryContentsMessage {
 			inventoryContents.put(BackpackUpgradeHandler.UPGRADE_INVENTORY_TAG, upgradeNbt);
 		}
 
-		PacketHandler.sendToClient(player, new BackpackContentsMessage(msg.backpackUuid, inventoryContents);
+		PacketHandler.sendToClient(player, new BackpackContentsMessage(msg.backpackUuid, inventoryContents));
 	}
 }

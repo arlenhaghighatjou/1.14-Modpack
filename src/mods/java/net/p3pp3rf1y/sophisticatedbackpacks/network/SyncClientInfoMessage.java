@@ -31,7 +31,7 @@ public class SyncClientInfoMessage {
 	}
 
 	public static SyncClientInfoMessage decode(PacketBuffer packetBuffer) {
-		return new SyncClientInfoMessage(packetBuffer.readInt(), packetBuffer.readCompoundTag(), packetBuffer.readInt();
+		return new SyncClientInfoMessage(packetBuffer.readInt(), packetBuffer.readCompoundTag(), packetBuffer.readInt());
 	}
 
 	static void onMessage(SyncClientInfoMessage msg, ServerPlayerEntity player) {

@@ -20,7 +20,7 @@ public class TransferFullSlotMessage {
 	}
 
 	public static TransferFullSlotMessage decode(PacketBuffer packetBuffer) {
-		return new TransferFullSlotMessage(packetBuffer.readInt();
+		return new TransferFullSlotMessage(packetBuffer.readInt());
 	}
 
 	static void onMessage(TransferFullSlotMessage msg, ServerPlayerEntity player) {
@@ -36,6 +36,6 @@ public class TransferFullSlotMessage {
 		ItemStack transferResult;
 		do {
 			transferResult = backpackContainer.quickMoveStack(player, msg.slotId);
-		} while (!transferResult.isEmpty() && ItemStack.isSame(slot.getStack(), transferResult);
+		} while (!transferResult.isEmpty() && ItemStack.isSame(slot.getStack(), transferResult));
 	}
 }

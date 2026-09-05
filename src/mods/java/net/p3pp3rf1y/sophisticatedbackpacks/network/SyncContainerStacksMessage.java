@@ -34,7 +34,7 @@ public class SyncContainerStacksMessage {
 		List<ItemStack> itemStacks = NonNullList.withSize(slots, ItemStack.EMPTY);
 
 		for (int j = 0; j < slots; ++j) {
-			itemStacks.set(j, PacketHelper.readItemStack(packetBuffer);
+			itemStacks.set(j, PacketHelper.readItemStack(packetBuffer));
 		}
 
 		return new SyncContainerStacksMessage(windowId, itemStacks);
