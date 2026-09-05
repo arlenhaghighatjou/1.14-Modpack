@@ -5,14 +5,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBlockToolSwapUpgrade;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 
 public class BlockToolSwapMessage {
 	private final BlockPos pos;
@@ -22,17 +20,15 @@ public class BlockToolSwapMessage {
 	}
 
 	public static void encode(BlockToolSwapMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeLong(msg.pos.asLong());
+		packetBuffer.writeLong(msg.pos.asLong();
 	}
 
 	public static BlockToolSwapMessage decode(PacketBuffer packetBuffer) {
-		return new BlockToolSwapMessage(BlockPos.of(packetBuffer.readLong()));
+		return new BlockToolSwapMessage(BlockPos.of(packetBuffer.readLong());
 	}
 
-	static void onMessage(BlockToolSwapMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg, context.getSender()));
-		context.setPacketHandled(true);
+	static void onMessage(BlockToolSwapMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg, player);
 	}
 
 	private static void handleMessage(BlockToolSwapMessage msg, @Nullable ServerPlayerEntity sender) {
@@ -50,7 +46,7 @@ public class BlockToolSwapMessage {
 										}
 										anyUpgradeCanInteract.set(true);
 
-										result.set(upgrade.onBlockInteract(sender.world, msg.pos, sender.world.getBlockState(msg.pos), sender));
+										result.set(upgrade.onBlockInteract(sender.world, msg.pos, sender.world.getBlockState(msg.pos), sender);
 									});
 							return result.get();
 						}

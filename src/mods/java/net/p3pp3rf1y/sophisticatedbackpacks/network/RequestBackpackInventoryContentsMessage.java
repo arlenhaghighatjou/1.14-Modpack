@@ -4,14 +4,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackInventoryHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackUpgradeHandler;
 
 import javax.annotation.Nullable;
 import net.lax1dude.eaglercraft.EaglercraftUUID;
-import java.util.function.Supplier;
 
 public class RequestBackpackInventoryContentsMessage {
 	private final EaglercraftUUID backpackUuid;
@@ -25,13 +23,11 @@ public class RequestBackpackInventoryContentsMessage {
 	}
 
 	public static RequestBackpackInventoryContentsMessage decode(PacketBuffer packetBuffer) {
-		return new RequestBackpackInventoryContentsMessage(packetBuffer.readUniqueId());
+		return new RequestBackpackInventoryContentsMessage(packetBuffer.readUniqueId();
 	}
 
-	static void onMessage(RequestBackpackInventoryContentsMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	static void onMessage(RequestBackpackInventoryContentsMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, RequestBackpackInventoryContentsMessage msg) {
@@ -51,6 +47,6 @@ public class RequestBackpackInventoryContentsMessage {
 			inventoryContents.put(BackpackUpgradeHandler.UPGRADE_INVENTORY_TAG, upgradeNbt);
 		}
 
-		PacketHandler.sendToClient(player, new BackpackContentsMessage(msg.backpackUuid, inventoryContents));
+		PacketHandler.sendToClient(player, new BackpackContentsMessage(msg.backpackUuid, inventoryContents);
 	}
 }

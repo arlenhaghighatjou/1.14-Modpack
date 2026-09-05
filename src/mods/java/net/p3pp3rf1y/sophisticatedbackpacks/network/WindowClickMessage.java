@@ -6,11 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SConfirmTransactionPacket;
 import net.minecraft.network.play.server.SSetSlotPacket;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class WindowClickMessage {
 	private final int windowId;
@@ -40,13 +38,11 @@ public class WindowClickMessage {
 
 	public static WindowClickMessage decode(PacketBuffer packetBuffer) {
 		return new WindowClickMessage(packetBuffer.readByte(), packetBuffer.readShort(), packetBuffer.readByte(), packetBuffer.readEnum(ClickType.class),
-				PacketHelper.readItemStack(packetBuffer), packetBuffer.readShort());
+				PacketHelper.readItemStack(packetBuffer), packetBuffer.readShort();
 	}
 
-	static void onMessage(WindowClickMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	static void onMessage(WindowClickMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, WindowClickMessage msg) {
@@ -69,12 +65,12 @@ public class WindowClickMessage {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
 				player.openContainer.setSynched(player, false);
 				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
-				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
+				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack());
 			}
 		}
 	}
 
 	private static void syncSlotsForSpectator(ServerPlayerEntity player) {
-		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
+		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems());
 	}
 }

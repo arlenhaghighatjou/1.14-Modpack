@@ -1,16 +1,15 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.network;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackSettingsManager;
 
 import javax.annotation.Nullable;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 public class SyncPlayerSettingsMessage {
 	@Nullable
@@ -25,13 +24,11 @@ public class SyncPlayerSettingsMessage {
 	}
 
 	public static SyncPlayerSettingsMessage decode(PacketBuffer packetBuffer) {
-		return new SyncPlayerSettingsMessage(packetBuffer.readCompoundTag());
+		return new SyncPlayerSettingsMessage(packetBuffer.readCompoundTag();
 	}
 
-	static void onMessage(SyncPlayerSettingsMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg));
-		context.setPacketHandled(true);
+	static void onMessage(SyncPlayerSettingsMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg);
 	}
 
 	private static void handleMessage(SyncPlayerSettingsMessage msg) {

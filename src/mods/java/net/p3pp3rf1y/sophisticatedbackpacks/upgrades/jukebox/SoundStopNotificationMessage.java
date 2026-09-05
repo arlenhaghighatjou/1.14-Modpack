@@ -3,11 +3,9 @@ package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import javax.annotation.Nullable;
 import net.lax1dude.eaglercraft.EaglercraftUUID;
-import java.util.function.Supplier;
 
 public class SoundStopNotificationMessage {
 	private final EaglercraftUUID backpackUuid;
@@ -21,13 +19,11 @@ public class SoundStopNotificationMessage {
 	}
 
 	public static SoundStopNotificationMessage decode(PacketBuffer packetBuffer) {
-		return new SoundStopNotificationMessage(packetBuffer.readUniqueId());
+		return new SoundStopNotificationMessage(packetBuffer.readUniqueId();
 	}
 
-	public static void onMessage(SoundStopNotificationMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	public static void onMessage(SoundStopNotificationMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity sender, SoundStopNotificationMessage msg) {

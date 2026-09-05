@@ -163,7 +163,7 @@ public class ClientProxy extends CommonProxy {
 		} else {
 			for (Map.Entry<Integer, KeyBinding> slotKeybind : UPGRADE_SLOT_TOGGLE_KEYBINDS.entrySet()) {
 				if (slotKeybind.getValue().isPressed()) {
-					PacketHandler.sendToServer(new UpgradeToggleMessage(slotKeybind.getKey()));
+					PacketHandler.sendToServer(new UpgradeToggleMessage(slotKeybind.getKey());
 				}
 			}
 		}
@@ -183,10 +183,10 @@ public class ClientProxy extends CommonProxy {
 		if (rayTrace.getType() == RayTraceResult.Type.BLOCK) {
 			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) rayTrace;
 			BlockPos pos = blockRayTraceResult.getBlockPos();
-			PacketHandler.sendToServer(new BlockToolSwapMessage(pos));
+			PacketHandler.sendToServer(new BlockToolSwapMessage(pos);
 		} else if (rayTrace.getType() == RayTraceResult.Type.ENTITY) {
 			EntityRayTraceResult entityRayTraceResult = (EntityRayTraceResult) rayTrace;
-			PacketHandler.sendToServer(new EntityToolSwapMessage(entityRayTraceResult.getEntity().getId()));
+			PacketHandler.sendToServer(new EntityToolSwapMessage(entityRayTraceResult.getEntity().getId());
 		}
 	}
 
@@ -203,7 +203,7 @@ public class ClientProxy extends CommonProxy {
 			return;
 		}
 
-		PacketHandler.sendToServer(new InventoryInteractionMessage(pos, blockraytraceresult.getDirection()));
+		PacketHandler.sendToServer(new InventoryInteractionMessage(pos, blockraytraceresult.getDirection());
 	}
 
 	@SuppressWarnings({"java:S2440", "InstantiationOfUtilityClass"})
@@ -220,16 +220,16 @@ public class ClientProxy extends CommonProxy {
 			Slot slot = backpackScreen.getSlotUnderMouse();
 			if (slot != null && slot.getStack().getStack() instanceof BackpackItem) {
 				if (slot.getStack().getCount() == 1) {
-					PacketHandler.sendToServer(new BackpackOpenMessage(slot.slotNumber));
+					PacketHandler.sendToServer(new BackpackOpenMessage(slot.slotNumber);
 				}
 			} else {
-				PacketHandler.sendToServer(new BackpackCloseMessage());
+				PacketHandler.sendToServer(new BackpackCloseMessage();
 			}
 		} else if (screen instanceof InventoryScreen) {
 			Slot slot = ((InventoryScreen) screen).getSlotUnderMouse();
 
 			if (slot != null && isSupportedPlayerInventorySlot(slot.slotNumber) && slot.getStack().getStack() instanceof BackpackItem) {
-				PacketHandler.sendToServer(new BackpackOpenMessage(slot.getSlotIndex()));
+				PacketHandler.sendToServer(new BackpackOpenMessage(slot.getSlotIndex());
 			}
 		}
 	}
@@ -342,7 +342,7 @@ public class ClientProxy extends CommonProxy {
 			ClientRegistry.registerKeyBinding(INVENTORY_INTERACTION_KEYBIND);
 			ClientRegistry.registerKeyBinding(TOOL_SWAP_KEYBIND);
 			ClientRegistry.registerKeyBinding(SORT_KEYBIND);
-			UPGRADE_SLOT_TOGGLE_KEYBINDS.forEach((slot, keybind) -> ClientRegistry.registerKeyBinding(keybind));
+			UPGRADE_SLOT_TOGGLE_KEYBINDS.forEach((slot, keybind) -> ClientRegistry.registerKeyBinding(keybind);
 		});
 		RenderTypeLookup.setRenderLayer(ModBlocks.BACKPACK, RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(ModBlocks.IRON_BACKPACK, RenderType.cutout());
@@ -364,7 +364,7 @@ public class ClientProxy extends CommonProxy {
 		renderManager.renderers.forEach((e, r) -> {
 			if (r instanceof LivingRenderer<?, ?>) {
 				//noinspection rawtypes ,unchecked - this is not going to fail as the LivingRenderer makes sure the types are right, but there doesn't seem to be a way to us inference here
-				((LivingRenderer<?, ?>) r).addLayer(new BackpackLayerRenderer((LivingRenderer<?, ?>) r));
+				((LivingRenderer<?, ?>) r).addLayer(new BackpackLayerRenderer((LivingRenderer<?, ?>) r);
 			}
 		});
 	}

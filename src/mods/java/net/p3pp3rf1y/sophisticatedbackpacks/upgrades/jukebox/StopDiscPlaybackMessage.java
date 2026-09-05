@@ -1,10 +1,9 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import net.lax1dude.eaglercraft.EaglercraftUUID;
-import java.util.function.Supplier;
 
 public class StopDiscPlaybackMessage {
 	private final EaglercraftUUID backpackUuid;
@@ -18,13 +17,11 @@ public class StopDiscPlaybackMessage {
 	}
 
 	public static StopDiscPlaybackMessage decode(PacketBuffer packetBuffer) {
-		return new StopDiscPlaybackMessage(packetBuffer.readUniqueId());
+		return new StopDiscPlaybackMessage(packetBuffer.readUniqueId();
 	}
 
-	public static void onMessage(StopDiscPlaybackMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg));
-		context.setPacketHandled(true);
+	public static void onMessage(StopDiscPlaybackMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg);
 	}
 
 	private static void handleMessage(StopDiscPlaybackMessage msg) {

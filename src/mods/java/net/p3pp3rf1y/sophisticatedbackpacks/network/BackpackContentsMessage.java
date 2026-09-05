@@ -1,16 +1,15 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.network;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.render.BackpackTooltipRenderer;
 
 import javax.annotation.Nullable;
 import net.lax1dude.eaglercraft.EaglercraftUUID;
-import java.util.function.Supplier;
 
 public class BackpackContentsMessage {
 	private final EaglercraftUUID backpackUuid;
@@ -28,13 +27,11 @@ public class BackpackContentsMessage {
 	}
 
 	public static BackpackContentsMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackContentsMessage(packetBuffer.readUniqueId(), packetBuffer.readCompoundTag());
+		return new BackpackContentsMessage(packetBuffer.readUniqueId(), packetBuffer.readCompoundTag();
 	}
 
-	static void onMessage(BackpackContentsMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg));
-		context.setPacketHandled(true);
+	static void onMessage(BackpackContentsMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg);
 	}
 
 	private static void handleMessage(BackpackContentsMessage msg) {

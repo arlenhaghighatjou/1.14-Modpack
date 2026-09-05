@@ -5,11 +5,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class BackpackInsertMessage {
 	private final int slotIndex;
@@ -23,13 +21,11 @@ public class BackpackInsertMessage {
 	}
 
 	public static BackpackInsertMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackInsertMessage(packetBuffer.readInt());
+		return new BackpackInsertMessage(packetBuffer.readInt();
 	}
 
-	static void onMessage(BackpackInsertMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	static void onMessage(BackpackInsertMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, BackpackInsertMessage msg) {

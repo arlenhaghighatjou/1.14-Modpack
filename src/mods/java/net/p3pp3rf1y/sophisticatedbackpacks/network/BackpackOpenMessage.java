@@ -4,7 +4,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;
@@ -13,7 +12,6 @@ import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.IContextAwareContainer;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.PlayerInventoryProvider;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class BackpackOpenMessage {
 	private static final int CHEST_SLOT = 38;
@@ -38,13 +36,11 @@ public class BackpackOpenMessage {
 	}
 
 	public static BackpackOpenMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackOpenMessage(packetBuffer.readInt(), packetBuffer.readString());
+		return new BackpackOpenMessage(packetBuffer.readInt(), packetBuffer.readString();
 	}
 
-	static void onMessage(BackpackOpenMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	static void onMessage(BackpackOpenMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, BackpackOpenMessage msg) {
@@ -55,9 +51,9 @@ public class BackpackOpenMessage {
 		if (player.openContainer instanceof BackpackContainer) {
 			BackpackContext backpackContext = ((BackpackContainer) player.openContainer).getBackpackContext();
 			if (msg.slotIndex == -1) {
-				openBackpack(player, backpackContext.getParentBackpackContext());
+				openBackpack(player, backpackContext.getParentBackpackContext();
 			} else if (((BackpackContainer) player.openContainer).isBackpackInventorySlot(msg.slotIndex)) {
-				openBackpack(player, backpackContext.getSubBackpackContext(msg.slotIndex));
+				openBackpack(player, backpackContext.getSubBackpackContext(msg.slotIndex);
 			}
 		} else if (player.openContainer instanceof IContextAwareContainer) {
 			BackpackContext backpackContext = ((IContextAwareContainer) player.openContainer).getBackpackContext();

@@ -1,37 +1,115 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.network;
 
+import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.RegistryKey;
+import net.minecraft.network.play.client.CCustomPayloadPacket;
+import net.minecraft.network.play.server.SCustomPayloadPlayPacket;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox.PlayDiscMessage;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox.SoundStopNotificationMessage;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox.StopDiscPlaybackMessage;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.tank.TankClickMessage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
+/**
+ * The mod's packets, carried on a vanilla custom payload channel. Each message keeps its own
+ * encoder, decoder and handler; the leading id says which one a payload belongs to.
+ */
 public class PacketHandler {
 	private PacketHandler() {}
 
-	private static SimpleChannel networkWrapper;
-	private static final String PROTOCOL = "1";
-	private static int idx = 0;
+	public static final ResourceLocation CHANNEL = new ResourceLocation(SophisticatedBackpacks.MOD_ID, "channel");
 
-	@SuppressWarnings({"java:S2440", "InstantiationOfUtilityClass"})
+	private static final List<MessageType<?>> TYPES = new ArrayList<>();
+	private static final Map<Class<?>, Integer> IDS = new HashMap<>();
+
+	private static class MessageType<M> {
+		private final BiConsumer<M, PacketBuffer> encoder;
+		private final Function<PacketBuffer, M> decoder;
+		private final BiConsumer<M, ServerPlayerEntity> handler;
+
+		private MessageType(BiConsumer<M, PacketBuffer> encoder, Function<PacketBuffer, M> decoder, BiConsumer<M, ServerPlayerEntity> handler) {
+			this.encoder = encoder;
+			this.decoder = decoder;
+			this.handler = handler;
+		}
+
+		@SuppressWarnings("unchecked")
+		private void encode(Object message, PacketBuffer buffer) {
+			encoder.accept((M) message, buffer);
+		}
+
+		private void handle(PacketBuffer buffer, ServerPlayerEntity player) {
+			handler.accept(decoder.apply(buffer), player);
+		}
+	}
+
+	public static <M> void registerMessage(Class<M> messageType, BiConsumer<M, PacketBuffer> encoder, Function<PacketBuffer, M> decoder, BiConsumer<M, ServerPlayerEntity> messageConsumer) {
+		IDS.put(messageType, TYPES.size());
+		TYPES.add(new MessageType<>(encoder, decoder, messageConsumer));
+	}
+
+	private static PacketBuffer write(Object message) {
+		Integer id = IDS.get(message.getClass());
+		if (id == null) {
+			return null;
+		}
+
+		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+		buffer.writeVarInt(id);
+		TYPES.get(id).encode(message, buffer);
+		return buffer;
+	}
+
+	public static <M> void sendToServer(M message) {
+		PacketBuffer buffer = write(message);
+		if (buffer != null) {
+			Minecraft.getInstance().getConnection().sendPacket(new CCustomPayloadPacket(CHANNEL, buffer));
+		}
+	}
+
+	public static <M> void sendToClient(ServerPlayerEntity player, M message) {
+		PacketBuffer buffer = write(message);
+		if (buffer != null) {
+			player.connection.sendPacket(new SCustomPayloadPlayPacket(CHANNEL, buffer));
+		}
+	}
+
+	public static <M> void sendToAllNear(ServerWorld world, DimensionType dimension, Vec3d position, int range, M message) {
+		for (ServerPlayerEntity player : world.getPlayers()) {
+			if (player.world.getDimension().getType() == dimension && player.getDistanceSq(position) <= (double) range * range) {
+				sendToClient(player, message);
+			}
+		}
+	}
+
+	public static void handleServer(PacketBuffer buffer, ServerPlayerEntity player) {
+		int id = buffer.readVarInt();
+		if (id >= 0 && id < TYPES.size()) {
+			TYPES.get(id).handle(buffer, player);
+		}
+	}
+
+	public static void handleClient(PacketBuffer buffer) {
+		int id = buffer.readVarInt();
+		if (id >= 0 && id < TYPES.size()) {
+			TYPES.get(id).handle(buffer, null);
+		}
+	}
+
 	public static void init() {
-		networkWrapper = NetworkRegistry.newSimpleChannel(new ResourceLocation(SophisticatedBackpacks.MOD_ID, "channel"),
-				() -> PROTOCOL, PROTOCOL::equals, PROTOCOL::equals);
 
 		registerMessage(BackpackOpenMessage.class, BackpackOpenMessage::encode, BackpackOpenMessage::decode, BackpackOpenMessage::onMessage);
 		registerMessage(SyncContainerClientDataMessage.class, SyncContainerClientDataMessage::encode, SyncContainerClientDataMessage::decode, SyncContainerClientDataMessage::onMessage);
@@ -53,26 +131,5 @@ public class PacketHandler {
 		registerMessage(SyncPlayerSettingsMessage.class, SyncPlayerSettingsMessage::encode, SyncPlayerSettingsMessage::decode, SyncPlayerSettingsMessage::onMessage);
 		registerMessage(BackpackCloseMessage.class, (backpackCloseMessage, packetBuffer) -> {}, packetBuffer -> new BackpackCloseMessage(), (backpackCloseMessage, contextSupplier) -> BackpackCloseMessage.onMessage(contextSupplier));
 		registerMessage(BackpackInsertMessage.class, BackpackInsertMessage::encode, BackpackInsertMessage::decode, BackpackInsertMessage::onMessage);
-	}
-
-	@SuppressWarnings("SameParameterValue")
-	public static <M> void registerMessage(Class<M> messageType, BiConsumer<M, PacketBuffer> encoder, Function<PacketBuffer, M> decoder, BiConsumer<M, Supplier<NetworkEvent.Context>> messageConsumer) {
-		networkWrapper.registerMessage(idx++, messageType, encoder, decoder, messageConsumer);
-	}
-
-	public static <M> void sendToServer(M message) {
-		networkWrapper.sendToServer(message);
-	}
-
-	public static <M> void sendToClient(ServerPlayerEntity player, M message) {
-		networkWrapper.sendTo(message, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
-	}
-
-	public static <M> void sendToAllNear(ServerWorld world, RegistryKey<World> dimension, Vector3d position, int range, M message) {
-		world.players().forEach(player -> {
-			if (player.level.dimension() == dimension && player.distanceToSqr(position) <= range * range) {
-				sendToClient(player, message);
-			}
-		});
 	}
 }

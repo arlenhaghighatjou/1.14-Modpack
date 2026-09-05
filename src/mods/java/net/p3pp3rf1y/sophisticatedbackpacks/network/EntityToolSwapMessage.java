@@ -6,14 +6,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IEntityToolSwapUpgrade;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 
 public class EntityToolSwapMessage {
 	private final int entityId;
@@ -27,13 +25,11 @@ public class EntityToolSwapMessage {
 	}
 
 	public static EntityToolSwapMessage decode(PacketBuffer packetBuffer) {
-		return new EntityToolSwapMessage(packetBuffer.readInt());
+		return new EntityToolSwapMessage(packetBuffer.readInt();
 	}
 
-	static void onMessage(EntityToolSwapMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg, context.getSender()));
-		context.setPacketHandled(true);
+	static void onMessage(EntityToolSwapMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg, player);
 	}
 
 	private static void handleMessage(EntityToolSwapMessage msg, @Nullable ServerPlayerEntity sender) {
@@ -59,7 +55,7 @@ public class EntityToolSwapMessage {
 										}
 										anyUpgradeCanInteract.set(true);
 
-										result.set(upgrade.onEntityInteract(world, entity, sender));
+										result.set(upgrade.onEntityInteract(world, entity, sender);
 									});
 							return result.get();
 						}

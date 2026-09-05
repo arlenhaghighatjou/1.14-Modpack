@@ -5,12 +5,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.InventoryInteractionHelper;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class InventoryInteractionMessage {
 	private final BlockPos pos;
@@ -27,13 +25,11 @@ public class InventoryInteractionMessage {
 	}
 
 	public static InventoryInteractionMessage decode(PacketBuffer packetBuffer) {
-		return new InventoryInteractionMessage(BlockPos.of(packetBuffer.readLong()), packetBuffer.readEnum(Direction.class));
+		return new InventoryInteractionMessage(BlockPos.of(packetBuffer.readLong()), packetBuffer.readEnum(Direction.class);
 	}
 
-	static void onMessage(InventoryInteractionMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg, context.getSender()));
-		context.setPacketHandled(true);
+	static void onMessage(InventoryInteractionMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg, player);
 	}
 
 	private static void handleMessage(InventoryInteractionMessage msg, @Nullable ServerPlayerEntity sender) {

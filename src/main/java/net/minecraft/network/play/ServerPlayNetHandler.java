@@ -1224,6 +1224,12 @@ public class ServerPlayNetHandler implements IServerPlayNetHandler {
             return;
         }
 
+        if (net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler.CHANNEL.equals(packetIn.getChannelName())) {
+            PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.player.getServerWorld());
+            net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler.handleServer(packetIn.getBufferData(), this.player);
+            return;
+        }
+
         String channelName = net.lax1dude.eaglercraft.socket.protocol.GamePluginMessageConstants.fromResourceLocation(packetIn.getChannelName().toString());
         net.minecraft.network.PacketBuffer bufferData = packetIn.getBufferData();
         try {

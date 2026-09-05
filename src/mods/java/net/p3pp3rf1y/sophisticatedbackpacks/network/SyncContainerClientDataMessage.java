@@ -3,11 +3,9 @@ package net.p3pp3rf1y.sophisticatedbackpacks.network;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.ISyncedContainer;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class SyncContainerClientDataMessage {
 	@Nullable
@@ -22,13 +20,11 @@ public class SyncContainerClientDataMessage {
 	}
 
 	public static SyncContainerClientDataMessage decode(PacketBuffer packetBuffer) {
-		return new SyncContainerClientDataMessage(packetBuffer.readCompoundTag());
+		return new SyncContainerClientDataMessage(packetBuffer.readCompoundTag();
 	}
 
-	public static void onMessage(SyncContainerClientDataMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(contextSupplier.get().getSender(), msg));
-		context.setPacketHandled(true);
+	public static void onMessage(SyncContainerClientDataMessage msg, ServerPlayerEntity player) {
+		handleMessage(contextSupplier.get().getSender(), msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity sender, SyncContainerClientDataMessage message) {

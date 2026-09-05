@@ -4,14 +4,12 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLook
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IUpgradeWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class UpgradeToggleMessage {
 	private final int upgradeSlot;
@@ -25,13 +23,11 @@ public class UpgradeToggleMessage {
 	}
 
 	public static UpgradeToggleMessage decode(PacketBuffer packetBuffer) {
-		return new UpgradeToggleMessage(packetBuffer.readInt());
+		return new UpgradeToggleMessage(packetBuffer.readInt();
 	}
 
-	static void onMessage(UpgradeToggleMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	static void onMessage(UpgradeToggleMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, UpgradeToggleMessage msg) {

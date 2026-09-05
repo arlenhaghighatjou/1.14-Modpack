@@ -4,11 +4,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class TransferFullSlotMessage {
 	private final int slotId;
@@ -22,13 +20,11 @@ public class TransferFullSlotMessage {
 	}
 
 	public static TransferFullSlotMessage decode(PacketBuffer packetBuffer) {
-		return new TransferFullSlotMessage(packetBuffer.readInt());
+		return new TransferFullSlotMessage(packetBuffer.readInt();
 	}
 
-	static void onMessage(TransferFullSlotMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(context.getSender(), msg));
-		context.setPacketHandled(true);
+	static void onMessage(TransferFullSlotMessage msg, ServerPlayerEntity player) {
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, TransferFullSlotMessage msg) {
@@ -40,6 +36,6 @@ public class TransferFullSlotMessage {
 		ItemStack transferResult;
 		do {
 			transferResult = backpackContainer.quickMoveStack(player, msg.slotId);
-		} while (!transferResult.isEmpty() && ItemStack.isSame(slot.getStack(), transferResult));
+		} while (!transferResult.isEmpty() && ItemStack.isSame(slot.getStack(), transferResult);
 	}
 }

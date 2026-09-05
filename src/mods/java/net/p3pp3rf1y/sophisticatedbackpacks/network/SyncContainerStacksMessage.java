@@ -1,15 +1,14 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.network;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public class SyncContainerStacksMessage {
 	private final int windowId;
@@ -35,16 +34,14 @@ public class SyncContainerStacksMessage {
 		List<ItemStack> itemStacks = NonNullList.withSize(slots, ItemStack.EMPTY);
 
 		for (int j = 0; j < slots; ++j) {
-			itemStacks.set(j, PacketHelper.readItemStack(packetBuffer));
+			itemStacks.set(j, PacketHelper.readItemStack(packetBuffer);
 		}
 
 		return new SyncContainerStacksMessage(windowId, itemStacks);
 	}
 
-	static void onMessage(SyncContainerStacksMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {
-		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> handleMessage(msg));
-		context.setPacketHandled(true);
+	static void onMessage(SyncContainerStacksMessage msg, ServerPlayerEntity player) {
+		handleMessage(msg);
 	}
 
 	private static void handleMessage(SyncContainerStacksMessage msg) {
