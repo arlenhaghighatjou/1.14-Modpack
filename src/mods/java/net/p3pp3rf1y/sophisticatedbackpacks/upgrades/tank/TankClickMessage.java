@@ -4,7 +4,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SSetSlotPacket;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;

@@ -40,7 +40,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;

@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.UpgradeInventoryPartBase;

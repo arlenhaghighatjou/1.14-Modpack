@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeTagHandler;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

@@ -16,7 +16,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IUpgradeWrapper;

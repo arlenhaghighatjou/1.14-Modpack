@@ -2,8 +2,8 @@ package net.p3pp3rf1y.sophisticatedbackpacks.api;
 
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tags.ITag;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 
 public interface IBackpackFluidHandler extends IFluidHandlerItem {
 	default int fill(ITag<Fluid> fluidTag, int maxFill, Fluid fallbackFluid, FluidAction action) {

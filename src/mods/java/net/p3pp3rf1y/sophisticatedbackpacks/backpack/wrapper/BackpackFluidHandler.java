@@ -3,7 +3,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.tank.TankUpgradeItem;

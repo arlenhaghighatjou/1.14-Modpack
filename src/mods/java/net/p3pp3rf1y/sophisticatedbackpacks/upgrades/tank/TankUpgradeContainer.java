@@ -5,7 +5,7 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.INameableEmptySlot;

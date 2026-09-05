@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.energy.IEnergyStorage;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemStackHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;

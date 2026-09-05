@@ -7,10 +7,10 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.IServerUpdater;
 
 import java.util.function.Supplier;

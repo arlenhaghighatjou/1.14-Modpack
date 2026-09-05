@@ -3,8 +3,8 @@ package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.inception;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackFluidHandler;
 

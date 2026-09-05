@@ -14,7 +14,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IPickupResponseUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.ITickableUpgrade;

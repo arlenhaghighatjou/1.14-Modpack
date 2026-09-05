@@ -12,7 +12,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 
 public class RenderHelper {
