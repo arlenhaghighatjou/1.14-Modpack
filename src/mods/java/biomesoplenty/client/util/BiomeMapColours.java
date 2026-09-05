@@ -21,8 +21,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
+import net.lax1dude.eaglercraft.crypto.SHA256Digest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,9 @@ import net.lax1dude.eaglercraft.Random;
 public class BiomeMapColours
 {
     public static final boolean RANDOM_COLOURS = false;
+	private static final SHA256Digest colourDigest = new SHA256Digest();
+	private static final byte[] colourInput = new byte[4];
+	private static final byte[] colourHash = new byte[32];
     public static Map<Integer, Integer> biomeColours = new HashMap<Integer, Integer>();
     public static Random rand = new Random(50);
 
@@ -87,20 +89,19 @@ public class BiomeMapColours
         if (RANDOM_COLOURS)
         {
             // Who can be bothered coming up with colours manually?
-            try
-            {
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                return ByteBuffer.wrap(digest.digest(ByteBuffer.allocate(4).putInt(biomeId).array())).getInt() & 0xFFFFFF;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+			colourInput[0] = (byte) (biomeId >>> 24);
+			colourInput[1] = (byte) (biomeId >>> 16);
+			colourInput[2] = (byte) (biomeId >>> 8);
+			colourInput[3] = (byte) biomeId;
+			colourDigest.update(colourInput, 0, 4);
+			colourDigest.doFinal(colourHash, 0);
+			return (colourHash[1] & 255) << 16 | (colourHash[2] & 255) << 8 | colourHash[3] & 255;
         }
 
-        if (biomeColours.containsKey(biomeId)) {
-            return biomeColours.get(biomeId);
-        }
+		Integer cached = biomeColours.get(biomeId);
+		if (cached != null) {
+			return cached;
+		}
 
         int colour = getBiomeMapColourRaw(Registry.BIOME.getByValue(biomeId));
         biomeColours.put(biomeId, colour);
