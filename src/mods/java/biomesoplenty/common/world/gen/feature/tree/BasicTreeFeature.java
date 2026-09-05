@@ -147,11 +147,11 @@ public class BasicTreeFeature extends TreeFeatureBase
             {
                 BlockPos soilPos = pos.down();
                 Block soil = world.getBlockState(soilPos).getBlock();
-                boolean isSoil = soil.canSustainPlant(world.getBlockState(soilPos), world, soilPos, Direction.UP, (SaplingBlock) Blocks.OAK_SAPLING);
+                boolean isSoil = isDirtOrGrassBlockOrFarmland(world, soilPos);
 
                 if (this.placeOn.matches(world, soilPos) && isSoil && pos.getY() < 256 - height - 1)
                 {
-                    soil.onPlantGrow(world.getBlockState(soilPos), world, soilPos, pos);
+                    this.func_214584_a(world, soilPos);
                     int leavesLayers = (this.leafLayers - 1);
 
                     //Generates leaves at the top of the tree, going one block above the top log (<= rather than <)

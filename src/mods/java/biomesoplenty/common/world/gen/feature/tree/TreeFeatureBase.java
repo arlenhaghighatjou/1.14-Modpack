@@ -42,7 +42,7 @@ public abstract class TreeFeatureBase extends AbstractTreeFeature<NoFeatureConfi
 
         public BuilderBase()
         {
-            this.placeOn = (world, pos) -> world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING);
+            this.placeOn = (world, pos) -> AbstractTreeFeature.isDirtOrGrassBlockOrFarmland(world, pos);
             this.replace = (world, pos) -> AbstractTreeFeature.isAirOrLeaves(world, pos) || world.getBlockState(pos).getBlock().isIn(BlockTags.SAPLINGS) || world.getBlockState(pos).getBlock() == Blocks.VINE || world.getBlockState(pos).getBlock() == BOPBlocks.willow_vine || world.getBlockState(pos).getBlock() instanceof BushBlock;
             this.log = Blocks.OAK_LOG.getDefaultState();
             this.leaves = Blocks.OAK_LEAVES.getDefaultState();

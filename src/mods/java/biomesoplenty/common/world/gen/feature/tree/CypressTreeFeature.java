@@ -39,7 +39,7 @@ public class CypressTreeFeature extends TreeFeatureBase
         {
             this.minHeight = 6;
             this.maxHeight = 15;
-            this.placeOn = (world, pos) -> world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING);
+            this.placeOn = (world, pos) -> AbstractTreeFeature.isDirtOrGrassBlockOrFarmland(world, pos);
             this.replace = (world, pos) -> AbstractTreeFeature.isAirOrLeaves(world, pos) || world.getBlockState(pos).getMaterial() == Material.WATER || world.getBlockState(pos).getBlock().isIn(BlockTags.SAPLINGS) || world.getBlockState(pos).getBlock() == Blocks.VINE || world.getBlockState(pos).getBlock() == BOPBlocks.willow_vine || world.getBlockState(pos).getBlock() instanceof BushBlock;
             this.log = BOPBlocks.willow_log.getDefaultState();
             this.leaves = BOPBlocks.willow_leaves.getDefaultState();

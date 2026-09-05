@@ -7,6 +7,7 @@
  ******************************************************************************/
 package biomesoplenty.common.world.gen.feature;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.common.block.BrambleBlock;
 import biomesoplenty.common.util.biome.GeneratorUtil;
@@ -38,7 +39,7 @@ public class BrambleFeature extends Feature<NoFeatureConfig>
     protected IBlockPosQuery placeOn = (world, pos) ->
     {
         BlockState state = world.getBlockState(pos);
-        return state.canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING) || state.getBlock() == Blocks.NETHERRACK;
+        return AbstractTreeFeature.isDirtOrGrassBlockOrFarmland(world, pos) || state.getBlock() == Blocks.NETHERRACK;
     };
     
     protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).getMaterial() == Material.AIR;

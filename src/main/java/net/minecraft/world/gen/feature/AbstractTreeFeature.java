@@ -74,7 +74,7 @@ public abstract class AbstractTreeFeature<T extends IFeatureConfig> extends Feat
         });
     }
 
-    protected static boolean isDirtOrGrassBlockOrFarmland(IWorldGenerationBaseReader worldIn, BlockPos pos) {
+    public static boolean isDirtOrGrassBlockOrFarmland(IWorldGenerationBaseReader worldIn, BlockPos pos) {
         return worldIn.hasBlockState(pos, (p_214586_0_) -> {
             Block block = p_214586_0_.getBlock();
             return Block.isDirt(block) || block == Blocks.GRASS_BLOCK || block == Blocks.FARMLAND;

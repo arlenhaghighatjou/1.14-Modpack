@@ -23,7 +23,7 @@ public class DoubleWaterPlantFeature extends Feature<DoublePlantConfig> {
 
         for(int i = 0; i < 64; ++i) {
             BlockPos blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-            if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER && worldIn.isAirBlock(blockpos.up()) && blockpos.getY() < worldIn.getWorld().getDimension().getHeight() - 2 && config.state.isValidPosition(worldIn, blockpos)) {
+            if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER && worldIn.isAirBlock(blockpos.up()) && blockpos.getY() < 256 - 2 && config.state.isValidPosition(worldIn, blockpos)) {
                 ((DoublePlantBlock)config.state.getBlock()).placeAt(worldIn, blockpos, 2);
                 flag = true;
             }

@@ -31,7 +31,7 @@ public class BigBrownMushroomNetherFeature extends Feature<BigMushroomFeatureCon
       }
 
       int j = pos.getY();
-      if (j >= 1 && j + i + 1 < worldIn.getWorld().getDimension().getHeight()) {
+      if (j >= 1 && j + i + 1 < 256) {
          Block block = worldIn.getBlockState(pos.down()).getBlock();
          if (!Block.isDirt(block) && block != Blocks.NETHERRACK && block != Blocks.SOUL_SAND) {
             return false;

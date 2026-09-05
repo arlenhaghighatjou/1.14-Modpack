@@ -7,6 +7,7 @@
  ******************************************************************************/
 package biomesoplenty.common.world.gen.feature.tree;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.common.util.biome.GeneratorUtil;
 import biomesoplenty.common.util.block.IBlockPosQuery;
@@ -29,7 +30,7 @@ public class PalmTreeFeature extends TreeFeatureBase
         	this.placeOn = (world, pos) ->
         	{
         		Block ground = world.getBlockState(pos).getBlock();
-        		return (world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING) || (ground == BOPBlocks.white_sand || ground == Blocks.RED_SAND || ground == Blocks.SAND));
+        		return (AbstractTreeFeature.isDirtOrGrassBlockOrFarmland(world, pos) || (ground == BOPBlocks.white_sand || ground == Blocks.RED_SAND || ground == Blocks.SAND));
         	};
             this.minHeight = 10;
             this.maxHeight = 14;
