@@ -1,49 +1,41 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackRenderInfo;
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 
-public class BackpackISTER extends ItemStackTileEntityRenderer {
-	private final Minecraft minecraft = Minecraft.getInstance();
+/**
+ * Draws the backpack model and then whatever item the display upgrade puts on its front.
+ */
+public class BackpackISTER {
+	public static final BackpackISTER INSTANCE = new BackpackISTER();
 
-	@Override
-	public void renderByItem(ItemStack stack, ItemCameraTransforms.TransformType transformType, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
-		//ItemRenderer.render does transformations that would need to be transformed against in complicated way so rather pop the pose here and push the new one with the same transforms
-		// applied in the correct order with the getModel
-		GlStateManager.popMatrix();
-		GlStateManager.pushMatrix();
+	private BackpackISTER() {}
+
+	public void renderByItem(ItemStack stack) {
+		Minecraft minecraft = Minecraft.getInstance();
 		ItemRenderer itemRenderer = minecraft.getItemRenderer();
-		IBakedModel model = itemRenderer.getModel(stack, null, minecraft.player);
+		IBakedModel model = itemRenderer.getItemModelWithOverrides(stack, null, minecraft.player);
+		itemRenderer.renderModel(model, stack);
 
-		boolean leftHand = minecraft.player != null && minecraft.player.getOffhandItem() == stack;
-		model = ForgeHooksClient.handleCameraTransforms(model, transformType, leftHand);
-		GlStateManager.translated(-0.5D, -0.5D, -0.5D);
-		RenderType rendertype = RenderTypeLookup.getRenderType(stack, true);
-		IVertexBuilder ivertexbuilder = ItemRenderer.getFoilBufferDirect(buffer, rendertype, true, stack.hasFoil());
-		itemRenderer.renderModelLists(model, stack, combinedLight, combinedOverlay, ivertexbuilder);
 		BackpackWrapperLookup.get(stack).ifPresent(backpackWrapper -> {
 			BackpackRenderInfo.ItemDisplayRenderInfo itemDisplayRenderInfo = backpackWrapper.getRenderInfo().getItemDisplayRenderInfo();
 			ItemStack displayItem = itemDisplayRenderInfo.getItem();
-			if (!displayItem.isEmpty()) {
-				GlStateManager.translated(0.5, 0.6, 0.25);
-				GlStateManager.scalef(0.5f, 0.5f, 0.5f);
-				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(itemDisplayRenderInfo.getRotation()));
-				itemRenderer.renderStatic(displayItem, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, buffer);
+			if (displayItem.isEmpty()) {
+				return;
 			}
+
+			GlStateManager.pushMatrix();
+			GlStateManager.translatef(0.5F, 0.6F, 0.25F);
+			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+			GlStateManager.rotatef(itemDisplayRenderInfo.getRotation(), 0F, 0F, 1F);
+			itemRenderer.renderItem(displayItem, ItemCameraTransforms.TransformType.FIXED);
+			GlStateManager.popMatrix();
 		});
 	}
 }

@@ -40,6 +40,9 @@ public class ItemStackTileEntityRenderer {
 
     public void renderByItem(ItemStack itemStackIn) {
         Item item = itemStackIn.getItem();
+        if (modpack.ModISTER.render(itemStackIn)) {
+            return;
+        }
         if (item instanceof BannerItem) {
             this.banner.loadFromItemStack(itemStackIn, ((BannerItem) item).getColor());
             TileEntityRendererDispatcher.instance.renderAsItem(this.banner);

@@ -20,7 +20,7 @@ public class ItemOverrideList {
     private final List<ItemOverride> overrides = Lists.newArrayList();
     private final List<IBakedModel> overrideBakedModels;
 
-    private ItemOverrideList() {
+    protected ItemOverrideList() {
         this.overrideBakedModels = Collections.emptyList();
     }
 

@@ -142,6 +142,11 @@ public class ModelBakery {
 
       p_i51735_4_.endStartSection("special");
       this.func_217843_a(new ModelResourceLocation("minecraft:trident_in_hand#inventory"));
+      p_i51735_4_.endStartSection("modpack");
+      modpack.ModModels.registerModels((p_modpack_1_, p_modpack_2_) -> {
+         this.field_217849_F.put(p_modpack_1_, p_modpack_2_);
+         this.field_217851_H.put(p_modpack_1_, p_modpack_2_);
+      });
       p_i51735_4_.endStartSection("textures");
       Set<String> set = Sets.newLinkedHashSet();
       Set<ResourceLocation> set1 = this.field_217851_H.values().stream().flatMap((p_217838_2_) -> {
@@ -175,6 +180,8 @@ public class ModelBakery {
                this.field_217852_I.put(location, ibakedmodel);
             }
          }
+
+         modpack.ModModels.onBaked(this, this.field_217852_I);
       } finally {
          BakedQuad.endVertexDataCompaction();
       }

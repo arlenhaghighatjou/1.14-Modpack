@@ -2,7 +2,10 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.init;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.p3pp3rf1y.sophisticatedbackpacks.api.IRenderedTankUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackTileEntity;
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.TankPosition;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.WorldHelper;
 
@@ -15,16 +18,36 @@ public class ModBlockColors {
 		BlockColors blockColors = Minecraft.getInstance().getBlockColors();
 
 		blockColors.register((state, blockDisplayReader, pos, tintIndex) -> {
-			if (tintIndex < 0 || tintIndex > 1 || pos == null) {
+			if (tintIndex < 0 || tintIndex > 3 || pos == null) {
 				return -1;
 			}
 			return WorldHelper.getTile(blockDisplayReader, pos, BackpackTileEntity.class)
-					.map(te -> tintIndex == 0 ? te.getBackpackWrapper().getClothColor() : te.getBackpackWrapper().getBorderColor())
+					.map(te -> getColor(te, tintIndex))
 					.orElse(getDefaultColor(tintIndex));
 		}, BACKPACK.get(), IRON_BACKPACK.get(), GOLD_BACKPACK.get(), DIAMOND_BACKPACK.get(), NETHERITE_BACKPACK.get());
 	}
 
+	private static int getColor(BackpackTileEntity te, int tintIndex) {
+		if (tintIndex == 0) {
+			return te.getBackpackWrapper().getClothColor();
+		}
+		if (tintIndex == 1) {
+			return te.getBackpackWrapper().getBorderColor();
+		}
+		IRenderedTankUpgrade.TankRenderInfo tankRenderInfo = te.getBackpackWrapper().getRenderInfo().getTankRenderInfos().get(tintIndex == 2 ? TankPosition.LEFT : TankPosition.RIGHT);
+		if (tankRenderInfo == null) {
+			return -1;
+		}
+		return tankRenderInfo.getFluid().map(FluidAttributes::getColor).orElse(-1);
+	}
+
 	private static int getDefaultColor(int tintIndex) {
-		return tintIndex == 0 ? BackpackWrapper.DEFAULT_CLOTH_COLOR : BackpackWrapper.DEFAULT_BORDER_COLOR;
+		if (tintIndex == 0) {
+			return BackpackWrapper.DEFAULT_CLOTH_COLOR;
+		}
+		if (tintIndex == 1) {
+			return BackpackWrapper.DEFAULT_BORDER_COLOR;
+		}
+		return -1;
 	}
 }

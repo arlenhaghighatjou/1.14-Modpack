@@ -1,60 +1,46 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.AgeableModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
 
-import java.util.Collections;
-
-public class TankGlassModel extends AgeableModel<LivingEntity> {
-	public final ModelRenderer leftTankGlass;
-	public final ModelRenderer rightTankGlass;
+public class TankGlassModel extends EntityModel<LivingEntity> {
+	public final RendererModel leftTankGlass;
+	public final RendererModel rightTankGlass;
 
 	public TankGlassModel() {
-		texWidth = 32;
-		texHeight = 32;
+		textureWidth = 32;
+		textureHeight = 32;
 
-		leftTankGlass = new ModelRenderer(this);
-		leftTankGlass.setPos(0.0F, 24.0F, 0.0F);
-		leftTankGlass.texOffs(18, 5).addBox(-15F, 3.5F, -2.5F, 4.0F, 10.0F, 0.0F, 0.0F, false);
-		leftTankGlass.texOffs(0, 0).addBox(-15F, 3.5F, -2.5F, 0.0F, 10.0F, 5.0F, 0.0F, false);
-		leftTankGlass.texOffs(10, 5).addBox(-15F, 3.5F, 2.5F, 4.0F, 10.0F, 0.0F, 0.0F, false);
+		leftTankGlass = new RendererModel(this);
+		leftTankGlass.setRotationPoint(0.0F, 24.0F, 0.0F);
+		leftTankGlass.setTextureOffset(18, 5).addBox(-15F, 3.5F, -2.5F, 4, 10, 0, 0.0F, false);
+		leftTankGlass.setTextureOffset(0, 0).addBox(-15F, 3.5F, -2.5F, 0, 10, 5, 0.0F, false);
+		leftTankGlass.setTextureOffset(10, 5).addBox(-15F, 3.5F, 2.5F, 4, 10, 0, 0.0F, false);
 
-		rightTankGlass = new ModelRenderer(this);
-		rightTankGlass.setPos(0.0F, 24.0F, 0.0F);
-		rightTankGlass.texOffs(18, 5).addBox(11F, 3.5F, -2.5F, 4.0F, 10.0F, 0.0F, 0.0F, true);
-		rightTankGlass.texOffs(0, 0).addBox(15F, 3.5F, -2.5F, 0.0F, 10.0F, 5.0F, 0.0F, true);
-		rightTankGlass.texOffs(10, 5).addBox(11F, 3.5F, 2.5F, 4.0F, 10.0F, 0.0F, 0.0F, true);
+		rightTankGlass = new RendererModel(this);
+		rightTankGlass.setRotationPoint(0.0F, 24.0F, 0.0F);
+		rightTankGlass.setTextureOffset(18, 5).addBox(11F, 3.5F, -2.5F, 4, 10, 0, 0.0F, true);
+		rightTankGlass.setTextureOffset(0, 0).addBox(15F, 3.5F, -2.5F, 0, 10, 5, 0.0F, true);
+		rightTankGlass.setTextureOffset(10, 5).addBox(11F, 3.5F, 2.5F, 4, 10, 0, 0.0F, true);
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		//noop
 	}
 
-	public void render(IVertexBuilder buffer, int packedLight, boolean showLeftTank, boolean showRightTank) {
+	@Override
+	public void render(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		//noop
+	}
+
+	public void render(float scale, boolean showLeftTank, boolean showRightTank) {
 		if (showLeftTank) {
-			leftTankGlass.render(buffer, packedLight, OverlayTexture.NO_OVERLAY);
+			leftTankGlass.render(scale);
 		}
 		if (showRightTank) {
-			rightTankGlass.render(buffer, packedLight, OverlayTexture.NO_OVERLAY);
+			rightTankGlass.render(scale);
 		}
-	}
-
-	@Override
-	public void renderToBuffer(IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		//noop
-	}
-
-	@Override
-	protected Iterable<ModelRenderer> headParts() {
-		return Collections.emptyList();
-	}
-
-	@Override
-	protected Iterable<ModelRenderer> bodyParts() {
-		return Collections.emptyList();
 	}
 }

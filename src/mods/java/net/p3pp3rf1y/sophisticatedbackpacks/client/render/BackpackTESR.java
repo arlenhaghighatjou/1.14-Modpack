@@ -3,71 +3,58 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.client.renderer.Vector3f;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.IRenderedTankUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackTileEntity;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackRenderInfo;
-import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.TankPosition;
 
+/**
+ * The placed backpack only needs its moving pieces drawn here since the pouches, tanks and battery
+ * all come out of the baked model.
+ */
 public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
-	public BackpackTESR(TileEntityRendererDispatcher rendererDispatcherIn) {
-		super(rendererDispatcherIn);
-	}
-
 	@Override
-	public void render(BackpackTileEntity tileEntityIn, float partialTicks, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+	public void render(BackpackTileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
 		BlockState state = tileEntityIn.getBlockState();
 		Direction facing = state.get(BackpackBlock.FACING);
-		boolean showLeftTank = state.get(BackpackBlock.LEFT_TANK);
-		boolean showRightTank = state.get(BackpackBlock.RIGHT_TANK);
 		boolean showBattery = state.get(BackpackBlock.BATTERY);
 		BackpackRenderInfo renderInfo = tileEntityIn.getBackpackWrapper().getRenderInfo();
+
 		GlStateManager.pushMatrix();
-		GlStateManager.translated(0.5, 0, 0.5);
-		matrixStack.mulPose(Vector3f.YN.rotationDegrees(facing.toYRot()));
-		GlStateManager.pushMatrix();
-		GlStateManager.scalef(6 / 10f, 6 / 10f, 6 / 10f);
-		if (showLeftTank) {
-			IRenderedTankUpgrade.TankRenderInfo tankRenderInfo = renderInfo.getTankRenderInfos().get(TankPosition.LEFT);
-			if (tankRenderInfo != null) {
-				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), -12.2F, 2.5F, 0, -2F));
-			}
-		}
-		if (showRightTank) {
-			IRenderedTankUpgrade.TankRenderInfo tankRenderInfo = renderInfo.getTankRenderInfos().get(TankPosition.RIGHT);
-			if (tankRenderInfo != null) {
-				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), 8.7F, 2.5F, 0, -2F));
-			}
-		}
-		GlStateManager.popMatrix();
+		GlStateManager.translated(x + 0.5D, y, z + 0.5D);
+		GlStateManager.rotatef(-facing.getHorizontalAngle(), 0F, 1F, 0F);
+
 		if (showBattery) {
 			renderInfo.getBatteryRenderInfo().ifPresent(batteryRenderInfo -> {
-				if (batteryRenderInfo.getChargeRatio() > 0.1f) {
+				if (batteryRenderInfo.getChargeRatio() > 0.1F) {
 					GlStateManager.pushMatrix();
-					matrixStack.mulPose(Vector3f.XN.rotationDegrees(180));
-					RenderHelper.renderBatteryCharge(buffer, combinedLight, batteryRenderInfo.getChargeRatio());
+					GlStateManager.rotatef(180F, 1F, 0F, 0F);
+					RenderHelper.renderBatteryCharge(batteryRenderInfo.getChargeRatio());
 					GlStateManager.popMatrix();
 				}
 			});
 		}
-		renderItemDisplay(buffer, combinedLight, combinedOverlay, renderInfo);
+
+		renderItemDisplay(renderInfo);
 		GlStateManager.popMatrix();
 	}
 
-	private void renderItemDisplay(IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay, BackpackRenderInfo renderInfo) {
+	private void renderItemDisplay(BackpackRenderInfo renderInfo) {
 		BackpackRenderInfo.ItemDisplayRenderInfo itemDisplayRenderInfo = renderInfo.getItemDisplayRenderInfo();
+		ItemStack displayItem = itemDisplayRenderInfo.getItem();
+		if (displayItem.isEmpty()) {
+			return;
+		}
+
 		GlStateManager.pushMatrix();
-		GlStateManager.translated(0, 0.6, 0.25);
-		GlStateManager.scalef(0.5f, 0.5f, 0.5f);
-		matrixStack.mulPose(Vector3f.XN.rotationDegrees(180));
-		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f + itemDisplayRenderInfo.getRotation()));
-		Minecraft.getInstance().getItemRenderer().renderStatic(itemDisplayRenderInfo.getItem(), ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, buffer);
+		GlStateManager.translated(0D, 0.6D, 0.25D);
+		GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+		GlStateManager.rotatef(180F, 1F, 0F, 0F);
+		GlStateManager.rotatef(180F + itemDisplayRenderInfo.getRotation(), 0F, 0F, 1F);
+		Minecraft.getInstance().getItemRenderer().renderItem(displayItem, ItemCameraTransforms.TransformType.FIXED);
 		GlStateManager.popMatrix();
 	}
 }

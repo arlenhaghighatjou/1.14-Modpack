@@ -62,7 +62,7 @@ public class ItemRenderer implements IResourceManagerReloadListener {
         return this.itemModelMesher;
     }
 
-    private void renderModel(IBakedModel model, ItemStack stack) {
+    public void renderModel(IBakedModel model, ItemStack stack) {
         this.renderModel(model, -1, stack);
     }
 
