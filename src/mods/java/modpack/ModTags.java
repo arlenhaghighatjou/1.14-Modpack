@@ -30,6 +30,8 @@ public class ModTags {
 		forge(tags, "crops/onion", ModItems.ONION);
 		forge(tags, "crops/tomato", ModItems.TOMATO);
 		forge(tags, "crops/rice", ModItems.RICE);
+		forge(tags, "crops/cabbage", ModItems.CABBAGE);
+		forge(tags, "vegetables", Items.CARROT, Items.POTATO, Items.BEETROOT, ModItems.CABBAGE, ModItems.ONION, ModItems.TOMATO);
 		forge(tags, "pasta", ModItems.RAW_PASTA);
 		forge(tags, "salad_ingredients", ModItems.CABBAGE_LEAF, ModItems.TOMATO, ModItems.ONION, Items.CARROT, Items.BEETROOT);
 
