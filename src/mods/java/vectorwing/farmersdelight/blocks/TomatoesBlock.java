@@ -75,16 +75,15 @@ public class TomatoesBlock extends BushBlock implements IGrowable
 		return new ItemStack(ModItems.TOMATO_SEEDS);
 	}
 
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
 		if (!worldIn.isAreaLoaded(pos.add(-1, -1, -1), pos.add(1, 1, 1))) return;
 		if (worldIn.getLightSubtracted(pos, 0) >= 9) {
 			int i = this.getAge(state);
 			if (i < this.getMaxAge()) {
 				float f = getGrowthChance(this, worldIn, pos);
-				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0)) {
+				if (rand.nextInt((int)(25.0F / f) + 1) == 0) {
 					worldIn.setBlockState(pos, this.withAge(i + 1), 2);
-					net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 				}
 			}
 		}
@@ -101,7 +100,7 @@ public class TomatoesBlock extends BushBlock implements IGrowable
 	}
 
 	@Override
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state) {
+	public void grow(World worldIn, Random rand, BlockPos pos, BlockState state) {
 		int i = this.getAge(state) + this.getBonemealAgeIncrease(worldIn);
 		int j = this.getMaxAge();
 		if (i > j) {

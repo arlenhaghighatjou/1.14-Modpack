@@ -39,7 +39,7 @@ public class OrganicCompostBlock extends Block {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, World worldIn, BlockPos pos, Random random) {
 		if (worldIn.isRemote) return;
 
 		float chance = 0F;

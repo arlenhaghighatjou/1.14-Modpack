@@ -66,19 +66,18 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 		return MathHelper.nextInt(worldIn.rand, 2, 5);
 	}
 
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
 		if (!worldIn.isAreaLoaded(pos.add(-1, -1, -1), pos.add(1, 1, 1))) return;
 		if (state.get(HALF) == DoubleBlockHalf.UPPER && worldIn.getLightSubtracted(pos, 0) >= 9) {
 			int i = this.getAge(state);
 			if (i < this.getMaxAge()) {
 				float f = 10;
-				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0)) {
+				if (rand.nextInt((int)(25.0F / f) + 1) == 0) {
 					worldIn.setBlockState(pos, state.with(AGE, i + 1), 2);
 					if (worldIn.getBlockState(pos.down()).getBlock() == this && worldIn.getBlockState(pos.down()).get(AGE) < this.getMaxAge()) {
 						worldIn.setBlockState(pos.down(), worldIn.getBlockState(pos.down()).with(AGE,i + 1), 2);
 					}
-					net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 				}
 			}
 		}
@@ -98,7 +97,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 	}
 
 	@Override
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state)
+	public void grow(World worldIn, Random rand, BlockPos pos, BlockState state)
 	{
 		this.grow(worldIn, pos, state);
 	}
@@ -191,7 +190,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 
 	@Override
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return state.isSolidSide(worldIn, pos, Direction.UP) && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == ModBlocks.RICH_SOIL);
+		return Block.hasSolidSide(state, worldIn, pos, Direction.UP) && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == ModBlocks.RICH_SOIL);
 	}
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {

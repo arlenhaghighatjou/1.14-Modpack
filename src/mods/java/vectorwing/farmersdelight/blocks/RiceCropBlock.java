@@ -42,23 +42,21 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 		this.setDefaultState(this.getDefaultState().with(AGE, 0).with(SUPPORTING, false));
 	}
 
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
 		if (!worldIn.isAreaLoaded(pos.add(-1, -1, -1), pos.add(1, 1, 1))) return;
 		if (worldIn.getLightSubtracted(pos.up(), 0) >= 6) {
 			int age = this.getAge(state);
 			if (age <= this.getMaxAge()) {
 				float chance = 10;
-				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / chance) + 1) == 0)) {
+				if (rand.nextInt((int)(25.0F / chance) + 1) == 0) {
 					if (age == this.getMaxAge()) {
 						RiceUpperCropBlock riceUpper = (RiceUpperCropBlock)ModBlocks.RICE_UPPER_CROP;
 						if (riceUpper.getDefaultState().isValidPosition(worldIn, pos.up()) && worldIn.isAirBlock(pos.up())) {
 							worldIn.setBlockState(pos.up(), riceUpper.getDefaultState());
-							net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 						}
 					} else {
 						worldIn.setBlockState(pos, this.withAge(age + 1), 2);
-						net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 					}
 				}
 			}
@@ -146,7 +144,7 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 	}
 
 	@Override
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state){
+	public void grow(World worldIn, Random rand, BlockPos pos, BlockState state){
 		int ageGrowth = Math.min(this.getAge(state) + this.getBonemealAgeIncrease(worldIn), 7);
 		if (ageGrowth <= this.getMaxAge()) {
 			worldIn.setBlockState(pos, state.with(AGE, ageGrowth));

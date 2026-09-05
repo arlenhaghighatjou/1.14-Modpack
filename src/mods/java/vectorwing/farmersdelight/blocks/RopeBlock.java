@@ -82,7 +82,7 @@ public class RopeBlock extends PaneBlock
 		}
 
 		return facing.getAxis().isHorizontal()
-				? stateIn.with(TIED_TO_BELL, tiedToBell).with(FACING_TO_PROPERTY_MAP.get(facing), this.canAttachTo(facingState, facingState.isSolidSide(worldIn, facingPos, facing.getOpposite())))
+				? stateIn.with(TIED_TO_BELL, tiedToBell).with(FACING_TO_PROPERTY_MAP.get(facing), this.canAttachTo(facingState, Block.hasSolidSide(facingState, worldIn, facingPos, facing.getOpposite())))
 				: super.updatePostPlacement(stateIn.with(TIED_TO_BELL, tiedToBell), facing, facingState, worldIn, currentPos, facingPos);
 	}
 

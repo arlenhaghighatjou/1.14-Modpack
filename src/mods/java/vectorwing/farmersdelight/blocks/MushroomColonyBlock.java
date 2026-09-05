@@ -64,12 +64,11 @@ public class MushroomColonyBlock extends BushBlock implements IGrowable
 		return false;
 	}
 
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
 		int i = state.get(COLONY_AGE);
-		if (i < 3 && worldIn.getLightSubtracted(pos.up(), 0) <= 13 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(5) == 0)) {
+		if (i < 3 && worldIn.getLightSubtracted(pos.up(), 0) <= 13 && rand.nextInt(5) == 0) {
 			worldIn.setBlockState(pos, state.with(COLONY_AGE, i + 1), 2);
-			net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 		}
 	}
 	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
@@ -81,7 +80,7 @@ public class MushroomColonyBlock extends BushBlock implements IGrowable
 	}
 
 	@Override
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state)
+	public void grow(World worldIn, Random rand, BlockPos pos, BlockState state)
 	{
 		int i = Math.min(3, state.get(COLONY_AGE) + 1);
 		worldIn.setBlockState(pos, state.with(COLONY_AGE, i), 2);
