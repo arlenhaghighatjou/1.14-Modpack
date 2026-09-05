@@ -28,10 +28,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.items.KnifeItem;
 import vectorwing.farmersdelight.registry.ModSounds;
@@ -183,27 +179,23 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 		return ModTileEntityTypes.CUTTING_BOARD_TILE.create();
 	}
 
-	@Mod.EventBusSubscriber(modid = FarmersDelight.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-	public static class ToolCarvingEvent {
-		@SubscribeEvent
-		public static void onSneakPlaceTool(PlayerInteractEvent.RightClickBlock event) {
-			World world = event.getWorld();
-			BlockPos pos = event.getPos();
-			PlayerEntity player = event.getPlayer();
-			ItemStack heldItem = player.getHeldItemMainhand();
-			if (player.isSneaking() && !heldItem.isEmpty() && world.getTileEntity(event.getPos()) instanceof CuttingBoardTileEntity) {
-				if (heldItem.getItem() instanceof TieredItem ||
-					heldItem.getItem() instanceof TridentItem ||
-					heldItem.getItem() instanceof ShearsItem) {
-					boolean success = ((CuttingBoardTileEntity) world.getTileEntity(event.getPos())).carveToolOnBoard(player.abilities.isCreativeMode ? heldItem.copy() : heldItem);
-					if (success) {
-						world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1.0F, 0.8F);
-						event.setCanceled(true);
-						event.setCancellationResult(ActionResultType.SUCCESS);
-					}
+	@Override
+	public boolean onSneakBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ItemStack heldItem = player.getHeldItemMainhand();
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+
+		if (!heldItem.isEmpty() && tileentity instanceof CuttingBoardTileEntity) {
+			if (heldItem.getItem() instanceof TieredItem ||
+				heldItem.getItem() instanceof TridentItem ||
+				heldItem.getItem() instanceof ShearsItem) {
+				if (((CuttingBoardTileEntity) tileentity).carveToolOnBoard(player.abilities.isCreativeMode ? heldItem.copy() : heldItem)) {
+					worldIn.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1.0F, 0.8F);
+					return true;
 				}
 			}
 		}
+
+		return false;
 	}
 
 	@Override

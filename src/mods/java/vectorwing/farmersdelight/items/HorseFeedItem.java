@@ -20,9 +20,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.registry.ModItems;
 import vectorwing.farmersdelight.registry.ModParticleTypes;
@@ -44,40 +41,34 @@ public class HorseFeedItem extends MealItem
 		super(builder);
 	}
 
-	@Mod.EventBusSubscriber(modid = FarmersDelight.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-	public static class HorseFeedEvent {
-		@SubscribeEvent
-		public static void onHorseFeedApplied(PlayerInteractEvent.EntityInteract event) {
-			PlayerEntity player = event.getPlayer();
-			Entity target = event.getTarget();
-			ItemStack itemStack = event.getItemStack();
-
-			if (target instanceof AbstractHorseEntity) {
-				AbstractHorseEntity horse = (AbstractHorseEntity)target;
-				if (horse.isAlive() && horse.isTame() && itemStack.getItem().equals(ModItems.HORSE_FEED)) {
-					horse.setHealth(horse.getMaxHealth());
-					for(EffectInstance effect : EFFECTS) {
-						horse.addPotionEffect(new EffectInstance(effect));
-					}
-					horse.world.playSound(null, target.getPosition(), SoundEvents.ENTITY_HORSE_EAT, SoundCategory.PLAYERS, 0.8F, 0.8F);
-
-					for(int i = 0; i < 5; ++i) {
-						double d0 = MathUtils.RAND.nextGaussian() * 0.02D;
-						double d1 = MathUtils.RAND.nextGaussian() * 0.02D;
-						double d2 = MathUtils.RAND.nextGaussian() * 0.02D;
-						horse.world.addParticle(ModParticleTypes.STAR_PARTICLE, horse.getPosXRandom(1.0D), horse.getPosYRandom() + 0.5D, horse.getPosZRandom(1.0D), d0, d1, d2);
-					}
-
-					if (itemStack.getItem().hasContainerItem() && !player.isCreative()) {
-						player.addItemStackToInventory(new ItemStack(itemStack.getItem().getContainerItem()));
-						itemStack.shrink(1);
-					}
-
-					event.setCancellationResult(ActionResultType.SUCCESS);
-					event.setCanceled(true);
+	@Override
+	public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
+		if (target instanceof AbstractHorseEntity) {
+			AbstractHorseEntity horse = (AbstractHorseEntity)target;
+			if (horse.isAlive() && horse.isTame()) {
+				horse.setHealth(horse.getMaxHealth());
+				for(EffectInstance effect : EFFECTS) {
+					horse.addPotionEffect(new EffectInstance(effect));
 				}
+				horse.world.playSound(null, target.getPosition(), SoundEvents.ENTITY_HORSE_EAT, SoundCategory.PLAYERS, 0.8F, 0.8F);
+
+				for(int i = 0; i < 5; ++i) {
+					double d0 = MathUtils.RAND.nextGaussian() * 0.02D;
+					double d1 = MathUtils.RAND.nextGaussian() * 0.02D;
+					double d2 = MathUtils.RAND.nextGaussian() * 0.02D;
+					horse.world.addParticle(ModParticleTypes.STAR_PARTICLE, horse.posX + (MathUtils.RAND.nextDouble() - 0.5D) * horse.getWidth(), horse.posY + 0.5D + MathUtils.RAND.nextDouble() * horse.getHeight(), horse.posZ + (MathUtils.RAND.nextDouble() - 0.5D) * horse.getWidth(), d0, d1, d2);
+				}
+
+				if (itemStack.getItem().hasContainerItem() && !player.isCreative()) {
+					player.addItemStackToInventory(new ItemStack(itemStack.getItem().getContainerItem()));
+					itemStack.shrink(1);
+				}
+
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
@@ -110,13 +101,5 @@ public class HorseFeedItem extends MealItem
 
 			tooltip.add(effectDescription.applyTextStyle(effect.getEffectType().getColor()));
 		}
-	}
-
-	public boolean itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof HorseEntity) {
-			HorseEntity horse = (HorseEntity)target;
-			return horse.isAlive() && horse.isTame();
-		}
-		return false;
 	}
 }

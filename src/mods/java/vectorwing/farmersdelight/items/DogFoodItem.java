@@ -18,9 +18,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.registry.ModItems;
 import vectorwing.farmersdelight.registry.ModParticleTypes;
@@ -43,40 +40,34 @@ public class DogFoodItem extends MealItem
 		super(builder);
 	}
 
-	@Mod.EventBusSubscriber(modid = FarmersDelight.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-	public static class DogFoodEvent {
-		@SubscribeEvent
-		public static void onDogFoodApplied(PlayerInteractEvent.EntityInteract event) {
-			PlayerEntity player = event.getPlayer();
-			Entity target = event.getTarget();
-			ItemStack itemStack = event.getItemStack();
-
-			if (target instanceof WolfEntity) {
-				WolfEntity wolf = (WolfEntity)target;
-				if (wolf.isAlive() && wolf.isTamed() && itemStack.getItem().equals(ModItems.DOG_FOOD)) {
-					wolf.setHealth(wolf.getMaxHealth());
-					for(EffectInstance effect : EFFECTS) {
-						wolf.addPotionEffect(new EffectInstance(effect));
-					}
-					wolf.world.playSound(null, target.getPosition(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.8F, 0.8F);
-
-					for(int i = 0; i < 5; ++i) {
-						double d0 = MathUtils.RAND.nextGaussian() * 0.02D;
-						double d1 = MathUtils.RAND.nextGaussian() * 0.02D;
-						double d2 = MathUtils.RAND.nextGaussian() * 0.02D;
-						wolf.world.addParticle(ModParticleTypes.STAR_PARTICLE, wolf.getPosXRandom(1.0D), wolf.getPosYRandom() + 0.5D, wolf.getPosZRandom(1.0D), d0, d1, d2);
-					}
-
-					if (itemStack.getItem().hasContainerItem() && !player.isCreative()) {
-						player.addItemStackToInventory(new ItemStack(itemStack.getItem().getContainerItem()));
-						itemStack.shrink(1);
-					}
-
-					event.setCancellationResult(ActionResultType.SUCCESS);
-					event.setCanceled(true);
+	@Override
+	public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
+		if (target instanceof WolfEntity) {
+			WolfEntity wolf = (WolfEntity)target;
+			if (wolf.isAlive() && wolf.isTamed()) {
+				wolf.setHealth(wolf.getMaxHealth());
+				for(EffectInstance effect : EFFECTS) {
+					wolf.addPotionEffect(new EffectInstance(effect));
 				}
+				wolf.world.playSound(null, target.getPosition(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.8F, 0.8F);
+
+				for(int i = 0; i < 5; ++i) {
+					double d0 = MathUtils.RAND.nextGaussian() * 0.02D;
+					double d1 = MathUtils.RAND.nextGaussian() * 0.02D;
+					double d2 = MathUtils.RAND.nextGaussian() * 0.02D;
+					wolf.world.addParticle(ModParticleTypes.STAR_PARTICLE, wolf.posX + (MathUtils.RAND.nextDouble() - 0.5D) * wolf.getWidth(), wolf.posY + 0.5D + MathUtils.RAND.nextDouble() * wolf.getHeight(), wolf.posZ + (MathUtils.RAND.nextDouble() - 0.5D) * wolf.getWidth(), d0, d1, d2);
+				}
+
+				if (itemStack.getItem().hasContainerItem() && !player.isCreative()) {
+					player.addItemStackToInventory(new ItemStack(itemStack.getItem().getContainerItem()));
+					itemStack.shrink(1);
+				}
+
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -112,11 +103,4 @@ public class DogFoodItem extends MealItem
 		}
 	}
 
-	public boolean itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
-		if (target instanceof WolfEntity) {
-			WolfEntity wolf = (WolfEntity)target;
-			return wolf.isAlive() && wolf.isTamed();
-		}
-		return false;
-	}
 }

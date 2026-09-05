@@ -264,7 +264,10 @@ public class PlayerController {
          } else {
             boolean flag = !p_217292_1_.getHeldItemMainhand().isEmpty() || !p_217292_1_.getHeldItemOffhand().isEmpty();
             boolean flag1 = p_217292_1_.isSneaking() && flag;
-            if (!flag1 && p_217292_2_.getBlockState(blockpos).onBlockActivated(p_217292_2_, p_217292_1_, p_217292_3_, p_217292_4_)) {
+            if (flag1 && p_217292_2_.getBlockState(blockpos).onSneakBlockActivated(p_217292_2_, p_217292_1_, p_217292_3_, p_217292_4_)) {
+               this.connection.sendPacket(new CPlayerTryUseItemOnBlockPacket(p_217292_3_, p_217292_4_));
+               return ActionResultType.SUCCESS;
+            } else if (!flag1 && p_217292_2_.getBlockState(blockpos).onBlockActivated(p_217292_2_, p_217292_1_, p_217292_3_, p_217292_4_)) {
                this.connection.sendPacket(new CPlayerTryUseItemOnBlockPacket(p_217292_3_, p_217292_4_));
                return ActionResultType.SUCCESS;
             } else {

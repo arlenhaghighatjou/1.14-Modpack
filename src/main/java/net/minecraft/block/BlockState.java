@@ -269,6 +269,10 @@ public class BlockState extends StateHolder<Block, BlockState> implements IState
       return this.getBlock().onBlockActivated(this, worldIn, hit.getPos(), player, handIn, hit);
    }
 
+   public boolean onSneakBlockActivated(World worldIn, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+      return this.getBlock().onSneakBlockActivated(this, worldIn, hit.getPos(), player, handIn, hit);
+   }
+
    public void onBlockClicked(World worldIn, BlockPos pos, PlayerEntity player) {
       this.getBlock().onBlockClicked(this, worldIn, pos, player);
    }

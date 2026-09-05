@@ -283,7 +283,9 @@ public class PlayerInteractionManager {
         } else {
             boolean flag = !p_219441_1_.getHeldItemMainhand().isEmpty() || !p_219441_1_.getHeldItemOffhand().isEmpty();
             boolean flag1 = p_219441_1_.isSneaking() && flag;
-            if (!flag1 && blockstate.onBlockActivated(p_219441_2_, p_219441_1_, p_219441_4_, p_219441_5_)) {
+            if (flag1 && blockstate.onSneakBlockActivated(p_219441_2_, p_219441_1_, p_219441_4_, p_219441_5_)) {
+                return ActionResultType.SUCCESS;
+            } else if (!flag1 && blockstate.onBlockActivated(p_219441_2_, p_219441_1_, p_219441_4_, p_219441_5_)) {
                 return ActionResultType.SUCCESS;
             } else if (!p_219441_3_.isEmpty() && !p_219441_1_.getCooldownTracker().hasCooldown(p_219441_3_.getItem())) {
                 ItemUseContext itemusecontext = new ItemUseContext(p_219441_1_, p_219441_4_, p_219441_5_);

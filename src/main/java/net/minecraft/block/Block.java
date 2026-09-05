@@ -538,6 +538,10 @@ public class Block implements IItemProvider {
     }
 
     @Deprecated
+    public boolean onSneakBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        return false;
+    }
+
     public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         return false;
     }
