@@ -1,22 +1,21 @@
 package net.blay09.mods.waystones.handler;
 
-import net.blay09.mods.waystones.Waystones;
 import net.blay09.mods.waystones.item.ModItems;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@Mod.EventBusSubscriber(modid = Waystones.MOD_ID, value = Dist.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class WarpStoneFOVHandler {
 
-    @SubscribeEvent
-    public static void onFOV(FOVUpdateEvent event) {
-        ItemStack activeItemStack = event.getEntity().getActiveItemStack();
+    public static float getFovModifier(PlayerEntity player, float fov) {
+        ItemStack activeItemStack = player.getActiveItemStack();
         if (!activeItemStack.isEmpty() && activeItemStack.getItem() == ModItems.returnScroll) {
-            event.setNewfov(event.getEntity().getItemInUseCount() / 64f * 2f + 0.5f);
+            return player.getItemInUseCount() / 64f * 2f + 0.5f;
         }
+
+        return fov;
     }
 
 }

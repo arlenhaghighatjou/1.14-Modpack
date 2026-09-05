@@ -15,7 +15,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.*;
@@ -74,7 +73,7 @@ public class WaystoneManager extends WorldSavedData {
 
     @Override
     public void read(CompoundNBT tagCompound) {
-        ListNBT tagList = tagCompound.getList(TAG_WAYSTONES, Constants.NBT.TAG_COMPOUND);
+        ListNBT tagList = tagCompound.getList(TAG_WAYSTONES, 10);
         for (INBT tag : tagList) {
             CompoundNBT compound = (CompoundNBT) tag;
             UUID waystoneUid = NBTUtil.readUniqueId(compound.getCompound("WaystoneUid"));

@@ -1267,6 +1267,7 @@ public abstract class LivingEntity extends Entity {
     protected void damageEntity(DamageSource damageSrc, float damageAmount) {
         if (!this.isInvulnerableTo(damageSrc)) {
             damageAmount = vectorwing.farmersdelight.enchantments.BackstabbingEnchantment.onLivingHurt(this, damageSrc, damageAmount);
+            net.blay09.mods.waystones.handler.WarpDamageResetHandler.onDamage(this);
             damageAmount = this.applyArmorCalculations(damageSrc, damageAmount);
             damageAmount = this.applyPotionDamageCalculations(damageSrc, damageAmount);
             float f = damageAmount;

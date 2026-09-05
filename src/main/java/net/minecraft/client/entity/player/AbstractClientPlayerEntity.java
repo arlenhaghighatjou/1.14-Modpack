@@ -160,6 +160,6 @@ public abstract class AbstractClientPlayerEntity extends PlayerEntity {
          f *= 1.0F - f1 * 0.15F;
       }
 
-      return f;
+      return net.blay09.mods.waystones.handler.WarpStoneFOVHandler.getFovModifier(this, f);
    }
 }

@@ -124,7 +124,7 @@ public class WaystoneSelectionScreen extends ContainerScreen<WaystoneSelectionCo
 
                 RemoveWaystoneButton removeButton = new RemoveWaystoneButton(width / 2 + 122, y + 4, y, 20, button -> {
                     PlayerWaystoneManager.deactivateWaystone(Minecraft.getInstance().player, waystone);
-                    NetworkHandler.channel.sendToServer(new RemoveWaystoneMessage(waystone));
+                    NetworkHandler.sendToServer(new RemoveWaystoneMessage(waystone));
                     updateList();
                 });
                 // Only show the remove button for non-global waystones
@@ -143,7 +143,7 @@ public class WaystoneSelectionScreen extends ContainerScreen<WaystoneSelectionCo
     private WaystoneButton createWaystoneButton(int y, IWaystone waystone) {
         IWaystone waystoneFrom = container.getWaystoneFrom();
         WaystoneButton btnWaystone = new WaystoneButton(width / 2 - 100, y, waystone, container.getWarpMode(), button -> {
-            NetworkHandler.channel.sendToServer(new SelectWaystoneMessage(waystone));
+            NetworkHandler.sendToServer(new SelectWaystoneMessage(waystone));
         });
         if (waystoneFrom != null && waystone.getWaystoneUid().equals(waystoneFrom.getWaystoneUid())) {
             btnWaystone.active = false;
@@ -167,14 +167,14 @@ public class WaystoneSelectionScreen extends ContainerScreen<WaystoneSelectionCo
         }
 
         PlayerWaystoneManager.swapWaystoneSorting(Minecraft.getInstance().player, index, otherIndex);
-        NetworkHandler.channel.sendToServer(new SortWaystoneMessage(index, otherIndex));
+        NetworkHandler.sendToServer(new SortWaystoneMessage(index, otherIndex));
         updateList();
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         if (isLocationHeaderHovered && container.getWaystoneFrom() != null) {
-            NetworkHandler.channel.sendToServer(new RequestEditWaystoneMessage(container.getWaystoneFrom()));
+            NetworkHandler.sendToServer(new RequestEditWaystoneMessage(container.getWaystoneFrom()));
             return true;
         }
 

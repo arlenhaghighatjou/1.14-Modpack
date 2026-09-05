@@ -12,14 +12,14 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fml.client.config.GuiCheckBox;
+import net.blay09.mods.waystones.client.gui.widget.CheckboxButton;
 import org.lwjgl.glfw.GLFW;
 
 public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsContainer> {
 
     private TextFieldWidget textField;
     private Button btnDone;
-    private GuiCheckBox chkGlobal;
+    private CheckboxButton chkGlobal;
 
     public WaystoneSettingsScreen(WaystoneSettingsContainer container, PlayerInventory playerInventory, ITextComponent title) {
         super(container, playerInventory, title);
@@ -53,11 +53,11 @@ public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsCont
                 return;
             }
 
-            NetworkHandler.channel.sendToServer(new EditWaystoneMessage(waystone, textField.getText(), chkGlobal.isChecked()));
+            NetworkHandler.sendToServer(new EditWaystoneMessage(waystone, textField.getText(), chkGlobal.isChecked()));
         });
         addButton(btnDone);
 
-        chkGlobal = new GuiCheckBox(width / 2 - 100, height / 2 + 15, " " + I18n.format("gui.waystones.waystone_settings.is_global"), waystone.isGlobal());
+        chkGlobal = new CheckboxButton(width / 2 - 100, height / 2 + 15, " " + I18n.format("gui.waystones.waystone_settings.is_global"), waystone.isGlobal());
         if (!PlayerWaystoneManager.mayEditGlobalWaystones(Minecraft.getInstance().player)) {
             chkGlobal.visible = false;
         }

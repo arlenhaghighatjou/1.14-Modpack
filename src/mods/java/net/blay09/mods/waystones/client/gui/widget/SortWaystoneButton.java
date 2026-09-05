@@ -3,9 +3,9 @@ package net.blay09.mods.waystones.client.gui.widget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class SortWaystoneButton extends GuiButtonExt {
+public class SortWaystoneButton extends Button {
 
     private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");
     private final int sortDir;

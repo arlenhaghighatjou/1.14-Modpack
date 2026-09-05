@@ -48,6 +48,10 @@ public class NetworkHandler {
         ((ServerPlayerEntity) player).connection.sendPacket(new SCustomPayloadPlayPacket(CHANNEL, buf));
     }
 
+    public static void sendToAllTracking(Object message, net.minecraft.world.server.ServerWorld world, net.minecraft.util.math.BlockPos pos) {
+        world.getChunkProvider().chunkManager.getTrackingPlayers(new net.minecraft.util.math.ChunkPos(pos), false).forEach(player -> sendTo(message, player));
+    }
+
     public static void openContainer(ServerPlayerEntity player, net.minecraft.inventory.container.INamedContainerProvider provider, WarpMode warpMode, net.minecraft.util.math.BlockPos pos) {
         sendTo(new OpenWaystoneContainerMessage(warpMode, pos), player);
         player.openContainer(provider);

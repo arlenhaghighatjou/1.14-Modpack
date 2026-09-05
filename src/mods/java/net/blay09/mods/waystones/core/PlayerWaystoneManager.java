@@ -22,8 +22,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
@@ -206,8 +204,8 @@ public class PlayerWaystoneManager {
         }
 
         player.teleport(targetWorld, targetPos.getX() + 0.5, targetPos.getY() + 0.5, targetPos.getZ() + 0.5, targetDir.getHorizontalAngle(), player.rotationPitch);
-        NetworkHandler.channel.send(PacketDistributor.TRACKING_CHUNK.with(() -> player.world.getChunkAt(sourcePos)), new TeleportEffectMessage(sourcePos));
-        NetworkHandler.channel.send(PacketDistributor.TRACKING_CHUNK.with(() -> player.world.getChunkAt(targetPos)), new TeleportEffectMessage(targetPos));
+        NetworkHandler.sendToAllTracking(new TeleportEffectMessage(sourcePos), (ServerWorld) player.world, sourcePos);
+        NetworkHandler.sendToAllTracking(new TeleportEffectMessage(targetPos), targetWorld, targetPos);
     }
 
     public static void deactivateWaystone(PlayerEntity player, IWaystone waystone) {
@@ -276,8 +274,8 @@ public class PlayerWaystoneManager {
         return world.isRemote ? inMemoryPlayerWaystoneData : persistentPlayerWaystoneData;
     }
 
-    public static IPlayerWaystoneData getPlayerWaystoneData(LogicalSide side) {
-        return side.isClient() ? inMemoryPlayerWaystoneData : persistentPlayerWaystoneData;
+    public static IPlayerWaystoneData getClientPlayerWaystoneData() {
+        return inMemoryPlayerWaystoneData;
     }
 
     public static boolean mayTeleportToWaystone(PlayerEntity player, IWaystone waystone) {

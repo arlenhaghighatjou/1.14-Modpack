@@ -58,7 +58,7 @@ public class InventoryButtonGuiHandler {
                         mc.displayGuiScreen(new InventoryButtonReturnConfirmScreen());
                     }
                 } else if (inventoryButtonMode.isReturnToAny()) {
-                    NetworkHandler.channel.sendToServer(new InventoryButtonMessage());
+                    NetworkHandler.sendToServer(new InventoryButtonMessage());
                 }
             } else {
                 mc.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 0.5f));

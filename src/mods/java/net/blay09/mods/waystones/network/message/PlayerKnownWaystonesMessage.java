@@ -8,7 +8,6 @@ import net.blay09.mods.waystones.core.WaystoneManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.fml.LogicalSide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,7 @@ public class PlayerKnownWaystonesMessage {
     }
 
     public static void handle(PlayerKnownWaystonesMessage message) {
-        InMemoryPlayerWaystoneData playerWaystoneData = (InMemoryPlayerWaystoneData) PlayerWaystoneManager.getPlayerWaystoneData(LogicalSide.CLIENT);
+        InMemoryPlayerWaystoneData playerWaystoneData = (InMemoryPlayerWaystoneData) PlayerWaystoneManager.getClientPlayerWaystoneData();
         playerWaystoneData.setWaystones(message.waystones);
         for (IWaystone waystone : message.waystones) {
             WaystoneManager.get().updateWaystone(waystone);

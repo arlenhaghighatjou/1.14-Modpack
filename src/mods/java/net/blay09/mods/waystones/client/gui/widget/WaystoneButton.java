@@ -11,7 +11,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraft.client.gui.screen.Screen;
 
 public class WaystoneButton extends Button {
 
@@ -46,7 +46,10 @@ public class WaystoneButton extends Button {
             }
 
             if (isHovered && mouseX <= x + 16) {
-                GuiUtils.drawHoveringText(Lists.newArrayList((canAfford ? TextFormatting.GREEN : TextFormatting.RED) + I18n.format("gui.waystones.waystone_selection.level_requirement", xpLevelCost)), mouseX, mouseY + mc.fontRenderer.FONT_HEIGHT, mc.mainWindow.getWidth(), mc.mainWindow.getHeight(), 200, mc.fontRenderer);
+                Screen screen = mc.currentScreen;
+                if (screen != null) {
+                    screen.renderTooltip(Lists.newArrayList((canAfford ? TextFormatting.GREEN : TextFormatting.RED) + I18n.format("gui.waystones.waystone_selection.level_requirement", xpLevelCost)), mouseX, mouseY + mc.fontRenderer.FONT_HEIGHT);
+                }
             }
             GlStateManager.disableLighting();
         }
