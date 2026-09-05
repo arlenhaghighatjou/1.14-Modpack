@@ -1,6 +1,6 @@
 package squeek.appleskin.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import net.lax1dude.eaglercraft.opengl.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
+import net.lax1dude.eaglercraft.opengl.RealOpenGLEnums;
 import squeek.appleskin.ModConfig;
 import squeek.appleskin.ModInfo;
 import squeek.appleskin.helpers.FoodHelper;
@@ -196,8 +196,8 @@ public class HUDOverlayHandler
 		if (alpha == 1f)
 			return;
 
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+		GlStateManager.blendFunc(RealOpenGLEnums.GL_SRC_ALPHA, RealOpenGLEnums.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	public static void disableAlpha(float alpha)
@@ -207,7 +207,7 @@ public class HUDOverlayHandler
 		if (alpha == 1f)
 			return;
 
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@SubscribeEvent
