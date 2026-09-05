@@ -32,7 +32,7 @@ public class FilterLogicContainer<T extends FilterLogic> extends FilterLogicCont
 		}
 
 		@Override
-		public boolean isActive() {
+		public boolean isEnabled() {
 			return enabled;
 		}
 	}

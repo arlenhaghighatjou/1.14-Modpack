@@ -39,7 +39,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 		for (slot = 0; slot < upgradeWrapper.getInventory().getSlots(); slot++) {
 			slots.add(new SlotSuppliedHandler(upgradeWrapper::getInventory, slot, -100, -100) {
 				@Override
-				public void setChanged() {
+				public void markDirty() {
 					super.markDirty();
 					updateCraftingResult(player.world, player, craftMatrix, craftResult, craftingResultSlot);
 				}

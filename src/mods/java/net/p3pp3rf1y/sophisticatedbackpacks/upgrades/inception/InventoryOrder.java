@@ -14,7 +14,7 @@ public enum InventoryOrder implements IStringSerializable {
 	InventoryOrder(String name) {this.name = name;}
 
 	@Override
-	public String getSerializedName() {
+	public String getName() {
 		return name;
 	}
 

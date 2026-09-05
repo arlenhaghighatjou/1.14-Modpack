@@ -15,7 +15,7 @@ public enum AutomationDirection implements IStringSerializable {
 	AutomationDirection(String name) {this.name = name;}
 
 	@Override
-	public String getSerializedName() {
+	public String getName() {
 		return name;
 	}
 

@@ -390,7 +390,7 @@ public class ClientProxy extends CommonProxy {
 		public static final BackpackKeyConflictContext INSTANCE = new BackpackKeyConflictContext();
 
 		@Override
-		public boolean isActive() {
+		public boolean isEnabled() {
 			if (!GUI.isActive()) {
 				return true;
 			}
@@ -409,7 +409,7 @@ public class ClientProxy extends CommonProxy {
 		public static final BackpackGuiKeyConflictContext INSTANCE = new BackpackGuiKeyConflictContext();
 
 		@Override
-		public boolean isActive() {
+		public boolean isEnabled() {
 			return GUI.isActive() && Minecraft.getInstance().screen instanceof BackpackScreen;
 		}
 

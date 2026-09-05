@@ -29,7 +29,7 @@ public class BackpackInventorySlot extends Slot {
 	}
 
 	@Override
-	public void setChanged() {
+	public void onSlotChanged() {
 		super.markDirty();
 		// saving here as well because there are many cases where vanilla modifies stack directly without and inventory handler isn't aware of it
 		// however it does notify the slot of change
@@ -45,12 +45,12 @@ public class BackpackInventorySlot extends Slot {
 
 	@Nonnull
 	@Override
-	public ItemStack getItem() {
+	public ItemStack getStack() {
 		return inventoryHandler.getStackInSlot(slotIndex);
 	}
 
 	@Override
-	public boolean mayPlace(ItemStack stack) {
+	public boolean isItemValid(ItemStack stack) {
 		if (stack.isEmpty()) {
 			return false;
 		}
@@ -58,13 +58,13 @@ public class BackpackInventorySlot extends Slot {
 	}
 
 	@Override
-	public void set(ItemStack stack) {
+	public void putStack(ItemStack stack) {
 		inventoryHandler.setStackInSlot(slotIndex, stack);
 		setChanged();
 	}
 
 	@Override
-	public int getMaxStackSize() {
+	public int getSlotStackLimit() {
 		return inventoryHandler.getSlotLimit(slotIndex);
 	}
 
@@ -74,18 +74,18 @@ public class BackpackInventorySlot extends Slot {
 	}
 
 	@Override
-	public int getMaxStackSize(ItemStack stack) {
+	public int getItemStackLimit(ItemStack stack) {
 		return inventoryHandler.getStackLimit(slotIndex, stack);
 	}
 
 	@Override
-	public boolean mayPickup(PlayerEntity playerIn) {
+	public boolean canTakeStack(PlayerEntity playerIn) {
 		return !inventoryHandler.extractItem(slotIndex, 1, true).isEmpty();
 	}
 
 	@Override
 	@Nonnull
-	public ItemStack remove(int amount) {
+	public ItemStack decrStackSize(int amount) {
 		return inventoryHandler.extractItem(slotIndex, amount, false);
 	}
 }

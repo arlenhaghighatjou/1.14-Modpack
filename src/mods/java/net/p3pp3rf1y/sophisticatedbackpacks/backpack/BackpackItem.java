@@ -109,7 +109,7 @@ public class BackpackItem extends ItemBase {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         if (flagIn == ITooltipFlag.TooltipFlags.ADVANCED) {
             BackpackWrapperLookup.get(stack)

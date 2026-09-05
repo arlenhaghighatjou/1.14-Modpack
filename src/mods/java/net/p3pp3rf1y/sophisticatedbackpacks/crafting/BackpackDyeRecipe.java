@@ -54,7 +54,7 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory inv) {
+	public ItemStack getCraftingResult(CraftingInventory inv) {
 		Map<Integer, List<DyeColor>> columnDyes = new HashMap<>();
 		Tuple<Integer, ItemStack> columnBackpack = null;
 
@@ -158,7 +158,7 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 	}
 
 	@Override
-	public boolean canCraftInDimensions(int width, int height) {
+	public boolean canFit(int width, int height) {
 		return width >= 2 && height >= 1;
 	}
 

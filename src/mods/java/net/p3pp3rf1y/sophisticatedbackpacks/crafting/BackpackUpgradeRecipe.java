@@ -25,7 +25,7 @@ public class BackpackUpgradeRecipe extends ShapedRecipe implements IWrapperRecip
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory inv) {
+	public ItemStack getCraftingResult(CraftingInventory inv) {
 		ItemStack upgradedBackpack = super.assemble(inv);
 		getBackpack(inv).flatMap(backpack -> Optional.ofNullable(backpack.getTag())).ifPresent(tag -> upgradedBackpack.setTag(tag.copy()));
 		BackpackWrapperLookup.get(upgradedBackpack).ifPresent(wrapper -> {

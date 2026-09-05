@@ -17,7 +17,7 @@ public class JukeboxUpgradeContainer extends UpgradeContainerBase<JukeboxUpgrade
 		super(player, upgradeContainerId, upgradeWrapper, type);
 		slots.add(new SlotItemHandler(upgradeWrapper.getDiscInventory(), 0, -100, -100) {
 			@Override
-			public void setChanged() {
+			public void markDirty() {
 				super.markDirty();
 				if (upgradeWrapper.isPlaying()) {
 					upgradeWrapper.stop(player);

@@ -46,7 +46,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT nbt) {
+	public void read(BlockState state, CompoundNBT nbt) {
 		super.load(state, nbt);
 		setBackpackFromNbt(nbt);
 		WorldHelper.notifyBlockUpdate(this);
@@ -57,7 +57,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundNBT write(CompoundNBT compound) {
 		CompoundNBT ret = super.save(compound);
 		writeBackpack(ret);
 		return ret;

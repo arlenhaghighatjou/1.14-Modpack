@@ -33,7 +33,7 @@ public class UpgradeClearRecipe extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory inventory) {
+	public ItemStack getCraftingResult(CraftingInventory inventory) {
 		ItemStack upgrade = ItemStack.EMPTY;
 		for (ItemStack stack : inventory.items) {
 			if (!stack.isEmpty() && stack.getItem() instanceof UpgradeItemBase) {
@@ -46,7 +46,7 @@ public class UpgradeClearRecipe extends SpecialRecipe {
 	}
 
 	@Override
-	public boolean canCraftInDimensions(int width, int height) {
+	public boolean canFit(int width, int height) {
 		return width >= 1 && height >= 1;
 	}
 

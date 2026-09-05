@@ -24,7 +24,7 @@ public class ItemEnabledCondition implements ICondition {
 	}
 
 	@Override
-	public ResourceLocation getID() {
+	public ResourceLocation getId() {
 		return NAME;
 	}
 
@@ -47,7 +47,7 @@ public class ItemEnabledCondition implements ICondition {
 		}
 
 		@Override
-		public ResourceLocation getID() {
+		public ResourceLocation getId() {
 			return NAME;
 		}
 	}

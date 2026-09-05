@@ -293,12 +293,12 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		if (shouldLockBackpackSlot && slotIndex == backpackSlotIndex) {
 			slot = new Slot(playerInventory, slotIndex, xPosition, yPosition) {
 				@Override
-				public boolean mayPickup(PlayerEntity playerIn) {
+				public boolean canTakeStack(PlayerEntity playerIn) {
 					return false;
 				}
 
 				@Override
-				public void setChanged() {
+				public void markDirty() {
 					super.markDirty();
 					closeBackpackScreenIfSomethingMessedWithBackpackStack();
 				}
@@ -339,7 +339,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity player) {
+	public boolean canInteractWith(PlayerEntity player) {
 		return backpackContext.canInteractWith(player);
 	}
 
@@ -773,7 +773,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		}
 
 		@Override
-		public void setChanged() {
+		public void markDirty() {
 			super.markDirty();
 			if ((!isUpdatingFromPacket && wasEmpty != getItem().isEmpty()) || updateWrappersAndCheckForReloadNeeded()) {
 				reloadUpgradeControl();
@@ -786,7 +786,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		}
 
 		@Override
-		public boolean mayPlace(ItemStack stack) {
+		public boolean isItemValid(ItemStack stack) {
 			if (stack.isEmpty() || !(stack.getItem() instanceof IBackpackUpgradeItem)) {
 				return false;
 			}
@@ -804,7 +804,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		}
 
 		@Override
-		public boolean mayPickup(PlayerEntity player) {
+		public boolean canTakeStack(PlayerEntity player) {
 			boolean ret = super.canTakeStack(player);
 			if (!ret) {
 				return false;
@@ -910,7 +910,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	@Override
-	public void broadcastChanges() {
+	public void detectAndSendChanges() {
 		closeBackpackScreenIfSomethingMessedWithBackpackStack();
 		detectAndSendChangesIn(upgradeItemStacks, upgradeSlots);
 		detectAndSendChangesIn(realInventoryItemStacks, realInventorySlots);
@@ -1479,7 +1479,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	@Override
-	public void addSlotListener(IContainerListener listener) {
+	public void addListener(IContainerListener listener) {
 		if (listener instanceof ServerPlayerEntity && backpackWrapper.getInventoryHandler().getStackSizeMultiplier() > 1) {
 			super.addSlotListener(new HighStackCountListener((ServerPlayerEntity) listener));
 			return;

@@ -24,7 +24,7 @@ public class SmithingBackpackUpgradeRecipe extends SmithingRecipe implements IWr
 	}
 
 	@Override
-	public ItemStack assemble(IInventory inv) {
+	public ItemStack getCraftingResult(IInventory inv) {
 		ItemStack upgradedBackpack = getCraftingResult().copy();
 		if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
 			getBackpack(inv).flatMap(backpack -> Optional.ofNullable(backpack.getTag())).ifPresent(tag -> upgradedBackpack.setTag(tag.copy()));

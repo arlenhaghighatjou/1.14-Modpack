@@ -23,7 +23,7 @@ public class UpgradeNextTierRecipe extends ShapedRecipe implements IWrapperRecip
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory inv) {
+	public ItemStack getCraftingResult(CraftingInventory inv) {
 		ItemStack nextTier = super.assemble(inv);
 		getUpgrade(inv).ifPresent(upgrade -> nextTier.setTag(upgrade.getTag()));
 		return nextTier;

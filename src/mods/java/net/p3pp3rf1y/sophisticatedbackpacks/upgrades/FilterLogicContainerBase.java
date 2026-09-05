@@ -222,27 +222,27 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 		}
 
 		@Override
-		public boolean mayPlace(ItemStack stack) {
+		public boolean isItemValid(ItemStack stack) {
 			return stack.isEmpty() || !stack.getItem().getTags().isEmpty();
 		}
 
 		@Override
-		public boolean mayPickup(PlayerEntity pPlayer) {
+		public boolean canTakeStack(PlayerEntity pPlayer) {
 			return false;
 		}
 
 		@Override
-		public ItemStack getItem() {
+		public ItemStack getStack() {
 			return stack;
 		}
 
 		@Override
-		public int getMaxStackSize() {
+		public int getSlotStackLimit() {
 			return 1;
 		}
 
 		@Override
-		public ItemStack remove(int pAmount) {
+		public ItemStack decrStackSize(int pAmount) {
 			stack = ItemStack.EMPTY;
 			return stack;
 		}
@@ -253,7 +253,7 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 		}
 
 		@Override
-		public void set(ItemStack stack) {
+		public void putStack(ItemStack stack) {
 			this.stack = stack;
 			tagsToAdd.clear();
 			tagsToAdd.addAll(stack.getItem().getTags());
@@ -263,7 +263,7 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 		}
 
 		@Override
-		public void setChanged() {
+		public void onSlotChanged() {
 			//noop
 		}
 	}

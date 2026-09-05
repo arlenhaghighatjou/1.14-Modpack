@@ -17,7 +17,7 @@ public enum ContentsFilterType implements IStringSerializable {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String getName() {
 		return name;
 	}
 

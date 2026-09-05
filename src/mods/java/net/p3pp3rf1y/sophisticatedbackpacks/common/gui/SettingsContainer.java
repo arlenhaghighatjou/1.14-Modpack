@@ -107,7 +107,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	@Override
-	public void broadcastChanges() {
+	public void detectAndSendChanges() {
 		for (int i = 0; i < ghostSlots.size(); ++i) {
 			ItemStack itemstack = ghostSlots.get(i).getStack();
 			ItemStack itemstack1 = ghostItemStacks.get(i);
@@ -157,7 +157,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	@Override
-	public void addSlotListener(IContainerListener listener) {
+	public void addListener(IContainerListener listener) {
 		if (listener instanceof ServerPlayerEntity && backpackWrapper.getInventoryHandler().getStackSizeMultiplier() > 1) {
 			super.addSlotListener(new HighStackCountListener((ServerPlayerEntity) listener));
 			return;
@@ -183,7 +183,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity player) {
+	public boolean canInteractWith(PlayerEntity player) {
 		return true;
 	}
 
@@ -235,7 +235,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 		}
 
 		@Override
-		public boolean mayPickup(PlayerEntity playerIn) {
+		public boolean canTakeStack(PlayerEntity playerIn) {
 			return false;
 		}
 	}

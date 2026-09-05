@@ -17,7 +17,7 @@ public enum SortBy implements IStringSerializable {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String getName() {
 		return name;
 	}
 

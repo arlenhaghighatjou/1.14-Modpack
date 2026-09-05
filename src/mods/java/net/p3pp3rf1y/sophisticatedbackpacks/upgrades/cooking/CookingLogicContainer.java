@@ -23,7 +23,7 @@ public class CookingLogicContainer<T extends AbstractCookingRecipe> {
 		addSmeltingSlot(addSlot, new SlotSuppliedHandler(() -> supplyCoookingLogic.get().getCookingInventory(), CookingLogic.FUEL_SLOT, -100, -100));
 		addSmeltingSlot(addSlot, new SlotSuppliedHandler(() -> supplyCoookingLogic.get().getCookingInventory(), CookingLogic.COOK_OUTPUT_SLOT, -100, -100) {
 			@Override
-			public boolean mayPlace(ItemStack stack) {
+			public boolean isItemValid(ItemStack stack) {
 				return false; //needs to not allow player putting anything in
 			}
 		});

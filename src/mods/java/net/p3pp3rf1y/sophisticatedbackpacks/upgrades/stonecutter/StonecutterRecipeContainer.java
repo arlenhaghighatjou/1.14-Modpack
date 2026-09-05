@@ -44,13 +44,13 @@ public class StonecutterRecipeContainer {
 	public StonecutterRecipeContainer(StonecutterUpgradeContainer upgradeContainer, Consumer<Slot> addSlot, IServerUpdater serverUpdater, IWorldPosCallable worldPosCallable) {
 		inputSlot = new SlotSuppliedHandler(upgradeContainer.getUpgradeWrapper()::getInputInventory, 0, -1, -1) {
 			@Override
-			public void setChanged() {
+			public void onSlotChanged() {
 				super.markDirty();
 				onCraftMatrixChanged(inputInventory);
 			}
 
 			@Override
-			public ItemStack remove(int amount) {
+			public ItemStack decrStackSize(int amount) {
 				ItemStack ret = super.remove(amount);
 				if (getItem().isEmpty()) {
 					setChanged();
@@ -165,7 +165,7 @@ public class StonecutterRecipeContainer {
 		}
 
 		@Override
-		public boolean mayPlace(ItemStack stack) {
+		public boolean isItemValid(ItemStack stack) {
 			return false;
 		}
 

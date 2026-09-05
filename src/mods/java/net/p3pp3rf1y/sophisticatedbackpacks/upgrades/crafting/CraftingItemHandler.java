@@ -19,7 +19,7 @@ public class CraftingItemHandler extends CraftingInventory {
 	public CraftingItemHandler(Supplier<IItemHandlerModifiable> supplyInventory, Consumer<IInventory> onCraftingMatrixChanged) {
 		super(new Container(null, -1) {
 			@Override
-			public boolean stillValid(PlayerEntity playerIn) {
+			public boolean canInteractWith(PlayerEntity playerIn) {
 				return false;
 			}
 		}, 3, 3);
@@ -28,7 +28,7 @@ public class CraftingItemHandler extends CraftingInventory {
 	}
 
 	@Override
-	public int getContainerSize() {
+	public int getSizeInventory() {
 		return supplyInventory.get().getSlots();
 	}
 
@@ -44,7 +44,7 @@ public class CraftingItemHandler extends CraftingInventory {
 	}
 
 	@Override
-	public ItemStack removeItemNoUpdate(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		return InventoryHelper.getAndRemove(supplyInventory.get(), index);
 	}
 
@@ -59,7 +59,7 @@ public class CraftingItemHandler extends CraftingInventory {
 	}
 
 	@Override
-	public void setItem(int index, ItemStack stack) {
+	public void setInventorySlotContents(int index, ItemStack stack) {
 		supplyInventory.get().setStackInSlot(index, stack);
 		onCraftingMatrixChanged.accept(this);
 	}
