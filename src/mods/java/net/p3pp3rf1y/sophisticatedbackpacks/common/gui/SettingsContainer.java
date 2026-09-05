@@ -117,8 +117,8 @@ public class SettingsContainer extends Container implements IContextAwareContain
 				ghostItemStacks.set(i, itemstack2);
 
 				if (clientStackChanged) {
-					for (IContainerListener icontainerlistener : containerListeners) {
-						icontainerlistener.slotChanged(this, i, itemstack2);
+					for (IContainerListener icontainerlistener : listeners) {
+						icontainerlistener.sendSlotContents(this, i, itemstack2);
 					}
 				}
 			}

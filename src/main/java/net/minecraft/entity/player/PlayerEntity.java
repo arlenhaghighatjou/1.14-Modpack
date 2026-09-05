@@ -384,7 +384,7 @@ public abstract class PlayerEntity extends LivingEntity {
 
     }
 
-    protected void closeScreen() {
+    public void closeScreen() {
         this.openContainer = this.container;
     }
 

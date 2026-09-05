@@ -564,7 +564,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		ClientPlayerEntity player = mc.player;
 
 		short nextTransId = player.openContainer.backup(player.inventory);
-		ItemStack itemstack = player.openContainer.clicked(slotNumber, mouseButton, type, player);
+		ItemStack itemstack = player.openContainer.slotClick(slotNumber, mouseButton, type, player);
 		PacketHandler.sendToServer(new WindowClickMessage(container.windowId, slotNumber, mouseButton, type, itemstack, nextTransId));
 	}
 

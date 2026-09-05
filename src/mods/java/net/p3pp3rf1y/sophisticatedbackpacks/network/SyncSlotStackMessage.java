@@ -39,6 +39,6 @@ public class SyncSlotStackMessage {
 		if (player == null || !(player.openContainer instanceof BackpackContainer || player.openContainer instanceof SettingsContainer) || player.openContainer.windowId != msg.windowId) {
 			return;
 		}
-		player.openContainer.setItem(msg.slotNumber, msg.stack);
+		player.openContainer.putStackInSlot(msg.slotNumber, msg.stack);
 	}
 }

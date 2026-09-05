@@ -54,7 +54,7 @@ public class WindowClickMessage {
 		if (player.isSpectator()) {
 			syncSlotsForSpectator(player);
 		} else {
-			ItemStack stackClickResult = player.openContainer.clicked(msg.slotNumber, msg.mouseButton, msg.clickType, player);
+			ItemStack stackClickResult = player.openContainer.slotClick(msg.slotNumber, msg.mouseButton, msg.clickType, player);
 			if (ItemStack.matches(msg.clickedItem, stackClickResult)) {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
 				player.ignoreSlotUpdateHack = true;
@@ -64,13 +64,13 @@ public class WindowClickMessage {
 			} else {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
 				player.openContainer.setSynched(player, false);
-				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getItems()));
+				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getInventory()));
 				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}
 		}
 	}
 
 	private static void syncSlotsForSpectator(ServerPlayerEntity player) {
-		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getItems()));
+		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getInventory()));
 	}
 }

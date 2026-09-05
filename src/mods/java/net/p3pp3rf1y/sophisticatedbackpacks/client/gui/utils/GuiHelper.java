@@ -1,21 +1,16 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils;
 
-import net.minecraft.util.registry.Registry;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -25,15 +20,10 @@ import net.minecraft.crash.ReportedException;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.LanguageMap;
-import net.minecraft.util.text.Style;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.ToggleButton;
 import org.lwjgl.opengl.GL11;
@@ -50,6 +40,9 @@ public class GuiHelper {
 	public static final ResourceLocation GUI_CONTROLS = new ResourceLocation(SophisticatedBackpacks.MOD_ID, "textures/gui/gui_controls.png");
 	private static final int GUI_CONTROLS_TEXTURE_WIDTH = 256;
 	private static final int GUI_CONTROLS_TEXTURE_HEIGHT = 256;
+	private static final int TOOLTIP_BACKGROUND_COLOR = 0xF0100010;
+	private static final int TOOLTIP_BORDER_COLOR_START = 0x505000FF;
+	private static final int TOOLTIP_BORDER_COLOR_END = 0x5028007F;
 	public static final TextureBlitData BAR_BACKGROUND_BOTTOM = new TextureBlitData(GUI_CONTROLS, Dimension.SQUARE_256, new UV(29, 66), Dimension.SQUARE_18);
 	public static final TextureBlitData BAR_BACKGROUND_MIDDLE = new TextureBlitData(GUI_CONTROLS, Dimension.SQUARE_256, new UV(29, 48), Dimension.SQUARE_18);
 	public static final TextureBlitData BAR_BACKGROUND_TOP = new TextureBlitData(GUI_CONTROLS, Dimension.SQUARE_256, new UV(29, 30), Dimension.SQUARE_18);
@@ -122,13 +115,12 @@ public class GuiHelper {
 		float maxV = minV + ((float) texData.getHeight() / texData.getTextureWidth());
 
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
-		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-		bufferbuilder.pos(xMin, yMax, 0).color(red, green, blue, alpha).tex(minU, maxV).endVertex();
-		bufferbuilder.pos(xMax, yMax, 0).color(red, green, blue, alpha).tex(maxU, maxV).endVertex();
-		bufferbuilder.pos(xMax, yMin, 0).color(red, green, blue, alpha).tex(maxU, minV).endVertex();
-		bufferbuilder.pos(xMin, yMin, 0).color(red, green, blue, alpha).tex(minU, minV).endVertex();
-		bufferbuilder.end();
-		WorldVertexBufferUploader.end(bufferbuilder);
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+		bufferbuilder.pos(xMin, yMax, 0).tex(minU, maxV).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(xMax, yMax, 0).tex(maxU, maxV).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(xMax, yMin, 0).tex(maxU, minV).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(xMin, yMin, 0).tex(minU, minV).color(red, green, blue, alpha).endVertex();
+		Tessellator.getInstance().draw();
 	}
 
 	private static List<? extends ITextComponent> tooltipToRender = Collections.emptyList();
@@ -156,8 +148,8 @@ public class GuiHelper {
 
 		FontRenderer font = tooltipRenderFont == null ? minecraft.fontRenderer : tooltipRenderFont;
 
-		int windowWidth = minecraft.mainWindow.getGuiScaledWidth();
-		int windowHeight = minecraft.mainWindow.getGuiScaledHeight();
+		int windowWidth = minecraft.mainWindow.getScaledWidth();
+		int windowHeight = minecraft.mainWindow.getScaledHeight();
 
 		int tooltipWidth = getMaxLineWidth(textLines, font);
 
@@ -168,12 +160,10 @@ public class GuiHelper {
 		int wrappedTooltipWidth = 0;
 		List<ITextComponent> wrappedTextLines = new ArrayList<>();
 		for (ITextComponent textLine : textLines) {
-			List<ITextComponent> wrappedLine = font.getSplitter().splitLines(textLine, tooltipWidth, Style.EMPTY);
-
-			for (ITextComponent line : wrappedLine) {
+			for (String line : font.listFormattedStringToWidth(textLine.getFormattedText(), tooltipWidth)) {
 				int lineWidth = font.getStringWidth(line);
 				if (lineWidth > wrappedTooltipWidth) {wrappedTooltipWidth = lineWidth;}
-				wrappedTextLines.add(line);
+				wrappedTextLines.add(new StringTextComponent(line));
 			}
 		}
 		tooltipWidth = wrappedTooltipWidth;
@@ -197,31 +187,13 @@ public class GuiHelper {
 			topY = windowHeight - tooltipHeight - 6;
 		}
 
-		int backgroundColor = GuiUtils.DEFAULT_BACKGROUND_COLOR;
-		int borderColorStart = GuiUtils.DEFAULT_BORDER_COLOR_START;
-		int borderColorEnd = GuiUtils.DEFAULT_BORDER_COLOR_END;
-		RenderTooltipEvent.Color colorEvent = new RenderTooltipEvent.Color(stack, textLines, leftX, topY, font, backgroundColor, borderColorStart, borderColorEnd);
-		MinecraftForge.EVENT_BUS.post(colorEvent);
-		backgroundColor = colorEvent.getBackground();
-		borderColorStart = colorEvent.getBorderStart();
-		borderColorEnd = colorEvent.getBorderEnd();
-
 		GlStateManager.pushMatrix();
-		Matrix4f matrix4f = matrixStack.last().pose();
-		renderTooltipBackground(matrix4f, tooltipWidth, leftX, topY, tooltipHeight, backgroundColor, borderColorStart, borderColorEnd);
+		renderTooltipBackground(tooltipWidth, leftX, topY, tooltipHeight, TOOLTIP_BACKGROUND_COLOR, TOOLTIP_BORDER_COLOR_START, TOOLTIP_BORDER_COLOR_END);
 
-		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostBackground(stack, textLines, leftX, topY, font, tooltipWidth, tooltipHeight));
-
-		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 		GlStateManager.translated(0.0D, 0.0D, 400.0D);
-
-		topY = writeTooltipLines(textLines, font, leftX, topY, matrix4f, renderTypeBuffer, -1);
-
-		renderTypeBuffer.endBatch();
+		topY = writeTooltipLines(textLines, font, leftX, topY, -1);
 		additionalRender.render(leftX, topY, font);
 		GlStateManager.popMatrix();
-
-		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostText(stack, textLines, leftX, topY, font, tooltipWidth, tooltipHeight));
 	}
 
 	public static void renderTooltipBackground(int tooltipWidth, int leftX, int topY, int tooltipHeight, int backgroundColor, int borderColorStart, int borderColorEnd) {
@@ -229,22 +201,21 @@ public class GuiHelper {
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
-		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY - 4, leftX + tooltipWidth + 3, topY - 3, 400, backgroundColor, backgroundColor);
-		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY + tooltipHeight + 3, leftX + tooltipWidth + 3, topY + tooltipHeight + 4, 400, backgroundColor, backgroundColor);
-		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY - 3, leftX + tooltipWidth + 3, topY + tooltipHeight + 3, 400, backgroundColor, backgroundColor);
-		fillGradient(matrix4f, bufferbuilder, leftX - 4, topY - 3, leftX - 3, topY + tooltipHeight + 3, 400, backgroundColor, backgroundColor);
-		fillGradient(matrix4f, bufferbuilder, leftX + tooltipWidth + 3, topY - 3, leftX + tooltipWidth + 4, topY + tooltipHeight + 3, 400, backgroundColor, backgroundColor);
-		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY - 3 + 1, leftX - 3 + 1, topY + tooltipHeight + 3 - 1, 400, borderColorStart, borderColorEnd);
-		fillGradient(matrix4f, bufferbuilder, leftX + tooltipWidth + 2, topY - 3 + 1, leftX + tooltipWidth + 3, topY + tooltipHeight + 3 - 1, 400, borderColorStart, borderColorEnd);
-		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY - 3, leftX + tooltipWidth + 3, topY - 3 + 1, 400, borderColorStart, borderColorStart);
-		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY + tooltipHeight + 2, leftX + tooltipWidth + 3, topY + tooltipHeight + 3, 400, borderColorEnd, borderColorEnd);
+		fillGradient(bufferbuilder, leftX - 3, topY - 4, leftX + tooltipWidth + 3, topY - 3, 400, backgroundColor, backgroundColor);
+		fillGradient(bufferbuilder, leftX - 3, topY + tooltipHeight + 3, leftX + tooltipWidth + 3, topY + tooltipHeight + 4, 400, backgroundColor, backgroundColor);
+		fillGradient(bufferbuilder, leftX - 3, topY - 3, leftX + tooltipWidth + 3, topY + tooltipHeight + 3, 400, backgroundColor, backgroundColor);
+		fillGradient(bufferbuilder, leftX - 4, topY - 3, leftX - 3, topY + tooltipHeight + 3, 400, backgroundColor, backgroundColor);
+		fillGradient(bufferbuilder, leftX + tooltipWidth + 3, topY - 3, leftX + tooltipWidth + 4, topY + tooltipHeight + 3, 400, backgroundColor, backgroundColor);
+		fillGradient(bufferbuilder, leftX - 3, topY - 3 + 1, leftX - 3 + 1, topY + tooltipHeight + 3 - 1, 400, borderColorStart, borderColorEnd);
+		fillGradient(bufferbuilder, leftX + tooltipWidth + 2, topY - 3 + 1, leftX + tooltipWidth + 3, topY + tooltipHeight + 3 - 1, 400, borderColorStart, borderColorEnd);
+		fillGradient(bufferbuilder, leftX - 3, topY - 3, leftX + tooltipWidth + 3, topY - 3 + 1, 400, borderColorStart, borderColorStart);
+		fillGradient(bufferbuilder, leftX - 3, topY + tooltipHeight + 2, leftX + tooltipWidth + 3, topY + tooltipHeight + 3, 400, borderColorEnd, borderColorEnd);
 		GlStateManager.enableDepthTest();
 		GlStateManager.disableTexture();
 		GlStateManager.enableBlend();
-		GlStateManager.defaultBlendFunc();
+		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.shadeModel(7425);
-		bufferbuilder.end();
-		WorldVertexBufferUploader.end(bufferbuilder);
+		Tessellator.getInstance().draw();
 		GlStateManager.shadeModel(7424);
 		GlStateManager.disableBlend();
 		GlStateManager.enableTexture();
@@ -253,7 +224,7 @@ public class GuiHelper {
 	private static int getMaxLineWidth(List<? extends ITextComponent> tooltips, FontRenderer font) {
 		int maxLineWidth = 0;
 		for (ITextComponent line : tooltips) {
-			int lineWidth = font.getStringWidth(line);
+			int lineWidth = font.getStringWidth(line.getFormattedText());
 			if (lineWidth > maxLineWidth) {
 				maxLineWidth = lineWidth;
 			}
@@ -261,11 +232,11 @@ public class GuiHelper {
 		return maxLineWidth;
 	}
 
-	public static int writeTooltipLines(List<? extends ITextComponent> textLines, FontRenderer font, float leftX, int topY, Matrix4f matrix4f, IRenderTypeBuffer.Impl renderTypeBuffer, int color) {
+	public static int writeTooltipLines(List<? extends ITextComponent> textLines, FontRenderer font, float leftX, int topY, int color) {
 		for (int i = 0; i < textLines.size(); ++i) {
 			ITextComponent line = textLines.get(i);
 			if (line != null) {
-				font.drawInBatch(LanguageMap.getInstance().getVisualOrder(line), leftX, topY, color, true, matrix4f, renderTypeBuffer, false, 0, 15728880);
+				font.drawStringWithShadow(line.getFormattedText(), leftX, topY, color);
 			}
 
 			if (i == 0) {
@@ -277,7 +248,7 @@ public class GuiHelper {
 		return topY;
 	}
 
-	private static void fillGradient(Matrix4f matrix, BufferBuilder builder, int x1, int y1, int x2, int y2, int z, int colorA, int colorB) {
+	private static void fillGradient(BufferBuilder builder, int x1, int y1, int x2, int y2, int z, int colorA, int colorB) {
 		float f = (colorA >> 24 & 255) / 255.0F;
 		float f1 = (colorA >> 16 & 255) / 255.0F;
 		float f2 = (colorA >> 8 & 255) / 255.0F;
@@ -318,9 +289,9 @@ public class GuiHelper {
 	}
 
 	public static void renderTiledFluidTextureAtlas(TextureAtlasSprite sprite, int color, int x, int y, int height, Minecraft minecraft) {
-		minecraft.getTextureManager().bind(sprite.atlas().location());
+		minecraft.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 		BufferBuilder builder = Tessellator.getInstance().getBuffer();
-		builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX);
+		builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
 		float u1 = sprite.getMinU();
 		float v1 = sprite.getMinV();
@@ -334,22 +305,18 @@ public class GuiHelper {
 			int renderHeight = Math.min(spriteHeight, height);
 			height -= renderHeight;
 			float v2 = sprite.getInterpolatedV((16f * renderHeight) / spriteHeight);
-
-			// we need to draw the quads per width too
-			Matrix4f matrix = matrixStack.last().pose();
 			float u2 = sprite.getInterpolatedU((16f * 16) / spriteWidth);
-			builder.pos(x, (float) startY + renderHeight, 100).color(red, green, blue, 1).tex(u1, v2).endVertex();
-			builder.pos((float) x + 16, (float) startY + renderHeight, 100).color(red, green, blue, 1).tex(u2, v2).endVertex();
-			builder.pos((float) x + 16, startY, 100).color(red, green, blue, 1).tex(u2, v1).endVertex();
-			builder.pos(x, startY, 100).color(red, green, blue, 1).tex(u1, v1).endVertex();
+
+			builder.pos(x, (float) startY + renderHeight, 100).tex(u1, v2).color(red, green, blue, 1).endVertex();
+			builder.pos((float) x + 16, (float) startY + renderHeight, 100).tex(u2, v2).color(red, green, blue, 1).endVertex();
+			builder.pos((float) x + 16, startY, 100).tex(u2, v1).color(red, green, blue, 1).endVertex();
+			builder.pos(x, startY, 100).tex(u1, v1).color(red, green, blue, 1).endVertex();
 
 			startY += renderHeight;
 		} while (height > 0);
 
-		// finish drawing sprites
-		builder.end();
 		GlStateManager.enableAlphaTest();
-		WorldVertexBufferUploader.end(builder);
+		Tessellator.getInstance().draw();
 	}
 
 	public static void renderControlBackground(Minecraft minecraft, int x, int y, int renderWidth, int renderHeight) {
@@ -398,16 +365,16 @@ public class GuiHelper {
 			itemRenderer.zLevel += 50.0F;
 
 			try {
-				renderGuiItem(itemRenderer, textureManager, stack, x, y, itemRenderer.getModel(stack, null, livingEntity), rotation);
+				renderGuiItem(itemRenderer, textureManager, stack, x, y, itemRenderer.getItemModelWithOverrides(stack, null, livingEntity), rotation);
 			}
 			catch (Throwable throwable) {
-				CrashReport crashreport = CrashReport.forThrowable(throwable, "Rendering item");
-				CrashReportCategory crashreportcategory = crashreport.addCategory("Item being rendered");
+				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering item");
+				CrashReportCategory crashreportcategory = crashreport.makeCategory("Item being rendered");
 				crashreportcategory.addDetail("Item Type", () -> String.valueOf(stack.getItem()));
 				crashreportcategory.addDetail("Registry Name", () -> String.valueOf(Registry.ITEM.getKey(stack.getItem())));
 				crashreportcategory.addDetail("Item Damage", () -> String.valueOf(stack.getDamage()));
 				crashreportcategory.addDetail("Item NBT", () -> String.valueOf(stack.getTag()));
-				crashreportcategory.addDetail("Item Foil", () -> String.valueOf(stack.hasFoil()));
+				crashreportcategory.addDetail("Item Foil", () -> String.valueOf(stack.hasEffect()));
 				throw new ReportedException(crashreport);
 			}
 
@@ -415,39 +382,42 @@ public class GuiHelper {
 		}
 	}
 
-	private static void renderGuiItem(ItemRenderer itemRenderer, TextureManager textureManager, ItemStack pStack, int pX, int pY, IBakedModel pBakedmodel, int rotation) {
+	private static void renderGuiItem(ItemRenderer itemRenderer, TextureManager textureManager, ItemStack stack, int x, int y, IBakedModel bakedModel, int rotation) {
 		GlStateManager.pushMatrix();
-		textureManager.bind(AtlasTexture.LOCATION_BLOCKS);
-		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS).setFilter(false, false);
+		textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableAlphaTest();
-		GlStateManager.defaultAlphaFunc();
+		GlStateManager.alphaFunc(516, 0.1F);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.translatef((float) pX, (float) pY, 100.0F + itemRenderer.zLevel);
+		GlStateManager.translatef((float) x, (float) y, 100.0F + itemRenderer.zLevel);
 		GlStateManager.translatef(8.0F, 8.0F, 0.0F);
 		if (rotation != 0) {
 			GlStateManager.rotatef(rotation, 0, 0, 1);
 		}
 		GlStateManager.scalef(1.0F, -1.0F, 1.0F);
 		GlStateManager.scalef(16.0F, 16.0F, 16.0F);
-		MatrixStack matrixstack = new MatrixStack();
-		IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
-		boolean flag = !pBakedmodel.usesBlockLight();
-		if (flag) {
-			RenderHelper.setupForFlatItems();
+
+		boolean flat = !bakedModel.isGui3d();
+		if (flat) {
+			RenderHelper.disableStandardItemLighting();
+		} else {
+			GlStateManager.enableLighting();
 		}
 
-		itemRenderer.render(pStack, ItemCameraTransforms.TransformType.GUI, false, matrixstack, irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, pBakedmodel);
-		irendertypebuffer$impl.endBatch();
+		bakedModel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
 		GlStateManager.enableDepthTest();
-		if (flag) {
-			RenderHelper.setupFor3DItems();
+		itemRenderer.renderItem(stack, bakedModel);
+		if (flat) {
+			RenderHelper.enableGUIStandardItemLighting();
 		}
 
 		GlStateManager.disableAlphaTest();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
+		textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+		textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
 	}
 }

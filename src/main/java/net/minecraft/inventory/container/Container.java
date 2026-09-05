@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class Container {
-   private final NonNullList<ItemStack> inventoryItemStacks = NonNullList.create();
+   protected final NonNullList<ItemStack> inventoryItemStacks = NonNullList.create();
    public final List<Slot> inventorySlots = Lists.newArrayList();
    private final List<IntReferenceHolder> trackedIntReferences = Lists.newArrayList();
 
@@ -29,10 +29,10 @@ public abstract class Container {
    public final int windowId;
    @OnlyIn(Dist.CLIENT)
    private short transactionID;
-   private int dragMode = -1;
+   protected int dragMode = -1;
    protected int dragEvent;
    protected final Set<Slot> dragSlots = Sets.newHashSet();
-   private final List<IContainerListener> listeners = Lists.newArrayList();
+   protected final List<IContainerListener> listeners = Lists.newArrayList();
    private final Set<PlayerEntity> playerList = Sets.newHashSet();
 
    protected Container( ContainerType<?> type, int id) {

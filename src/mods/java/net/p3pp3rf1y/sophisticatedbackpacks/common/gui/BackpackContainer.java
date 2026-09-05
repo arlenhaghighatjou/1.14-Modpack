@@ -364,7 +364,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			} else {
 				slot.onSlotChanged();
 			}
-			slot.onQuickCraft(slotStack, itemstack);
+			slot.onSlotChange(slotStack, itemstack);
 
 			if (upgradeContainer.isPresent()) {
 				upgradeContainer.ifPresent(c -> c.onTakeFromSlot(slot, player, slotStack));
@@ -935,8 +935,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				stacksCollection.set(i, stackCopy);
 
 				if (clientStackChanged) {
-					for (IContainerListener icontainerlistener : containerListeners) {
-						icontainerlistener.slotChanged(this, slot.slotNumber, stackCopy);
+					for (IContainerListener icontainerlistener : listeners) {
+						icontainerlistener.sendSlotContents(this, slot.slotNumber, stackCopy);
 					}
 				}
 			}
@@ -1028,14 +1028,14 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		PlayerInventory playerinventory = player.inventory;
 		if (clickType == ClickType.QUICK_CRAFT) {
 			int prevDragEvent = dragEvent;
-			dragEvent = getQuickcraftHeader(dragType);
+			dragEvent = getDragEvent(dragType);
 			if ((prevDragEvent != 1 || dragEvent != 2) && prevDragEvent != dragEvent) {
 				resetDrag();
 			} else if (playerinventory.getItemStack().isEmpty()) {
 				resetDrag();
 			} else if (dragEvent == 0) {
-				dragMode = getQuickcraftType(dragType);
-				if (isValidQuickcraftType(dragMode, player)) {
+				dragMode = extractDragMode(dragType);
+				if (isValidDragMode(dragMode, player)) {
 					dragEvent = 1;
 					dragSlots.clear();
 				} else {
@@ -1044,7 +1044,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			} else if (dragEvent == 1) {
 				Slot slot7 = getSlot(slotId);
 				ItemStack itemstack12 = playerinventory.getItemStack();
-				if (canMergeItemToSlot(slot7, itemstack12) && slot7.isItemValid(itemstack12) && (dragMode == 2 || itemstack12.getCount() > dragSlots.size()) && canDragTo(slot7)) {
+				if (canMergeItemToSlot(slot7, itemstack12) && slot7.isItemValid(itemstack12) && (dragMode == 2 || itemstack12.getCount() > dragSlots.size()) && canDragIntoSlot(slot7)) {
 					dragSlots.add(slot7);
 				}
 			} else if (dragEvent == 2) {
@@ -1060,10 +1060,10 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 
 					for (Slot slot8 : dragSlots) {
 						ItemStack itemstack13 = playerinventory.getItemStack();
-						if (slot8 != null && canMergeItemToSlot(slot8, itemstack13) && slot8.isItemValid(itemstack13) && (dragMode == 2 || itemstack13.getCount() >= dragSlots.size()) && canDragTo(slot8)) {
+						if (slot8 != null && canMergeItemToSlot(slot8, itemstack13) && slot8.isItemValid(itemstack13) && (dragMode == 2 || itemstack13.getCount() >= dragSlots.size()) && canDragIntoSlot(slot8)) {
 							ItemStack itemstack14 = cursorStack.copy();
 							int j3 = slot8.getHasStack() ? slot8.getStack().getCount() : 0;
-							getQuickCraftSlotCount(dragSlots, dragMode, itemstack14, j3);
+							computeStackSize(dragSlots, dragMode, itemstack14, j3);
 							int slotStackLimit = slot8.getSlotStackLimit(itemstack14);
 							if (!(slot8 instanceof BackpackInventorySlot) && slotStackLimit > cursorStack.getMaxStackSize()) {
 								slotStackLimit = cursorStack.getMaxStackSize();
@@ -1153,7 +1153,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 							slot6.onTake(player, playerinventory.getItemStack());
 						}
 					} else if (slot6.isItemValid(cursorStack)) {
-						if (consideredTheSameItem(slotStack, cursorStack)) {
+						if (areItemsAndTagsEqual(slotStack, cursorStack)) {
 							int countToInsert = dragType == 0 ? cursorStack.getCount() : 1;
 							if (countToInsert > slot6.getSlotStackLimit(cursorStack) - slotStack.getCount()) {
 								countToInsert = slot6.getSlotStackLimit(cursorStack) - slotStack.getCount();
@@ -1169,7 +1169,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 							slot6.putStack(cursorStack);
 							playerinventory.setItemStack(slotStack);
 						}
-					} else if (cursorStack.getMaxStackSize() > 1 && consideredTheSameItem(slotStack, cursorStack) && !slotStack.isEmpty()) {
+					} else if (cursorStack.getMaxStackSize() > 1 && areItemsAndTagsEqual(slotStack, cursorStack) && !slotStack.isEmpty()) {
 						int i3 = slotStack.getCount();
 						if (i3 + cursorStack.getCount() <= cursorStack.getMaxStackSize()) {
 							cursorStack.grow(i3);
@@ -1227,7 +1227,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 					}
 				}
 			}
-		} else if (clickType == ClickType.CLONE && player.abilities.instabuild && playerinventory.getItemStack().isEmpty() && slotId >= 0) {
+		} else if (clickType == ClickType.CLONE && player.abilities.isCreativeMode && playerinventory.getItemStack().isEmpty() && slotId >= 0) {
 			Slot slot4 = getSlot(slotId);
 			if (slot4.getHasStack()) {
 				ItemStack itemstack7 = slot4.getStack().copy();
@@ -1251,7 +1251,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				for (int j = 0; j < 2; ++j) {
 					for (int k = j1; k >= 0 && k < getInventorySlotsSize() && cursorStack.getCount() < cursorStack.getMaxStackSize(); k += i2) {
 						Slot slot1 = getSlot(k);
-						if (slot1.getHasStack() && canMergeItemToSlot(slot1, cursorStack) && slot1.canTakeStack(player) && canTakeItemForPickAll(cursorStack, slot1)) {
+						if (slot1.getHasStack() && canMergeItemToSlot(slot1, cursorStack) && slot1.canTakeStack(player) && canMergeSlot(cursorStack, slot1)) {
 							ItemStack itemstack3 = slot1.getStack();
 							if (j != 0 || itemstack3.getCount() != itemstack3.getMaxStackSize()) {
 								int l = Math.min(cursorStack.getMaxStackSize() - cursorStack.getCount(), itemstack3.getCount());
@@ -1272,7 +1272,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				for (int j = 0; j < 2; ++j) {
 					for (int upgradeSlotId = j1; upgradeSlotId >= 0 && upgradeSlotId < upgradeSlots.size() && cursorStack.getCount() < cursorStack.getMaxStackSize(); upgradeSlotId += i2) {
 						Slot upgradeSlot = upgradeSlots.get(upgradeSlotId);
-						if (upgradeSlot.getHasStack() && canMergeItemToSlot(upgradeSlot, cursorStack) && upgradeSlot.canTakeStack(player) && canTakeItemForPickAll(cursorStack, upgradeSlot)) {
+						if (upgradeSlot.getHasStack() && canMergeItemToSlot(upgradeSlot, cursorStack) && upgradeSlot.canTakeStack(player) && canMergeSlot(cursorStack, upgradeSlot)) {
 							ItemStack itemstack3 = upgradeSlot.getStack();
 							if (j != 0 || itemstack3.getCount() != itemstack3.getMaxStackSize()) {
 								int l = Math.min(cursorStack.getMaxStackSize() - cursorStack.getCount(), itemstack3.getCount());
@@ -1289,7 +1289,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				}
 			}
 
-			broadcastChanges();
+			detectAndSendChanges();
 		}
 
 		sendSlotUpdates();
@@ -1352,7 +1352,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				Slot slot = getSlot(i);
 				if (slot.isItemValid(sourceStack)) { //Added to vanilla logic as some slots may not want anything to be added to them
 					ItemStack destStack = slot.getStack();
-					if (!destStack.isEmpty() && consideredTheSameItem(sourceStack, destStack)) {
+					if (!destStack.isEmpty() && areItemsAndTagsEqual(sourceStack, destStack)) {
 						int j = destStack.getCount() + toTransfer;
 						int maxSize = calculateMaxCountForStack(slot.getSlotStackLimit(), sourceStack);
 						if (j <= maxSize) {
