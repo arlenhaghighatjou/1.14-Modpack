@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.settings.backpack;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.ButtonBase;
@@ -33,16 +32,16 @@ public class ContextButton extends ButtonBase {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
-			renderBackground(matrixStack, minecraft, LEFT_BUTTON_HOVERED_BACKGROUND, MIDDLE_BUTTON_HOVERED_BACKGROUND, RIGHT_BUTTON_HOVERED_BACKGROUND);
+			renderBackground(minecraft, LEFT_BUTTON_HOVERED_BACKGROUND, MIDDLE_BUTTON_HOVERED_BACKGROUND, RIGHT_BUTTON_HOVERED_BACKGROUND);
 			GuiHelper.setTooltipToRender(getTooltipKey.get());
 		} else {
-			renderBackground(matrixStack, minecraft, LEFT_BUTTON_BACKGROUND, MIDDLE_BUTTON_BACKGROUND, RIGHT_BUTTON_BACKGROUND);
+			renderBackground(minecraft, LEFT_BUTTON_BACKGROUND, MIDDLE_BUTTON_BACKGROUND, RIGHT_BUTTON_BACKGROUND);
 		}
 	}
 
-	private void renderBackground(MatrixStack matrixStack, Minecraft minecraft, TextureBlitData leftButtonHoveredBackground, TextureBlitData middleButtonHoveredBackground, TextureBlitData rightButtonHoveredBackground) {
+	private void renderBackground(Minecraft minecraft, TextureBlitData leftButtonHoveredBackground, TextureBlitData middleButtonHoveredBackground, TextureBlitData rightButtonHoveredBackground) {
 		int left = x;
 		GuiHelper.blit(minecraft, matrixStack, left, y, leftButtonHoveredBackground);
 		left += leftButtonHoveredBackground.getWidth();
@@ -54,7 +53,7 @@ public class ContextButton extends ButtonBase {
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		drawCenteredString(matrixStack, Minecraft.getInstance().fontRenderer, getTitle.get(), x + width / 2, y - 4 + height / 2, 16777215 | (255 << 24));
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
+		drawCenteredString(Minecraft.getInstance().fontRenderer, getTitle.get(), x + width / 2, y - 4 + height / 2, 16777215 | (255 << 24));
 	}
 }

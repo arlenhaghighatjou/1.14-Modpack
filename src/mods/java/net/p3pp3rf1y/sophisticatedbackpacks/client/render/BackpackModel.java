@@ -1,7 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -193,7 +192,7 @@ public class BackpackModel extends AgeableModel<LivingEntity> {
 		);
 	}
 
-	public void render(MatrixStack matrixStack, int packedLight, IVertexBuilder vertexBuilder, int clothColor, int borderColor, Item backpackItem, boolean showLeftTank, boolean showRightTank, boolean showBattery) {
+	public void render(int packedLight, IVertexBuilder vertexBuilder, int clothColor, int borderColor, Item backpackItem, boolean showLeftTank, boolean showRightTank, boolean showBattery) {
 		float borderRed = (borderColor >> 16 & 255) / 255.0F;
 		float borderGreen = (borderColor >> 8 & 255) / 255.0F;
 		float borderBlue = (borderColor & 255) / 255.0F;
@@ -202,42 +201,42 @@ public class BackpackModel extends AgeableModel<LivingEntity> {
 		float clothBlue = (clothColor & 255) / 255.0F;
 
 		if (showLeftTank) {
-			leftTank.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			leftTankBorder.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+			leftTank.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			leftTankBorder.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
 		} else {
-			fabricLeft.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			clipsLeftPouches.get(backpackItem).render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			leftPouches.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
-			leftPouchesBorder.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+			fabricLeft.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			clipsLeftPouches.get(backpackItem).render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			leftPouches.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
+			leftPouchesBorder.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
 		}
 
 		if (showRightTank) {
-			rightTank.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			rightTankBorder.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+			rightTank.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			rightTankBorder.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
 		} else {
-			fabricRight.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			clipsRightPouches.get(backpackItem).render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			rightPouches.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
-			rightPouchesBorder.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+			fabricRight.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			clipsRightPouches.get(backpackItem).render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			rightPouches.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
+			rightPouchesBorder.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
 		}
 
 		if (showBattery) {
-			battery.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			batteryBorder.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
-			clipsBattery.get(backpackItem).render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			battery.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			batteryBorder.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+			clipsBattery.get(backpackItem).render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
 		} else {
-			fabricFront.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			clipsFrontPouch.get(backpackItem).render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-			frontPouch.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
-			frontPouchBorder.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+			fabricFront.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			clipsFrontPouch.get(backpackItem).render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+			frontPouch.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
+			frontPouchBorder.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
 		}
 
-		fabric.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
-		clipsBody.get(backpackItem).render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+		fabric.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+		clipsBody.get(backpackItem).render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
 
-		cloth.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
+		cloth.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, clothRed, clothGreen, clothBlue, 1);
 
-		border.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
+		border.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, borderRed, borderGreen, borderBlue, 1);
 	}
 
 	private ModelRenderer getBodyClipsRenderer(int yTextureOffset) {
@@ -281,7 +280,7 @@ public class BackpackModel extends AgeableModel<LivingEntity> {
 	}
 
 	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		//noop
 	}
 

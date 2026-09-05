@@ -1,7 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.Rectangle2d;
@@ -63,13 +62,13 @@ public abstract class SettingsTabControl<C extends ContainerScreen<?>, T extends
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		//noop
 	}
 
 	@Override
-	public void afterScreenRender(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		children.forEach(tab -> tab.afterScreenRender(matrixStack, mouseX, mouseY, partialTicks));
+	public void afterScreenRender(int mouseX, int mouseY, float partialTicks) {
+		children.forEach(tab -> tab.afterScreenRender(mouseX, mouseY, partialTicks));
 	}
 
 	protected int getTopY() {

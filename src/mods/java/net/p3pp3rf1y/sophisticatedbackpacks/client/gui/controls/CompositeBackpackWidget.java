@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.INestedGuiEventHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Position;
@@ -22,8 +21,8 @@ public abstract class CompositeBackpackWidget<T extends BackpackWidget> extends 
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		children.forEach(child -> child.render(matrixStack, mouseX, mouseY, partialTicks));
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
+		children.forEach(child -> child.render(mouseX, mouseY, partialTicks));
 	}
 
 	protected <U extends T> U addChild(U child) {
@@ -77,8 +76,8 @@ public abstract class CompositeBackpackWidget<T extends BackpackWidget> extends 
 	}
 
 	@Override
-	public void afterScreenRender(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		super.afterScreenRender(matrixStack, mouseX, mouseY, partialTicks);
-		children.forEach(c -> c.afterScreenRender(matrixStack, mouseX, mouseY, partialTicks));
+	public void afterScreenRender(int mouseX, int mouseY, float partialTicks) {
+		super.afterScreenRender(mouseX, mouseY, partialTicks);
+		children.forEach(c -> c.afterScreenRender(mouseX, mouseY, partialTicks));
 	}
 }

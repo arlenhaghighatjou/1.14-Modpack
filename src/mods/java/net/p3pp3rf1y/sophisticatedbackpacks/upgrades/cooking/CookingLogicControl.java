@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.cooking;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
@@ -49,7 +48,7 @@ public class CookingLogicControl<T extends AbstractCookingRecipe> extends Compos
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		GuiHelper.blit(minecraft, matrixStack, x, y, FURNACE_BACKGROUND);
 	}
 

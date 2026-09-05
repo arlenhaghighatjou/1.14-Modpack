@@ -2,7 +2,6 @@ package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.xppump;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.text.ITextComponent;
@@ -131,17 +130,17 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 		}
 
 		@Override
-		protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
-			GuiHelper.renderControlBackground(matrixStack, minecraft, x, y, 54, 18);
+		protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+			GuiHelper.renderControlBackground(minecraft, x, y, 54, 18);
 		}
 
 		@Override
-		protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 			String text = getText.get();
 			ITextComponent fullText = new TranslationTextComponent(translUpgradeControl("xp_level_select"), new StringTextComponent(text).applyTextStyle(TextFormatting.WHITE)).applyTextStyle(TextFormatting.GRAY);
 			int xOffset = (getWidth() - minecraft.fontRenderer.getStringWidth(fullText)) / 2;
 			int yOffset = (int) Math.ceil((getHeight() - minecraft.fontRenderer.lineHeight) / 2d);
-			minecraft.fontRenderer.draw(matrixStack, fullText, (float) x + xOffset, (float) y + yOffset, DyeColor.BLACK.getTextColor());
+			minecraft.fontRenderer.draw(fullText, (float) x + xOffset, (float) y + yOffset, DyeColor.BLACK.getTextColor());
 
 			if (isMouseOver(mouseX, mouseY)) {
 				GuiHelper.setTooltipToRender(TOOLTIP);

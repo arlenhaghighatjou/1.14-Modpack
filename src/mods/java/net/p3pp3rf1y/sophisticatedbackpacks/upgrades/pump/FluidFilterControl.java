@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.pump;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.fluid.Fluid;
@@ -22,18 +21,18 @@ public class FluidFilterControl extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		GuiHelper.renderSlotsBackground(minecraft, matrixStack, x, y, container.getNumberOfFluidFilters(), 1);
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		for (int i = 0; i < container.getNumberOfFluidFilters(); i++) {
 			Fluid fluid = container.getFluid(i);
 			if (fluid != Fluids.EMPTY) {
 				ResourceLocation texture = fluid.getAttributes().getStillTexture();
 				TextureAtlasSprite still = minecraft.getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
-				GuiHelper.renderTiledFluidTextureAtlas(matrixStack, still, fluid.getAttributes().getColor(), x + i * 18 + 1, y + 1, 16, minecraft);
+				GuiHelper.renderTiledFluidTextureAtlas(still, fluid.getAttributes().getColor(), x + i * 18 + 1, y + 1, 16, minecraft);
 			}
 		}
 	}

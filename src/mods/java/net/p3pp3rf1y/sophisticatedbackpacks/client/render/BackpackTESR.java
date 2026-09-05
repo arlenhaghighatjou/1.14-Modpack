@@ -1,6 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -21,7 +21,7 @@ public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
 	}
 
 	@Override
-	public void render(BackpackTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+	public void render(BackpackTileEntity tileEntityIn, float partialTicks, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
 		BlockState state = tileEntityIn.getBlockState();
 		Direction facing = state.get(BackpackBlock.FACING);
 		boolean showLeftTank = state.get(BackpackBlock.LEFT_TANK);
@@ -29,20 +29,20 @@ public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
 		boolean showBattery = state.get(BackpackBlock.BATTERY);
 		BackpackRenderInfo renderInfo = tileEntityIn.getBackpackWrapper().getRenderInfo();
 		matrixStack.pushPose();
-		matrixStack.translate(0.5, 0, 0.5);
+		GlStateManager.translated(0.5, 0, 0.5);
 		matrixStack.mulPose(Vector3f.YN.rotationDegrees(facing.toYRot()));
 		matrixStack.pushPose();
-		matrixStack.scale(6 / 10f, 6 / 10f, 6 / 10f);
+		GlStateManager.scalef(6 / 10f, 6 / 10f, 6 / 10f);
 		if (showLeftTank) {
 			IRenderedTankUpgrade.TankRenderInfo tankRenderInfo = renderInfo.getTankRenderInfos().get(TankPosition.LEFT);
 			if (tankRenderInfo != null) {
-				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(matrixStack, buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), -12.2F, 2.5F, 0, -2F));
+				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), -12.2F, 2.5F, 0, -2F));
 			}
 		}
 		if (showRightTank) {
 			IRenderedTankUpgrade.TankRenderInfo tankRenderInfo = renderInfo.getTankRenderInfos().get(TankPosition.RIGHT);
 			if (tankRenderInfo != null) {
-				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(matrixStack, buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), 8.7F, 2.5F, 0, -2F));
+				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), 8.7F, 2.5F, 0, -2F));
 			}
 		}
 		matrixStack.popPose();
@@ -51,20 +51,20 @@ public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
 				if (batteryRenderInfo.getChargeRatio() > 0.1f) {
 					matrixStack.pushPose();
 					matrixStack.mulPose(Vector3f.XN.rotationDegrees(180));
-					RenderHelper.renderBatteryCharge(matrixStack, buffer, combinedLight, batteryRenderInfo.getChargeRatio());
+					RenderHelper.renderBatteryCharge(buffer, combinedLight, batteryRenderInfo.getChargeRatio());
 					matrixStack.popPose();
 				}
 			});
 		}
-		renderItemDisplay(matrixStack, buffer, combinedLight, combinedOverlay, renderInfo);
+		renderItemDisplay(buffer, combinedLight, combinedOverlay, renderInfo);
 		matrixStack.popPose();
 	}
 
-	private void renderItemDisplay(MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay, BackpackRenderInfo renderInfo) {
+	private void renderItemDisplay(IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay, BackpackRenderInfo renderInfo) {
 		BackpackRenderInfo.ItemDisplayRenderInfo itemDisplayRenderInfo = renderInfo.getItemDisplayRenderInfo();
 		matrixStack.pushPose();
-		matrixStack.translate(0, 0.6, 0.25);
-		matrixStack.scale(0.5f, 0.5f, 0.5f);
+		GlStateManager.translated(0, 0.6, 0.25);
+		GlStateManager.scalef(0.5f, 0.5f, 0.5f);
 		matrixStack.mulPose(Vector3f.XN.rotationDegrees(180));
 		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f + itemDisplayRenderInfo.getRotation()));
 		Minecraft.getInstance().getItemRenderer().renderStatic(itemDisplayRenderInfo.getItem(), ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);

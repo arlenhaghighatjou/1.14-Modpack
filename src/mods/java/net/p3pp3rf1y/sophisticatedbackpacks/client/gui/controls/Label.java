@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Position;
@@ -21,13 +20,13 @@ public class Label extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		//noop
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		minecraft.fontRenderer.draw(matrixStack, labelText, x, y, color);
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
+		minecraft.fontRenderer.draw(labelText, x, y, color);
 	}
 
 	@Override

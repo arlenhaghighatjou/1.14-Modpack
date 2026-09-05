@@ -1,7 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.util.text.ITextComponent;
@@ -46,14 +45,14 @@ public abstract class Tab extends CompositeBackpackWidget<BackpackWidget> {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		if (!shouldRender.getAsBoolean()) {
 			return;
 		}
 		if (isClosedTooltipVisible(mouseX, mouseY)) {
 			GuiHelper.setTooltipToRender(tooltip);
 		}
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	@Override
@@ -79,13 +78,13 @@ public abstract class Tab extends CompositeBackpackWidget<BackpackWidget> {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		minecraft.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 
 		int halfHeight = height / 2;
-		blit(matrixStack, x, y, (float) TEXTURE_WIDTH - width, 0, width, halfHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-		blit(matrixStack, x, y + halfHeight, (float) TEXTURE_WIDTH - width, (float) TEXTURE_HEIGHT - halfHeight, width, halfHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-		blit(matrixStack, x - 3, y, TEXTURE_WIDTH / 2, TEXTURE_HEIGHT - height, 3, height);
+		blit(x, y, (float) TEXTURE_WIDTH - width, 0, width, halfHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		blit(x, y + halfHeight, (float) TEXTURE_WIDTH - width, (float) TEXTURE_HEIGHT - halfHeight, width, halfHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+		blit(x - 3, y, TEXTURE_WIDTH / 2, TEXTURE_HEIGHT - height, 3, height);
 	}
 
 	protected boolean isClosedTooltipVisible(int mouseX, int mouseY) {

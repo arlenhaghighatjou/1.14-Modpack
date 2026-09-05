@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.tank;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -42,7 +41,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY) {
+	public void render(int mouseX, int mouseY) {
 		GuiHelper.blit(screen.getMinecraft(), matrixStack, getTankLeft(), pos.getY(), GuiHelper.BAR_BACKGROUND_TOP);
 		int yOffset = 18;
 		for (int i = 0; i < (height - 36) / 18; i++) {
@@ -51,7 +50,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		}
 		GuiHelper.blit(screen.getMinecraft(), matrixStack, getTankLeft(), pos.getY() + yOffset, GuiHelper.BAR_BACKGROUND_BOTTOM);
 
-		renderFluid(matrixStack, mouseX, mouseY);
+		renderFluid(mouseX, mouseY);
 
 		yOffset = 0;
 		for (int i = 0; i < height / 18; i++) {
@@ -83,8 +82,8 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 	}
 
 	@Override
-	public void renderErrorOverlay(MatrixStack matrixStack) {
-		screen.renderOverlay(matrixStack, DyeColor.RED.getColorValue() | 0xAA000000, getTankLeft() + 1, pos.getY() + 1, 16, height - 2);
+	public void renderErrorOverlay() {
+		screen.renderOverlay(DyeColor.RED.getColorValue() | 0xAA000000, getTankLeft() + 1, pos.getY() + 1, 16, height - 2);
 	}
 
 	private void renderTooltip(int mouseX, int mouseY, FluidStack contents, int capacity) {
@@ -110,7 +109,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		return new TranslationTextComponent(TranslationHelper.translUpgradeKey("tank.contents_tooltip"), String.format("%,d", contents.getAmount()), String.format("%,d", capacity));
 	}
 
-	private void renderFluid(MatrixStack matrixStack, int mouseX, int mouseY) {
+	private void renderFluid(int mouseX, int mouseY) {
 		FluidStack contents = container.getContents();
 
 		int capacity = container.getTankCapacity();
@@ -125,7 +124,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 
 		ResourceLocation texture = fluid.getAttributes().getStillTexture(contents);
 		TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
-		GuiHelper.renderTiledFluidTextureAtlas(matrixStack, still, fluid.getAttributes().getColor(), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.getMinecraft());
+		GuiHelper.renderTiledFluidTextureAtlas(still, fluid.getAttributes().getColor(), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.getMinecraft());
 		renderTooltip(mouseX, mouseY, contents, capacity);
 	}
 

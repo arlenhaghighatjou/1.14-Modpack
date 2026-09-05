@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -31,26 +30,26 @@ public abstract class BackpackWidget extends AbstractGui implements IRenderable,
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		if (!visible) {
 			return;
 		}
 
 		if (zOffset != 0) {
 			matrixStack.pushPose();
-			matrixStack.translate(0, 0, zOffset);
+			GlStateManager.translated(0, 0, zOffset);
 		}
 		GlStateManager.enableDepthTest();
-		renderBg(matrixStack, minecraft, mouseX, mouseY);
-		renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		renderBg(minecraft, mouseX, mouseY);
+		renderWidget(mouseX, mouseY, partialTicks);
 		if (zOffset != 0) {
 			matrixStack.popPose();
 		}
 	}
 
-	protected abstract void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY);
+	protected abstract void renderBg(Minecraft minecraft, int mouseX, int mouseY);
 
-	protected abstract void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks);
+	protected abstract void renderWidget(int mouseX, int mouseY, float partialTicks);
 
 	public abstract int getWidth();
 
@@ -77,7 +76,7 @@ public abstract class BackpackWidget extends AbstractGui implements IRenderable,
 		return (getWidth() - elementWidth) / 2;
 	}
 
-	public void afterScreenRender(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void afterScreenRender(int mouseX, int mouseY, float partialTicks) {
 		//noop
 	}
 }

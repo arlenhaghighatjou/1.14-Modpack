@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -20,7 +19,7 @@ public class RenderHelper {
 
 	private RenderHelper() {}
 
-	public static void renderFluid(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, Fluid fluid, float fill, float xOffset, float yOffset, int fillYOffsetMultiplier, float zOffset) {
+	public static void renderFluid(IRenderTypeBuffer buffer, int packedLight, Fluid fluid, float fill, float xOffset, float yOffset, int fillYOffsetMultiplier, float zOffset) {
 		if (MathHelper.equal(fill, 0.0f)) {
 			return;
 		}
@@ -36,16 +35,16 @@ public class RenderHelper {
 		float red = (color >> 16 & 255) / 255.0F;
 		float green = (color >> 8 & 255) / 255.0F;
 		float blue = (color & 255) / 255.0F;
-		fluidBox.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
+		fluidBox.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
 	}
 
-	public static void renderBatteryCharge(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, float charge) {
+	public static void renderBatteryCharge(IRenderTypeBuffer buffer, int packedLight, float charge) {
 		int pixels = (int) (charge * 4);
 
 		ModelRenderer chargeBox = new ModelRenderer(64, 64, 18, 55);
 		chargeBox.addBox(-2.0F, -3.0F, -6.01F, pixels, 1.0F, 1.0F, 0.0F, false);
 		IVertexBuilder vertexBuilder = buffer.getBuffer(RenderType.entityTranslucent(BACKPACK_ENTITY_TEXTURE));
 
-		chargeBox.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
+		chargeBox.render(vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY);
 	}
 }

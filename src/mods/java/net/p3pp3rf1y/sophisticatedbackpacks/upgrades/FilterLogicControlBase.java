@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
@@ -155,16 +154,16 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 
 		addChild(new ToggleButton<Boolean>(new Position(x + 54, y + tagButtonsYOffset), ButtonDefinitions.MATCH_ANY_TAG, button -> container.setMatchAnyTag(!container.shouldMatchAnyTag()), container::shouldMatchAnyTag) {
 			@Override
-			protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+			protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 				if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-					super.renderBg(matrixStack, minecraft, mouseX, mouseY);
+					super.renderBg(minecraft, mouseX, mouseY);
 				}
 			}
 
 			@Override
-			protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+			protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 				if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-					super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+					super.renderWidget(mouseX, mouseY, partialTicks);
 				}
 			}
 
@@ -277,21 +276,21 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
+		super.renderWidget(mouseX, mouseY, partialTicks);
 		if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-			renderTagNames(matrixStack, mouseX, mouseY);
+			renderTagNames(mouseX, mouseY);
 		}
 	}
 
-	private void renderTagNames(MatrixStack matrixStack, int mouseX, int mouseY) {
+	private void renderTagNames(int mouseX, int mouseY) {
 		int count = 0;
 		int prefixWidth = font.getStringWidth("...");
 		Set<ResourceLocation> tagNames = container.getTagNames();
 		int maxTagNameLines = getTagListHeight() / 10;
 		for (ResourceLocation tagName : tagNames) {
 			if (tagNames.size() > maxTagNameLines && count == maxTagNameLines - 1) {
-				font.draw(matrixStack, new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.tag_overflow"), String.valueOf(tagNames.size() - (maxTagNameLines - 1))), (float) x + 2, (float) y + 23 + count * 10, MORE_TAGS_FONT_COLOR);
+				font.draw(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.tag_overflow"), String.valueOf(tagNames.size() - (maxTagNameLines - 1))), (float) x + 2, (float) y + 23 + count * 10, MORE_TAGS_FONT_COLOR);
 				break;
 			}
 			String name = tagName.toString();
@@ -302,7 +301,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 					shortened = "..." + shortened;
 				}
 			}
-			font.draw(matrixStack, shortened, (float) x + 2, (float) y + 23 + count * 10, TAG_FONT_COLOR);
+			font.draw(shortened, (float) x + 2, (float) y + 23 + count * 10, TAG_FONT_COLOR);
 			count++;
 		}
 		if (isMouseOverTagList(mouseX, mouseY)) {
@@ -329,12 +328,12 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (container.getPrimaryMatch() != PrimaryMatch.TAGS) {
 			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x, y + slotsTopYOffset, slotsPerRow, fullSlotRows, slotsInExtraRow);
 		} else {
 			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x, y + tagButtonsYOffset, 1, 1, 0);
-			GuiHelper.renderControlBackground(matrixStack, minecraft, x, y + slotsTopYOffset, getTagListWidth(), getTagListHeight());
+			GuiHelper.renderControlBackground(minecraft, x, y + slotsTopYOffset, getTagListWidth(), getTagListHeight());
 		}
 	}
 
@@ -351,16 +350,16 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 		}
 
 		@Override
-		protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+		protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 			if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-				super.renderBg(matrixStack, minecraft, mouseX, mouseY);
+				super.renderBg(minecraft, mouseX, mouseY);
 			}
 		}
 
 		@Override
-		protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 			if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-				super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+				super.renderWidget(mouseX, mouseY, partialTicks);
 			}
 		}
 

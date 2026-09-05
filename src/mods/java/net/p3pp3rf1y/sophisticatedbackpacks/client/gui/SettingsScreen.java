@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -39,40 +38,40 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(float partialTicks, int x, int y) {
 		BackpackBackgroundProperties backpackBackgroundProperties = getMenu().getBackpackBackgroundProperties();
 		BackpackGuiHelper.renderBackpackBackground(new Position((width - imageWidth) / 2, (height - imageHeight) / 2), matrixStack, getMenu().getBackpackInventorySlots().size(), getMenu().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), imageWidth, minecraft, menu.getNumberOfRows());
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		menu.detectSettingsChangeAndReload();
-		renderBackground(matrixStack);
-		settingsTabControl.render(matrixStack, mouseX, mouseY, partialTicks);
-		matrixStack.translate(0, 0, 200);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		settingsTabControl.afterScreenRender(matrixStack, mouseX, mouseY, partialTicks);
-		renderTooltip(matrixStack, mouseX, mouseY);
+		renderBackground();
+		settingsTabControl.render(mouseX, mouseY, partialTicks);
+		GlStateManager.translated(0, 0, 200);
+		super.render(mouseX, mouseY, partialTicks);
+		settingsTabControl.afterScreenRender(mouseX, mouseY, partialTicks);
+		renderTooltip(mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
-		super.renderLabels(matrixStack, mouseX, mouseY);
+	protected void renderLabels(int mouseX, int mouseY) {
+		super.renderLabels(mouseX, mouseY);
 		for (int slotId = 0; slotId < menu.ghostSlots.size(); ++slotId) {
 			Slot slot = menu.ghostSlots.get(slotId);
-			renderSlot(matrixStack, slot);
+			renderSlot(slot);
 
-			settingsTabControl.renderSlotOverlays(matrixStack, slot, this::renderSlotOverlay);
+			settingsTabControl.renderSlotOverlays(slot, this::renderSlotOverlay);
 
 			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
-				renderSlotOverlay(matrixStack, slot, getSlotColor(slotId));
+				renderSlotOverlay(slot, getSlotColor(slotId));
 			}
 		}
 	}
 
 	@Override
-	protected void renderSlot(MatrixStack matrixStack, Slot slot) {
+	protected void renderSlot(Slot slot) {
 		Optional<ItemStack> memorizedStack = getMenu().getMemorizedStackInSlot(slot.getSlotIndex());
 		ItemStack itemstack = slot.getStack();
 		if (memorizedStack.isPresent()) {
@@ -90,16 +89,16 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		setBlitOffset(0);
 
 		if (memorizedStack.isPresent()) {
-			drawMemorizedStackOverlay(matrixStack, slot.xPos, slot.yPos);
+			drawMemorizedStackOverlay(slot.xPos, slot.yPos);
 		}
 	}
 
-	private void drawMemorizedStackOverlay(MatrixStack matrixStack, int x, int y) {
+	private void drawMemorizedStackOverlay(int x, int y) {
 		matrixStack.pushPose();
 		GlStateManager._enableBlend();
 		GlStateManager._disableDepthTest();
 		minecraft.getTextureManager().bind(GuiHelper.GUI_CONTROLS);
-		blit(matrixStack, x, y, 77, 0, 16, 16);
+		blit(x, y, 77, 0, 16, 16);
 		GlStateManager._enableDepthTest();
 		GlStateManager._disableBlend();
 		matrixStack.popPose();
@@ -145,14 +144,14 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		return settingsTabControl.getTabRectangles().stream().noneMatch(r -> r.contains((int) mouseX, (int) mouseY));
 	}
 
-	private void renderSlotOverlay(MatrixStack matrixStack, Slot slot, int slotColor) {
-		renderSlotOverlay(matrixStack, slot.xPos, slot.yPos, 16, slotColor);
+	private void renderSlotOverlay(Slot slot, int slotColor) {
+		renderSlotOverlay(slot.xPos, slot.yPos, 16, slotColor);
 	}
 
-	private void renderSlotOverlay(MatrixStack matrixStack, int xPos, int yPos, int height, int slotColor) {
+	private void renderSlotOverlay(int xPos, int yPos, int height, int slotColor) {
 		GlStateManager.disableDepthTest();
 		GlStateManager.colorMask(true, true, true, false);
-		fillGradient(matrixStack, xPos, yPos, xPos + 16, yPos + height, slotColor, slotColor);
+		fillGradient(xPos, yPos, xPos + 16, yPos + height, slotColor, slotColor);
 		GlStateManager.colorMask(true, true, true, true);
 		GlStateManager.enableDepthTest();
 	}
@@ -167,8 +166,8 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
-		super.renderTooltip(matrixStack, x, y);
+	protected void renderTooltip(int x, int y) {
+		super.renderTooltip(x, y);
 		GuiHelper.renderTooltip(minecraft, matrixStack, x, y);
 	}
 

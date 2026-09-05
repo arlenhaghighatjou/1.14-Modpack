@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.GuiHelper;
@@ -28,7 +27,7 @@ public class Button extends ButtonBase {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
 			if (hoveredBackgroundTexture != null) {
 				GuiHelper.blit(minecraft, matrixStack, x, y, hoveredBackgroundTexture);
@@ -39,7 +38,7 @@ public class Button extends ButtonBase {
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		if (foregroundTexture != null) {
 			GuiHelper.blit(minecraft, matrixStack, x, y, foregroundTexture);
 		}

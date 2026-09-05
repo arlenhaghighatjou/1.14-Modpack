@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -72,11 +71,11 @@ public abstract class SettingsTabBase<T extends ContainerScreen<?>> extends Tab 
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		if (!openTooltip.isEmpty() && isOpenTooltipVisible(mouseX, mouseY)) {
 			GuiHelper.setTooltipToRender(openTooltip);
 		}
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	private boolean isOpenTooltipVisible(int mouseX, int mouseY) {

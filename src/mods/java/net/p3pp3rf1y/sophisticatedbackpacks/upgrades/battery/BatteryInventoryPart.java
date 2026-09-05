@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.battery;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -44,7 +43,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY) {
+	public void render(int mouseX, int mouseY) {
 		GuiHelper.blit(screen.getMinecraft(), matrixStack, getTankLeft(), pos.getY(), TANK_BACKGROUND_TOP);
 		int yOffset = 18;
 		for (int i = 0; i < (height - 36) / 18; i++) {
@@ -59,7 +58,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 			yOffset += 18;
 		}
 
-		renderCharge(matrixStack, mouseX, mouseY);
+		renderCharge(mouseX, mouseY);
 
 		GuiHelper.blit(screen.getMinecraft(), matrixStack, getTankLeft() + 1, pos.getY(), CONNECTION_TOP);
 		GuiHelper.blit(screen.getMinecraft(), matrixStack, getTankLeft() + 1, pos.getY() + height - 4, CONNECTION_BOTTOM);
@@ -88,8 +87,8 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 	}
 
 	@Override
-	public void renderErrorOverlay(MatrixStack matrixStack) {
-		screen.renderOverlay(matrixStack, DyeColor.RED.getColorValue() | 0xAA000000, getTankLeft() + 1, pos.getY() + 1, 16, height - 2);
+	public void renderErrorOverlay() {
+		screen.renderOverlay(DyeColor.RED.getColorValue() | 0xAA000000, getTankLeft() + 1, pos.getY() + 1, 16, height - 2);
 	}
 
 	private void renderTooltip(int mouseX, int mouseY, int energyStored, int maxEnergyStored) {
@@ -102,7 +101,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 		}
 	}
 
-	private void renderCharge(MatrixStack matrixStack, int mouseX, int mouseY) {
+	private void renderCharge(int mouseX, int mouseY) {
 		int energyStored = container.getEnergyStored();
 
 		int maxEneergyStored = container.getMaxEnergyStored();
@@ -128,7 +127,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 			int blue = (int) (initialBlue * (1 - percentage) + finalBlue * percentage);
 			int color = red << 16 | green << 8 | blue | 255 << 24;
 
-			GuiHelper.coloredBlit(matrix, getTankLeft() + 1, pos.getY() + height - (i + 1) * segmentHeight, CHARGE_SEGMENT, color);
+			GuiHelper.coloredBlit(getTankLeft() + 1, pos.getY() + height - (i + 1) * segmentHeight, CHARGE_SEGMENT, color);
 		}
 
 		renderTooltip(mouseX, mouseY, energyStored, maxEneergyStored);

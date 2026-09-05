@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.stonecutter;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.FontRenderer;
@@ -56,7 +55,7 @@ public class StonecutterRecipeControl extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		GuiHelper.renderSlotsBackground(minecraft, matrixStack, x + getCenteredX(18), y, 1, 1);
 		GuiHelper.blit(minecraft, matrixStack, x, y + LIST_Y_OFFSET, LIST_BACKGROUND);
 		GuiHelper.blit(minecraft, matrixStack, x + getCenteredX(26), y + INPUT_SLOT_HEIGHT + SPACING + LIST_BACKGROUND.getHeight() + SPACING, GuiHelper.CRAFTING_RESULT_SLOT);
@@ -66,11 +65,11 @@ public class StonecutterRecipeControl extends BackpackWidget {
 		int listInnerLeftX = x + 1;
 		int listTopY = getListTopY();
 		int recipeIndexOffsetMax = recipeIndexOffset + 12;
-		renderRecipeBackgrounds(matrixStack, mouseX, mouseY, listInnerLeftX, listTopY, recipeIndexOffsetMax);
-		drawRecipesItems(matrixStack, listInnerLeftX, listTopY, recipeIndexOffsetMax);
+		renderRecipeBackgrounds(mouseX, mouseY, listInnerLeftX, listTopY, recipeIndexOffsetMax);
+		drawRecipesItems(listInnerLeftX, listTopY, recipeIndexOffsetMax);
 	}
 
-	private void drawRecipesItems(MatrixStack matrixStack, int listInnerLeftX, int top, int recipeIndexOffsetMax) {
+	private void drawRecipesItems(int listInnerLeftX, int top, int recipeIndexOffsetMax) {
 		List<StonecuttingRecipe> list = container.getRecipeList();
 
 		for (int i = recipeIndexOffset; i < recipeIndexOffsetMax && i < container.getRecipeList().size(); ++i) {
@@ -78,7 +77,7 @@ public class StonecutterRecipeControl extends BackpackWidget {
 			int k = listInnerLeftX + j % 4 * 16;
 			int l = j / 4;
 			int i1 = top + l * 18 + 2;
-			GuiHelper.renderItemInGUI(matrixStack, minecraft, list.get(i).getResultItem(), k, i1);
+			GuiHelper.renderItemInGUI(minecraft, list.get(i).getResultItem(), k, i1);
 		}
 
 	}
@@ -87,7 +86,7 @@ public class StonecutterRecipeControl extends BackpackWidget {
 		return y + LIST_Y_OFFSET;
 	}
 
-	private void renderRecipeBackgrounds(MatrixStack matrixStack, int mouseX, int mouseY, int listInnerLeftX, int listTopY, int recipeIndexOffsetMax) {
+	private void renderRecipeBackgrounds(int mouseX, int mouseY, int listInnerLeftX, int listTopY, int recipeIndexOffsetMax) {
 		for (int recipeIndex = recipeIndexOffset; recipeIndex < recipeIndexOffsetMax && recipeIndex < container.getRecipeList().size(); ++recipeIndex) {
 			int j = recipeIndex - recipeIndexOffset;
 			int recipeX = listInnerLeftX + j % 4 * 16;
@@ -110,17 +109,17 @@ public class StonecutterRecipeControl extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		//noop - everything is rendered in background or after screen render is done
 	}
 
 	@Override
-	public void afterScreenRender(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		super.afterScreenRender(matrixStack, mouseX, mouseY, partialTicks);
-		renderHoveredTooltip(matrixStack, mouseX, mouseY);
+	public void afterScreenRender(int mouseX, int mouseY, float partialTicks) {
+		super.afterScreenRender(mouseX, mouseY, partialTicks);
+		renderHoveredTooltip(mouseX, mouseY);
 	}
 
-	private void renderHoveredTooltip(MatrixStack matrixStack, int mouseX, int mouseY) {
+	private void renderHoveredTooltip(int mouseX, int mouseY) {
 		if (hasItemsInInputSlot) {
 			int listTopY = getListTopY();
 			int k = recipeIndexOffset + 12;
@@ -131,16 +130,16 @@ public class StonecutterRecipeControl extends BackpackWidget {
 				int recipeLeftX = x + inviewRecipeIndex % 4 * 16;
 				int k1 = listTopY + inviewRecipeIndex / 4 * 18 + 2;
 				if (mouseX >= recipeLeftX && mouseX < recipeLeftX + 16 && mouseY >= k1 && mouseY < k1 + 18) {
-					renderTooltip(matrixStack, list.get(recipeIndex).getResultItem(), mouseX, mouseY);
+					renderTooltip(list.get(recipeIndex).getResultItem(), mouseX, mouseY);
 				}
 			}
 		}
 	}
 
-	private void renderTooltip(MatrixStack matrixStack, ItemStack itemStack, int mouseX, int mouseY) {
+	private void renderTooltip(ItemStack itemStack, int mouseX, int mouseY) {
 		FontRenderer font = itemStack.getItem().getFontRenderer(itemStack);
 		net.minecraftforge.fml.client.gui.GuiUtils.preItemToolTip(itemStack);
-		screen.renderWrappedToolTip(matrixStack, screen.getTooltipFromItem(itemStack), mouseX, mouseY, (font == null ? this.font : font));
+		screen.renderWrappedToolTip(screen.getTooltipFromItem(itemStack), mouseX, mouseY, (font == null ? this.font : font));
 		net.minecraftforge.fml.client.gui.GuiUtils.postItemToolTip();
 	}
 

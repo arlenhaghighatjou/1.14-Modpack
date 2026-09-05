@@ -1,7 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.FontRenderer;
@@ -71,7 +70,7 @@ public class BackpackTooltipRenderer {
 		}
 	}
 
-	public static boolean renderBackpackTooltip(ItemStack backpack, Minecraft minecraft, ClientPlayerEntity player, MatrixStack poseStack, int x, int y, FontRenderer font) {
+	public static boolean renderBackpackTooltip(ItemStack backpack, Minecraft minecraft, ClientPlayerEntity player, int x, int y, FontRenderer font) {
 		return BackpackWrapperLookup.get(backpack).map(wrapper -> {
 			initContents(minecraft, player, wrapper);
 
@@ -92,7 +91,7 @@ public class BackpackTooltipRenderer {
 		}).orElse(false);
 	}
 
-	public static void renderTooltipWithContents(ItemStack backpack, Minecraft minecraft, MatrixStack poseStack, int x, int y, FontRenderer font, List<ITextComponent> lines) {
+	public static void renderTooltipWithContents(ItemStack backpack, Minecraft minecraft, int x, int y, FontRenderer font, List<ITextComponent> lines) {
 		BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> {
 			if (minecraft.player != null) {
 				initContents(minecraft, minecraft.player, wrapper);
@@ -101,7 +100,7 @@ public class BackpackTooltipRenderer {
 		});
 	}
 
-	private static void renderContentsTooltip(ItemStack backpack, Minecraft minecraft, MatrixStack poseStack, int x, int y, FontRenderer font, List<ITextComponent> lines) {
+	private static void renderContentsTooltip(ItemStack backpack, Minecraft minecraft, int x, int y, FontRenderer font, List<ITextComponent> lines) {
 		GuiHelper.renderTooltip(minecraft, poseStack, lines, x, y, contentsTooltipPart, font, backpack);
 	}
 
@@ -243,21 +242,21 @@ public class BackpackTooltipRenderer {
 		}
 
 		@Override
-		public void render(MatrixStack matrixStack, int leftX, int topY, FontRenderer font) {
+		public void render(int leftX, int topY, FontRenderer font) {
 			if (!upgrades.isEmpty()) {
 				topY = renderTooltipLine(leftX, topY, matrixStack, font, "upgrades");
-				topY = renderUpgrades(matrixStack, leftX, topY);
+				topY = renderUpgrades(leftX, topY);
 			}
 			if (!backpackContents.isEmpty()) {
 				topY = renderTooltipLine(leftX, topY, matrixStack, font, "inventory");
-				renderContents(matrixStack, leftX, topY);
+				renderContents(leftX, topY);
 			}
 			if (upgrades.isEmpty() && backpackContents.isEmpty()) {
 				renderTooltipLine(leftX, topY, matrixStack, font, "empty");
 			}
 		}
 
-		private int renderTooltipLine(int leftX, int topY, MatrixStack matrixStack, FontRenderer font, String tooltip) {
+		private int renderTooltipLine(int leftX, int topY, FontRenderer font, String tooltip) {
 			IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 			topY = GuiHelper.writeTooltipLines(Collections.singletonList(new TranslationTextComponent(BackpackItem.BACKPACK_TOOLTIP + tooltip).applyTextStyle(TextFormatting.YELLOW)),
 					font, leftX, topY, matrixStack.last().pose(), renderTypeBuffer, -1);
@@ -265,21 +264,21 @@ public class BackpackTooltipRenderer {
 			return topY;
 		}
 
-		private int renderUpgrades(MatrixStack matrixStack, int leftX, int topY) {
+		private int renderUpgrades(int leftX, int topY) {
 			int x = leftX;
 			for (IUpgradeWrapper upgradeWrapper : upgrades.values()) {
 				if (upgradeWrapper.canBeDisabled()) {
 					GuiHelper.blit(minecraft, matrixStack, x, topY + 3, upgradeWrapper.isEnabled() ? UPGRADE_ON : UPGRADE_OFF);
 					x += 4;
 				}
-				GuiHelper.renderItemInGUI(matrixStack, minecraft, upgradeWrapper.getUpgradeStack(), x, topY, true);
+				GuiHelper.renderItemInGUI(minecraft, upgradeWrapper.getUpgradeStack(), x, topY, true);
 				x += DEFAULT_STACK_WIDTH;
 			}
 			topY += 20;
 			return topY;
 		}
 
-		private void renderContents(MatrixStack matrixStack, int leftX, int topY) {
+		private void renderContents(int leftX, int topY) {
 			int x = leftX;
 			for (int i = 0; i < backpackContents.size(); i++) {
 				int y = topY + i / MAX_STACKS_ON_LINE * 20;
@@ -289,7 +288,7 @@ public class BackpackTooltipRenderer {
 				ItemStack stack = backpackContents.get(i);
 				int stackWidth = Math.max(getStackCountWidth(minecraft.fontRenderer, stack), DEFAULT_STACK_WIDTH);
 				int xOffset = stackWidth - DEFAULT_STACK_WIDTH;
-				GuiHelper.renderItemInGUI(matrixStack, minecraft, stack, x + xOffset, y, true, CountAbbreviator.abbreviate(stack.getCount()));
+				GuiHelper.renderItemInGUI(minecraft, stack, x + xOffset, y, true, CountAbbreviator.abbreviate(stack.getCount()));
 				x += stackWidth;
 			}
 		}

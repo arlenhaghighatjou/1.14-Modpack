@@ -1,8 +1,8 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHelper;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -294,7 +294,7 @@ public class ClientProxy extends CommonProxy {
 						int x = event.getMouseX();
 						int y = event.getMouseY();
 						poseStack.pushPose();
-						poseStack.translate(0, 0, 100);
+						GlStateManager.translated(0, 0, 100);
 						BackpackTooltipRenderer.renderTooltipWithContents(stack, mc, poseStack, x, y, mc.fontRenderer, Collections.singletonList(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.right_click_to_add_to_backpack")));
 						poseStack.popPose();
 					} else {
@@ -302,9 +302,9 @@ public class ClientProxy extends CommonProxy {
 						int y = containerGui.getGuiTop() + s.yPos;
 
 						poseStack.pushPose();
-						poseStack.translate(0, 0, 499);
+						GlStateManager.translated(0, 0, 499);
 
-						mc.fontRenderer.drawShadow(poseStack, "+", (float) x + 10, (float) y + 8, 0xFFFF00);
+						mc.fontRenderer.drawShadow("+", (float) x + 10, (float) y + 8, 0xFFFF00);
 						poseStack.popPose();
 					}
 				});

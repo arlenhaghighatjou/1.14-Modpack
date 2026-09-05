@@ -1,7 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.settings;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -47,7 +46,7 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 		builder.put(categoryName, factory);
 	}
 
-	public void renderSlotOverlays(MatrixStack matrixStack, Slot slot, ISlotOverlayRenderer overlayRenderer) {
+	public void renderSlotOverlays(Slot slot, ISlotOverlayRenderer overlayRenderer) {
 		List<Integer> colors = new ArrayList<>();
 		settingsTabs.forEach(tab -> tab.getSlotOverlayColor(slot.slotNumber).ifPresent(colors::add));
 		if (colors.isEmpty()) {
@@ -58,7 +57,7 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 		int i = 0;
 		for (int color : colors) {
 			int yOffset = i * stripeHeight;
-			overlayRenderer.renderSlotOverlay(matrixStack, slot.xPos, slot.yPos + yOffset, i == colors.size() - 1 ? 16 - yOffset : stripeHeight,  color);
+			overlayRenderer.renderSlotOverlay(slot.xPos, slot.yPos + yOffset, i == colors.size() - 1 ? 16 - yOffset : stripeHeight,  color);
 			i++;
 		}
 	}
@@ -79,7 +78,7 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 	}
 
 	public interface ISlotOverlayRenderer {
-		void renderSlotOverlay(MatrixStack matrixStack, int xPos, int yPos, int height, int slotColor);
+		void renderSlotOverlay(int xPos, int yPos, int height, int slotColor);
 	}
 
 	public interface ISettingsTabFactory<C extends SettingsContainerBase<?>, T extends SettingsTab<C>> {

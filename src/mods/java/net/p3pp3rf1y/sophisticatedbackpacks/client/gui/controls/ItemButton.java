@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Dimension;
@@ -18,12 +17,12 @@ public class ItemButton extends ButtonBase {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		//noop
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		GuiHelper.renderItemInGUI(matrixStack, minecraft, stack, x, y);
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
+		GuiHelper.renderItemInGUI(minecraft, stack, x, y);
 	}
 }

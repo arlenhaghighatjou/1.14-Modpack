@@ -1,7 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.settings;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.DyeColor;
@@ -59,7 +58,7 @@ public class ColorToggleButton extends ButtonBase {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
 			GuiHelper.blit(minecraft, matrixStack, x, y, DEFAULT_BUTTON_HOVERED_BACKGROUND);
 		} else {
@@ -68,11 +67,11 @@ public class ColorToggleButton extends ButtonBase {
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		GlStateManager.disableDepthTest();
 		GlStateManager.colorMask(true, true, true, false);
 		int color = getColor.get().getColorValue() | (200 << 24);
-		fillGradient(matrixStack, x + 3, y + 3, x + 15, y + 15, color, color);
+		fillGradient(x + 3, y + 3, x + 15, y + 15, color, color);
 		GlStateManager.colorMask(true, true, true, true);
 		GlStateManager.enableDepthTest();
 

@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Position;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.TextureBlitData;
@@ -20,12 +19,12 @@ public class ProgressBar extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		//noop
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		int height = progressTexture.getHeight();
 		int width = progressTexture.getWidth();
 		float progress = getProgress.get();
@@ -40,7 +39,7 @@ public class ProgressBar extends BackpackWidget {
 			width = (int) (width * progress);
 		}
 		minecraft.getTextureManager().bindTexture(progressTexture.getTextureName());
-		blit(matrixStack, x, y + yOffset, progressTexture.getU(), (float) progressTexture.getV() + yOffset, width, height, progressTexture.getTextureWidth(), progressTexture.getTextureHeight());
+		blit(x, y + yOffset, progressTexture.getU(), (float) progressTexture.getV() + yOffset, width, height, progressTexture.getTextureWidth(), progressTexture.getTextureHeight());
 	}
 
 	@Override

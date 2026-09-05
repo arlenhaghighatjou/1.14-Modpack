@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.crafting;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.Slot;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen;
@@ -30,8 +29,8 @@ public class CraftingUpgradeTab extends UpgradeSettingsTab<CraftingUpgradeContai
 	}
 
 	@Override
-	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
-		super.renderBg(matrixStack, minecraft, mouseX, mouseY);
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+		super.renderBg(minecraft, mouseX, mouseY);
 		if (getContainer().isOpen()) {
 			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x + 3 + craftingUIAddition.getWidth(), y + 44, 3, 3);
 			GuiHelper.blit(minecraft, matrixStack, x + 3 + craftingUIAddition.getWidth() + 19, y + 101, ARROW);

@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
@@ -292,7 +291,7 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 		}
 
 		@Override
-		public IBakedModel handlePerspective(ItemCameraTransforms.TransformType cameraTransformType, MatrixStack matrixStack) {
+		public IBakedModel handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
 			if (cameraTransformType == ItemCameraTransforms.TransformType.NONE) {
 				return this;
 			}
@@ -300,7 +299,7 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 			TransformationMatrix tr = TRANSFORMS.get(cameraTransformType);
 
 			if (!tr.isIdentity()) {
-				tr.push(matrixStack);
+				tr.push();
 			}
 			return this;
 		}

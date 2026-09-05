@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -35,17 +34,17 @@ public class TankGlassModel extends AgeableModel<LivingEntity> {
 		//noop
 	}
 
-	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, boolean showLeftTank, boolean showRightTank) {
+	public void render(IVertexBuilder buffer, int packedLight, boolean showLeftTank, boolean showRightTank) {
 		if (showLeftTank) {
-			leftTankGlass.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+			leftTankGlass.render(buffer, packedLight, OverlayTexture.NO_OVERLAY);
 		}
 		if (showRightTank) {
-			rightTankGlass.render(matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+			rightTankGlass.render(buffer, packedLight, OverlayTexture.NO_OVERLAY);
 		}
 	}
 
 	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		//noop
 	}
 

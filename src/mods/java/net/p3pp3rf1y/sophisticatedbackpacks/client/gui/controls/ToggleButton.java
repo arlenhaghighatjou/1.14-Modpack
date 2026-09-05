@@ -1,6 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.GuiHelper;
@@ -26,7 +25,7 @@ public class ToggleButton<T extends Comparable<T>> extends Button {
 	}
 
 	@Override
-	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		StateData data = stateData.get(getState.get());
 		GuiHelper.blit(minecraft, matrixStack, x, y, data.getTexture());
 		if (isMouseOver(mouseX, mouseY)) {
