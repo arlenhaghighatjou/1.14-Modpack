@@ -244,7 +244,7 @@ public class WaystoneBlock extends Block {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (!WaystoneConfig.CLIENT.disableParticles.get() && random.nextFloat() < 0.75f) {
+        if (!WaystoneConfig.CLIENT.disableParticles && random.nextFloat() < 0.75f) {
             WaystoneTileEntity tileEntity = (WaystoneTileEntity) world.getTileEntity(pos);
             if (tileEntity != null && PlayerWaystoneManager.isWaystoneActivated(Minecraft.getInstance().player, tileEntity.getWaystone())) {
                 world.addParticle(ParticleTypes.PORTAL, pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 1.5, pos.getY() + 0.5, pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 1.5, 0, 0, 0);

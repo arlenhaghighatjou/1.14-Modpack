@@ -45,7 +45,7 @@ public class ModWorldGen {
     }
 
     public static void setupRandomWorldGen() {
-        if (WaystoneConfig.COMMON.worldGenFrequency.get() > 0) {
+        if (WaystoneConfig.COMMON.worldGenFrequency > 0) {
             Biome.BIOMES.forEach(biome -> {
                 WaystoneFeature feature = getWaystoneFeature(biome);
                 ConfiguredFeature<?> configuredFeature = Biome.createDecoratedFeature(feature, NoFeatureConfig.NO_FEATURE_CONFIG, waystonePlacement, NoPlacementConfig.NO_PLACEMENT_CONFIG);
@@ -55,7 +55,7 @@ public class ModWorldGen {
     }
 
     private static WaystoneFeature getWaystoneFeature(Biome it) {
-        WorldGenStyle worldGenStyle = WaystoneConfig.COMMON.worldGenStyle.get();
+        WorldGenStyle worldGenStyle = WaystoneConfig.COMMON.worldGenStyle;
         switch (worldGenStyle) {
             case MOSSY:
                 return mossyWaystoneFeature;
@@ -79,7 +79,7 @@ public class ModWorldGen {
         JigsawManager.REGISTRY.register(new JigsawPattern(villageWaystoneStructure, emptyStructure, Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
         JigsawManager.REGISTRY.register(new JigsawPattern(desertVillageWaystoneStructure, emptyStructure, Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
 
-        if (WaystoneConfig.COMMON.addVillageStructure.get()) {
+        if (WaystoneConfig.COMMON.addVillageStructure) {
             PlainsVillagePools.init();
             SnowyVillagePools.init();
             SavannaVillagePools.init();

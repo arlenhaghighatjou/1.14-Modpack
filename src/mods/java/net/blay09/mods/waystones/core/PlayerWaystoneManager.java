@@ -37,36 +37,36 @@ public class PlayerWaystoneManager {
     private static IPlayerWaystoneData inMemoryPlayerWaystoneData = new InMemoryPlayerWaystoneData();
 
     public static boolean mayBreakWaystone(PlayerEntity player, IBlockReader world, BlockPos pos) {
-        if (WaystoneConfig.SERVER.restrictToCreative.get() && !player.abilities.isCreativeMode) {
+        if (WaystoneConfig.SERVER.restrictToCreative && !player.abilities.isCreativeMode) {
             return false;
         }
 
         IWaystone waystone = WaystoneManager.get().getWaystoneAt(world, pos).orElseThrow(IllegalStateException::new);
         if (!player.abilities.isCreativeMode) {
-            if (waystone.wasGenerated() && WaystoneConfig.SERVER.generatedWaystonesUnbreakable.get()) {
+            if (waystone.wasGenerated() && WaystoneConfig.SERVER.generatedWaystonesUnbreakable) {
                 return false;
             }
 
-            return !waystone.isGlobal() || WaystoneConfig.SERVER.globalWaystoneRequiresCreative.get();
+            return !waystone.isGlobal() || WaystoneConfig.SERVER.globalWaystoneRequiresCreative;
         }
 
         return true;
     }
 
     public static boolean mayPlaceWaystone(@Nullable PlayerEntity player) {
-        return !WaystoneConfig.SERVER.restrictToCreative.get() || (player != null && player.abilities.isCreativeMode);
+        return !WaystoneConfig.SERVER.restrictToCreative || (player != null && player.abilities.isCreativeMode);
     }
 
     public static WaystoneEditPermissions mayEditWaystone(PlayerEntity player, World world, IWaystone waystone) {
-        if (WaystoneConfig.SERVER.restrictToCreative.get() && !player.abilities.isCreativeMode) {
+        if (WaystoneConfig.SERVER.restrictToCreative && !player.abilities.isCreativeMode) {
             return WaystoneEditPermissions.NOT_CREATIVE;
         }
 
-        if (WaystoneConfig.SERVER.restrictRenameToOwner.get() && !waystone.isOwner(player)) {
+        if (WaystoneConfig.SERVER.restrictRenameToOwner && !waystone.isOwner(player)) {
             return WaystoneEditPermissions.NOT_THE_OWNER;
         }
 
-        if (waystone.isGlobal() && !player.abilities.isCreativeMode && !WaystoneConfig.SERVER.globalWaystoneRequiresCreative.get()) {
+        if (waystone.isGlobal() && !player.abilities.isCreativeMode && !WaystoneConfig.SERVER.globalWaystoneRequiresCreative) {
             return WaystoneEditPermissions.GET_CREATIVE;
         }
 
@@ -85,18 +85,18 @@ public class PlayerWaystoneManager {
 
     public static int getExperienceLevelCost(PlayerEntity player, IWaystone waystone, WarpMode warpMode) {
         if (waystone.getDimensionType() != player.world.getDimension().getType()) {
-            return WaystoneConfig.SERVER.dimensionalWarpXpCost.get();
+            return WaystoneConfig.SERVER.dimensionalWarpXpCost;
         }
 
         double xpCostMultiplier = warpMode.getXpCostMultiplier();
         boolean enableXPCost = !player.abilities.isCreativeMode;
         if (waystone.isGlobal()) {
-            xpCostMultiplier *= WaystoneConfig.SERVER.globalWaystoneXpCostMultiplier.get();
+            xpCostMultiplier *= WaystoneConfig.SERVER.globalWaystoneXpCostMultiplier;
         }
 
         BlockPos pos = waystone.getPos();
         double dist = Math.sqrt(player.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
-        double xpLevelCost = WaystoneConfig.SERVER.blocksPerXPLevel.get() > 0 ? MathHelper.clamp(dist / (float) WaystoneConfig.SERVER.blocksPerXPLevel.get(), 0, WaystoneConfig.SERVER.maximumXpCost.get()) : 0;
+        double xpLevelCost = WaystoneConfig.SERVER.blocksPerXPLevel > 0 ? MathHelper.clamp(dist / (float) WaystoneConfig.SERVER.blocksPerXPLevel, 0, WaystoneConfig.SERVER.maximumXpCost) : 0;
         return enableXPCost ? (int) Math.round(xpLevelCost * xpCostMultiplier) : 0;
     }
 
@@ -110,7 +110,7 @@ public class PlayerWaystoneManager {
     }
 
     public static double getCooldownMultiplier(IWaystone waystone) {
-        return waystone.isGlobal() ? WaystoneConfig.SERVER.globalWaystoneCooldownMultiplier.get() : 1f;
+        return waystone.isGlobal() ? WaystoneConfig.SERVER.globalWaystoneCooldownMultiplier : 1f;
     }
 
     public static boolean tryTeleportToWaystone(ServerPlayerEntity player, IWaystone waystone, WarpMode warpMode, @Nullable IWaystone fromWaystone) {
@@ -141,11 +141,11 @@ public class PlayerWaystoneManager {
         }
 
         if (warpMode == WarpMode.INVENTORY_BUTTON) {
-            int cooldown = (int) (WaystoneConfig.SERVER.warpStoneCooldown.get() * getCooldownMultiplier(waystone));
+            int cooldown = (int) (WaystoneConfig.SERVER.warpStoneCooldown * getCooldownMultiplier(waystone));
             getPlayerWaystoneData(player.world).setInventoryButtonCooldownUntil(player, System.currentTimeMillis() + cooldown * 1000);
             WaystoneSyncManager.sendWaystoneCooldowns(player);
         } else if (warpMode == WarpMode.WARP_STONE) {
-            int cooldown = (int) (WaystoneConfig.SERVER.warpStoneCooldown.get() * getCooldownMultiplier(waystone));
+            int cooldown = (int) (WaystoneConfig.SERVER.warpStoneCooldown * getCooldownMultiplier(waystone));
             getPlayerWaystoneData(player.world).setWarpStoneCooldownUntil(player, System.currentTimeMillis() + cooldown * 1000);
             WaystoneSyncManager.sendWaystoneCooldowns(player);
         }
@@ -159,7 +159,7 @@ public class PlayerWaystoneManager {
     }
 
     private static boolean canDimensionalWarpTo(PlayerEntity player, IWaystone waystone) {
-        DimensionalWarp dimensionalWarpMode = WaystoneConfig.SERVER.dimensionalWarp.get();
+        DimensionalWarp dimensionalWarpMode = WaystoneConfig.SERVER.dimensionalWarp;
         return dimensionalWarpMode == DimensionalWarp.ALLOW || dimensionalWarpMode == DimensionalWarp.GLOBAL_ONLY && waystone.isGlobal();
     }
 
@@ -290,7 +290,7 @@ public class PlayerWaystoneManager {
     }
 
     public static boolean mayEditGlobalWaystones(PlayerEntity player) {
-        return player.abilities.isCreativeMode || !WaystoneConfig.SERVER.globalWaystoneRequiresCreative.get();
+        return player.abilities.isCreativeMode || !WaystoneConfig.SERVER.globalWaystoneRequiresCreative;
     }
 
     public static void makeWaystoneGlobal(IWaystone waystone) {

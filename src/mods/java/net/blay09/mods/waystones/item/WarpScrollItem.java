@@ -43,7 +43,7 @@ public class WarpScrollItem extends Item implements IResetUseOnDamage {
 
     @Override
     public int getUseDuration(ItemStack itemStack) {
-        return WaystoneConfig.SERVER.scrollUseTime.get();
+        return WaystoneConfig.SERVER.scrollUseTime;
     }
 
     @Override

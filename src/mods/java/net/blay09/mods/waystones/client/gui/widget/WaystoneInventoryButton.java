@@ -31,8 +31,8 @@ public class WaystoneInventoryButton extends Button {
     @Override
     public void renderButton(int mouseX, int mouseY, float partialTicks) {
         if (visible) {
-            x = parentScreen.getGuiLeft() + WaystoneConfig.CLIENT.teleportButtonX.get();
-            y = parentScreen.getGuiTop() + WaystoneConfig.CLIENT.teleportButtonY.get();
+            x = parentScreen.getGuiLeft() + WaystoneConfig.CLIENT.teleportButtonX;
+            y = parentScreen.getGuiTop() + WaystoneConfig.CLIENT.teleportButtonY;
             isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
             PlayerEntity player = Minecraft.getInstance().player;

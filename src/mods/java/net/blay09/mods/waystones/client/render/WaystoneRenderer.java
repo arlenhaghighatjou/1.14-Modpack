@@ -35,11 +35,11 @@ public class WaystoneRenderer extends TileEntityRenderer<WaystoneTileEntity> {
         if (isActivated) {
             bindTexture(textureActive);
             GlStateManager.scalef(1.05f, 1.05f, 1.05f);
-            if (!WaystoneConfig.CLIENT.disableTextGlow.get()) {
+            if (!WaystoneConfig.CLIENT.disableTextGlow) {
                 Minecraft.getInstance().gameRenderer.disableLightmap();
             }
             model.renderPillar();
-            if (!WaystoneConfig.CLIENT.disableTextGlow.get()) {
+            if (!WaystoneConfig.CLIENT.disableTextGlow) {
                 Minecraft.getInstance().gameRenderer.enableLightmap();
             }
         }

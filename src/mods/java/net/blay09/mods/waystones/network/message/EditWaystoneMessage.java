@@ -73,7 +73,7 @@ public class EditWaystoneMessage {
     }
 
     private static String makeNameLegal(String name) {
-        String inventoryButtonMode = WaystoneConfig.SERVER.inventoryButton.get();
+        String inventoryButtonMode = WaystoneConfig.SERVER.inventoryButton;
         if (inventoryButtonMode.equals(name)) {
             return name + "*";
         }
