@@ -10,43 +10,33 @@ package biomesoplenty.init;
 import biomesoplenty.api.entity.BOPEntities;
 import biomesoplenty.common.entity.item.BoatEntityBOP;
 import biomesoplenty.common.entity.item.BoatRendererBOP;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import static biomesoplenty.core.BiomesOPlenty.MOD_ID;
-
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
-    @SubscribeEvent
-    public static void registerEntities(RegistryEvent.Register<EntityType<?>> event)
+    public static void registerEntities()
     {
-        BOPEntities.boat_bop = EntityType.Builder.<BoatEntityBOP>create(BoatEntityBOP::new, EntityClassification.MISC).setTrackingRange(80).setUpdateInterval(3).setShouldReceiveVelocityUpdates(true).size(1.375f, 0.5625f).setCustomClientFactory(BoatEntityBOP::new).build(MOD_ID + ":boat_bop");
-        BOPEntities.boat_bop.setRegistryName("boat_bop");
-        ForgeRegistries.ENTITIES.register(BOPEntities.boat_bop);
+        BOPEntities.boat_bop = createEntity(BoatEntityBOP::new, EntityClassification.MISC, "boat_bop", 1.375F, 0.5625F);
     }
 
-    public static <T extends Entity> EntityType<T> createEntity(EntityType.IFactory<T> factory, EntityClassification classification, String name, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates)
+    public static <T extends Entity> EntityType<T> createEntity(EntityType.IFactory<T> factory, EntityClassification classification, String name, float width, float height)
     {
-        ResourceLocation location = new ResourceLocation("biomesoplenty", name);
-        EntityType<T> type = EntityType.Builder.<T>create(factory, classification).setTrackingRange(trackingRange).setUpdateInterval(updateFrequency).setShouldReceiveVelocityUpdates(sendsVelocityUpdates).build(location.toString());
-        type.setRegistryName(name);
-        ForgeRegistries.ENTITIES.register(type);
-        return type;
+        ResourceLocation id = new ResourceLocation("biomesoplenty", name);
+        return Registry.register(Registry.ENTITY_TYPE, id, EntityType.Builder.create(factory, classification).size(width, height).build(id.toString()));
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRendering()
     {
-        RenderingRegistry.registerEntityRenderingHandler(BoatEntityBOP.class, BoatRendererBOP::new);
+        EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+        renderManager.register(BoatEntityBOP.class, new BoatRendererBOP(renderManager));
     }
 }

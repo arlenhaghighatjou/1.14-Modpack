@@ -150,7 +150,7 @@ public class EntityRendererManager {
    private boolean renderShadow = true;
    private boolean debugBoundingBox;
 
-   private <T extends Entity> void register(Class<T> p_217782_1_, EntityRenderer<? super T> p_217782_2_) {
+   public <T extends Entity> void register(Class<T> p_217782_1_, EntityRenderer<? super T> p_217782_2_) {
       this.renderers.put(p_217782_1_, p_217782_2_);
    }
 

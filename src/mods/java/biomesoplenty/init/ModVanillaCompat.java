@@ -3,7 +3,6 @@ package biomesoplenty.init;
 import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.common.world.gen.feature.BOPBiomeFeatures;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import net.minecraft.block.*;
 import net.minecraft.item.AxeItem;
 import net.minecraft.util.IItemProvider;
@@ -317,7 +316,6 @@ public class ModVanillaCompat
     }
 
     public static void registerStrippable(Block log, Block stripped_log) {
-        AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
         AxeItem.BLOCK_STRIPPING_MAP.put(log, stripped_log);
     }
 
