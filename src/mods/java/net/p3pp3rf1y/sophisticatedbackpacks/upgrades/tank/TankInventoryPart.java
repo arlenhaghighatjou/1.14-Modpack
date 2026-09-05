@@ -9,7 +9,7 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -91,7 +91,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		int screenX = screen.getGuiLeft() + pos.getX() + 10;
 		int screenY = screen.getGuiTop() + pos.getY() + 1;
 		if (mouseX >= screenX && mouseX < screenX + 16 && mouseY >= screenY && mouseY < screenY + height - 2) {
-			List<ITextProperties> tooltip = new ArrayList<>();
+			List<ITextComponent> tooltip = new ArrayList<>();
 			if (!contents.isEmpty()) {
 				tooltip.add(contents.getDisplayName());
 			}

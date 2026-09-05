@@ -5,7 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.BackpackWidget;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.ButtonBase;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.CompositeBackpackWidget;
@@ -25,12 +25,12 @@ public abstract class Tab extends CompositeBackpackWidget<BackpackWidget> {
 
 	private int width = DEFAULT_WIDTH;
 	private int height = DEFAULT_HEIGHT;
-	private final List<ITextProperties> tooltip;
+	private final List<ITextComponent> tooltip;
 
 	private BooleanSupplier shouldShowTooltip = () -> true;
 	private BooleanSupplier shouldRender = () -> true;
 
-	protected Tab(Position position, List<ITextProperties> tooltip, Function<IntConsumer, ButtonBase> getTabButton) {
+	protected Tab(Position position, List<ITextComponent> tooltip, Function<IntConsumer, ButtonBase> getTabButton) {
 		super(position);
 		this.tooltip = tooltip;
 		addChild(getTabButton.apply(this::onTabIconClicked));

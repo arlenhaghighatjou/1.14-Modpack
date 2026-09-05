@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.settings;
 
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.SettingsScreen;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.SettingsTabBase;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.ButtonBase;
@@ -16,8 +16,8 @@ import java.util.function.IntConsumer;
 public abstract class SettingsTab<C extends SettingsContainerBase<?>> extends SettingsTabBase<SettingsScreen> {
 	private final C settingsContainer;
 
-	protected SettingsTab(C settingsContainer, Position position, SettingsScreen screen, ITextComponent tabLabel, List<ITextProperties> tooltip,
-			List<ITextProperties> openTooltip, Function<IntConsumer, ButtonBase> getTabButton) {
+	protected SettingsTab(C settingsContainer, Position position, SettingsScreen screen, ITextComponent tabLabel, List<ITextComponent> tooltip,
+			List<ITextComponent> openTooltip, Function<IntConsumer, ButtonBase> getTabButton) {
 		super(position, screen, tabLabel, tooltip, openTooltip, getTabButton);
 		this.settingsContainer = settingsContainer;
 	}

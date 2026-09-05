@@ -25,7 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -693,13 +693,13 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 		int tooltipWidth = font.getStringWidth(overlayErrorMessage);
 
-		List<ITextProperties> wrappedTextLines = new ArrayList<>();
+		List<ITextComponent> wrappedTextLines = new ArrayList<>();
 		int maxLineWidth = 260;
 		if (tooltipWidth > maxLineWidth) {
 			int wrappedTooltipWidth = 0;
-			List<ITextProperties> wrappedLine = font.getSplitter().splitLines(overlayErrorMessage, maxLineWidth, Style.EMPTY);
+			List<ITextComponent> wrappedLine = font.getSplitter().splitLines(overlayErrorMessage, maxLineWidth, Style.EMPTY);
 
-			for (ITextProperties line : wrappedLine) {
+			for (ITextComponent line : wrappedLine) {
 				int lineWidth = font.width(line);
 				if (lineWidth > wrappedTooltipWidth) {wrappedTooltipWidth = lineWidth;}
 				wrappedTextLines.add(line);

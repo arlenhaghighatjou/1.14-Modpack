@@ -3,7 +3,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.BackpackWidget;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.ButtonBase;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.Label;
@@ -28,9 +28,9 @@ public abstract class SettingsTabBase<T extends ContainerScreen<?>> extends Tab 
 	private Runnable onOpen = () -> {};
 	private Runnable onClose = () -> {};
 	private final List<BackpackWidget> hideableChildren = new ArrayList<>();
-	private final List<ITextProperties> openTooltip;
+	private final List<ITextComponent> openTooltip;
 
-	protected SettingsTabBase(Position position, T screen, ITextComponent tabLabel, List<ITextProperties> tooltip, List<ITextProperties> openTooltip, Function<IntConsumer, ButtonBase> getTabButton) {
+	protected SettingsTabBase(Position position, T screen, ITextComponent tabLabel, List<ITextComponent> tooltip, List<ITextComponent> openTooltip, Function<IntConsumer, ButtonBase> getTabButton) {
 		super(position, tooltip, getTabButton);
 		this.screen = screen;
 		this.openTooltip = openTooltip;

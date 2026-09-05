@@ -1,7 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.registry.tool;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ToolType;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.tool.ToolType;
 
 class ToolTypeMatcher implements CacheableStackPredicate {
 	private final ToolType toolType;

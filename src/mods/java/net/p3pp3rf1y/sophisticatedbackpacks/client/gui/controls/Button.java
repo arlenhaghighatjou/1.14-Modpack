@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.GuiHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Position;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.TextureBlitData;
@@ -17,7 +17,7 @@ public class Button extends ButtonBase {
 	private final TextureBlitData hoveredBackgroundTexture;
 	@Nullable
 	private final TextureBlitData foregroundTexture;
-	private List<ITextProperties> tooltip;
+	private List<ITextComponent> tooltip;
 
 	public Button(Position position, ButtonDefinition buttonDefinition, IntConsumer onClick) {
 		super(position, buttonDefinition.getDimension(), onClick);
@@ -48,11 +48,11 @@ public class Button extends ButtonBase {
 		}
 	}
 
-	protected List<ITextProperties> getTooltip() {
+	protected List<ITextComponent> getTooltip() {
 		return tooltip;
 	}
 
-	public void setTooltip(List<ITextProperties> tooltip) {
+	public void setTooltip(List<ITextComponent> tooltip) {
 		this.tooltip = tooltip;
 	}
 }

@@ -5,7 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.DyeColor;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls.ButtonBase;
@@ -23,7 +23,7 @@ import static net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.GuiHelper.DE
 
 public class ColorToggleButton extends ButtonBase {
 	private static final DyeColor[] DYE_VALUES = DyeColor.values();
-	private static final List<ITextProperties> TOOLTIP = new ImmutableList.Builder<ITextProperties>()
+	private static final List<ITextComponent> TOOLTIP = new ImmutableList.Builder<ITextComponent>()
 			.add(new TranslationTextComponent(TranslationHelper.translSettingsButton("toggle_color")))
 			.addAll(TranslationHelper.getTranslatedLines(TranslationHelper.translSettingsButton("toggle_color_detail"), null, TextFormatting.GRAY))
 			.build();

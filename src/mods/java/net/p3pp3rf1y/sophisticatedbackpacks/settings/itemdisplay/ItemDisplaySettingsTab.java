@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.settings.itemdisplay;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.SettingsScreen;
@@ -28,7 +28,7 @@ import static net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.TranslationH
 
 public class ItemDisplaySettingsTab extends SettingsTab<ItemDisplaySettingsContainer> {
 	private static final TextureBlitData ICON = new TextureBlitData(GuiHelper.ICONS, Dimension.SQUARE_256, new UV(112, 64), Dimension.SQUARE_16);
-	private static final List<ITextProperties> ROTATE_TOOLTIP = new ImmutableList.Builder<ITextProperties>()
+	private static final List<ITextComponent> ROTATE_TOOLTIP = new ImmutableList.Builder<ITextComponent>()
 			.add(new TranslationTextComponent(TranslationHelper.translSettingsButton("rotate")))
 			.addAll(TranslationHelper.getTranslatedLines(TranslationHelper.translSettingsButton("rotate_detail"), null, TextFormatting.GRAY))
 			.build();
@@ -37,11 +37,11 @@ public class ItemDisplaySettingsTab extends SettingsTab<ItemDisplaySettingsConta
 
 	public ItemDisplaySettingsTab(ItemDisplaySettingsContainer container, Position position, SettingsScreen screen) {
 		super(container, position, screen, new TranslationTextComponent(translSettings(ItemDisplaySettingsCategory.NAME)),
-				new ImmutableList.Builder<ITextProperties>()
+				new ImmutableList.Builder<ITextComponent>()
 						.add(new TranslationTextComponent(translSettingsTooltip(ItemDisplaySettingsCategory.NAME)))
 						.addAll(TranslationHelper.getTranslatedLines(translSettingsTooltip(ItemDisplaySettingsCategory.NAME) + "_detail", null, TextFormatting.GRAY))
 						.build(),
-				new ImmutableList.Builder<ITextProperties>()
+				new ImmutableList.Builder<ITextComponent>()
 						.add(new TranslationTextComponent(translSettingsTooltip(ItemDisplaySettingsCategory.NAME)))
 						.addAll(TranslationHelper.getTranslatedLines(translSettingsTooltip(ItemDisplaySettingsCategory.NAME) + "_open_detail", null, TextFormatting.GRAY))
 						.build(),
@@ -54,7 +54,7 @@ public class ItemDisplaySettingsTab extends SettingsTab<ItemDisplaySettingsConta
 			}
 		}) {
 			@Override
-			protected List<ITextProperties> getTooltip() {
+			protected List<ITextComponent> getTooltip() {
 				return ROTATE_TOOLTIP;
 			}
 		});

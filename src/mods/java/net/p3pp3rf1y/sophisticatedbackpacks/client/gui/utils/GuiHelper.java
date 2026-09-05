@@ -28,7 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -134,9 +134,9 @@ public class GuiHelper {
 		WorldVertexBufferUploader.end(bufferbuilder);
 	}
 
-	private static List<? extends ITextProperties> tooltipToRender = Collections.emptyList();
+	private static List<? extends ITextComponent> tooltipToRender = Collections.emptyList();
 
-	public static void setTooltipToRender(List<? extends ITextProperties> tooltip) {
+	public static void setTooltipToRender(List<? extends ITextComponent> tooltip) {
 		tooltipToRender = tooltip;
 	}
 
@@ -149,12 +149,12 @@ public class GuiHelper {
 		tooltipToRender = Collections.emptyList();
 	}
 
-	public static void renderTooltip(Minecraft minecraft, MatrixStack matrixStack, List<? extends ITextProperties> textLines, int mouseX, int mouseY,
+	public static void renderTooltip(Minecraft minecraft, MatrixStack matrixStack, List<? extends ITextComponent> textLines, int mouseX, int mouseY,
 			ITooltipRenderPart additionalRender, @Nullable FontRenderer tooltipRenderFont, ItemStack stack) {
 		renderTooltip(minecraft, matrixStack, textLines, mouseX, mouseY, additionalRender, tooltipRenderFont, stack, 0);
 	}
 
-	public static void renderTooltip(Minecraft minecraft, MatrixStack matrixStack, List<? extends ITextProperties> textLines, int mouseX, int mouseY,
+	public static void renderTooltip(Minecraft minecraft, MatrixStack matrixStack, List<? extends ITextComponent> textLines, int mouseX, int mouseY,
 			ITooltipRenderPart additionalRender, @Nullable FontRenderer tooltipRenderFont, ItemStack stack, int maxTextWidth) {
 
 		FontRenderer font = tooltipRenderFont == null ? minecraft.fontRenderer : tooltipRenderFont;
@@ -169,11 +169,11 @@ public class GuiHelper {
 		}
 
 		int wrappedTooltipWidth = 0;
-		List<ITextProperties> wrappedTextLines = new ArrayList<>();
-		for (ITextProperties textLine : textLines) {
-			List<ITextProperties> wrappedLine = font.getSplitter().splitLines(textLine, tooltipWidth, Style.EMPTY);
+		List<ITextComponent> wrappedTextLines = new ArrayList<>();
+		for (ITextComponent textLine : textLines) {
+			List<ITextComponent> wrappedLine = font.getSplitter().splitLines(textLine, tooltipWidth, Style.EMPTY);
 
-			for (ITextProperties line : wrappedLine) {
+			for (ITextComponent line : wrappedLine) {
 				int lineWidth = font.width(line);
 				if (lineWidth > wrappedTooltipWidth) {wrappedTooltipWidth = lineWidth;}
 				wrappedTextLines.add(line);
@@ -253,9 +253,9 @@ public class GuiHelper {
 		RenderSystem.enableTexture();
 	}
 
-	private static int getMaxLineWidth(List<? extends ITextProperties> tooltips, FontRenderer font) {
+	private static int getMaxLineWidth(List<? extends ITextComponent> tooltips, FontRenderer font) {
 		int maxLineWidth = 0;
-		for (ITextProperties line : tooltips) {
+		for (ITextComponent line : tooltips) {
 			int lineWidth = font.width(line);
 			if (lineWidth > maxLineWidth) {
 				maxLineWidth = lineWidth;
@@ -264,9 +264,9 @@ public class GuiHelper {
 		return maxLineWidth;
 	}
 
-	public static int writeTooltipLines(List<? extends ITextProperties> textLines, FontRenderer font, float leftX, int topY, Matrix4f matrix4f, IRenderTypeBuffer.Impl renderTypeBuffer, int color) {
+	public static int writeTooltipLines(List<? extends ITextComponent> textLines, FontRenderer font, float leftX, int topY, Matrix4f matrix4f, IRenderTypeBuffer.Impl renderTypeBuffer, int color) {
 		for (int i = 0; i < textLines.size(); ++i) {
-			ITextProperties line = textLines.get(i);
+			ITextComponent line = textLines.get(i);
 			if (line != null) {
 				font.drawInBatch(LanguageMap.getInstance().getVisualOrder(line), leftX, topY, color, true, matrix4f, renderTypeBuffer, false, 0, 15728880);
 			}

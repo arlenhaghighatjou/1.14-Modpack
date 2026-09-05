@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui.controls;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.GuiHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Position;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.TextureBlitData;
@@ -36,7 +36,7 @@ public class ToggleButton<T extends Comparable<T>> extends Button {
 
 	public static class StateData {
 		private final TextureBlitData texture;
-		private final List<? extends ITextProperties> tooltip;
+		private final List<? extends ITextComponent> tooltip;
 
 		public StateData(TextureBlitData texture, List<? extends ITextComponent> tooltip) {
 			this.texture = texture;
@@ -52,7 +52,7 @@ public class ToggleButton<T extends Comparable<T>> extends Button {
 			return texture;
 		}
 
-		public List<? extends ITextProperties> getTooltip() {
+		public List<? extends ITextComponent> getTooltip() {
 			return tooltip;
 		}
 	}

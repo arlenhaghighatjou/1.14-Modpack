@@ -5,7 +5,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen;
@@ -96,7 +96,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 		int screenX = screen.getGuiLeft() + pos.getX() + 10;
 		int screenY = screen.getGuiTop() + pos.getY() + 1;
 		if (mouseX >= screenX && mouseX < screenX + 16 && mouseY >= screenY && mouseY < screenY + height - 2) {
-			List<ITextProperties> tooltip = new ArrayList<>();
+			List<ITextComponent> tooltip = new ArrayList<>();
 			tooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeKey("battery.contents_tooltip"), String.format("%,d", energyStored), String.format("%,d", maxEnergyStored)));
 			GuiHelper.setTooltipToRender(tooltip);
 		}

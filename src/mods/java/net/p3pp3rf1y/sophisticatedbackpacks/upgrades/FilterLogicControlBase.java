@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -44,9 +44,9 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 	protected final C container;
 	private final int height;
 	private final int width;
-	private final List<ITextProperties> addTagTooltip = new ArrayList<>();
-	private final List<ITextProperties> removeTagTooltip = new ArrayList<>();
-	private final List<ITextProperties> tagListTooltip = new ArrayList<>();
+	private final List<ITextComponent> addTagTooltip = new ArrayList<>();
+	private final List<ITextComponent> removeTagTooltip = new ArrayList<>();
+	private final List<ITextComponent> tagListTooltip = new ArrayList<>();
 	@Nullable
 	private ToggleButton<Boolean> nbtButton = null;
 	@Nullable
@@ -127,7 +127,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 			updateTagListAndRemoveTooltips();
 		}) {
 			@Override
-			protected List<ITextProperties> getTooltip() {
+			protected List<ITextComponent> getTooltip() {
 				return removeTagTooltip;
 			}
 		});
@@ -146,7 +146,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 			updateAddTooltip();
 		}) {
 			@Override
-			protected List<ITextProperties> getTooltip() {
+			protected List<ITextComponent> getTooltip() {
 				return addTagTooltip;
 			}
 		});
