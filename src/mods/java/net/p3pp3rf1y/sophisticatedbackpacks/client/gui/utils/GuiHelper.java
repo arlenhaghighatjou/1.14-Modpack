@@ -174,7 +174,7 @@ public class GuiHelper {
 			List<ITextComponent> wrappedLine = font.getSplitter().splitLines(textLine, tooltipWidth, Style.EMPTY);
 
 			for (ITextComponent line : wrappedLine) {
-				int lineWidth = font.width(line);
+				int lineWidth = font.getStringWidth(line);
 				if (lineWidth > wrappedTooltipWidth) {wrappedTooltipWidth = lineWidth;}
 				wrappedTextLines.add(line);
 			}
@@ -256,7 +256,7 @@ public class GuiHelper {
 	private static int getMaxLineWidth(List<? extends ITextComponent> tooltips, FontRenderer font) {
 		int maxLineWidth = 0;
 		for (ITextComponent line : tooltips) {
-			int lineWidth = font.width(line);
+			int lineWidth = font.getStringWidth(line);
 			if (lineWidth > maxLineWidth) {
 				maxLineWidth = lineWidth;
 			}

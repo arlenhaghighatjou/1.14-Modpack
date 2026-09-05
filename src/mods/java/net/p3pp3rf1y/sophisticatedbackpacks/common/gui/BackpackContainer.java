@@ -1051,7 +1051,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			} else if (dragEvent == 2) {
 				if (!dragSlots.isEmpty()) {
 					if (dragSlots.size() == 1) {
-						int l = (dragSlots.iterator().next()).index;
+						int l = (dragSlots.iterator().next()).slotNumber;
 						resetQuickCraft();
 						return clicked(l, quickcraftType, ClickType.PICKUP, player);
 					}

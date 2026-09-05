@@ -700,7 +700,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			List<ITextComponent> wrappedLine = font.getSplitter().splitLines(overlayErrorMessage, maxLineWidth, Style.EMPTY);
 
 			for (ITextComponent line : wrappedLine) {
-				int lineWidth = font.width(line);
+				int lineWidth = font.getStringWidth(line);
 				if (lineWidth > wrappedTooltipWidth) {wrappedTooltipWidth = lineWidth;}
 				wrappedTextLines.add(line);
 			}
