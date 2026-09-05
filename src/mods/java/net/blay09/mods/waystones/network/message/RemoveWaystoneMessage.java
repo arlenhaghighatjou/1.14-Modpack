@@ -5,9 +5,7 @@ import net.blay09.mods.waystones.core.PlayerWaystoneManager;
 import net.blay09.mods.waystones.core.WaystoneProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
 
 public class RemoveWaystoneMessage {
 
@@ -26,17 +24,8 @@ public class RemoveWaystoneMessage {
         return new RemoveWaystoneMessage(waystone);
     }
 
-    public static void handle(RemoveWaystoneMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            ServerPlayerEntity player = context.getSender();
-            if (player == null) {
-                return;
-            }
-
-            PlayerWaystoneManager.deactivateWaystone(player, message.waystone);
-        });
-        context.setPacketHandled(true);
+    public static void handle(RemoveWaystoneMessage message, ServerPlayerEntity player) {
+        PlayerWaystoneManager.deactivateWaystone(player, message.waystone);
     }
 
 }

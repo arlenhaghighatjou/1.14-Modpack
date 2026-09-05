@@ -1512,6 +1512,8 @@ public class ClientPlayNetHandler implements IClientPlayNetHandler {
             packetbuffer = packetIn.getBufferData();
             if (squeek.appleskin.network.SyncHandler.CHANNEL.equals(resourcelocation)) {
 				squeek.appleskin.network.NetworkHelper.handle(packetbuffer, this.client.player);
+			} else if (net.blay09.mods.waystones.network.NetworkHandler.CHANNEL.equals(resourcelocation)) {
+				net.blay09.mods.waystones.network.NetworkHandler.handleClient(packetbuffer);
 			} else if (SCustomPayloadPlayPacket.BRAND.equals(resourcelocation)) {
                 this.client.player.setServerBrand(packetbuffer.readString(32767));
             } else if (SCustomPayloadPlayPacket.REGISTER.equals(resourcelocation) || SCustomPayloadPlayPacket.UNREGISTER.equals(resourcelocation)) {

@@ -6,9 +6,7 @@ import net.blay09.mods.waystones.core.PlayerWaystoneManager;
 import net.blay09.mods.waystones.core.WaystoneProxy;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
 
 public class SelectWaystoneMessage {
 
@@ -27,21 +25,12 @@ public class SelectWaystoneMessage {
         return new SelectWaystoneMessage(waystone);
     }
 
-    public static void handle(SelectWaystoneMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            ServerPlayerEntity player = context.getSender();
-            if (player == null) {
-                return;
-            }
-
-            WaystoneSelectionContainer container = (WaystoneSelectionContainer) player.openContainer;
-            if (PlayerWaystoneManager.isWaystoneActivated(player, message.waystone)) {
-                PlayerWaystoneManager.tryTeleportToWaystone(player, message.waystone, container.getWarpMode(), container.getWaystoneFrom());
-            }
-            player.closeScreen();
-        });
-        context.setPacketHandled(true);
+    public static void handle(SelectWaystoneMessage message, ServerPlayerEntity player) {
+        WaystoneSelectionContainer container = (WaystoneSelectionContainer) player.openContainer;
+        if (PlayerWaystoneManager.isWaystoneActivated(player, message.waystone)) {
+            PlayerWaystoneManager.tryTeleportToWaystone(player, message.waystone, container.getWarpMode(), container.getWaystoneFrom());
+        }
+        player.closeScreen();
     }
 
 

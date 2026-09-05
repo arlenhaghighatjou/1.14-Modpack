@@ -14,10 +14,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-import java.util.function.Supplier;
 
 public class RequestEditWaystoneMessage {
 
@@ -48,27 +46,18 @@ public class RequestEditWaystoneMessage {
         return new RequestEditWaystoneMessage(waystone);
     }
 
-    public static void handle(RequestEditWaystoneMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            ServerPlayerEntity player = context.getSender();
-            if (player == null) {
-                return;
-            }
+    public static void handle(RequestEditWaystoneMessage message, ServerPlayerEntity player) {
+        WaystoneEditPermissions permissions = PlayerWaystoneManager.mayEditWaystone(player, player.world, message.waystone);
+        if (permissions != WaystoneEditPermissions.ALLOW) {
+            return;
+        }
 
-            WaystoneEditPermissions permissions = PlayerWaystoneManager.mayEditWaystone(player, player.world, message.waystone);
-            if (permissions != WaystoneEditPermissions.ALLOW) {
-                return;
-            }
+        BlockPos pos = message.waystone.getPos();
+        if (player.getDistanceSq(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f) > 64) {
+            return;
+        }
 
-            BlockPos pos = message.waystone.getPos();
-            if (player.getDistanceSq(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f) > 64) {
-                return;
-            }
-
-            NetworkHooks.openGui(player, message.containerProvider, pos);
-        });
-        context.setPacketHandled(true);
+        NetworkHooks.openGui(player, message.containerProvider, pos);
     }
 }
 

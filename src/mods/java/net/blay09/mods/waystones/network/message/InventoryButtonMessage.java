@@ -15,11 +15,9 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class InventoryButtonMessage {
 
@@ -42,43 +40,34 @@ public class InventoryButtonMessage {
         return new InventoryButtonMessage();
     }
 
-    public static void handle(InventoryButtonMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            InventoryButtonMode inventoryButtonMode = WaystoneConfig.getInventoryButtonMode();
-            if (!inventoryButtonMode.isEnabled()) {
-                return;
-            }
+    public static void handle(InventoryButtonMessage message, ServerPlayerEntity player) {
+        InventoryButtonMode inventoryButtonMode = WaystoneConfig.getInventoryButtonMode();
+        if (!inventoryButtonMode.isEnabled()) {
+            return;
+        }
 
-            ServerPlayerEntity player = context.getSender();
-            if (player == null) {
-                return;
-            }
+        // Reset cooldown if player is in creative mode
+        if (player.abilities.isCreativeMode) {
+            PlayerWaystoneManager.setInventoryButtonCooldownUntil(player, 0);
+        }
 
-            // Reset cooldown if player is in creative mode
-            if (player.abilities.isCreativeMode) {
-                PlayerWaystoneManager.setInventoryButtonCooldownUntil(player, 0);
-            }
+        if (!PlayerWaystoneManager.canUseInventoryButton(player)) {
+            return;
+        }
 
-            if (!PlayerWaystoneManager.canUseInventoryButton(player)) {
-                return;
+        if (inventoryButtonMode.isReturnToNearest()) {
+            IWaystone nearestWaystone = PlayerWaystoneManager.getNearestWaystone(player);
+            if (nearestWaystone != null) {
+                PlayerWaystoneManager.tryTeleportToWaystone(player, nearestWaystone, WarpMode.INVENTORY_BUTTON, null);
             }
-
-            if (inventoryButtonMode.isReturnToNearest()) {
-                IWaystone nearestWaystone = PlayerWaystoneManager.getNearestWaystone(player);
-                if (nearestWaystone != null) {
-                    PlayerWaystoneManager.tryTeleportToWaystone(player, nearestWaystone, WarpMode.INVENTORY_BUTTON, null);
-                }
-            } else if (inventoryButtonMode.isReturnToAny()) {
-                NetworkHooks.openGui(player, containerProvider, it -> {
-                    it.writeByte(WarpMode.INVENTORY_BUTTON.ordinal());
-                });
-            } else if (inventoryButtonMode.hasNamedTarget()) {
-                Optional<IWaystone> waystone = WaystoneManager.get().findWaystoneByName(inventoryButtonMode.getNamedTarget());
-                waystone.ifPresent(iWaystone -> PlayerWaystoneManager.tryTeleportToWaystone(player, iWaystone, WarpMode.INVENTORY_BUTTON, null));
-            }
-        });
-        context.setPacketHandled(true);
+        } else if (inventoryButtonMode.isReturnToAny()) {
+            NetworkHooks.openGui(player, containerProvider, it -> {
+                it.writeByte(WarpMode.INVENTORY_BUTTON.ordinal());
+            });
+        } else if (inventoryButtonMode.hasNamedTarget()) {
+            Optional<IWaystone> waystone = WaystoneManager.get().findWaystoneByName(inventoryButtonMode.getNamedTarget());
+            waystone.ifPresent(iWaystone -> PlayerWaystoneManager.tryTeleportToWaystone(player, iWaystone, WarpMode.INVENTORY_BUTTON, null));
+        }
     }
 
 }

@@ -6,9 +6,7 @@ import net.blay09.mods.waystones.core.*;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
 
 public class EditWaystoneMessage {
 
@@ -35,41 +33,32 @@ public class EditWaystoneMessage {
         return new EditWaystoneMessage(waystone, name, isGlobal);
     }
 
-    public static void handle(EditWaystoneMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            ServerPlayerEntity player = context.getSender();
-            if (player == null) {
-                return;
+    public static void handle(EditWaystoneMessage message, ServerPlayerEntity player) {
+        WaystoneEditPermissions permissions = PlayerWaystoneManager.mayEditWaystone(player, player.world, message.waystone);
+        if (permissions != WaystoneEditPermissions.ALLOW) {
+            return;
+        }
+
+        BlockPos pos = message.waystone.getPos();
+        if (player.getDistanceSq(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f) > 64) {
+            return;
+        }
+
+        Waystone backingWaystone = (Waystone) ((WaystoneProxy) message.waystone).getBackingWaystone();
+        String legalName = makeNameLegal(message.name);
+        backingWaystone.setName(legalName);
+
+        if (PlayerWaystoneManager.mayEditGlobalWaystones(player)) {
+            if (!backingWaystone.isGlobal() && message.isGlobal) {
+                PlayerWaystoneManager.makeWaystoneGlobal(backingWaystone);
             }
+            backingWaystone.setGlobal(message.isGlobal);
+        }
 
-            WaystoneEditPermissions permissions = PlayerWaystoneManager.mayEditWaystone(player, player.world, message.waystone);
-            if (permissions != WaystoneEditPermissions.ALLOW) {
-                return;
-            }
+        WaystoneManager.get().markDirty();
+        WaystoneSyncManager.sendKnownWaystonesToAll();
 
-            BlockPos pos = message.waystone.getPos();
-            if (player.getDistanceSq(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f) > 64) {
-                return;
-            }
-
-            Waystone backingWaystone = (Waystone) ((WaystoneProxy) message.waystone).getBackingWaystone();
-            String legalName = makeNameLegal(message.name);
-            backingWaystone.setName(legalName);
-
-            if (PlayerWaystoneManager.mayEditGlobalWaystones(player)) {
-                if (!backingWaystone.isGlobal() && message.isGlobal) {
-                    PlayerWaystoneManager.makeWaystoneGlobal(backingWaystone);
-                }
-                backingWaystone.setGlobal(message.isGlobal);
-            }
-
-            WaystoneManager.get().markDirty();
-            WaystoneSyncManager.sendKnownWaystonesToAll();
-
-            player.closeScreen();
-        });
-        context.setPacketHandled(true);
+        player.closeScreen();
     }
 
     private static String makeNameLegal(String name) {

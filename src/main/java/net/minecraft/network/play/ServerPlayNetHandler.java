@@ -1218,6 +1218,12 @@ public class ServerPlayNetHandler implements IServerPlayNetHandler {
     }
 
     public void processCustomPayload(CCustomPayloadPacket packetIn) {
+        if (net.blay09.mods.waystones.network.NetworkHandler.CHANNEL.equals(packetIn.getChannelName())) {
+            PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.player.getServerWorld());
+            net.blay09.mods.waystones.network.NetworkHandler.handleServer(packetIn.getBufferData(), this.player);
+            return;
+        }
+
         String channelName = net.lax1dude.eaglercraft.socket.protocol.GamePluginMessageConstants.fromResourceLocation(packetIn.getChannelName().toString());
         net.minecraft.network.PacketBuffer bufferData = packetIn.getBufferData();
         try {

@@ -9,12 +9,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import net.lax1dude.eaglercraft.EaglercraftUUID;
-import java.util.function.Supplier;
 
 public class PlayerKnownWaystonesMessage {
 
@@ -56,15 +54,11 @@ public class PlayerKnownWaystonesMessage {
         return new PlayerKnownWaystonesMessage(waystones);
     }
 
-    public static void handle(PlayerKnownWaystonesMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            InMemoryPlayerWaystoneData playerWaystoneData = (InMemoryPlayerWaystoneData) PlayerWaystoneManager.getPlayerWaystoneData(LogicalSide.CLIENT);
-            playerWaystoneData.setWaystones(message.waystones);
-            for (IWaystone waystone : message.waystones) {
-                WaystoneManager.get().updateWaystone(waystone);
-            }
-        });
-        context.setPacketHandled(true);
+    public static void handle(PlayerKnownWaystonesMessage message) {
+        InMemoryPlayerWaystoneData playerWaystoneData = (InMemoryPlayerWaystoneData) PlayerWaystoneManager.getPlayerWaystoneData(LogicalSide.CLIENT);
+        playerWaystoneData.setWaystones(message.waystones);
+        for (IWaystone waystone : message.waystones) {
+            WaystoneManager.get().updateWaystone(waystone);
+        }
     }
 }
