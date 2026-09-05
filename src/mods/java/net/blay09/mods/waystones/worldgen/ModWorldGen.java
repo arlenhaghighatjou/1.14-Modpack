@@ -1,5 +1,6 @@
 package net.blay09.mods.waystones.worldgen;
 
+import net.blay09.mods.waystones.Waystones;
 import net.blay09.mods.waystones.block.ModBlocks;
 import net.blay09.mods.waystones.config.WaystoneConfig;
 import net.blay09.mods.waystones.config.WorldGenStyle;
@@ -15,9 +16,15 @@ import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.util.registry.Registry;
 
+import com.mojang.datafixers.util.Pair;
+import net.lax1dude.eaglercraft.Random;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class ModWorldGen {
@@ -30,18 +37,14 @@ public class ModWorldGen {
     private static WaystoneFeature sandyWaystoneFeature;
     private static WaystonePlacement waystonePlacement;
 
-    public static void registerFeatures(IForgeRegistry<Feature<?>> registry) {
-        registry.registerAll(
-                waystoneFeature = (WaystoneFeature) new WaystoneFeature(NoFeatureConfig::deserialize, ModBlocks.waystone.getDefaultState()).setRegistryName("waystone"),
-                mossyWaystoneFeature = (WaystoneFeature) new WaystoneFeature(NoFeatureConfig::deserialize, ModBlocks.mossyWaystone.getDefaultState()).setRegistryName("mossy_waystone"),
-                sandyWaystoneFeature = (WaystoneFeature) new WaystoneFeature(NoFeatureConfig::deserialize, ModBlocks.sandyWaystone.getDefaultState()).setRegistryName("sandy_waystone")
-        );
+    public static void registerFeatures() {
+        waystoneFeature = Registry.register(Registry.FEATURE, new ResourceLocation(Waystones.MOD_ID, "waystone"), new WaystoneFeature(NoFeatureConfig::deserialize, ModBlocks.waystone.getDefaultState()));
+        mossyWaystoneFeature = Registry.register(Registry.FEATURE, new ResourceLocation(Waystones.MOD_ID, "mossy_waystone"), new WaystoneFeature(NoFeatureConfig::deserialize, ModBlocks.mossyWaystone.getDefaultState()));
+        sandyWaystoneFeature = Registry.register(Registry.FEATURE, new ResourceLocation(Waystones.MOD_ID, "sandy_waystone"), new WaystoneFeature(NoFeatureConfig::deserialize, ModBlocks.sandyWaystone.getDefaultState()));
     }
 
-    public static void registerPlacements(IForgeRegistry<Placement<?>> registry) {
-        registry.registerAll(
-                waystonePlacement = (WaystonePlacement) new WaystonePlacement(NoPlacementConfig::deserialize).setRegistryName("waystone")
-        );
+    public static void registerPlacements() {
+        waystonePlacement = Registry.register(Registry.DECORATOR, new ResourceLocation(Waystones.MOD_ID, "waystone"), new WaystonePlacement(NoPlacementConfig::deserialize));
     }
 
     public static void setupRandomWorldGen() {
@@ -62,7 +65,7 @@ public class ModWorldGen {
             case SANDY:
                 return sandyWaystoneFeature;
             case BIOME:
-                ResourceLocation biomeRegistryName = Objects.requireNonNull(it.getRegistryName());
+                ResourceLocation biomeRegistryName = Objects.requireNonNull(Registry.BIOME.getKey(it));
                 if (biomeRegistryName.getPath().contains("desert")) {
                     return sandyWaystoneFeature;
                 } else if (biomeRegistryName.getPath().contains("jungle")) {
@@ -76,8 +79,8 @@ public class ModWorldGen {
     }
 
     public static void setupVillageWorldGen() {
-        JigsawManager.REGISTRY.register(new JigsawPattern(villageWaystoneStructure, emptyStructure, Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
-        JigsawManager.REGISTRY.register(new JigsawPattern(desertVillageWaystoneStructure, emptyStructure, Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
+        JigsawManager.field_214891_a.register(new JigsawPattern(villageWaystoneStructure, emptyStructure, Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
+        JigsawManager.field_214891_a.register(new JigsawPattern(desertVillageWaystoneStructure, emptyStructure, Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
 
         if (WaystoneConfig.COMMON.addVillageStructure) {
             PlainsVillagePools.init();
@@ -95,8 +98,15 @@ public class ModWorldGen {
     }
 
     private static void addWaystoneStructureToVillageConfig(String villagePiece, ResourceLocation waystoneStructure) {
-        JigsawPattern houses = JigsawManager.REGISTRY.get(new ResourceLocation(villagePiece));
+        ResourceLocation poolName = new ResourceLocation(villagePiece);
+        JigsawPattern houses = JigsawManager.field_214891_a.get(poolName);
 
-        houses.jigsawPieces.add(new SingleJigsawPiece(waystoneStructure.toString(), Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID));
+        List<Pair<JigsawPiece, Integer>> pieces = new ArrayList<>();
+        for (JigsawPiece piece : houses.func_214943_b(new Random())) {
+            pieces.add(Pair.of(piece, 1));
+        }
+
+        pieces.add(Pair.of(new SingleJigsawPiece(waystoneStructure.toString(), Collections.emptyList(), JigsawPattern.PlacementBehaviour.RIGID), 1));
+        JigsawManager.field_214891_a.register(new JigsawPattern(poolName, houses.func_214947_b(), pieces, JigsawPattern.PlacementBehaviour.RIGID));
     }
 }

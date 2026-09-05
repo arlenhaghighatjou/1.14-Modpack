@@ -1,7 +1,7 @@
 package net.blay09.mods.waystones.core;
 
+import net.blay09.mods.waystones.ModStats;
 import net.blay09.mods.waystones.api.IWaystone;
-import net.blay09.mods.waystones.api.WaystoneActivatedEvent;
 import net.blay09.mods.waystones.block.WaystoneBlock;
 import net.blay09.mods.waystones.config.DimensionalWarp;
 import net.blay09.mods.waystones.config.WaystoneConfig;
@@ -22,7 +22,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -80,7 +79,7 @@ public class PlayerWaystoneManager {
     public static void activateWaystone(PlayerEntity player, IWaystone waystone) {
         getPlayerWaystoneData(player.world).activateWaystone(player, waystone);
 
-        MinecraftForge.EVENT_BUS.post(new WaystoneActivatedEvent(player, waystone));
+        player.addStat(ModStats.waystoneActivated);
     }
 
     public static int getExperienceLevelCost(PlayerEntity player, IWaystone waystone, WarpMode warpMode) {

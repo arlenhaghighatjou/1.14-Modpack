@@ -1,5 +1,6 @@
 package net.blay09.mods.waystones.block;
 
+import net.blay09.mods.waystones.core.WarpMode;
 import net.blay09.mods.waystones.Waystones;
 import net.blay09.mods.waystones.api.IWaystone;
 import net.blay09.mods.waystones.config.WaystoneConfig;
@@ -39,7 +40,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.blay09.mods.waystones.network.NetworkHandler;
 
 import javax.annotation.Nullable;
 import net.lax1dude.eaglercraft.Random;
@@ -186,7 +187,7 @@ public class WaystoneBlock extends Block {
             }
 
             if (!world.isRemote) {
-                NetworkHooks.openGui(((ServerPlayerEntity) player), tileEntity.getWaystoneSettingsContainerProvider(), pos);
+                NetworkHandler.openContainer((ServerPlayerEntity) player, tileEntity.getWaystoneSettingsContainerProvider(), WarpMode.WAYSTONE_TO_WAYSTONE, pos);
             }
             return true;
         }
@@ -194,10 +195,7 @@ public class WaystoneBlock extends Block {
         boolean isActivated = PlayerWaystoneManager.isWaystoneActivated(player, waystone);
         if (isActivated) {
             if (!world.isRemote) {
-                NetworkHooks.openGui(((ServerPlayerEntity) player), tileEntity.getWaystoneSelectionContainerProvider(), it -> {
-                    it.writeByte(WarpMode.WAYSTONE_TO_WAYSTONE.ordinal());
-                    it.writeBlockPos(pos);
-                });
+                NetworkHandler.openContainer((ServerPlayerEntity) player, tileEntity.getWaystoneSelectionContainerProvider(), WarpMode.WAYSTONE_TO_WAYSTONE, pos);
             }
         } else {
             PlayerWaystoneManager.activateWaystone(player, waystone);

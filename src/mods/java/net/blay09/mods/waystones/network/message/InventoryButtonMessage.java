@@ -15,7 +15,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.blay09.mods.waystones.network.NetworkHandler;
 
 import java.util.Optional;
 
@@ -61,9 +61,7 @@ public class InventoryButtonMessage {
                 PlayerWaystoneManager.tryTeleportToWaystone(player, nearestWaystone, WarpMode.INVENTORY_BUTTON, null);
             }
         } else if (inventoryButtonMode.isReturnToAny()) {
-            NetworkHooks.openGui(player, containerProvider, it -> {
-                it.writeByte(WarpMode.INVENTORY_BUTTON.ordinal());
-            });
+            NetworkHandler.openContainer(player, containerProvider, WarpMode.INVENTORY_BUTTON, null);
         } else if (inventoryButtonMode.hasNamedTarget()) {
             Optional<IWaystone> waystone = WaystoneManager.get().findWaystoneByName(inventoryButtonMode.getNamedTarget());
             waystone.ifPresent(iWaystone -> PlayerWaystoneManager.tryTeleportToWaystone(player, iWaystone, WarpMode.INVENTORY_BUTTON, null));

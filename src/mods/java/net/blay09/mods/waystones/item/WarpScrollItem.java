@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.blay09.mods.waystones.network.NetworkHandler;
 
 public class WarpScrollItem extends Item implements IResetUseOnDamage {
 
@@ -58,9 +58,7 @@ public class WarpScrollItem extends Item implements IResetUseOnDamage {
     @Override
     public ItemStack onItemUseFinish(ItemStack itemStack, World world, LivingEntity entityLiving) {
         if (!world.isRemote && entityLiving instanceof ServerPlayerEntity) {
-            NetworkHooks.openGui(((ServerPlayerEntity) entityLiving), containerProvider, it -> {
-                it.writeByte(WarpMode.WARP_SCROLL.ordinal());
-            });
+            NetworkHandler.openContainer((ServerPlayerEntity) entityLiving, containerProvider, WarpMode.WARP_SCROLL, null);
         }
         return itemStack;
     }

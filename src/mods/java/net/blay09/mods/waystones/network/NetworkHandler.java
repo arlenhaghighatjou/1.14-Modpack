@@ -2,6 +2,7 @@ package net.blay09.mods.waystones.network;
 
 import io.netty.buffer.Unpooled;
 import net.blay09.mods.waystones.Waystones;
+import net.blay09.mods.waystones.core.WarpMode;
 import net.blay09.mods.waystones.network.message.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,6 +25,7 @@ public class NetworkHandler {
     private static final int REMOVE_WAYSTONE = 6;
     private static final int REQUEST_EDIT_WAYSTONE = 7;
     private static final int PLAYER_WAYSTONE_COOLDOWNS = 8;
+    private static final int OPEN_WAYSTONE_CONTAINER = 9;
 
     public static void sendTo(Object message, PlayerEntity player) {
         PacketBuffer buf = new PacketBuffer(Unpooled.buffer());
@@ -36,11 +38,19 @@ public class NetworkHandler {
         } else if (message instanceof PlayerWaystoneCooldownsMessage) {
             buf.writeVarInt(PLAYER_WAYSTONE_COOLDOWNS);
             PlayerWaystoneCooldownsMessage.encode((PlayerWaystoneCooldownsMessage) message, buf);
+        } else if (message instanceof OpenWaystoneContainerMessage) {
+            buf.writeVarInt(OPEN_WAYSTONE_CONTAINER);
+            OpenWaystoneContainerMessage.encode((OpenWaystoneContainerMessage) message, buf);
         } else {
             return;
         }
 
         ((ServerPlayerEntity) player).connection.sendPacket(new SCustomPayloadPlayPacket(CHANNEL, buf));
+    }
+
+    public static void openContainer(ServerPlayerEntity player, net.minecraft.inventory.container.INamedContainerProvider provider, WarpMode warpMode, net.minecraft.util.math.BlockPos pos) {
+        sendTo(new OpenWaystoneContainerMessage(warpMode, pos), player);
+        player.openContainer(provider);
     }
 
     public static void sendToServer(Object message) {
@@ -80,6 +90,9 @@ public class NetworkHandler {
                 break;
             case PLAYER_WAYSTONE_COOLDOWNS:
                 PlayerWaystoneCooldownsMessage.handle(PlayerWaystoneCooldownsMessage.decode(buf));
+                break;
+            case OPEN_WAYSTONE_CONTAINER:
+                OpenWaystoneContainerMessage.handle(OpenWaystoneContainerMessage.decode(buf));
                 break;
         }
     }

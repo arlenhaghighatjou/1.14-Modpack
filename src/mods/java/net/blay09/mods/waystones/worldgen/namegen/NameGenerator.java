@@ -2,7 +2,6 @@ package net.blay09.mods.waystones.worldgen.namegen;
 
 import com.google.common.collect.Sets;
 import net.blay09.mods.waystones.Waystones;
-import net.blay09.mods.waystones.api.GenerateWaystoneNameEvent;
 import net.blay09.mods.waystones.api.IWaystone;
 import net.blay09.mods.waystones.config.WaystoneConfig;
 import net.minecraft.nbt.CompoundNBT;
@@ -14,7 +13,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
@@ -59,10 +57,6 @@ public class NameGenerator extends WorldSavedData {
             name = tryName;
         }
 
-        GenerateWaystoneNameEvent event = new GenerateWaystoneNameEvent(waystone, name);
-        MinecraftForge.EVENT_BUS.post(event);
-        name = event.getName();
-
         usedNames.add(name);
         markDirty();
         return name;
@@ -70,7 +64,7 @@ public class NameGenerator extends WorldSavedData {
 
     @Override
     public void read(CompoundNBT compound) {
-        ListNBT tagList = compound.getList(USED_NAMES, Constants.NBT.TAG_STRING);
+        ListNBT tagList = compound.getList(USED_NAMES, 8);
         for (INBT tag : tagList) {
             usedNames.add(tag.getString());
         }

@@ -1,5 +1,6 @@
 package net.blay09.mods.waystones.network.message;
 
+import net.blay09.mods.waystones.core.WarpMode;
 import net.blay09.mods.waystones.api.IWaystone;
 import net.blay09.mods.waystones.container.WaystoneSettingsContainer;
 import net.blay09.mods.waystones.core.PlayerWaystoneManager;
@@ -14,7 +15,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.blay09.mods.waystones.network.NetworkHandler;
 
 
 public class RequestEditWaystoneMessage {
@@ -57,7 +58,7 @@ public class RequestEditWaystoneMessage {
             return;
         }
 
-        NetworkHooks.openGui(player, message.containerProvider, pos);
+        NetworkHandler.openContainer(player, message.containerProvider, WarpMode.WAYSTONE_TO_WAYSTONE, pos);
     }
 }
 

@@ -25,7 +25,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.blay09.mods.waystones.network.NetworkHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -68,9 +68,7 @@ public class WarpStoneItem extends Item implements IResetUseOnDamage {
     @Override
     public ItemStack onItemUseFinish(ItemStack itemStack, World world, LivingEntity entityLiving) {
         if (!world.isRemote && entityLiving instanceof ServerPlayerEntity) {
-            NetworkHooks.openGui(((ServerPlayerEntity) entityLiving), containerProvider, it -> {
-                it.writeByte(WarpMode.WARP_STONE.ordinal());
-            });
+            NetworkHandler.openContainer((ServerPlayerEntity) entityLiving, containerProvider, WarpMode.WARP_STONE, null);
         }
 
         return itemStack;
