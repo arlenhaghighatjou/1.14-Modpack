@@ -57,7 +57,7 @@ public class BackpackSoundHandler {
 	}
 
 	public static void playBackpackSound(SoundEvent soundEvent, EaglercraftUUID backpackUuid, int entityId) {
-		ClientWorld world = Minecraft.getInstance().level;
+		ClientWorld world = Minecraft.getInstance().world;
 		if (world == null) {
 			return;
 		}

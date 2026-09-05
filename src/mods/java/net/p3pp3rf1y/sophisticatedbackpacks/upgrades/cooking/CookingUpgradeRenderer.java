@@ -17,13 +17,13 @@ public class CookingUpgradeRenderer implements IUpgradeRenderer<CookingUpgradeRe
 			return;
 		}
 
-		if (world.random.nextDouble() < 0.1D) {
+		if (world.rand.nextDouble() < 0.1D) {
 			Vector3d backpackBack = getPositionFromOffset.apply(Vector3d.ZERO);
 			world.playLocalSound(backpackBack.x, backpackBack.y, backpackBack.z, SoundEvents.FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 		}
 
-		double xOffset = world.random.nextDouble() * 0.6D - 0.3D;
-		double yOffset = world.random.nextDouble() * 6.0D / 16.0D;
+		double xOffset = world.rand.nextDouble() * 0.6D - 0.3D;
+		double yOffset = world.rand.nextDouble() * 6.0D / 16.0D;
 		double zOffset = 0.02D;
 		Vector3d randomAtTheBack = getPositionFromOffset.apply(new Vector3d(xOffset, yOffset, zOffset));
 

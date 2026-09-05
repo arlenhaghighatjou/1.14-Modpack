@@ -31,11 +31,11 @@ public class JukeboxUpgradeContainer extends UpgradeContainerBase<JukeboxUpgrade
 		if (data.contains(ACTION_DATA)) {
 			String actionName = data.getString(ACTION_DATA);
 			if (actionName.equals("play")) {
-				if (player.containerMenu instanceof BackpackContainer) {
-					BackpackContext context = ((BackpackContainer) player.containerMenu).getBackpackContext();
+				if (player.openContainer instanceof BackpackContainer) {
+					BackpackContext context = ((BackpackContainer) player.openContainer).getBackpackContext();
 
 					if (isBlockBackpack(context)) {
-						upgradeWrapper.play(player.level, context.getBackpackPosition(player));
+						upgradeWrapper.play(player.world, context.getBackpackPosition(player));
 					} else {
 						upgradeWrapper.play(player);
 					}

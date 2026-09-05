@@ -182,7 +182,7 @@ public class CommonProxy {
 
 	private void onAttackEntity(AttackEntityEvent event) {
 		PlayerEntity player = event.getPlayer();
-		if (player.level.isRemote) {
+		if (player.world.isRemote) {
 			return;
 		}
 		playerInventoryProvider.runOnBackpacks(player, (backpack, inventoryHandlerName, identifier, slot) -> BackpackWrapperLookup.get(backpack)
@@ -243,8 +243,8 @@ public class CommonProxy {
 					.map(wrapper -> InventoryHelper.runPickupOnBackpack(world, player, remainingStack, wrapper, false).isEmpty()).orElse(false)
 			);
 			if (!itemEntity.isSilent()) {
-				Random rand = itemEntity.level.random;
-				itemEntity.level.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(rand) * 0.7F + 1.0F) * 2.0F);
+				Random rand = itemEntity.world.rand;
+				itemEntity.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(rand) * 0.7F + 1.0F) * 2.0F);
 			}
 			itemEntity.setItem(ItemStack.EMPTY);
 			event.setCanceled(true);

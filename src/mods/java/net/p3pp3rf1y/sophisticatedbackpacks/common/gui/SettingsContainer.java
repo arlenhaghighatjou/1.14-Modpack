@@ -100,7 +100,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 
 	@Override
 	protected Slot addSlot(Slot slot) {
-		slot.index = ghostSlots.size();
+		slot.slotNumber = ghostSlots.size();
 		ghostSlots.add(slot);
 		ghostItemStacks.add(ItemStack.EMPTY);
 		return slot;
@@ -131,7 +131,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	public void detectSettingsChangeAndReload() {
-		if (player.level.isRemote) {
+		if (player.world.isRemote) {
 			backpackWrapper.getContentsUuid().ifPresent(uuid -> {
 				BackpackStorage storage = BackpackStorage.get();
 				if (storage.removeUpdatedBackpackSettingsFlag(uuid)) {
@@ -142,7 +142,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	private void sendBackpackSettingsToClient() {
-		if (player.level.isRemote) {
+		if (player.world.isRemote) {
 			return;
 		}
 

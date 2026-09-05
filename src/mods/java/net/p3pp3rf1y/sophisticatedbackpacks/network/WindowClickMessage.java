@@ -50,7 +50,7 @@ public class WindowClickMessage {
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, WindowClickMessage msg) {
-		if (player == null || player.containerMenu.containerId != msg.windowId || !(player.containerMenu instanceof BackpackContainer)) {
+		if (player == null || player.openContainer.containerId != msg.windowId || !(player.openContainer instanceof BackpackContainer)) {
 			return;
 		}
 
@@ -58,23 +58,23 @@ public class WindowClickMessage {
 		if (player.isSpectator()) {
 			syncSlotsForSpectator(player);
 		} else {
-			ItemStack stackClickResult = player.containerMenu.clicked(msg.slotNumber, msg.mouseButton, msg.clickType, player);
+			ItemStack stackClickResult = player.openContainer.clicked(msg.slotNumber, msg.mouseButton, msg.clickType, player);
 			if (ItemStack.matches(msg.clickedItem, stackClickResult)) {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
 				player.ignoreSlotUpdateHack = true;
-				player.containerMenu.broadcastChanges();
+				player.openContainer.detectAndSendChanges();
 				player.broadcastCarriedItem();
 				player.ignoreSlotUpdateHack = false;
 			} else {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
-				player.containerMenu.setSynched(player, false);
-				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.containerMenu.containerId, player.containerMenu.getItems()));
+				player.openContainer.setSynched(player, false);
+				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
 				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}
 		}
 	}
 
 	private static void syncSlotsForSpectator(ServerPlayerEntity player) {
-		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.containerMenu.containerId, player.containerMenu.getItems()));
+		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
 	}
 }

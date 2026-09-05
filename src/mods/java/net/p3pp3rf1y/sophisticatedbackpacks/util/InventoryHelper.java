@@ -172,7 +172,7 @@ public class InventoryHelper {
 
 	@SuppressWarnings("squid:S1764") // this actually isn't a case of identical values being used as both side are random float value thus -1 to 1 as a result
 	private static void playPickupSound(World world, @Nonnull PlayerEntity player) {
-		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (world.random.nextFloat() - world.random.nextFloat()) * 1.4F + 2.0F);
+		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (world.rand.nextFloat() - world.rand.nextFloat()) * 1.4F + 2.0F);
 	}
 
 	public static void iterate(IItemHandler handler, BiConsumer<Integer, ItemStack> actOn) {

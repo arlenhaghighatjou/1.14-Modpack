@@ -287,7 +287,7 @@ public class BackpackItem extends ItemBase {
         PlayerEntity player = (PlayerEntity) entityIn;
         BackpackWrapperLookup.get(stack).ifPresent(
                 wrapper -> wrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class)
-                        .forEach(upgrade -> upgrade.tick(player, player.level, player.getPosition()))
+                        .forEach(upgrade -> upgrade.tick(player, player.world, player.getPosition()))
         );
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
     }
@@ -318,10 +318,10 @@ public class BackpackItem extends ItemBase {
 
     @Override
     public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
-        if (!(player.containerMenu instanceof BackpackContainer)) {
+        if (!(player.openContainer instanceof BackpackContainer)) {
             return true;
         }
-        BackpackContainer backpackContainer = (BackpackContainer) player.containerMenu;
+        BackpackContainer backpackContainer = (BackpackContainer) player.openContainer;
         return backpackContainer.getVisibleStorageItem().map(visibleStorageItem -> visibleStorageItem != item).orElse(true);
     }
 }

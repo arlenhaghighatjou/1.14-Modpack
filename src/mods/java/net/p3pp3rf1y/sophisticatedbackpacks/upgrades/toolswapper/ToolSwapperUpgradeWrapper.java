@@ -76,7 +76,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return false;
 		}
 
-		BlockState state = player.level.getBlockState(pos);
+		BlockState state = player.world.getBlockState(pos);
 		Block block = state.getBlock();
 
 		if (getToolTypeEffectiveOnBlock(state, block, mainHandItem).isPresent() || goodAtBreakingBlock(state, mainHandItem)) {
@@ -404,7 +404,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean isShearableEntity(Entity entity, ItemStack stack) {
-		return entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(stack, entity.level, entity.getPosition());
+		return entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(stack, entity.world, entity.getPosition());
 	}
 
 	@Override

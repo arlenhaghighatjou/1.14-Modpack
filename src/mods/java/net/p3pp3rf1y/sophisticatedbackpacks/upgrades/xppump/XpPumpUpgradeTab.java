@@ -139,9 +139,9 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 		protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 			String text = getText.get();
 			ITextComponent fullText = new TranslationTextComponent(translUpgradeControl("xp_level_select"), new StringTextComponent(text).applyTextStyle(TextFormatting.WHITE)).applyTextStyle(TextFormatting.GRAY);
-			int xOffset = (getWidth() - minecraft.font.width(fullText)) / 2;
-			int yOffset = (int) Math.ceil((getHeight() - minecraft.font.lineHeight) / 2d);
-			minecraft.font.draw(matrixStack, fullText, (float) x + xOffset, (float) y + yOffset, DyeColor.BLACK.getTextColor());
+			int xOffset = (getWidth() - minecraft.fontRenderer.getStringWidth(fullText)) / 2;
+			int yOffset = (int) Math.ceil((getHeight() - minecraft.fontRenderer.lineHeight) / 2d);
+			minecraft.fontRenderer.draw(matrixStack, fullText, (float) x + xOffset, (float) y + yOffset, DyeColor.BLACK.getTextColor());
 
 			if (isMouseOver(mouseX, mouseY)) {
 				GuiHelper.setTooltipToRender(TOOLTIP);

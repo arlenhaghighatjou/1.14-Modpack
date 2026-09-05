@@ -140,8 +140,8 @@ public class BackpackTooltipRenderer {
 	}
 
 	private static void requestContents(ClientPlayerEntity player, IBackpackWrapper wrapper) {
-		if (lastRequestTime + REFRESH_INTERVAL < player.level.getGameTime()) {
-			lastRequestTime = player.level.getGameTime();
+		if (lastRequestTime + REFRESH_INTERVAL < player.world.getGameTime()) {
+			lastRequestTime = player.world.getGameTime();
 			wrapper.getContentsUuid().ifPresent(uuid -> PacketHandler.sendToServer(new RequestBackpackInventoryContentsMessage(uuid)));
 		}
 	}
@@ -207,7 +207,7 @@ public class BackpackTooltipRenderer {
 		}
 
 		private int calculateContentsWidth() {
-			FontRenderer fontRenderer = Minecraft.getInstance().font;
+			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 			int contentsWidth = 0;
 			for (int i = 0; i < backpackContents.size() && i < MAX_STACKS_ON_LINE; i++) {
 				int countWidth = getStackCountWidth(fontRenderer, backpackContents.get(i));
@@ -234,7 +234,7 @@ public class BackpackTooltipRenderer {
 		}
 
 		private int getEmptyTooltipWidth() {
-			return Minecraft.getInstance().font.width(new TranslationTextComponent(BackpackItem.BACKPACK_TOOLTIP + "empty").getVisualOrderText());
+			return Minecraft.getInstance().fontRenderer.width(new TranslationTextComponent(BackpackItem.BACKPACK_TOOLTIP + "empty").getVisualOrderText());
 		}
 
 		@Override
@@ -287,7 +287,7 @@ public class BackpackTooltipRenderer {
 					x = leftX;
 				}
 				ItemStack stack = backpackContents.get(i);
-				int stackWidth = Math.max(getStackCountWidth(minecraft.font, stack), DEFAULT_STACK_WIDTH);
+				int stackWidth = Math.max(getStackCountWidth(minecraft.fontRenderer, stack), DEFAULT_STACK_WIDTH);
 				int xOffset = stackWidth - DEFAULT_STACK_WIDTH;
 				GuiHelper.renderItemInGUI(matrixStack, minecraft, stack, x + xOffset, y, true, CountAbbreviator.abbreviate(stack.getCount()));
 				x += stackWidth;

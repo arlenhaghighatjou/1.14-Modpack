@@ -215,7 +215,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	public static void playerInteract(PlayerInteractEvent.RightClickBlock event) {
 		PlayerEntity player = event.getPlayer();
-		World world = player.level;
+		World world = player.world;
 		BlockPos pos = event.getPos();
 
 		if (!player.isShiftKeyDown() || !hasEmptyMainHandAndSomethingInOffhand(player) || didntInteractWithBackpack(event)) {

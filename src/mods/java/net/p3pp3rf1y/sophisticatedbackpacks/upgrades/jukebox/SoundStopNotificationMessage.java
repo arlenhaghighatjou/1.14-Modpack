@@ -34,6 +34,6 @@ public class SoundStopNotificationMessage {
 		if (sender == null) {
 			return;
 		}
-		ServerBackpackSoundHandler.onSoundStopped((ServerWorld) sender.level, msg.backpackUuid);
+		ServerBackpackSoundHandler.onSoundStopped((ServerWorld) sender.world, msg.backpackUuid);
 	}
 }

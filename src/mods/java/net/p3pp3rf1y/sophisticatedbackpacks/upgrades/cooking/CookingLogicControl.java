@@ -33,7 +33,7 @@ public class CookingLogicControl<T extends AbstractCookingRecipe> extends Compos
 
 	private float getBurnProgress() {
 		//noinspection ConstantConditions - world is not null by this point
-		return cookingLogicContainer.isBurning(Minecraft.getInstance().level) ? getProgress(cookingLogicContainer.getBurnTimeFinish(), cookingLogicContainer.getBurnTimeTotal()) : 0;
+		return cookingLogicContainer.isBurning(Minecraft.getInstance().world) ? getProgress(cookingLogicContainer.getBurnTimeFinish(), cookingLogicContainer.getBurnTimeTotal()) : 0;
 	}
 
 	private float getCookProgress() {
@@ -41,7 +41,7 @@ public class CookingLogicControl<T extends AbstractCookingRecipe> extends Compos
 	}
 
 	private float getProgress(long finishTime, int timeTotal) {
-		World world = Minecraft.getInstance().level;
+		World world = Minecraft.getInstance().world;
 		if (world == null) {
 			return 0;
 		}
@@ -71,7 +71,7 @@ public class CookingLogicControl<T extends AbstractCookingRecipe> extends Compos
 	}
 
 	private void positionSlot(Slot slot, int screenGuiLeft, int screenGuiTop, int xOffset, int yOffset) {
-		slot.x = x - screenGuiLeft + xOffset;
-		slot.y = y - screenGuiTop + yOffset;
+		slot.xPos = x - screenGuiLeft + xOffset;
+		slot.yPos = y - screenGuiTop + yOffset;
 	}
 }

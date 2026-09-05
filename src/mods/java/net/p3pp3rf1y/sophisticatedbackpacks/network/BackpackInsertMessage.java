@@ -37,7 +37,7 @@ public class BackpackInsertMessage {
 			return;
 		}
 
-		Container containerMenu = player.containerMenu;
+		Container containerMenu = player.openContainer;
 		containerMenu.getSlot(msg.slotIndex).BackpackWrapperLookup.get(getItem()).ifPresent(wrapper -> {
 			ItemStack heldItem = player.inventory.getItemStack();
 			player.inventory.setCarried(wrapper.getInventoryForUpgradeProcessing().insertItem(heldItem, false));

@@ -50,7 +50,7 @@ public class BlockToolSwapMessage {
 										}
 										anyUpgradeCanInteract.set(true);
 
-										result.set(upgrade.onBlockInteract(sender.level, msg.pos, sender.level.getBlockState(msg.pos), sender));
+										result.set(upgrade.onBlockInteract(sender.world, msg.pos, sender.world.getBlockState(msg.pos), sender));
 									});
 							return result.get();
 						}

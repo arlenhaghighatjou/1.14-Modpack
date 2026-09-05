@@ -49,7 +49,7 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 
 	public void renderSlotOverlays(MatrixStack matrixStack, Slot slot, ISlotOverlayRenderer overlayRenderer) {
 		List<Integer> colors = new ArrayList<>();
-		settingsTabs.forEach(tab -> tab.getSlotOverlayColor(slot.index).ifPresent(colors::add));
+		settingsTabs.forEach(tab -> tab.getSlotOverlayColor(slot.slotNumber).ifPresent(colors::add));
 		if (colors.isEmpty()) {
 			return;
 		}
@@ -58,7 +58,7 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 		int i = 0;
 		for (int color : colors) {
 			int yOffset = i * stripeHeight;
-			overlayRenderer.renderSlotOverlay(matrixStack, slot.x, slot.y + yOffset, i == colors.size() - 1 ? 16 - yOffset : stripeHeight,  color);
+			overlayRenderer.renderSlotOverlay(matrixStack, slot.xPos, slot.yPos + yOffset, i == colors.size() - 1 ? 16 - yOffset : stripeHeight,  color);
 			i++;
 		}
 	}
@@ -69,13 +69,13 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 
 	public void renderGuiItem(ItemRenderer itemRenderer, ItemStack itemstack, Slot slot) {
 		for (SettingsTab<?> tab : settingsTabs) {
-			int rotation = tab.getItemRotation(slot.index);
+			int rotation = tab.getItemRotation(slot.slotNumber);
 			if (rotation != 0) {
-				GuiHelper.tryRenderGuiItem(itemRenderer, minecraft.getTextureManager(), minecraft.player, itemstack, slot.x, slot.y, rotation);
+				GuiHelper.tryRenderGuiItem(itemRenderer, minecraft.getTextureManager(), minecraft.player, itemstack, slot.xPos, slot.yPos, rotation);
 				return;
 			}
 		}
-		itemRenderer.renderAndDecorateItem(itemstack, slot.x, slot.y);
+		itemRenderer.renderItemAndEffectIntoGUI(itemstack, slot.xPos, slot.yPos);
 	}
 
 	public interface ISlotOverlayRenderer {

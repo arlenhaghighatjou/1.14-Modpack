@@ -123,14 +123,14 @@ public class ClientProxy extends CommonProxy {
 
 	private static boolean tryCallSort(Screen gui) {
 		Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && mc.player.containerMenu instanceof BackpackContainer && gui instanceof BackpackScreen) {
+		if (mc.player != null && mc.player.openContainer instanceof BackpackContainer && gui instanceof BackpackScreen) {
 			BackpackScreen screen = (BackpackScreen) gui;
 			MouseHelper mh = mc.mouseHandler;
 			double mouseX = mh.xpos() * mc.mainWindow.getGuiScaledWidth() / mc.mainWindow.getScreenWidth();
 			double mouseY = mh.ypos() * mc.mainWindow.getGuiScaledHeight() / mc.mainWindow.getScreenHeight();
-			BackpackContainer container = (BackpackContainer) mc.player.containerMenu;
+			BackpackContainer container = (BackpackContainer) mc.player.openContainer;
 			Slot selectedSlot = screen.findSlot(mouseX, mouseY);
-			if (selectedSlot != null && !container.isPlayersInventorySlot(selectedSlot.index)) {
+			if (selectedSlot != null && !container.isPlayersInventorySlot(selectedSlot.slotNumber)) {
 				container.sort();
 				return true;
 			}
@@ -199,7 +199,7 @@ public class ClientProxy extends CommonProxy {
 		BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) rayTrace;
 		BlockPos pos = blockraytraceresult.getBlockPos();
 
-		if (!WorldHelper.getTile(mc.level, pos, TileEntity.class).map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()).orElse(false)) {
+		if (!WorldHelper.getTile(mc.world, pos, TileEntity.class).map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()).orElse(false)) {
 			return;
 		}
 
@@ -220,7 +220,7 @@ public class ClientProxy extends CommonProxy {
 			Slot slot = backpackScreen.getSlotUnderMouse();
 			if (slot != null && slot.getStack().getStack() instanceof BackpackItem) {
 				if (slot.getStack().getCount() == 1) {
-					PacketHandler.sendToServer(new BackpackOpenMessage(slot.index));
+					PacketHandler.sendToServer(new BackpackOpenMessage(slot.slotNumber));
 				}
 			} else {
 				PacketHandler.sendToServer(new BackpackCloseMessage());
@@ -228,7 +228,7 @@ public class ClientProxy extends CommonProxy {
 		} else if (screen instanceof InventoryScreen) {
 			Slot slot = ((InventoryScreen) screen).getSlotUnderMouse();
 
-			if (slot != null && isSupportedPlayerInventorySlot(slot.index) && slot.getStack().getStack() instanceof BackpackItem) {
+			if (slot != null && isSupportedPlayerInventorySlot(slot.slotNumber) && slot.getStack().getStack() instanceof BackpackItem) {
 				PacketHandler.sendToServer(new BackpackOpenMessage(slot.getSlotIndex()));
 			}
 		}
@@ -295,16 +295,16 @@ public class ClientProxy extends CommonProxy {
 						int y = event.getMouseY();
 						poseStack.pushPose();
 						poseStack.translate(0, 0, 100);
-						BackpackTooltipRenderer.renderTooltipWithContents(stack, mc, poseStack, x, y, mc.font, Collections.singletonList(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.right_click_to_add_to_backpack")));
+						BackpackTooltipRenderer.renderTooltipWithContents(stack, mc, poseStack, x, y, mc.fontRenderer, Collections.singletonList(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.right_click_to_add_to_backpack")));
 						poseStack.popPose();
 					} else {
-						int x = containerGui.getGuiLeft() + s.x;
-						int y = containerGui.getGuiTop() + s.y;
+						int x = containerGui.getGuiLeft() + s.xPos;
+						int y = containerGui.getGuiTop() + s.yPos;
 
 						poseStack.pushPose();
 						poseStack.translate(0, 0, 499);
 
-						mc.font.drawShadow(poseStack, "+", (float) x + 10, (float) y + 8, 0xFFFF00);
+						mc.fontRenderer.drawShadow(poseStack, "+", (float) x + 10, (float) y + 8, 0xFFFF00);
 						poseStack.popPose();
 					}
 				});
@@ -324,7 +324,7 @@ public class ClientProxy extends CommonProxy {
 			if (under != null && !held.isEmpty() && under.canTakeStack(mc.player)) {
 				ItemStack stack = under.getStack();
 				if (stack.getItem() instanceof BackpackItem && stack.getCount() == 1) {
-					PacketHandler.sendToServer(new BackpackInsertMessage(under.index));
+					PacketHandler.sendToServer(new BackpackInsertMessage(under.slotNumber));
 					screen.mouseReleased(0, 0, -1);
 					event.setCanceled(true);
 				}
@@ -383,7 +383,7 @@ public class ClientProxy extends CommonProxy {
 
 	private static void onPlayerJoinServer(ClientPlayerNetworkEvent.LoggedInEvent evt) {
 		//noinspection ConstantConditions - by the time player is joining the world is not null
-		RecipeHelper.setWorld(Minecraft.getInstance().level);
+		RecipeHelper.setWorld(Minecraft.getInstance().world);
 	}
 
 	private static class BackpackKeyConflictContext implements IKeyConflictContext {

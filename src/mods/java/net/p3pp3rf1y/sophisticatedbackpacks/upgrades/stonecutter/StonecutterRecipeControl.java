@@ -48,11 +48,11 @@ public class StonecutterRecipeControl extends BackpackWidget {
 
 	public void moveSlotsToView() {
 		Slot inputSlot = container.getInputSlot();
-		inputSlot.x = x + getCenteredX(16) - screen.getGuiLeft();
-		inputSlot.y = y - screen.getGuiTop() + 1;
+		inputSlot.xPos = x + getCenteredX(16) - screen.getGuiLeft();
+		inputSlot.yPos = y - screen.getGuiTop() + 1;
 		Slot outputSlot = container.getOutputSlot();
-		outputSlot.x = x + getCenteredX(16) - screen.getGuiLeft();
-		outputSlot.y = inputSlot.y + INPUT_SLOT_HEIGHT + SPACING + LIST_BACKGROUND.getHeight() + SPACING + 4;
+		outputSlot.xPos = x + getCenteredX(16) - screen.getGuiLeft();
+		outputSlot.yPos = inputSlot.yPos + INPUT_SLOT_HEIGHT + SPACING + LIST_BACKGROUND.getHeight() + SPACING + 4;
 	}
 
 	@Override

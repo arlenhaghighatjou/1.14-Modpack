@@ -289,7 +289,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	private void renderUpgradeSlots(MatrixStack matrixStack, int mouseX, int mouseY) {
 		for (int slotId = 0; slotId < menu.upgradeSlots.size(); ++slotId) {
 			Slot slot = menu.upgradeSlots.get(slotId);
-			if (slot.x != DISABLED_SLOT_X_POS) {
+			if (slot.xPos != DISABLED_SLOT_X_POS) {
 				renderSlot(matrixStack, slot);
 				if (!slot.isEnabled()) {
 					renderSlotOverlay(matrixStack, slot, DISABLED_SLOT_COLOR);
@@ -305,8 +305,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	@Override
 	protected void renderSlot(MatrixStack matrixStack, Slot slot) {
-		int i = slot.x;
-		int j = slot.y;
+		int i = slot.xPos;
+		int j = slot.yPos;
 		ItemStack itemstack = slot.getStack();
 		boolean flag = false;
 		boolean rightClickDragging = slot == clickedSlot && !draggingItem.isEmpty() && !isSplittingStack;
@@ -368,7 +368,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void renderSlotBackground(MatrixStack matrixStack, Slot slot, int i, int j) {
-		Optional<ItemStack> memorizedStack = getMenu().getMemorizedStackInSlot(slot.index);
+		Optional<ItemStack> memorizedStack = getMenu().getMemorizedStackInSlot(slot.slotNumber);
 		if (memorizedStack.isPresent()) {
 			itemRenderer.renderAndDecorateItem(minecraft.player, memorizedStack.get(), i, j);
 			drawMemorizedStackOverlay(matrixStack, i, j);
@@ -402,7 +402,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void renderSlotOverlay(MatrixStack matrixStack, Slot slot, int slotColor, int yOffset, int height) {
-		renderOverlay(matrixStack, slotColor, slot.x, slot.y + yOffset, 16, height);
+		renderOverlay(matrixStack, slotColor, slot.xPos, slot.yPos + yOffset, 16, height);
 	}
 
 	public void renderOverlay(MatrixStack matrixStack, int slotColor, int xPos, int yPos, int width, int height) {
@@ -546,9 +546,9 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			ItemStack slotItem = slot2.getStack();
 			if (slotItem.sameItem(lastQuickMoved) && ItemStack.tagMatches(lastQuickMoved, slotItem)) {
 				if (slotItem.getCount() > slotItem.getMaxStackSize()) {
-					PacketHandler.sendToServer(new TransferFullSlotMessage(slot2.index));
+					PacketHandler.sendToServer(new TransferFullSlotMessage(slot2.slotNumber));
 				} else {
-					slotClicked(slot2, slot2.index, button, ClickType.QUICK_MOVE);
+					slotClicked(slot2, slot2.slotNumber, button, ClickType.QUICK_MOVE);
 				}
 			}
 		}
@@ -560,12 +560,12 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			type = ClickType.PICKUP;
 		}
 		if (slot != null) {
-			slotNumber = slot.index;
+			slotNumber = slot.slotNumber;
 		}
 		ClientPlayerEntity player = minecraft.player;
 
-		short nextTransId = player.containerMenu.backup(player.inventory);
-		ItemStack itemstack = player.containerMenu.clicked(slotNumber, mouseButton, type, player);
+		short nextTransId = player.openContainer.backup(player.inventory);
+		ItemStack itemstack = player.openContainer.clicked(slotNumber, mouseButton, type, player);
 		PacketHandler.sendToServer(new WindowClickMessage(menu.containerId, slotNumber, mouseButton, type, itemstack, nextTransId));
 	}
 
@@ -573,7 +573,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		Slot slot = findSlot(mouseX, mouseY);
 		if (hasShiftDown() && hasControlDown() && slot instanceof BackpackInventorySlot && button == 0) {
-			PacketHandler.sendToServer(new TransferFullSlotMessage(slot.index));
+			PacketHandler.sendToServer(new TransferFullSlotMessage(slot.slotNumber));
 			return true;
 		}
 
@@ -689,7 +689,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		RenderSystem.pushMatrix();
 		RenderSystem.disableDepthTest();
 		RenderSystem.translatef((float) width / 2, topPos + inventoryLabelY + 4, 300F);
-		FontRenderer fontrenderer = Minecraft.getInstance().font;
+		FontRenderer fontrenderer = Minecraft.getInstance().fontRenderer;
 
 		int tooltipWidth = font.getStringWidth(overlayErrorMessage);
 

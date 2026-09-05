@@ -51,7 +51,7 @@ public class PlayerInventoryProvider {
 			if (invHandler == null) {
 				return Optional.empty();
 			}
-			for (String identifier : invHandler.getIdentifiers(player.level.getGameTime())) {
+			for (String identifier : invHandler.getIdentifiers(player.world.getGameTime())) {
 				for (int slot = 0; slot < invHandler.getSlotCount(player, identifier); slot++) {
 					ItemStack slotStack = invHandler.getStackInSlot(player, identifier, slot);
 					if (slotStack.getItem() instanceof BackpackItem) {
@@ -74,7 +74,7 @@ public class PlayerInventoryProvider {
 	public void runOnBackpacks(PlayerEntity player, BackpackInventorySlotConsumer backpackInventorySlotConsumer) {
 		for (Map.Entry<String, PlayerInventoryHandler> entry : getPlayerInventoryHandlers().entrySet()) {
 			PlayerInventoryHandler invHandler = entry.getValue();
-			for (String identifier : invHandler.getIdentifiers(player.level.getGameTime())) {
+			for (String identifier : invHandler.getIdentifiers(player.world.getGameTime())) {
 				for (int slot = 0; slot < invHandler.getSlotCount(player, identifier); slot++) {
 					ItemStack slotStack = invHandler.getStackInSlot(player, identifier, slot);
 					if (slotStack.getItem() instanceof BackpackItem && backpackInventorySlotConsumer.accept(slotStack, entry.getKey(), identifier, slot)) {

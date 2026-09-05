@@ -93,7 +93,7 @@ public class GuiHelper {
 		itemRenderer.blitOffset += getZOffset(matrixStack);
 		itemRenderer.renderItemAndEffectIntoGUI(stack, xPosition, yPosition);
 		if (renderOverlay) {
-			itemRenderer.renderGuiItemDecorations(minecraft.font, stack, xPosition, yPosition, countText);
+			itemRenderer.renderItemOverlayIntoGUI(minecraft.fontRenderer, stack, xPosition, yPosition, countText);
 		}
 		itemRenderer.blitOffset = originalZLevel;
 	}
@@ -157,7 +157,7 @@ public class GuiHelper {
 	public static void renderTooltip(Minecraft minecraft, MatrixStack matrixStack, List<? extends ITextProperties> textLines, int mouseX, int mouseY,
 			ITooltipRenderPart additionalRender, @Nullable FontRenderer tooltipRenderFont, ItemStack stack, int maxTextWidth) {
 
-		FontRenderer font = tooltipRenderFont == null ? minecraft.font : tooltipRenderFont;
+		FontRenderer font = tooltipRenderFont == null ? minecraft.fontRenderer : tooltipRenderFont;
 
 		int windowWidth = minecraft.mainWindow.getGuiScaledWidth();
 		int windowHeight = minecraft.mainWindow.getGuiScaledHeight();

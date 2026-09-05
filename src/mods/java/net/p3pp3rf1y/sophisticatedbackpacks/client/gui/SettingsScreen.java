@@ -90,7 +90,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		setBlitOffset(0);
 
 		if (memorizedStack.isPresent()) {
-			drawMemorizedStackOverlay(matrixStack, slot.x, slot.y);
+			drawMemorizedStackOverlay(matrixStack, slot.xPos, slot.yPos);
 		}
 	}
 
@@ -146,7 +146,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	private void renderSlotOverlay(MatrixStack matrixStack, Slot slot, int slotColor) {
-		renderSlotOverlay(matrixStack, slot.x, slot.y, 16, slotColor);
+		renderSlotOverlay(matrixStack, slot.xPos, slot.yPos, 16, slotColor);
 	}
 
 	private void renderSlotOverlay(MatrixStack matrixStack, int xPos, int yPos, int height, int slotColor) {

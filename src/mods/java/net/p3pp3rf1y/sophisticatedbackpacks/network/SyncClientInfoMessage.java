@@ -43,7 +43,7 @@ public class SyncClientInfoMessage {
 
 	private static void handleMessage(SyncClientInfoMessage msg) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
-		if (player == null || msg.renderInfoNbt == null || !(player.containerMenu instanceof BackpackContainer)) {
+		if (player == null || msg.renderInfoNbt == null || !(player.openContainer instanceof BackpackContainer)) {
 			return;
 		}
 		ItemStack backpack = player.inventory.items.get(msg.slotIndex);

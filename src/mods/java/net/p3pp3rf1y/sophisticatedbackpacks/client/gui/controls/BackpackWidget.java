@@ -23,7 +23,7 @@ public abstract class BackpackWidget extends AbstractGui implements IRenderable,
 		x = position.getX();
 		y = position.getY();
 		minecraft = Minecraft.getInstance();
-		font = minecraft.font;
+		font = minecraft.fontRenderer;
 	}
 
 	public void setVisible(boolean visible) {

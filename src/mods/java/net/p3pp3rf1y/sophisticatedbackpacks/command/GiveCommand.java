@@ -67,7 +67,7 @@ public class GiveCommand {
 				itemEntity.makeFakeItem();
 			}
 
-			p.level.playSound(null, p.posX, p.posY, p.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(p.getRandom()) * 0.7F + 1.0F) * 2.0F);
+			p.world.playSound(null, p.posX, p.posY, p.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(p.getRandom()) * 0.7F + 1.0F) * 2.0F);
 			p.container.broadcastChanges();
 		} else {
 			ItemEntity itementity = p.dropItem(backpack, false);

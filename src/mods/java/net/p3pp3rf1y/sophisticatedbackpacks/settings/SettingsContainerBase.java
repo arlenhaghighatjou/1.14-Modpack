@@ -52,7 +52,7 @@ public abstract class SettingsContainerBase<C extends ISettingsCategory> {
 	}
 
 	protected boolean isServer() {
-		return !settingsContainer.getPlayer().level.isRemote;
+		return !settingsContainer.getPlayer().world.isRemote;
 	}
 
 	public abstract void handleMessage(CompoundNBT data);

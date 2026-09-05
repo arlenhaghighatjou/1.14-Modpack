@@ -52,17 +52,17 @@ public class BackpackOpenMessage {
 			return;
 		}
 
-		if (player.containerMenu instanceof BackpackContainer) {
-			BackpackContext backpackContext = ((BackpackContainer) player.containerMenu).getBackpackContext();
+		if (player.openContainer instanceof BackpackContainer) {
+			BackpackContext backpackContext = ((BackpackContainer) player.openContainer).getBackpackContext();
 			if (msg.slotIndex == -1) {
 				openBackpack(player, backpackContext.getParentBackpackContext());
-			} else if (((BackpackContainer) player.containerMenu).isBackpackInventorySlot(msg.slotIndex)) {
+			} else if (((BackpackContainer) player.openContainer).isBackpackInventorySlot(msg.slotIndex)) {
 				openBackpack(player, backpackContext.getSubBackpackContext(msg.slotIndex));
 			}
-		} else if (player.containerMenu instanceof IContextAwareContainer) {
-			BackpackContext backpackContext = ((IContextAwareContainer) player.containerMenu).getBackpackContext();
+		} else if (player.openContainer instanceof IContextAwareContainer) {
+			BackpackContext backpackContext = ((IContextAwareContainer) player.openContainer).getBackpackContext();
 			openBackpack(player, backpackContext);
-		} else if (msg.slotIndex > -1 && player.containerMenu instanceof PlayerContainer) {
+		} else if (msg.slotIndex > -1 && player.openContainer instanceof PlayerContainer) {
 			int slotIndex = msg.slotIndex;
 			String inventoryProvider = PlayerInventoryProvider.MAIN_INVENTORY;
 			if (msg.slotIndex == CHEST_SLOT) {

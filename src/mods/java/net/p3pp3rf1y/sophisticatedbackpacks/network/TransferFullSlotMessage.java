@@ -32,10 +32,10 @@ public class TransferFullSlotMessage {
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, TransferFullSlotMessage msg) {
-		if (player == null || !(player.containerMenu instanceof BackpackContainer)) {
+		if (player == null || !(player.openContainer instanceof BackpackContainer)) {
 			return;
 		}
-		BackpackContainer backpackContainer = (BackpackContainer) player.containerMenu;
+		BackpackContainer backpackContainer = (BackpackContainer) player.openContainer;
 		Slot slot = backpackContainer.getSlot(msg.slotId);
 		ItemStack transferResult;
 		do {

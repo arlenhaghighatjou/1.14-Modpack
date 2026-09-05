@@ -100,13 +100,13 @@ public class EntityBackpackAdditionHandler {
 	);
 
 	static void addBackpack(MonsterEntity monster) {
-		Random rnd = monster.level.random;
+		Random rnd = monster.world.rand;
 		if (!Config.COMMON.entityBackpackAdditions.canWearBackpack(monster.getType())
 				|| rnd.nextInt((int) (1 / Config.COMMON.entityBackpackAdditions.chance)) != 0) {
 			return;
 		}
 
-		float localDifficulty = monster.level.getCurrentDifficultyAt(monster.getPosition()).getEffectiveDifficulty();
+		float localDifficulty = monster.world.getCurrentDifficultyAt(monster.getPosition()).getEffectiveDifficulty();
 		int index = Ints.constrainToRange((int) Math.floor(DIFFICULTY_BACKPACK_CHANCES.size() / MAX_LOCAL_DIFFICULTY * localDifficulty - 0.1f), 0, DIFFICULTY_BACKPACK_CHANCES.size());
 
 		RandHelper.getRandomWeightedElement(rnd, DIFFICULTY_BACKPACK_CHANCES.get(index)).ifPresent(backpackAddition -> {
@@ -130,7 +130,7 @@ public class EntityBackpackAdditionHandler {
 			if (armorPiece != Items.AIR) {
 				ItemStack armorStack = new ItemStack(armorPiece);
 				if (rnd.nextInt(6 - minDifficulty) == 0) {
-					float additionalDifficulty = monster.level.getCurrentDifficultyAt(monster.getPosition()).getSpecialMultiplier();
+					float additionalDifficulty = monster.world.getCurrentDifficultyAt(monster.getPosition()).getSpecialMultiplier();
 					int level = (int) (5F + additionalDifficulty * 18F + minDifficulty * 6);
 					EnchantmentHelper.enchantItem(rnd, armorStack, level, true);
 				}
@@ -162,7 +162,7 @@ public class EntityBackpackAdditionHandler {
 		if (it.hasNext()) {
 			JukeboxUpgradeItem.Wrapper wrapper = it.next();
 			List<MusicDiscItem> musicDiscs = getMusicDiscs();
-			wrapper.setDisc(new ItemStack(musicDiscs.get(monster.level.random.nextInt(musicDiscs.size()))));
+			wrapper.setDisc(new ItemStack(musicDiscs.get(monster.world.rand.nextInt(musicDiscs.size()))));
 		}
 	}
 
@@ -227,7 +227,7 @@ public class EntityBackpackAdditionHandler {
 			new ApplicableEffect(Effects.DAMAGE_BOOST));
 
 	private static void setLoot(MonsterEntity monster, IBackpackWrapper backpackWrapper, int difficulty) {
-		MinecraftServer server = monster.level.getServer();
+		MinecraftServer server = monster.world.getServer();
 		if (server == null) {
 			return;
 		}
@@ -241,7 +241,7 @@ public class EntityBackpackAdditionHandler {
 		if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.buffWithPotionEffects)) {
 			RandHelper.getNRandomElements(APPLICABLE_EFFECTS, difficulty + 2)
 					.forEach(applicableEffect -> {
-						int amplifier = Math.min(Math.max(minDifficulty, monster.level.random.nextInt(difficulty + 1)), applicableEffect.getMaxAmplifier());
+						int amplifier = Math.min(Math.max(minDifficulty, monster.world.rand.nextInt(difficulty + 1)), applicableEffect.getMaxAmplifier());
 						monster.addEffect(new EffectInstance(applicableEffect.getEffect(), 30 * 60 * 20, amplifier));
 					});
 		}
@@ -261,8 +261,8 @@ public class EntityBackpackAdditionHandler {
 			LivingEntity mob = event.getEntityLiving();
 			ItemStack backpack = mob.getItemStackFromSlot(EquipmentSlotType.CHEST);
 			if (event.getSource().getEntity() instanceof PlayerEntity && !(event.getSource().getEntity() instanceof FakePlayer) &&
-					Math.max(mob.level.random.nextFloat() - event.getLootingLevel() * Config.COMMON.entityBackpackAdditions.lootingChanceIncreasePerLevel, 0.0F) < Config.COMMON.entityBackpackAdditions.backpackDropChance) {
-				ItemEntity backpackEntity = new ItemEntity(mob.level, mob.posX, mob.posY, mob.posZ, backpack);
+					Math.max(mob.world.rand.nextFloat() - event.getLootingLevel() * Config.COMMON.entityBackpackAdditions.lootingChanceIncreasePerLevel, 0.0F) < Config.COMMON.entityBackpackAdditions.backpackDropChance) {
+				ItemEntity backpackEntity = new ItemEntity(mob.world, mob.posX, mob.posY, mob.posZ, backpack);
 				event.getDrops().add(backpackEntity);
 				mob.setItemStackToSlot(EquipmentSlotType.CHEST, ItemStack.EMPTY);
 				event.getEntity().getTags().remove(SPAWNED_WITH_BACKPACK);
@@ -300,7 +300,7 @@ public class EntityBackpackAdditionHandler {
 		BackpackWrapperLookup.get(entity.getItemStackFromSlot(EquipmentSlotType.CHEST))
 				.ifPresent(backpackWrapper -> backpackWrapper.getUpgradeHandler().getTypeWrappers(JukeboxUpgradeItem.TYPE).forEach(wrapper -> {
 					if (wrapper.isPlaying()) {
-						wrapper.tick(entity, entity.level, entity.getPosition());
+						wrapper.tick(entity, entity.world, entity.getPosition());
 					} else {
 						wrapper.play(entity);
 					}

@@ -27,12 +27,12 @@ public class Label extends BackpackWidget {
 
 	@Override
 	protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		minecraft.font.draw(matrixStack, labelText, x, y, color);
+		minecraft.fontRenderer.draw(matrixStack, labelText, x, y, color);
 	}
 
 	@Override
 	public int getWidth() {
-		return minecraft.font.width(labelText);
+		return minecraft.fontRenderer.getStringWidth(labelText);
 	}
 
 	@Override

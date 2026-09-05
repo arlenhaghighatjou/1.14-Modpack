@@ -105,7 +105,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	private long errorResultExpirationTime = 0;
 
 	public Optional<UpgradeSlotChangeResult> getErrorUpgradeSlotChangeResult() {
-		if (errorUpgradeSlotChangeResult != null && player.level.getGameTime() >= errorResultExpirationTime) {
+		if (errorUpgradeSlotChangeResult != null && player.world.getGameTime() >= errorResultExpirationTime) {
 			errorResultExpirationTime = 0;
 			errorUpgradeSlotChangeResult = null;
 		}
@@ -135,7 +135,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	private void sendBackpackSettingsToClient() {
-		if (player.level.isRemote) {
+		if (player.world.isRemote) {
 			return;
 		}
 
@@ -203,20 +203,20 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	protected void addUpgradeSlot(Slot slot) {
-		slot.index = getInventorySlotsSize() + upgradeSlots.size();
+		slot.slotNumber = getInventorySlotsSize() + upgradeSlots.size();
 		upgradeSlots.add(slot);
 		upgradeItemStacks.add(ItemStack.EMPTY);
 	}
 
 	protected void addNoSortSlot(Slot slot) {
-		slot.index = getInventorySlotsSize();
+		slot.slotNumber = getInventorySlotsSize();
 		realInventorySlots.add(slot);
 		realInventoryItemStacks.add(ItemStack.EMPTY);
 	}
 
 	@Override
 	protected Slot addSlot(Slot slot) {
-		slot.index = getInventorySlotsSize();
+		slot.slotNumber = getInventorySlotsSize();
 		slots.add(slot);
 		lastSlots.add(ItemStack.EMPTY);
 		realInventorySlots.add(slot);
@@ -237,7 +237,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		while (slotIndex < inventoryHandler.getSlots()) {
 			int lineIndex = slotIndex % getSlotsOnLine();
 			int finalSlotIndex = slotIndex;
-			BackpackInventorySlot slot = new BackpackInventorySlot(player.level.isRemote, backpackWrapper, inventoryHandler, finalSlotIndex, lineIndex, yPosition);
+			BackpackInventorySlot slot = new BackpackInventorySlot(player.world.isRemote, backpackWrapper, inventoryHandler, finalSlotIndex, lineIndex, yPosition);
 			if (noSortSlotIndexes.contains(slotIndex)) {
 				addNoSortSlot(slot);
 			} else {
@@ -321,12 +321,12 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	private boolean isClientSide() {
-		return player.level.isRemote;
+		return player.world.isRemote;
 	}
 
 	private void addSlotAndUpdateBackpackSlotNumber(int backpackSlotIndex, boolean lockBackpackSlot, int slotIndex, Slot slot) {
 		if (lockBackpackSlot && slotIndex == backpackSlotIndex) {
-			backpackSlotNumber = slot.index;
+			backpackSlotNumber = slot.slotNumber;
 		}
 	}
 
@@ -420,8 +420,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			if (slots.isEmpty()) {
 				return false;
 			}
-			int firstSlotIndex = slots.get(0).index;
-			int lastSlotIndex = slots.get(slots.size() - 1).index;
+			int firstSlotIndex = slots.get(0).slotNumber;
+			int lastSlotIndex = slots.get(slots.size() - 1).slotNumber;
 			return mergeItemStack(slotStack, firstSlotIndex, lastSlotIndex + 1, false, transferMaxStackSizeFromSource);
 		}).orElse(false);
 	}
@@ -455,7 +455,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	public Optional<UpgradeContainerBase<?, ?>> getSlotUpgradeContainer(Slot slot) {
-		if (isUpgradeSettingsSlot(slot.index)) {
+		if (isUpgradeSettingsSlot(slot.slotNumber)) {
 			for (UpgradeContainerBase<?, ?> upgradeContainer : upgradeContainers.values()) {
 				if (upgradeContainer.containsSlot(slot)) {
 					return Optional.of(upgradeContainer);
@@ -797,9 +797,9 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		}
 
 		private void updateSlotChangeError(UpgradeSlotChangeResult result) {
-			if (player.level.isRemote && !result.isSuccessful()) {
+			if (player.world.isRemote && !result.isSuccessful()) {
 				errorUpgradeSlotChangeResult = result;
-				errorResultExpirationTime = player.level.getGameTime() + 60;
+				errorResultExpirationTime = player.world.getGameTime() + 60;
 			}
 		}
 
@@ -859,7 +859,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			List<Integer> slotNumbersToRemove = new ArrayList<>();
 			for (UpgradeContainerBase<?, ?> container : upgradeContainers.values()) {
 				container.getSlots().forEach(slot -> {
-					int upgradeSlotIndex = slot.index - getInventorySlotsSize();
+					int upgradeSlotIndex = slot.slotNumber - getInventorySlotsSize();
 					slotNumbersToRemove.add(upgradeSlotIndex);
 					upgradeSlots.remove(slot);
 				});
@@ -937,7 +937,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 
 				if (clientStackChanged) {
 					for (IContainerListener icontainerlistener : containerListeners) {
-						icontainerlistener.slotChanged(this, slot.index, stackCopy);
+						icontainerlistener.slotChanged(this, slot.slotNumber, stackCopy);
 					}
 				}
 			}
@@ -951,7 +951,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			needRefresh = true;
 		} else {
 			for (Slot slot : realInventorySlots) {
-				if (!slots.contains(slot) && !noSortSlotIndexes.contains(slot.index)) {
+				if (!slots.contains(slot) && !noSortSlotIndexes.contains(slot.slotNumber)) {
 					needRefresh = true;
 					break;
 				}
@@ -1299,9 +1299,9 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	public void sendSlotUpdates() {
-		if (!player.level.isRemote) {
+		if (!player.world.isRemote) {
 			ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-			slotStacksToUpdate.forEach((slot, stack) -> serverPlayer.connection.sendPacket(new SSetSlotPacket(serverPlayer.containerMenu.containerId, slot, stack)));
+			slotStacksToUpdate.forEach((slot, stack) -> serverPlayer.connection.sendPacket(new SSetSlotPacket(serverPlayer.openContainer.containerId, slot, stack)));
 			slotStacksToUpdate.clear();
 		}
 	}
@@ -1500,7 +1500,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			}
 		}
 		super.removed(player);
-		if (!player.level.isRemote) {
+		if (!player.world.isRemote) {
 			removeOpenTabIfKeepOff();
 		}
 	}

@@ -135,7 +135,7 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 	}
 
 	private static void renderUpgrades(LivingEntity livingEntity, BackpackRenderInfo renderInfo) {
-		if (Minecraft.getInstance().isPaused() || livingEntity.level.random.nextInt(32) != 0) {
+		if (Minecraft.getInstance().isPaused() || livingEntity.world.rand.nextInt(32) != 0) {
 			return;
 		}
 		renderInfo.getUpgradeRenderData().forEach((type, data) -> UpgradeRenderRegistry.getUpgradeRenderer(type).ifPresent(renderer -> renderUpgrade(renderer, livingEntity, type, data)));
@@ -147,7 +147,7 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 
 	private static <T extends IUpgradeRenderData> void renderUpgrade(IUpgradeRenderer<T> renderer, LivingEntity livingEntity, UpgradeRenderDataType<?> type, IUpgradeRenderData data) {
 		//noinspection unchecked
-		type.cast(data).ifPresent(renderData -> renderer.render(livingEntity.level, livingEntity.level.random, vector3d -> getBackpackMiddleFacePoint(livingEntity, vector3d), (T) renderData));
+		type.cast(data).ifPresent(renderData -> renderer.render(livingEntity.world, livingEntity.world.rand, vector3d -> getBackpackMiddleFacePoint(livingEntity, vector3d), (T) renderData));
 	}
 
 	private static void renderBatteryCharge(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, float chargeRatio) {

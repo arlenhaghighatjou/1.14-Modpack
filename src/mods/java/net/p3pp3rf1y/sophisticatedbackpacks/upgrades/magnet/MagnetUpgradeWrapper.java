@@ -156,12 +156,12 @@ public class MagnetUpgradeWrapper extends UpgradeWrapperBase<MagnetUpgradeWrappe
 
 	@SuppressWarnings("squid:S1764") // this actually isn't a case of identical values being used as both side are random float value thus -1 to 1 as a result
 	private static void playItemPickupSound(World world, @Nonnull PlayerEntity player) {
-		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (world.random.nextFloat() - world.random.nextFloat()) * 1.4F + 2.0F);
+		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (world.rand.nextFloat() - world.rand.nextFloat()) * 1.4F + 2.0F);
 	}
 
 	@SuppressWarnings("squid:S1764") // this actually isn't a case of identical values being used as both side are random float value thus -1 to 1 as a result
 	private static void playXpPickupSound(World world, @Nonnull PlayerEntity player) {
-		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
+		world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.35F + 0.9F);
 	}
 
 	private boolean isBlockedBySomething(Entity entity) {

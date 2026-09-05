@@ -36,8 +36,8 @@ public class SyncContainerClientDataMessage {
 			return;
 		}
 
-		if (sender.containerMenu instanceof ISyncedContainer) {
-			ISyncedContainer container = (ISyncedContainer) sender.containerMenu;
+		if (sender.openContainer instanceof ISyncedContainer) {
+			ISyncedContainer container = (ISyncedContainer) sender.openContainer;
 			container.handleMessage(message.data);
 		}
 	}

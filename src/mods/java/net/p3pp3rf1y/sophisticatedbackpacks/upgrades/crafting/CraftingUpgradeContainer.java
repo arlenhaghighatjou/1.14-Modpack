@@ -41,7 +41,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 				@Override
 				public void setChanged() {
 					super.markDirty();
-					updateCraftingResult(player.level, player, craftMatrix, craftResult, craftingResultSlot);
+					updateCraftingResult(player.world, player, craftMatrix, craftResult, craftingResultSlot);
 				}
 			});
 		}
@@ -53,7 +53,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 				checkTakeAchievements(stack);
 				net.minecraftforge.common.ForgeHooks.setCraftingPlayer(thePlayer);
 				NonNullList<ItemStack> nonnulllist;
-				if (lastRecipe != null && lastRecipe.matches(craftMatrix, player.level)) {
+				if (lastRecipe != null && lastRecipe.matches(craftMatrix, player.world)) {
 					nonnulllist = lastRecipe.getRemainingItems(craftMatrix);
 				} else {
 					nonnulllist = craftMatrix.items;
@@ -77,9 +77,9 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 							player.dropItem(itemstack1, false);
 						}
 					}
-					if (thePlayer.containerMenu instanceof BackpackContainer) {
+					if (thePlayer.openContainer instanceof BackpackContainer) {
 						Slot slot = slots.get(i);
-						((BackpackContainer) thePlayer.containerMenu).setSlotStackToUpdate(slot.index, slot.getStack());
+						((BackpackContainer) thePlayer.openContainer).setSlotStackToUpdate(slot.slotNumber, slot.getStack());
 					}
 				}
 
@@ -100,7 +100,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 	}
 
 	private void onCraftMatrixChanged(IInventory iInventory) {
-		updateCraftingResult(player.level, player, craftMatrix, craftResult, craftingResultSlot);
+		updateCraftingResult(player.world, player, craftMatrix, craftResult, craftingResultSlot);
 	}
 
 	private void updateCraftingResult(World world, PlayerEntity player, CraftingInventory inventory, CraftResultInventory inventoryResult, CraftingResultSlot craftingResultSlot) {
@@ -124,8 +124,8 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 			}
 
 			craftingResultSlot.set(itemstack);
-			if (serverplayerentity.containerMenu instanceof BackpackContainer) {
-				((BackpackContainer) serverplayerentity.containerMenu).setSlotStackToUpdate(craftingResultSlot.index, itemstack);
+			if (serverplayerentity.openContainer instanceof BackpackContainer) {
+				((BackpackContainer) serverplayerentity.openContainer).setSlotStackToUpdate(craftingResultSlot.slotNumber, itemstack);
 			}
 		}
 	}
@@ -141,7 +141,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 	public ItemStack getSlotStackToTransfer(Slot slot) {
 		if (slot == craftingResultSlot) {
 			ItemStack slotStack = slot.getStack();
-			slotStack.getItem().onCraftedBy(slotStack, player.level, player);
+			slotStack.getItem().onCraftedBy(slotStack, player.world, player);
 			return slotStack;
 		}
 		return super.getSlotStackToTransfer(slot);

@@ -35,10 +35,10 @@ public class TankClickMessage {
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity sender, TankClickMessage msg) {
-		if (sender == null || !(sender.containerMenu instanceof BackpackContainer)) {
+		if (sender == null || !(sender.openContainer instanceof BackpackContainer)) {
 			return;
 		}
-		UpgradeContainerBase<?, ?> upgradeContainer = ((BackpackContainer) sender.containerMenu).getUpgradeContainers().get(msg.upgradeSlot);
+		UpgradeContainerBase<?, ?> upgradeContainer = ((BackpackContainer) sender.openContainer).getUpgradeContainers().get(msg.upgradeSlot);
 		if (!(upgradeContainer instanceof TankUpgradeContainer)) {
 			return;
 		}
