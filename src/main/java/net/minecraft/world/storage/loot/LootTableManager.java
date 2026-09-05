@@ -44,6 +44,7 @@ public class LootTableManager extends JsonReloadListener {
       splashList.forEach((p_223385_1_, p_223385_2_) -> {
          try {
             LootTable loottable = GSON_INSTANCE.fromJson(p_223385_2_, LootTable.class);
+            vectorwing.farmersdelight.setup.CommonEventHandler.onLootLoad(p_223385_1_, loottable);
             builder.put(p_223385_1_, loottable);
          } catch (Exception exception) {
             LOGGER.error("Couldn't parse loot table {}", p_223385_1_, exception);

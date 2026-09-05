@@ -33,7 +33,7 @@ public class LootTable {
    public static final LootTable EMPTY_LOOT_TABLE = new LootTable(LootParameterSets.EMPTY, new LootPool[0], new ILootFunction[0]);
    public static final LootParameterSet DEFAULT_PARAMETER_SET = LootParameterSets.GENERIC;
    private final LootParameterSet parameterSet;
-   private final LootPool[] pools;
+   private LootPool[] pools;
    private final ILootFunction[] functions;
    private final BiFunction<ItemStack, LootContext, ItemStack> combinedFunctions;
 
@@ -42,6 +42,13 @@ public class LootTable {
       this.pools = p_i51265_2_;
       this.functions = p_i51265_3_;
       this.combinedFunctions = LootFunctionManager.combine(p_i51265_3_);
+   }
+
+   public void addPool(LootPool pool) {
+      LootPool[] alootpool = new LootPool[this.pools.length + 1];
+      System.arraycopy(this.pools, 0, alootpool, 0, this.pools.length);
+      alootpool[this.pools.length] = pool;
+      this.pools = alootpool;
    }
 
    public static Consumer<ItemStack> capStackSizes(Consumer<ItemStack> p_216124_0_) {

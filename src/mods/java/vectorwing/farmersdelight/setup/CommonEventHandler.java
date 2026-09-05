@@ -18,15 +18,7 @@ import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTables;
 import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
-import net.minecraftforge.event.village.VillagerTradesEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraft.world.storage.loot.LootTable;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.loot.functions.CopyMealFunction;
 import vectorwing.farmersdelight.registry.ModAdvancements;
@@ -43,7 +35,6 @@ import java.util.List;
 import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
-@Mod.EventBusSubscriber(modid = FarmersDelight.MODID)
 @ParametersAreNonnullByDefault
 public class CommonEventHandler
 {
@@ -56,7 +47,7 @@ public class CommonEventHandler
 			LootTables.CHESTS_VILLAGE_VILLAGE_DESERT_HOUSE);
 	private static final String[] SCAVENGING_ENTITIES = new String[] { "cow", "chicken", "rabbit", "horse", "donkey", "mule", "llama", "shulker" };
 
-	public static void init(final FMLCommonSetupEvent event)
+	public static void init()
 	{
 		registerCompostables();
 
@@ -91,7 +82,11 @@ public class CommonEventHandler
 			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.GOLDEN_KNIFE, new CuttingBoardDispenseBehavior());
 		}
 
-		DeferredWorkQueue.runLater(CropPatchGeneration::generateCrop);
+		registerVillagerTrades();
+
+		HoeItem.HOE_LOOKUP.put(ModBlocks.RICH_SOIL, ModBlocks.RICH_SOIL_FARMLAND.getDefaultState());
+
+		CropPatchGeneration.generateCrop();
 	}
 
 	public static void registerCompostables() {
@@ -138,26 +133,31 @@ public class CommonEventHandler
 		ComposterBlock.CHANCES.put(ModItems.STUFFED_PUMPKIN, 1.0F);
 	}
 
-	@SubscribeEvent
-	public static void onVillagerTrades(VillagerTradesEvent event) {
+	public static void registerVillagerTrades() {
 		if (!Configuration.FARMERS_BUY_FD_CROPS) return;
 
-		Int2ObjectMap<List<VillagerTrades.ITrade>> trades = event.getTrades();
-		VillagerProfession profession = event.getType();
-		if (profession.getRegistryName() == null) return;
-		if (profession.getRegistryName().getPath().equals("farmer"))
-		{
-			trades.get(1).add(new EmeraldForItemsTrade(ModItems.ONION, 26, 16, 2));
-			trades.get(1).add(new EmeraldForItemsTrade(ModItems.TOMATO, 26, 16, 2));
-			trades.get(2).add(new EmeraldForItemsTrade(ModItems.CABBAGE, 16, 16, 5));
-			trades.get(2).add(new EmeraldForItemsTrade(ModItems.RICE, 20, 16, 5));
-		}
+		Int2ObjectMap<VillagerTrades.ITrade[]> trades = VillagerTrades.field_221239_a.get(VillagerProfession.FARMER);
+		if (trades == null) return;
+
+		addTrades(trades, 1, new EmeraldForItemsTrade(ModItems.ONION, 26, 16, 2), new EmeraldForItemsTrade(ModItems.TOMATO, 26, 16, 2));
+		addTrades(trades, 2, new EmeraldForItemsTrade(ModItems.CABBAGE, 16, 16, 5), new EmeraldForItemsTrade(ModItems.RICE, 20, 16, 5));
 	}
 
-	@SubscribeEvent
-	public static void handleAdditionalFoodEffects(LivingEntityUseItemEvent.Finish event) {
-		Item food = event.getItem().getItem();
-		LivingEntity entity = event.getEntityLiving();
+	private static void addTrades(Int2ObjectMap<VillagerTrades.ITrade[]> trades, int level, VillagerTrades.ITrade... added) {
+		VillagerTrades.ITrade[] existing = trades.get(level);
+		if (existing == null) {
+			trades.put(level, added);
+			return;
+		}
+
+		VillagerTrades.ITrade[] merged = new VillagerTrades.ITrade[existing.length + added.length];
+		System.arraycopy(existing, 0, merged, 0, existing.length);
+		System.arraycopy(added, 0, merged, existing.length, added.length);
+		trades.put(level, merged);
+	}
+
+	public static void onItemUseFinish(LivingEntity entity, ItemStack stack) {
+		Item food = stack.getItem();
 
 		// Adds 3:00 of Jump Boost II when eating Rabbit Stew
 		if (Configuration.RABBIT_STEW_JUMP_BOOST && food.equals(Items.RABBIT_STEW)) {
@@ -191,36 +191,21 @@ public class CommonEventHandler
 		}
 	}
 
-	@SubscribeEvent
-	public static void onHoeUse(UseHoeEvent event) {
-		ItemUseContext context = event.getContext();
-		BlockPos pos = context.getPos();
-		World world = context.getWorld();
-		BlockState state = world.getBlockState(pos);
-
-		if (context.getFace() != Direction.DOWN && world.isAirBlock(pos.up()) && state.getBlock() == ModBlocks.RICH_SOIL) {
-			world.playSound(event.getPlayer(), pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			world.setBlockState(pos, ModBlocks.RICH_SOIL_FARMLAND.getDefaultState(), 11);
-			event.setResult(Event.Result.ALLOW);
-		}
-	}
-
-	@SubscribeEvent
-	public static void onLootLoad(LootTableLoadEvent event)
+	public static void onLootLoad(ResourceLocation name, LootTable table)
 	{
 		for (String entity : SCAVENGING_ENTITIES) {
-			if (event.getName().equals(new ResourceLocation("minecraft", "entities/" + entity))) {
-				event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/" + entity))).name(entity + "_fd_drops").build());
+			if (name.equals(new ResourceLocation("minecraft", "entities/" + entity))) {
+				table.addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/" + entity))).build());
 			}
 		}
 
-		if (Configuration.CROPS_ON_SHIPWRECKS && event.getName().equals(SHIPWRECK_SUPPLY_CHEST)) {
-			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/shipwreck_supply")).weight(1).quality(0)).name("supply_fd_crops").build());
+		if (Configuration.CROPS_ON_SHIPWRECKS && name.equals(SHIPWRECK_SUPPLY_CHEST)) {
+			table.addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/shipwreck_supply")).weight(1).quality(0)).build());
 		}
 
-		if (Configuration.CROPS_ON_VILLAGE_HOUSES && VILLAGE_HOUSE_CHESTS.contains(event.getName())) {
-			event.getTable().addPool(LootPool.builder().addEntry(
-							TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/crops_villager_houses")).weight(1).quality(0)).name("villager_houses_fd_crops").build());
+		if (Configuration.CROPS_ON_VILLAGE_HOUSES && VILLAGE_HOUSE_CHESTS.contains(name)) {
+			table.addPool(LootPool.builder().addEntry(
+							TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/crops_villager_houses")).weight(1).quality(0)).build());
 		}
 	}
 }

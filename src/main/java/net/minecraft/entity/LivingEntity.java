@@ -2470,6 +2470,7 @@ public abstract class LivingEntity extends Entity {
     protected void onItemUseFinish() {
         if (!this.activeItemStack.isEmpty() && this.isHandActive()) {
             this.updateItemUse(this.activeItemStack, 16);
+            vectorwing.farmersdelight.setup.CommonEventHandler.onItemUseFinish(this, this.activeItemStack);
             this.setHeldItem(this.getActiveHand(), this.activeItemStack.onItemUseFinish(this.world, this));
             this.resetActiveHand();
         }
