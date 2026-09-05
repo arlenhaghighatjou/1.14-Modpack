@@ -67,6 +67,7 @@ import java.util.List;
 import java.util.OptionalInt;
 
 public class ServerPlayerEntity extends PlayerEntity implements IContainerListener {
+	private final squeek.appleskin.network.SyncHandler appleSkinSync = new squeek.appleskin.network.SyncHandler();
     private static final Logger LOGGER = LogManager.getLogger();
     private String language = "en_US";
     public ServerPlayNetHandler connection;
@@ -323,6 +324,7 @@ public class ServerPlayerEntity extends PlayerEntity implements IContainerListen
                 }
             }
 
+			this.appleSkinSync.tick(this);
             if (this.getHealth() != this.lastHealth || this.lastFoodLevel != this.foodStats.getFoodLevel() || this.foodStats.getSaturationLevel() == 0.0F != this.wasHungry) {
                 this.connection.sendPacket(new SUpdateHealthPacket(this.getHealth(), this.foodStats.getFoodLevel(), this.foodStats.getSaturationLevel()));
                 this.lastHealth = this.getHealth();

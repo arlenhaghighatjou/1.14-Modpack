@@ -1,35 +1,26 @@
 package squeek.appleskin.network;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
-import squeek.appleskin.helpers.HungerHelper;
 
-import java.util.function.Supplier;
+public class MessageExhaustionSync {
+	private final float exhaustionLevel;
 
-public class MessageExhaustionSync
-{
-	float exhaustionLevel;
-
-	public MessageExhaustionSync(float exhaustionLevel)
-	{
-		this.exhaustionLevel = exhaustionLevel;
+	public MessageExhaustionSync(float value) {
+		this.exhaustionLevel = value;
 	}
 
-	public static void encode(MessageExhaustionSync pkt, PacketBuffer buf)
-	{
-		buf.writeFloat(pkt.exhaustionLevel);
+	public static void encode(MessageExhaustionSync message, PacketBuffer buffer) {
+		buffer.writeFloat(message.exhaustionLevel);
 	}
 
-	public static MessageExhaustionSync decode(PacketBuffer buf)
-	{
-		return new MessageExhaustionSync(buf.readFloat());
+	public static MessageExhaustionSync decode(PacketBuffer buffer) {
+		return new MessageExhaustionSync(buffer.readFloat());
 	}
 
-	public static void handle(final MessageExhaustionSync message, Supplier<NetworkEvent.Context> ctx)
-	{
-		ctx.get().enqueueWork(() -> {
-			HungerHelper.setExhaustion(NetworkHelper.getSidedPlayer(ctx.get()), message.exhaustionLevel);
-		});
-		ctx.get().setPacketHandled(true);
+	public static void handle(MessageExhaustionSync message, PlayerEntity player) {
+		if (player != null && Float.isFinite(message.exhaustionLevel)) {
+			player.getFoodStats().setExhaustionLevel(message.exhaustionLevel);
+		}
 	}
 }

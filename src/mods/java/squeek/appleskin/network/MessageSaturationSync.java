@@ -1,34 +1,26 @@
 package squeek.appleskin.network;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
+public class MessageSaturationSync {
+	private final float saturationLevel;
 
-public class MessageSaturationSync
-{
-	float saturationLevel;
-
-	public MessageSaturationSync(float saturationLevel)
-	{
-		this.saturationLevel = saturationLevel;
+	public MessageSaturationSync(float value) {
+		this.saturationLevel = value;
 	}
 
-	public static void encode(MessageSaturationSync pkt, PacketBuffer buf)
-	{
-		buf.writeFloat(pkt.saturationLevel);
+	public static void encode(MessageSaturationSync message, PacketBuffer buffer) {
+		buffer.writeFloat(message.saturationLevel);
 	}
 
-	public static MessageSaturationSync decode(PacketBuffer buf)
-	{
-		return new MessageSaturationSync(buf.readFloat());
+	public static MessageSaturationSync decode(PacketBuffer buffer) {
+		return new MessageSaturationSync(buffer.readFloat());
 	}
 
-	public static void handle(final MessageSaturationSync message, Supplier<NetworkEvent.Context> ctx)
-	{
-		ctx.get().enqueueWork(() -> {
-			NetworkHelper.getSidedPlayer(ctx.get()).getFoodStats().setFoodSaturationLevel(message.saturationLevel);
-		});
-		ctx.get().setPacketHandled(true);
+	public static void handle(MessageSaturationSync message, PlayerEntity player) {
+		if (player != null && Float.isFinite(message.saturationLevel)) {
+			player.getFoodStats().setFoodSaturationLevel(message.saturationLevel);
+		}
 	}
 }

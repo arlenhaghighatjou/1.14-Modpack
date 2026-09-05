@@ -1510,7 +1510,9 @@ public class ClientPlayNetHandler implements IClientPlayNetHandler {
 
         try {
             packetbuffer = packetIn.getBufferData();
-            if (SCustomPayloadPlayPacket.BRAND.equals(resourcelocation)) {
+            if (squeek.appleskin.network.SyncHandler.CHANNEL.equals(resourcelocation)) {
+				squeek.appleskin.network.NetworkHelper.handle(packetbuffer, this.client.player);
+			} else if (SCustomPayloadPlayPacket.BRAND.equals(resourcelocation)) {
                 this.client.player.setServerBrand(packetbuffer.readString(32767));
             } else if (SCustomPayloadPlayPacket.REGISTER.equals(resourcelocation) || SCustomPayloadPlayPacket.UNREGISTER.equals(resourcelocation)) {
             } else if (SCustomPayloadPlayPacket.DEBUG_PATH.equals(resourcelocation)) {
