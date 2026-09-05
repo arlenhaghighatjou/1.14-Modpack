@@ -41,12 +41,12 @@ public class RemappingHandler {
 
 		for (RegistryEvent.MissingMappings.Mapping<Block> mapping : mappings) {
 			if (mapping.key.equals(MULCH)) {
-				mapping.remap(ModBlocks.RICH_SOIL.get());
-				LOGGER.warn("Remapping block '{}' to '{}'...", MULCH, ModBlocks.RICH_SOIL.get().getRegistryName());
+				mapping.remap(ModBlocks.RICH_SOIL);
+				LOGGER.warn("Remapping block '{}' to '{}'...", MULCH, ModBlocks.RICH_SOIL.getRegistryName());
 			}
 			if (mapping.key.equals(MULCH_FARMLAND)) {
-				mapping.remap(ModBlocks.RICH_SOIL_FARMLAND.get());
-				LOGGER.warn("Remapping block '{}' to '{}'...", MULCH_FARMLAND, ModBlocks.RICH_SOIL_FARMLAND.get().getRegistryName());
+				mapping.remap(ModBlocks.RICH_SOIL_FARMLAND);
+				LOGGER.warn("Remapping block '{}' to '{}'...", MULCH_FARMLAND, ModBlocks.RICH_SOIL_FARMLAND.getRegistryName());
 			}
 		}
 	}
@@ -60,12 +60,12 @@ public class RemappingHandler {
 
 		for (RegistryEvent.MissingMappings.Mapping<Item> mapping : mappings) {
 			if (mapping.key.equals(MULCH)) {
-				mapping.remap(ModItems.RICH_SOIL.get());
-				LOGGER.warn("Remapping item '{}' to '{}'...", MULCH, ModBlocks.RICH_SOIL.get().getRegistryName());
+				mapping.remap(ModItems.RICH_SOIL);
+				LOGGER.warn("Remapping item '{}' to '{}'...", MULCH, ModBlocks.RICH_SOIL.getRegistryName());
 			}
 			if (mapping.key.equals(MULCH_FARMLAND)) {
-				mapping.remap(ModItems.RICH_SOIL_FARMLAND.get());
-				LOGGER.warn("Remapping item '{}' to '{}'...", MULCH_FARMLAND, ModBlocks.RICH_SOIL_FARMLAND.get().getRegistryName());
+				mapping.remap(ModItems.RICH_SOIL_FARMLAND);
+				LOGGER.warn("Remapping item '{}' to '{}'...", MULCH_FARMLAND, ModBlocks.RICH_SOIL_FARMLAND.getRegistryName());
 			}
 		}
 	}

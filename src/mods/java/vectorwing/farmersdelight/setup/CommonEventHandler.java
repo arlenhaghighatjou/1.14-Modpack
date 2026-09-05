@@ -62,13 +62,13 @@ public class CommonEventHandler
 
 		ModAdvancements.register();
 
-		if (Configuration.GENERATE_VILLAGE_COMPOST_HEAPS.get()) {
+		if (Configuration.GENERATE_VILLAGE_COMPOST_HEAPS) {
 			VillageStructures.init();
 		}
 
 		LootFunctionManager.registerFunction(new CopyMealFunction.Serializer());
 
-		if (Configuration.DISPENSER_TOOLS_CUTTING_BOARD.get()) {
+		if (Configuration.DISPENSER_TOOLS_CUTTING_BOARD) {
 			CuttingBoardDispenseBehavior.registerBehaviour(Items.WOODEN_PICKAXE, new CuttingBoardDispenseBehavior());
 			CuttingBoardDispenseBehavior.registerBehaviour(Items.WOODEN_AXE, new CuttingBoardDispenseBehavior());
 			CuttingBoardDispenseBehavior.registerBehaviour(Items.WOODEN_SHOVEL, new CuttingBoardDispenseBehavior());
@@ -85,10 +85,10 @@ public class CommonEventHandler
 			CuttingBoardDispenseBehavior.registerBehaviour(Items.GOLDEN_AXE, new CuttingBoardDispenseBehavior());
 			CuttingBoardDispenseBehavior.registerBehaviour(Items.GOLDEN_SHOVEL, new CuttingBoardDispenseBehavior());
 			CuttingBoardDispenseBehavior.registerBehaviour(Items.SHEARS, new CuttingBoardDispenseBehavior());
-			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.FLINT_KNIFE.get(), new CuttingBoardDispenseBehavior());
-			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.IRON_KNIFE.get(), new CuttingBoardDispenseBehavior());
-			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.DIAMOND_KNIFE.get(), new CuttingBoardDispenseBehavior());
-			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.GOLDEN_KNIFE.get(), new CuttingBoardDispenseBehavior());
+			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.FLINT_KNIFE, new CuttingBoardDispenseBehavior());
+			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.IRON_KNIFE, new CuttingBoardDispenseBehavior());
+			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.DIAMOND_KNIFE, new CuttingBoardDispenseBehavior());
+			CuttingBoardDispenseBehavior.registerBehaviour(ModItems.GOLDEN_KNIFE, new CuttingBoardDispenseBehavior());
 		}
 
 		DeferredWorkQueue.runLater(CropPatchGeneration::generateCrop);
@@ -96,61 +96,61 @@ public class CommonEventHandler
 
 	public static void registerCompostables() {
 		// 30% chance
-		ComposterBlock.CHANCES.put(ModItems.TREE_BARK.get(), 0.3F);
-		ComposterBlock.CHANCES.put(ModItems.STRAW.get(), 0.3F);
-		ComposterBlock.CHANCES.put(ModItems.CABBAGE_SEEDS.get(), 0.3F);
-		ComposterBlock.CHANCES.put(ModItems.TOMATO_SEEDS.get(), 0.3F);
-		ComposterBlock.CHANCES.put(ModItems.RICE.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.RICE_PANICLE.get(), 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.TREE_BARK, 0.3F);
+		ComposterBlock.CHANCES.put(ModItems.STRAW, 0.3F);
+		ComposterBlock.CHANCES.put(ModItems.CABBAGE_SEEDS, 0.3F);
+		ComposterBlock.CHANCES.put(ModItems.TOMATO_SEEDS, 0.3F);
+		ComposterBlock.CHANCES.put(ModItems.RICE, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.RICE_PANICLE, 0.65F);
 
 		// 50% chance
-		ComposterBlock.CHANCES.put(ModItems.PUMPKIN_SLICE.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.CABBAGE_LEAF.get(), 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.PUMPKIN_SLICE, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.CABBAGE_LEAF, 0.65F);
 
 		// 65% chance
-		ComposterBlock.CHANCES.put(ModItems.CABBAGE.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.ONION.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.TOMATO.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_CABBAGES.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_ONIONS.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_TOMATOES.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_CARROTS.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_POTATOES.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_BEETROOTS.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.WILD_RICE.get(), 0.65F);
-		ComposterBlock.CHANCES.put(ModItems.PIE_CRUST.get(), 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.CABBAGE, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.ONION, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.TOMATO, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_CABBAGES, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_ONIONS, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_TOMATOES, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_CARROTS, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_POTATOES, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_BEETROOTS, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.WILD_RICE, 0.65F);
+		ComposterBlock.CHANCES.put(ModItems.PIE_CRUST, 0.65F);
 
 		// 85% chance
-		ComposterBlock.CHANCES.put(ModItems.RICE_BALE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.SWEET_BERRY_COOKIE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.HONEY_COOKIE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.CAKE_SLICE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.APPLE_PIE_SLICE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.SWEET_BERRY_CHEESECAKE_SLICE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.CHOCOLATE_PIE_SLICE.get(), 0.85F);
-		ComposterBlock.CHANCES.put(ModItems.RAW_PASTA.get(), 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.RICE_BALE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.SWEET_BERRY_COOKIE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.HONEY_COOKIE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.CAKE_SLICE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.APPLE_PIE_SLICE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.SWEET_BERRY_CHEESECAKE_SLICE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.CHOCOLATE_PIE_SLICE, 0.85F);
+		ComposterBlock.CHANCES.put(ModItems.RAW_PASTA, 0.85F);
 
 		// 100% chance
-		ComposterBlock.CHANCES.put(ModItems.APPLE_PIE.get(), 1.0F);
-		ComposterBlock.CHANCES.put(ModItems.SWEET_BERRY_CHEESECAKE.get(), 1.0F);
-		ComposterBlock.CHANCES.put(ModItems.CHOCOLATE_PIE.get(), 1.0F);
-		ComposterBlock.CHANCES.put(ModItems.DUMPLINGS.get(), 1.0F);
-		ComposterBlock.CHANCES.put(ModItems.STUFFED_PUMPKIN.get(), 1.0F);
+		ComposterBlock.CHANCES.put(ModItems.APPLE_PIE, 1.0F);
+		ComposterBlock.CHANCES.put(ModItems.SWEET_BERRY_CHEESECAKE, 1.0F);
+		ComposterBlock.CHANCES.put(ModItems.CHOCOLATE_PIE, 1.0F);
+		ComposterBlock.CHANCES.put(ModItems.DUMPLINGS, 1.0F);
+		ComposterBlock.CHANCES.put(ModItems.STUFFED_PUMPKIN, 1.0F);
 	}
 
 	@SubscribeEvent
 	public static void onVillagerTrades(VillagerTradesEvent event) {
-		if (!Configuration.FARMERS_BUY_FD_CROPS.get()) return;
+		if (!Configuration.FARMERS_BUY_FD_CROPS) return;
 
 		Int2ObjectMap<List<VillagerTrades.ITrade>> trades = event.getTrades();
 		VillagerProfession profession = event.getType();
 		if (profession.getRegistryName() == null) return;
 		if (profession.getRegistryName().getPath().equals("farmer"))
 		{
-			trades.get(1).add(new EmeraldForItemsTrade(ModItems.ONION.get(), 26, 16, 2));
-			trades.get(1).add(new EmeraldForItemsTrade(ModItems.TOMATO.get(), 26, 16, 2));
-			trades.get(2).add(new EmeraldForItemsTrade(ModItems.CABBAGE.get(), 16, 16, 5));
-			trades.get(2).add(new EmeraldForItemsTrade(ModItems.RICE.get(), 20, 16, 5));
+			trades.get(1).add(new EmeraldForItemsTrade(ModItems.ONION, 26, 16, 2));
+			trades.get(1).add(new EmeraldForItemsTrade(ModItems.TOMATO, 26, 16, 2));
+			trades.get(2).add(new EmeraldForItemsTrade(ModItems.CABBAGE, 16, 16, 5));
+			trades.get(2).add(new EmeraldForItemsTrade(ModItems.RICE, 20, 16, 5));
 		}
 	}
 
@@ -160,13 +160,13 @@ public class CommonEventHandler
 		LivingEntity entity = event.getEntityLiving();
 
 		// Adds 3:00 of Jump Boost II when eating Rabbit Stew
-		if (Configuration.RABBIT_STEW_JUMP_BOOST.get() && food.equals(Items.RABBIT_STEW)) {
+		if (Configuration.RABBIT_STEW_JUMP_BOOST && food.equals(Items.RABBIT_STEW)) {
 			entity.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 3600, 1));
 		}
 
 		// Adds 5:00 of Comfort when eating foods inside the tag farmersdelight:comfort_foods
-		if (Configuration.COMFORT_FOOD_TAG_EFFECT.get() && food.isIn(ModTags.COMFORT_FOODS)) {
-			entity.addPotionEffect(new EffectInstance(ModEffects.COMFORT.get(), 6000, 0));
+		if (Configuration.COMFORT_FOOD_TAG_EFFECT && food.isIn(ModTags.COMFORT_FOODS)) {
+			entity.addPotionEffect(new EffectInstance(ModEffects.COMFORT, 6000, 0));
 		}
 	}
 
@@ -198,9 +198,9 @@ public class CommonEventHandler
 		World world = context.getWorld();
 		BlockState state = world.getBlockState(pos);
 
-		if (context.getFace() != Direction.DOWN && world.isAirBlock(pos.up()) && state.getBlock() == ModBlocks.RICH_SOIL.get()) {
+		if (context.getFace() != Direction.DOWN && world.isAirBlock(pos.up()) && state.getBlock() == ModBlocks.RICH_SOIL) {
 			world.playSound(event.getPlayer(), pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			world.setBlockState(pos, ModBlocks.RICH_SOIL_FARMLAND.get().getDefaultState(), 11);
+			world.setBlockState(pos, ModBlocks.RICH_SOIL_FARMLAND.getDefaultState(), 11);
 			event.setResult(Event.Result.ALLOW);
 		}
 	}
@@ -214,11 +214,11 @@ public class CommonEventHandler
 			}
 		}
 
-		if (Configuration.CROPS_ON_SHIPWRECKS.get() && event.getName().equals(SHIPWRECK_SUPPLY_CHEST)) {
+		if (Configuration.CROPS_ON_SHIPWRECKS && event.getName().equals(SHIPWRECK_SUPPLY_CHEST)) {
 			event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/shipwreck_supply")).weight(1).quality(0)).name("supply_fd_crops").build());
 		}
 
-		if (Configuration.CROPS_ON_VILLAGE_HOUSES.get() && VILLAGE_HOUSE_CHESTS.contains(event.getName())) {
+		if (Configuration.CROPS_ON_VILLAGE_HOUSES && VILLAGE_HOUSE_CHESTS.contains(event.getName())) {
 			event.getTable().addPool(LootPool.builder().addEntry(
 							TableLootEntry.builder(new ResourceLocation(FarmersDelight.MODID, "inject/crops_villager_houses")).weight(1).quality(0)).name("villager_houses_fd_crops").build());
 		}

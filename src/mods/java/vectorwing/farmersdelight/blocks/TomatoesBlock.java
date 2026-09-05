@@ -72,7 +72,7 @@ public class TomatoesBlock extends BushBlock implements IGrowable
 	}
 
 	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
-		return new ItemStack(ModItems.TOMATO_SEEDS.get());
+		return new ItemStack(ModItems.TOMATO_SEEDS);
 	}
 
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
@@ -118,7 +118,7 @@ public class TomatoesBlock extends BushBlock implements IGrowable
 			return ActionResultType.PASS;
 		} else if (flag) {
 			int j = 1 + worldIn.rand.nextInt(2);
-			spawnAsEntity(worldIn, pos, new ItemStack(ModItems.TOMATO.get(), j));
+			spawnAsEntity(worldIn, pos, new ItemStack(ModItems.TOMATO, j));
 			worldIn.playSound(null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F, 0.8F + worldIn.rand.nextFloat() * 0.4F);
 			worldIn.setBlockState(pos, state.with(AGE, TOMATO_BEARING_AGE - 2), 2);
 			return ActionResultType.SUCCESS;

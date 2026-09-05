@@ -31,10 +31,10 @@ public class RichSoilBlock extends Block
 				return;
 			}
 			if (plant.getBlock() == Blocks.BROWN_MUSHROOM) {
-				worldIn.setBlockState(pos.up(), ModBlocks.BROWN_MUSHROOM_COLONY.get().getDefaultState().with(MushroomColonyBlock.COLONY_AGE, 0));
+				worldIn.setBlockState(pos.up(), ModBlocks.BROWN_MUSHROOM_COLONY.getDefaultState().with(MushroomColonyBlock.COLONY_AGE, 0));
 			}
 			if (plant.getBlock() == Blocks.RED_MUSHROOM) {
-				worldIn.setBlockState(pos.up(), ModBlocks.RED_MUSHROOM_COLONY.get().getDefaultState().with(MushroomColonyBlock.COLONY_AGE, 0));
+				worldIn.setBlockState(pos.up(), ModBlocks.RED_MUSHROOM_COLONY.getDefaultState().with(MushroomColonyBlock.COLONY_AGE, 0));
 			}
 			if (plant.getBlock() instanceof IGrowable && MathUtils.RAND.nextInt(10) <= 2) {
 				IGrowable growable = (IGrowable) plant.getBlock();

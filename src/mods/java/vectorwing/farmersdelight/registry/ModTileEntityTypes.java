@@ -1,26 +1,25 @@
 package vectorwing.farmersdelight.registry;
 
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.tile.*;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModTileEntityTypes
 {
-	public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, FarmersDelight.MODID);
+	public static TileEntityType<StoveTileEntity> STOVE_TILE;
+	public static TileEntityType<CookingPotTileEntity> COOKING_POT_TILE;
+	public static TileEntityType<BasketTileEntity> BASKET_TILE;
+	public static TileEntityType<CuttingBoardTileEntity> CUTTING_BOARD_TILE;
+	public static TileEntityType<PantryTileEntity> PANTRY_TILE;
 
-	public static final RegistryObject<TileEntityType<StoveTileEntity>> STOVE_TILE = TILES.register("stove",
-			() -> TileEntityType.Builder.create(StoveTileEntity::new, ModBlocks.STOVE.get()).build(null));
-	public static final RegistryObject<TileEntityType<CookingPotTileEntity>> COOKING_POT_TILE = TILES.register("cooking_pot",
-			() -> TileEntityType.Builder.create(CookingPotTileEntity::new, ModBlocks.COOKING_POT.get()).build(null));
-	public static final RegistryObject<TileEntityType<BasketTileEntity>> BASKET_TILE = TILES.register("basket",
-			() -> TileEntityType.Builder.create(BasketTileEntity::new, ModBlocks.BASKET.get()).build(null));
-	public static final RegistryObject<TileEntityType<CuttingBoardTileEntity>> CUTTING_BOARD_TILE = TILES.register("cutting_board",
-			() -> TileEntityType.Builder.create(CuttingBoardTileEntity::new, ModBlocks.CUTTING_BOARD.get()).build(null));
-	public static final RegistryObject<TileEntityType<PantryTileEntity>> PANTRY_TILE = TILES.register("pantry",
-			() -> TileEntityType.Builder.create(PantryTileEntity::new,
-					ModBlocks.OAK_PANTRY.get(), ModBlocks.BIRCH_PANTRY.get(), ModBlocks.SPRUCE_PANTRY.get(), ModBlocks.JUNGLE_PANTRY.get(), ModBlocks.ACACIA_PANTRY.get(), ModBlocks.DARK_OAK_PANTRY.get())
-					.build(null));
+	public static void registerTileEntityTypes()
+	{
+		STOVE_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(FarmersDelight.MODID, "stove"), TileEntityType.Builder.create(StoveTileEntity::new, ModBlocks.STOVE).build(null));
+		COOKING_POT_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(FarmersDelight.MODID, "cooking_pot"), TileEntityType.Builder.create(CookingPotTileEntity::new, ModBlocks.COOKING_POT).build(null));
+		BASKET_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(FarmersDelight.MODID, "basket"), TileEntityType.Builder.create(BasketTileEntity::new, ModBlocks.BASKET).build(null));
+		CUTTING_BOARD_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(FarmersDelight.MODID, "cutting_board"), TileEntityType.Builder.create(CuttingBoardTileEntity::new, ModBlocks.CUTTING_BOARD).build(null));
+		PANTRY_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(FarmersDelight.MODID, "pantry"), TileEntityType.Builder.create(PantryTileEntity::new, ModBlocks.OAK_PANTRY, ModBlocks.BIRCH_PANTRY, ModBlocks.SPRUCE_PANTRY, ModBlocks.JUNGLE_PANTRY, ModBlocks.ACACIA_PANTRY, ModBlocks.DARK_OAK_PANTRY) .build(null));
+	}
 }

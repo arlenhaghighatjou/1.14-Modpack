@@ -68,7 +68,7 @@ public class BackstabbingEnchantment extends Enchantment
 			Entity attacker = event.getSource().getTrueSource();
 			if (attacker instanceof PlayerEntity) {
 				ItemStack weapon = ((PlayerEntity) attacker).getHeldItemMainhand();
-				int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BACKSTABBING.get(), weapon);
+				int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BACKSTABBING, weapon);
 				if (level > 0 && isLookingBehindTarget(event.getEntityLiving(), event.getSource().getDamageLocation())) {
 					World world = event.getEntityLiving().getEntityWorld();
 					if (!world.isRemote) {

@@ -1,15 +1,18 @@
 package vectorwing.farmersdelight.registry;
 
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.feature.BushConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.world.features.RiceCropFeature;
 
-public class ModBiomeFeatures {
-	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, FarmersDelight.MODID);
+public class ModBiomeFeatures
+{
+	public static Feature<BushConfig> RICE;
 
-	public static final RegistryObject<Feature<BlockClusterFeatureConfig>> RICE = FEATURES.register("rice", () -> new RiceCropFeature(BlockClusterFeatureConfig::deserialize));
+	public static void registerFeatures()
+	{
+		RICE = Registry.register(Registry.FEATURE, new ResourceLocation(FarmersDelight.MODID, "rice"), new RiceCropFeature(BushConfig::deserialize));
+	}
 }

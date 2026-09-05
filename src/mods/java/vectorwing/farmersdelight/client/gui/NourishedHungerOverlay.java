@@ -36,7 +36,7 @@ public class NourishedHungerOverlay {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onPreRender(RenderGameOverlayEvent.Pre event) {
-		if (!Configuration.NOURISHED_HUNGER_OVERLAY.get())
+		if (!Configuration.NOURISHED_HUNGER_OVERLAY)
 			return;
 		if (event.getType() != RenderGameOverlayEvent.ElementType.FOOD)
 			return;
@@ -48,7 +48,7 @@ public class NourishedHungerOverlay {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRender(RenderGameOverlayEvent.Post event)	{
-		if (!Configuration.NOURISHED_HUNGER_OVERLAY.get())
+		if (!Configuration.NOURISHED_HUNGER_OVERLAY)
 			return;
 		if (event.getType() != RenderGameOverlayEvent.ElementType.FOOD)
 			return;
@@ -68,7 +68,7 @@ public class NourishedHungerOverlay {
 						&& stats.getSaturationLevel() > 0.0F
 						&& stats.getFoodLevel() >= 20;
 
-		if (player.getActivePotionEffect(ModEffects.NOURISHED.get()) != null && player.getActivePotionEffect(Effects.HUNGER) == null) {
+		if (player.getActivePotionEffect(ModEffects.NOURISHED) != null && player.getActivePotionEffect(Effects.HUNGER) == null) {
 			drawNourishedOverlay(stats.getFoodLevel(), mc, left, top, isPlayerHealingWithSaturation);
 		}
 	}

@@ -41,42 +41,42 @@ public class ClientEventHandler
 	}
 
 	public static void init(final FMLClientSetupEvent event) {
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_CABBAGES.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_ONIONS.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_TOMATOES.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_CARROTS.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_POTATOES.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_BEETROOTS.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_RICE.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_CABBAGES, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_ONIONS, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_TOMATOES, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_CARROTS, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_POTATOES, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_BEETROOTS, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.WILD_RICE, RenderType.getCutout());
 
-		RenderTypeLookup.setRenderLayer(ModBlocks.ONION_CROP.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.CABBAGE_CROP.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.TOMATO_CROP.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.RICE_CROP.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.RICE_UPPER_CROP.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.TALL_RICE_CROP.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.BROWN_MUSHROOM_COLONY.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.RED_MUSHROOM_COLONY.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.ONION_CROP, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.CABBAGE_CROP, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.TOMATO_CROP, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.RICE_CROP, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.RICE_UPPER_CROP, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.TALL_RICE_CROP, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.BROWN_MUSHROOM_COLONY, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.RED_MUSHROOM_COLONY, RenderType.getCutout());
 
-		RenderTypeLookup.setRenderLayer(ModBlocks.COOKING_POT.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.CUTTING_BOARD.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.BASKET.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.ROPE.get(), RenderType.getTranslucent());
-		RenderTypeLookup.setRenderLayer(ModBlocks.SAFETY_NET.get(), RenderType.getCutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.FULL_TATAMI_MAT.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.COOKING_POT, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.CUTTING_BOARD, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.BASKET, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.ROPE, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(ModBlocks.SAFETY_NET, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.FULL_TATAMI_MAT, RenderType.getCutout());
 
-		ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.STOVE_TILE.get(),
+		ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.STOVE_TILE,
 				StoveTileEntityRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CUTTING_BOARD_TILE.get(),
+		ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CUTTING_BOARD_TILE,
 				CuttingBoardTileEntityRenderer::new);
 
-		ScreenManager.registerFactory(ModContainerTypes.COOKING_POT.get(), CookingPotScreen::new);
+		ScreenManager.registerFactory(ModContainerTypes.COOKING_POT, CookingPotScreen::new);
 
 		NourishedHungerOverlay.init();
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void registerParticles(ParticleFactoryRegisterEvent event) {
-		Minecraft.getInstance().particles.registerFactory(ModParticleTypes.STAR_PARTICLE.get(), StarParticle.Factory::new);
+		Minecraft.getInstance().particles.registerFactory(ModParticleTypes.STAR_PARTICLE, StarParticle.Factory::new);
 	}
 }

@@ -30,7 +30,7 @@ public class PantryTileEntity extends LockableLootTileEntity {
 	}
 
 	public PantryTileEntity() {
-		this(ModTileEntityTypes.PANTRY_TILE.get());
+		this(ModTileEntityTypes.PANTRY_TILE);
 	}
 
 	public CompoundNBT write(CompoundNBT compound) {

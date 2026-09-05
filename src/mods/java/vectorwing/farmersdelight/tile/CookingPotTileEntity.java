@@ -91,7 +91,7 @@ public class CookingPotTileEntity extends TileEntity implements INamedContainerP
 		this.container = ItemStack.EMPTY;
 	}
 
-	public CookingPotTileEntity() {	this(ModTileEntityTypes.COOKING_POT_TILE.get(), CookingPotRecipe.TYPE); }
+	public CookingPotTileEntity() {	this(ModTileEntityTypes.COOKING_POT_TILE, CookingPotRecipe.TYPE); }
 
 	// ======== NBT & NETWORKING ========
 

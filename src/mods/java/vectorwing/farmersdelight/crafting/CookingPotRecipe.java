@@ -13,10 +13,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import vectorwing.farmersdelight.FarmersDelight;
+import vectorwing.farmersdelight.utils.RecipeMatcher;
 
 import javax.annotation.Nullable;
 
@@ -104,7 +104,7 @@ public class CookingPotRecipe implements IRecipe<IInventory>
 				inputs.add(itemstack);
 			}
 		}
-		return i == this.inputItems.size() && net.minecraftforge.common.util.RecipeMatcher.findMatches(inputs, this.inputItems) != null;
+		return i == this.inputItems.size() && RecipeMatcher.matches(inputs, this.inputItems);
 	}
 
 	@Override
@@ -125,11 +125,7 @@ public class CookingPotRecipe implements IRecipe<IInventory>
 		return CookingPotRecipe.TYPE;
 	}
 
-	private static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CookingPotRecipe> {
-
-		Serializer() {
-			this.setRegistryName(new ResourceLocation(FarmersDelight.MODID, "cooking"));
-		}
+	public static class Serializer extends IRecipeSerializer<CookingPotRecipe> {
 
 		@Override
 		public CookingPotRecipe read(ResourceLocation recipeId, JsonObject json)

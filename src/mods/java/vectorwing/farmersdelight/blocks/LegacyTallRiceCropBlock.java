@@ -104,7 +104,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 	}
 
 	protected IItemProvider getSeedsItem() {
-		return ModItems.RICE.get();
+		return ModItems.RICE;
 	}
 
 	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
@@ -191,7 +191,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 
 	@Override
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return state.isSolidSide(worldIn, pos, Direction.UP) && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == ModBlocks.RICH_SOIL.get());
+		return state.isSolidSide(worldIn, pos, Direction.UP) && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == ModBlocks.RICH_SOIL);
 	}
 
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
@@ -207,7 +207,7 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 
 	@Override
 	public BlockState getPlant(IBlockReader world, BlockPos pos) {
-		return ModBlocks.TALL_RICE_CROP.get().getDefaultState();
+		return ModBlocks.TALL_RICE_CROP.getDefaultState();
 	}
 
 	@Override

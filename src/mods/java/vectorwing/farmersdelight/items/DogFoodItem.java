@@ -53,7 +53,7 @@ public class DogFoodItem extends MealItem
 
 			if (target instanceof WolfEntity) {
 				WolfEntity wolf = (WolfEntity)target;
-				if (wolf.isAlive() && wolf.isTamed() && itemStack.getItem().equals(ModItems.DOG_FOOD.get())) {
+				if (wolf.isAlive() && wolf.isTamed() && itemStack.getItem().equals(ModItems.DOG_FOOD)) {
 					wolf.setHealth(wolf.getMaxHealth());
 					for(EffectInstance effect : EFFECTS) {
 						wolf.addPotionEffect(new EffectInstance(effect));
@@ -64,7 +64,7 @@ public class DogFoodItem extends MealItem
 						double d0 = MathUtils.RAND.nextGaussian() * 0.02D;
 						double d1 = MathUtils.RAND.nextGaussian() * 0.02D;
 						double d2 = MathUtils.RAND.nextGaussian() * 0.02D;
-						wolf.world.addParticle(ModParticleTypes.STAR_PARTICLE.get(), wolf.getPosXRandom(1.0D), wolf.getPosYRandom() + 0.5D, wolf.getPosZRandom(1.0D), d0, d1, d2);
+						wolf.world.addParticle(ModParticleTypes.STAR_PARTICLE, wolf.getPosXRandom(1.0D), wolf.getPosYRandom() + 0.5D, wolf.getPosZRandom(1.0D), d0, d1, d2);
 					}
 
 					if (itemStack.getContainerItem() != ItemStack.EMPTY && !player.isCreative()) {

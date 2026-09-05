@@ -187,7 +187,7 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 			double d1 = pos.getY();
 			double d2 = (double)pos.getZ() + 0.5D;
 			if (rand.nextInt(10) == 0) {
-				worldIn.playSound(d0, d1, d2, ModSounds.BLOCK_COOKING_POT_BOIL.get(), SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.2F + 0.9F, false);
+				worldIn.playSound(d0, d1, d2, ModSounds.BLOCK_COOKING_POT_BOIL, SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.2F + 0.9F, false);
 			}
 		}
 	}
@@ -211,7 +211,7 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return ModTileEntityTypes.COOKING_POT_TILE.get().create();
+		return ModTileEntityTypes.COOKING_POT_TILE.create();
 	}
 
 	public IFluidState getFluidState(BlockState state) {

@@ -44,7 +44,7 @@ public class CuttingBoardTileEntity extends TileEntity
 		this.isItemCarvingBoard = false;
 	}
 
-	public CuttingBoardTileEntity() { this(ModTileEntityTypes.CUTTING_BOARD_TILE.get(), CuttingBoardRecipe.TYPE); }
+	public CuttingBoardTileEntity() { this(ModTileEntityTypes.CUTTING_BOARD_TILE, CuttingBoardRecipe.TYPE); }
 
 	@Override
 	public void read(CompoundNBT compound) {
@@ -137,7 +137,7 @@ public class CuttingBoardTileEntity extends TileEntity
 		} else if (tool instanceof ShearsItem) {
 			this.playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
 		} else if (tool instanceof KnifeItem) {
-			this.playSound(ModSounds.BLOCK_CUTTING_BOARD_KNIFE.get(), 0.8F, 1.0F);
+			this.playSound(ModSounds.BLOCK_CUTTING_BOARD_KNIFE, 0.8F, 1.0F);
 		} else if (boardItem instanceof BlockItem) {
 			Block block = ((BlockItem) boardItem).getBlock();
 			SoundType soundType = block.getSoundType(block.getDefaultState());

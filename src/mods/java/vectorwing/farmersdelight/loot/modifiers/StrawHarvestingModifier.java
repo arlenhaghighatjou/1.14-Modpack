@@ -36,7 +36,7 @@ public class StrawHarvestingModifier
 		@Override
 		protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
 		{
-			generatedLoot.add(new ItemStack(ModItems.STRAW.get()));
+			generatedLoot.add(new ItemStack(ModItems.STRAW));
 			return generatedLoot;
 		}
 	}

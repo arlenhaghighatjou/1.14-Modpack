@@ -36,7 +36,7 @@ public class CookingPotContainer extends Container
 
 	public CookingPotContainer(final int windowId, final PlayerInventory playerInventory, final CookingPotTileEntity tileEntity, IIntArray cookingPotDataIn)
 	{
-		super(ModContainerTypes.COOKING_POT.get(), windowId);
+		super(ModContainerTypes.COOKING_POT, windowId);
 		this.tileEntity = tileEntity;
 		this.inventoryHandler = tileEntity.getInventory();
 		this.cookingPotData = cookingPotDataIn;
@@ -103,7 +103,7 @@ public class CookingPotContainer extends Container
 
 	@Override
 	public boolean canInteractWith(PlayerEntity playerIn) {
-		return isWithinUsableDistance(canInteractWithCallable, playerIn, ModBlocks.COOKING_POT.get());
+		return isWithinUsableDistance(canInteractWithCallable, playerIn, ModBlocks.COOKING_POT);
 	}
 
 	@Override

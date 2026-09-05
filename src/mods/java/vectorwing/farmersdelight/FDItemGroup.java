@@ -15,7 +15,7 @@ public class FDItemGroup extends ItemGroup
 
 	@Override
 	public ItemStack createIcon() {
-		return new ItemStack(ModBlocks.STOVE.get());
+		return new ItemStack(ModBlocks.STOVE);
 	}
 
 //	@Override
@@ -32,70 +32,70 @@ public class FDItemGroup extends ItemGroup
 
 	private void registerWorkstations(NonNullList<ItemStack> items)
 	{
-		items.add(new ItemStack(ModBlocks.STOVE.get()));
-		items.add(new ItemStack(ModBlocks.COOKING_POT.get()));
-		items.add(new ItemStack(ModBlocks.BASKET.get()));
-		items.add(new ItemStack(ModBlocks.ROPE.get()));
-		items.add(new ItemStack(ModBlocks.SAFETY_NET.get()));
+		items.add(new ItemStack(ModBlocks.STOVE));
+		items.add(new ItemStack(ModBlocks.COOKING_POT));
+		items.add(new ItemStack(ModBlocks.BASKET));
+		items.add(new ItemStack(ModBlocks.ROPE));
+		items.add(new ItemStack(ModBlocks.SAFETY_NET));
 	}
 
 	private void registerCrops(NonNullList<ItemStack> items)
 	{
-		items.add(new ItemStack(ModItems.WILD_CABBAGES.get()));
-		items.add(new ItemStack(ModItems.WILD_ONIONS.get()));
-		items.add(new ItemStack(ModItems.WILD_TOMATOES.get()));
-		items.add(new ItemStack(ModItems.WILD_CARROTS.get()));
-		items.add(new ItemStack(ModItems.WILD_POTATOES.get()));
-		items.add(new ItemStack(ModItems.WILD_BEETROOTS.get()));
-		items.add(new ItemStack(ModItems.CABBAGE.get()));
-		items.add(new ItemStack(ModItems.TOMATO.get()));
-		items.add(new ItemStack(ModItems.ONION.get()));
-		items.add(new ItemStack(ModItems.RICE.get()));
-		items.add(new ItemStack(ModItems.CABBAGE_SEEDS.get()));
-		items.add(new ItemStack(ModItems.TOMATO_SEEDS.get()));
+		items.add(new ItemStack(ModItems.WILD_CABBAGES));
+		items.add(new ItemStack(ModItems.WILD_ONIONS));
+		items.add(new ItemStack(ModItems.WILD_TOMATOES));
+		items.add(new ItemStack(ModItems.WILD_CARROTS));
+		items.add(new ItemStack(ModItems.WILD_POTATOES));
+		items.add(new ItemStack(ModItems.WILD_BEETROOTS));
+		items.add(new ItemStack(ModItems.CABBAGE));
+		items.add(new ItemStack(ModItems.TOMATO));
+		items.add(new ItemStack(ModItems.ONION));
+		items.add(new ItemStack(ModItems.RICE));
+		items.add(new ItemStack(ModItems.CABBAGE_SEEDS));
+		items.add(new ItemStack(ModItems.TOMATO_SEEDS));
 	}
 
 	private void registerIngredients(NonNullList<ItemStack> items) {
-		items.add(new ItemStack(ModItems.FRIED_EGG.get()));
-		items.add(new ItemStack(ModItems.MILK_BOTTLE.get()));
-		items.add(new ItemStack(ModItems.TOMATO_SAUCE.get()));
-		items.add(new ItemStack(ModItems.RAW_PASTA.get()));
-		items.add(new ItemStack(ModItems.CAKE_SLICE.get()));
-		items.add(new ItemStack(ModItems.SWEET_BERRY_COOKIE.get()));
-		items.add(new ItemStack(ModItems.HONEY_COOKIE.get()));
+		items.add(new ItemStack(ModItems.FRIED_EGG));
+		items.add(new ItemStack(ModItems.MILK_BOTTLE));
+		items.add(new ItemStack(ModItems.TOMATO_SAUCE));
+		items.add(new ItemStack(ModItems.RAW_PASTA));
+		items.add(new ItemStack(ModItems.CAKE_SLICE));
+		items.add(new ItemStack(ModItems.SWEET_BERRY_COOKIE));
+		items.add(new ItemStack(ModItems.HONEY_COOKIE));
 	}
 
 	private void registerTools(NonNullList<ItemStack> items) {
-		items.add(new ItemStack(ModItems.FLINT_KNIFE.get()));
-		items.add(new ItemStack(ModItems.IRON_KNIFE.get()));
-		items.add(new ItemStack(ModItems.DIAMOND_KNIFE.get()));
-		items.add(new ItemStack(ModItems.GOLDEN_KNIFE.get()));
+		items.add(new ItemStack(ModItems.FLINT_KNIFE));
+		items.add(new ItemStack(ModItems.IRON_KNIFE));
+		items.add(new ItemStack(ModItems.DIAMOND_KNIFE));
+		items.add(new ItemStack(ModItems.GOLDEN_KNIFE));
 	}
 
 	private void registerMaterials(NonNullList<ItemStack> items) {
-		items.add(new ItemStack(ModItems.STRAW.get()));
-		items.add(new ItemStack(ModItems.CANVAS.get()));
+		items.add(new ItemStack(ModItems.STRAW));
+		items.add(new ItemStack(ModItems.CANVAS));
 	}
 
 	private void registerMeals(NonNullList<ItemStack> items) {
-		items.add(new ItemStack(ModItems.MIXED_SALAD.get()));
-		items.add(new ItemStack(ModItems.BARBECUE_STICK.get()));
-		items.add(new ItemStack(ModItems.CHICKEN_SANDWICH.get()));
-		items.add(new ItemStack(ModItems.HAMBURGER.get()));
-		items.add(new ItemStack(ModItems.BEEF_STEW.get()));
-		items.add(new ItemStack(ModItems.CHICKEN_SOUP.get()));
-		items.add(new ItemStack(ModItems.VEGETABLE_SOUP.get()));
-		items.add(new ItemStack(ModItems.FISH_STEW.get()));
-		items.add(new ItemStack(ModItems.FRIED_RICE.get()));
-		items.add(new ItemStack(ModItems.HONEY_GLAZED_HAM.get()));
-		items.add(new ItemStack(ModItems.PASTA_WITH_MEATBALLS.get()));
-		items.add(new ItemStack(ModItems.PASTA_WITH_MUTTON_CHOP.get()));
-		items.add(new ItemStack(ModItems.VEGETABLE_NOODLES.get()));
-		items.add(new ItemStack(ModItems.STEAK_AND_POTATOES.get()));
-		items.add(new ItemStack(ModItems.SHEPHERDS_PIE.get()));
+		items.add(new ItemStack(ModItems.MIXED_SALAD));
+		items.add(new ItemStack(ModItems.BARBECUE_STICK));
+		items.add(new ItemStack(ModItems.CHICKEN_SANDWICH));
+		items.add(new ItemStack(ModItems.HAMBURGER));
+		items.add(new ItemStack(ModItems.BEEF_STEW));
+		items.add(new ItemStack(ModItems.CHICKEN_SOUP));
+		items.add(new ItemStack(ModItems.VEGETABLE_SOUP));
+		items.add(new ItemStack(ModItems.FISH_STEW));
+		items.add(new ItemStack(ModItems.FRIED_RICE));
+		items.add(new ItemStack(ModItems.HONEY_GLAZED_HAM));
+		items.add(new ItemStack(ModItems.PASTA_WITH_MEATBALLS));
+		items.add(new ItemStack(ModItems.PASTA_WITH_MUTTON_CHOP));
+		items.add(new ItemStack(ModItems.VEGETABLE_NOODLES));
+		items.add(new ItemStack(ModItems.STEAK_AND_POTATOES));
+		items.add(new ItemStack(ModItems.SHEPHERDS_PIE));
 	}
 
 	private void registerPetMeals(NonNullList<ItemStack> items) {
-		items.add(new ItemStack(ModItems.DOG_FOOD.get()));
+		items.add(new ItemStack(ModItems.DOG_FOOD));
 	}
 }

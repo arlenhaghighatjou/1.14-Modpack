@@ -3,94 +3,107 @@ package vectorwing.farmersdelight.registry;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Items;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.blocks.*;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModBlocks
 {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, FarmersDelight.MODID);
-
-	// FUNCTIONAL
-	public static final RegistryObject<Block> STOVE = BLOCKS.register("stove", StoveBlock::new);
-	public static final RegistryObject<Block> COOKING_POT = BLOCKS.register("cooking_pot", CookingPotBlock::new);
-	public static final RegistryObject<Block> BASKET = BLOCKS.register("basket", BasketBlock::new);
-	public static final RegistryObject<Block> CUTTING_BOARD = BLOCKS.register("cutting_board", CuttingBoardBlock::new);
-	public static final RegistryObject<Block> CABBAGE_CRATE = BLOCKS.register("cabbage_crate",
-			() -> new Block(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> TOMATO_CRATE = BLOCKS.register("tomato_crate",
-			() -> new Block(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> ONION_CRATE = BLOCKS.register("onion_crate",
-			() -> new Block(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> RICE_BALE = BLOCKS.register("rice_bale",
-			() -> new RiceBaleBlock(Block.Properties.from(Blocks.HAY_BLOCK)));
-	public static final RegistryObject<Block> SAFETY_NET = BLOCKS.register("safety_net", SafetyNetBlock::new);
-	public static final RegistryObject<Block> OAK_PANTRY = BLOCKS.register("oak_pantry",
-			() -> new PantryBlock(Block.Properties.from(Blocks.BARREL)));
-	public static final RegistryObject<Block> BIRCH_PANTRY = BLOCKS.register("birch_pantry",
-			() -> new PantryBlock(Block.Properties.from(Blocks.BARREL)));
-	public static final RegistryObject<Block> SPRUCE_PANTRY = BLOCKS.register("spruce_pantry",
-			() -> new PantryBlock(Block.Properties.from(Blocks.BARREL)));
-	public static final RegistryObject<Block> JUNGLE_PANTRY = BLOCKS.register("jungle_pantry",
-			() -> new PantryBlock(Block.Properties.from(Blocks.BARREL)));
-	public static final RegistryObject<Block> ACACIA_PANTRY = BLOCKS.register("acacia_pantry",
-			() -> new PantryBlock(Block.Properties.from(Blocks.BARREL)));
-	public static final RegistryObject<Block> DARK_OAK_PANTRY = BLOCKS.register("dark_oak_pantry",
-			() -> new PantryBlock(Block.Properties.from(Blocks.BARREL)));
-	public static final RegistryObject<Block> TATAMI = BLOCKS.register("tatami", TatamiBlock::new);
-	public static final RegistryObject<Block> FULL_TATAMI_MAT = BLOCKS.register("full_tatami_mat", TatamiMatBlock::new);
-	public static final RegistryObject<Block> HALF_TATAMI_MAT = BLOCKS.register("half_tatami_mat", TatamiHalfMatBlock::new);
-	public static final RegistryObject<Block> ORGANIC_COMPOST = BLOCKS.register("organic_compost",
-			() -> new OrganicCompostBlock(Block.Properties.from(Blocks.DIRT)));
-	public static final RegistryObject<Block> RICH_SOIL = BLOCKS.register("rich_soil",
-			() -> new RichSoilBlock(Block.Properties.from(Blocks.DIRT).tickRandomly()));
-	public static final RegistryObject<Block> RICH_SOIL_FARMLAND = BLOCKS.register("rich_soil_farmland",
-			() -> new RichSoilFarmlandBlock(Block.Properties.from(Blocks.FARMLAND)));
-	public static final RegistryObject<Block> BROWN_MUSHROOM_COLONY = BLOCKS.register("brown_mushroom_colony",
-			() -> new MushroomColonyBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), Items.BROWN_MUSHROOM.delegate));
-	public static final RegistryObject<Block> RED_MUSHROOM_COLONY = BLOCKS.register("red_mushroom_colony",
-			() -> new MushroomColonyBlock(Block.Properties.from(Blocks.RED_MUSHROOM), Items.RED_MUSHROOM.delegate));
-	public static final RegistryObject<Block> ROPE = BLOCKS.register("rope", RopeBlock::new);
-
-	// PASTRY BLOCKS
-	public static final RegistryObject<Block> APPLE_PIE = BLOCKS.register("apple_pie",
-			() -> new PieBlock(Block.Properties.from(Blocks.CAKE), ModItems.APPLE_PIE_SLICE));
-	public static final RegistryObject<Block> SWEET_BERRY_CHEESECAKE = BLOCKS.register("sweet_berry_cheesecake",
-			() -> new PieBlock(Block.Properties.from(Blocks.CAKE), ModItems.SWEET_BERRY_CHEESECAKE_SLICE));
-	public static final RegistryObject<Block> CHOCOLATE_PIE = BLOCKS.register("chocolate_pie",
-			() -> new PieBlock(Block.Properties.from(Blocks.CAKE), ModItems.CHOCOLATE_PIE_SLICE));
-
-	// WILD PATCHES
-	public static final RegistryObject<Block> WILD_CABBAGES = BLOCKS.register("wild_cabbages",
-			() -> new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-	public static final RegistryObject<Block> WILD_ONIONS = BLOCKS.register("wild_onions",
-			() -> new WildCropsBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-	public static final RegistryObject<Block> WILD_TOMATOES = BLOCKS.register("wild_tomatoes",
-			() -> new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-	public static final RegistryObject<Block> WILD_CARROTS = BLOCKS.register("wild_carrots",
-			() -> new WildCropsBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-	public static final RegistryObject<Block> WILD_POTATOES = BLOCKS.register("wild_potatoes",
-			() -> new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-	public static final RegistryObject<Block> WILD_BEETROOTS = BLOCKS.register("wild_beetroots",
-			() -> new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-	public static final RegistryObject<Block> WILD_RICE = BLOCKS.register("wild_rice",
-			() -> new WildRiceBlock(Block.Properties.from(Blocks.TALL_GRASS)));
-
-	// CROPS
-	public static final RegistryObject<Block> CABBAGE_CROP = BLOCKS.register("cabbages",
-			() -> new CabbagesBlock(Block.Properties.from(Blocks.WHEAT)));
-	public static final RegistryObject<Block> ONION_CROP = BLOCKS.register("onions",
-			() -> new OnionsBlock(Block.Properties.from(Blocks.WHEAT)));
-	public static final RegistryObject<Block> TOMATO_CROP = BLOCKS.register("tomatoes",
-			() -> new TomatoesBlock(Block.Properties.from(Blocks.WHEAT)));
-	public static final RegistryObject<Block> RICE_CROP = BLOCKS.register("rice_crop",
-			() -> new RiceCropBlock(Block.Properties.from(Blocks.WHEAT)));
-	public static final RegistryObject<Block> RICE_UPPER_CROP = BLOCKS.register("rice_upper_crop",
-			() -> new RiceUpperCropBlock(Block.Properties.from(Blocks.WHEAT)));
-
+	public static Block STOVE;
+	public static Block COOKING_POT;
+	public static Block BASKET;
+	public static Block CUTTING_BOARD;
+	public static Block CABBAGE_CRATE;
+	public static Block TOMATO_CRATE;
+	public static Block ONION_CRATE;
+	public static Block RICE_BALE;
+	public static Block SAFETY_NET;
+	public static Block OAK_PANTRY;
+	public static Block BIRCH_PANTRY;
+	public static Block SPRUCE_PANTRY;
+	public static Block JUNGLE_PANTRY;
+	public static Block ACACIA_PANTRY;
+	public static Block DARK_OAK_PANTRY;
+	public static Block TATAMI;
+	public static Block FULL_TATAMI_MAT;
+	public static Block HALF_TATAMI_MAT;
+	public static Block ORGANIC_COMPOST;
+	public static Block RICH_SOIL;
+	public static Block RICH_SOIL_FARMLAND;
+	public static Block BROWN_MUSHROOM_COLONY;
+	public static Block RED_MUSHROOM_COLONY;
+	public static Block ROPE;
+	public static Block APPLE_PIE;
+	public static Block SWEET_BERRY_CHEESECAKE;
+	public static Block CHOCOLATE_PIE;
+	public static Block WILD_CABBAGES;
+	public static Block WILD_ONIONS;
+	public static Block WILD_TOMATOES;
+	public static Block WILD_CARROTS;
+	public static Block WILD_POTATOES;
+	public static Block WILD_BEETROOTS;
+	public static Block WILD_RICE;
+	public static Block CABBAGE_CROP;
+	public static Block ONION_CROP;
+	public static Block TOMATO_CROP;
+	public static Block RICE_CROP;
+	public static Block RICE_UPPER_CROP;
 	@Deprecated
-	public static final RegistryObject<Block> TALL_RICE_CROP = BLOCKS.register("tall_rice_crop",
-			() -> new LegacyTallRiceCropBlock(Block.Properties.from(Blocks.WHEAT)));
+	public static Block TALL_RICE_CROP;
+
+	public static void registerBlocks()
+	{
+		STOVE = registerBlock("stove", new StoveBlock());
+		COOKING_POT = registerBlock("cooking_pot", new CookingPotBlock());
+		BASKET = registerBlock("basket", new BasketBlock());
+		CUTTING_BOARD = registerBlock("cutting_board", new CuttingBoardBlock());
+		CABBAGE_CRATE = registerBlock("cabbage_crate", new Block(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
+		TOMATO_CRATE = registerBlock("tomato_crate", new Block(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
+		ONION_CRATE = registerBlock("onion_crate", new Block(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
+		RICE_BALE = registerBlock("rice_bale", new RiceBaleBlock(Block.Properties.from(Blocks.HAY_BLOCK)));
+		SAFETY_NET = registerBlock("safety_net", new SafetyNetBlock());
+		OAK_PANTRY = registerBlock("oak_pantry", new PantryBlock(Block.Properties.from(Blocks.BARREL)));
+		BIRCH_PANTRY = registerBlock("birch_pantry", new PantryBlock(Block.Properties.from(Blocks.BARREL)));
+		SPRUCE_PANTRY = registerBlock("spruce_pantry", new PantryBlock(Block.Properties.from(Blocks.BARREL)));
+		JUNGLE_PANTRY = registerBlock("jungle_pantry", new PantryBlock(Block.Properties.from(Blocks.BARREL)));
+		ACACIA_PANTRY = registerBlock("acacia_pantry", new PantryBlock(Block.Properties.from(Blocks.BARREL)));
+		DARK_OAK_PANTRY = registerBlock("dark_oak_pantry", new PantryBlock(Block.Properties.from(Blocks.BARREL)));
+		TATAMI = registerBlock("tatami", new TatamiBlock());
+		FULL_TATAMI_MAT = registerBlock("full_tatami_mat", new TatamiMatBlock());
+		HALF_TATAMI_MAT = registerBlock("half_tatami_mat", new TatamiHalfMatBlock());
+		ORGANIC_COMPOST = registerBlock("organic_compost", new OrganicCompostBlock(Block.Properties.from(Blocks.DIRT)));
+		RICH_SOIL = registerBlock("rich_soil", new RichSoilBlock(Block.Properties.from(Blocks.DIRT).tickRandomly()));
+		RICH_SOIL_FARMLAND = registerBlock("rich_soil_farmland", new RichSoilFarmlandBlock(Block.Properties.from(Blocks.FARMLAND)));
+		BROWN_MUSHROOM_COLONY = registerBlock("brown_mushroom_colony", new MushroomColonyBlock(Block.Properties.from(Blocks.BROWN_MUSHROOM), Items.BROWN_MUSHROOM));
+		RED_MUSHROOM_COLONY = registerBlock("red_mushroom_colony", new MushroomColonyBlock(Block.Properties.from(Blocks.RED_MUSHROOM), Items.RED_MUSHROOM));
+		ROPE = registerBlock("rope", new RopeBlock());
+		APPLE_PIE = registerBlock("apple_pie", new PieBlock(Block.Properties.from(Blocks.CAKE), () -> ModItems.APPLE_PIE_SLICE));
+		SWEET_BERRY_CHEESECAKE = registerBlock("sweet_berry_cheesecake", new PieBlock(Block.Properties.from(Blocks.CAKE), () -> ModItems.SWEET_BERRY_CHEESECAKE_SLICE));
+		CHOCOLATE_PIE = registerBlock("chocolate_pie", new PieBlock(Block.Properties.from(Blocks.CAKE), () -> ModItems.CHOCOLATE_PIE_SLICE));
+		WILD_CABBAGES = registerBlock("wild_cabbages", new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		WILD_ONIONS = registerBlock("wild_onions", new WildCropsBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		WILD_TOMATOES = registerBlock("wild_tomatoes", new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		WILD_CARROTS = registerBlock("wild_carrots", new WildCropsBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		WILD_POTATOES = registerBlock("wild_potatoes", new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		WILD_BEETROOTS = registerBlock("wild_beetroots", new WildPatchBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		WILD_RICE = registerBlock("wild_rice", new WildRiceBlock(Block.Properties.from(Blocks.TALL_GRASS)));
+		CABBAGE_CROP = registerBlock("cabbages", new CabbagesBlock(Block.Properties.from(Blocks.WHEAT)));
+		ONION_CROP = registerBlock("onions", new OnionsBlock(Block.Properties.from(Blocks.WHEAT)));
+		TOMATO_CROP = registerBlock("tomatoes", new TomatoesBlock(Block.Properties.from(Blocks.WHEAT)));
+		RICE_CROP = registerBlock("rice_crop", new RiceCropBlock(Block.Properties.from(Blocks.WHEAT)));
+		RICE_UPPER_CROP = registerBlock("rice_upper_crop", new RiceUpperCropBlock(Block.Properties.from(Blocks.WHEAT)));
+		TALL_RICE_CROP = registerBlock("tall_rice_crop", new LegacyTallRiceCropBlock(Block.Properties.from(Blocks.WHEAT)));
+	}
+
+	public static Block registerBlock(String name, Block block)
+	{
+		Registry.register(Registry.BLOCK, new ResourceLocation(FarmersDelight.MODID, name), block);
+		for (BlockState state : block.getStateContainer().getValidStates())
+		{
+			state.func_215692_c();
+			Block.BLOCK_STATE_IDS.add(state);
+		}
+		return block;
+	}
 }

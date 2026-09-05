@@ -15,7 +15,7 @@ public class Items extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		singleTexture(ModItems.TOMATO_SAUCE.get().getRegistryName().getPath(), new ResourceLocation("item/handheld"),
+		singleTexture(ModItems.TOMATO_SAUCE.getRegistryName().getPath(), new ResourceLocation("item/handheld"),
 				"layer0", new ResourceLocation(FarmersDelight.MODID, "items/tomato_sauce"));
 	}
 }

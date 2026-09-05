@@ -81,7 +81,7 @@ public class RichSoilFarmlandBlock extends FarmlandBlock
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return !this.getDefaultState().isValidPosition(context.getWorld(), context.getPos()) ? ModBlocks.RICH_SOIL.get().getDefaultState() : super.getStateForPlacement(context);
+		return !this.getDefaultState().isValidPosition(context.getWorld(), context.getPos()) ? ModBlocks.RICH_SOIL.getDefaultState() : super.getStateForPlacement(context);
 	}
 
 	@Override
@@ -90,6 +90,6 @@ public class RichSoilFarmlandBlock extends FarmlandBlock
 	}
 
 	public static void turnToRichSoil(BlockState state, World worldIn, BlockPos pos) {
-		worldIn.setBlockState(pos, nudgeEntitiesWithNewState(state, ModBlocks.RICH_SOIL.get().getDefaultState(), worldIn, pos));
+		worldIn.setBlockState(pos, nudgeEntitiesWithNewState(state, ModBlocks.RICH_SOIL.getDefaultState(), worldIn, pos));
 	}
 }

@@ -37,7 +37,7 @@ public class BasketTileEntity extends LockableLootTileEntity implements IBasket,
 
 	protected BasketTileEntity(TileEntityType<?> typeIn) { super(typeIn); }
 
-	public BasketTileEntity() {	this(ModTileEntityTypes.BASKET_TILE.get()); }
+	public BasketTileEntity() {	this(ModTileEntityTypes.BASKET_TILE); }
 
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);

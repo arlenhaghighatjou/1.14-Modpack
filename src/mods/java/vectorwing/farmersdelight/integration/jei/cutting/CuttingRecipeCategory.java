@@ -30,8 +30,8 @@ public class CuttingRecipeCategory implements IRecipeCategory<CuttingBoardRecipe
 		title = I18n.format(FarmersDelight.MODID + ".jei.cutting");
 		ResourceLocation backgroundImage = new ResourceLocation(FarmersDelight.MODID, "textures/gui/jei/cutting_board.png");
 		background = helper.createDrawable(backgroundImage, 0, 0, 117, 57);
-		icon = helper.createDrawableIngredient(new ItemStack(ModItems.CUTTING_BOARD.get()));
-		cuttingBoard = new CuttingBoardModel(() -> new ItemStack(ModBlocks.CUTTING_BOARD.get()));
+		icon = helper.createDrawableIngredient(new ItemStack(ModItems.CUTTING_BOARD));
+		cuttingBoard = new CuttingBoardModel(() -> new ItemStack(ModBlocks.CUTTING_BOARD));
 	}
 
 	@Override

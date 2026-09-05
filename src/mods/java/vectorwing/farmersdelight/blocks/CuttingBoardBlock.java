@@ -179,7 +179,7 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return ModTileEntityTypes.CUTTING_BOARD_TILE.get().create();
+		return ModTileEntityTypes.CUTTING_BOARD_TILE.create();
 	}
 
 	@Mod.EventBusSubscriber(modid = FarmersDelight.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)

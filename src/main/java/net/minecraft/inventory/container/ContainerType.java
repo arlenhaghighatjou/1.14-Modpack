@@ -37,7 +37,7 @@ public class ContainerType<T extends Container> {
         return Registry.register(Registry.MENU, key, new ContainerType<>(factory));
     }
 
-    private ContainerType(ContainerType.IFactory<T> factory) {
+    public ContainerType(ContainerType.IFactory<T> factory) {
         this.factory = factory;
     }
 

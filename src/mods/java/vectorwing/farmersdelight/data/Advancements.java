@@ -70,7 +70,7 @@ public class Advancements extends AdvancementProvider
 		public void accept(Consumer<Advancement> consumer)
 		{
 			Advancement farmersDelight = Advancement.Builder.builder()
-					.withDisplay(ModItems.COOKING_POT.get(),
+					.withDisplay(ModItems.COOKING_POT,
 							TextUtils.getTranslation("advancement.root"),
 							TextUtils.getTranslation("advancement.root.desc"),
 							new ResourceLocation("minecraft:textures/block/bricks.png"),
@@ -79,23 +79,23 @@ public class Advancements extends AdvancementProvider
 					.register(consumer, getNameId("main/root"));
 
 			// Farming Branch
-			Advancement huntAndGather = getAdvancement(farmersDelight, ModItems.FLINT_KNIFE.get(), "craft_knife", FrameType.TASK, true, true, false)
-					.withCriterion("flint_knife", InventoryChangeTrigger.Instance.forItems(ModItems.FLINT_KNIFE.get()))
-					.withCriterion("iron_knife", InventoryChangeTrigger.Instance.forItems(ModItems.IRON_KNIFE.get()))
-					.withCriterion("diamond_knife", InventoryChangeTrigger.Instance.forItems(ModItems.DIAMOND_KNIFE.get()))
-					.withCriterion("golden_knife", InventoryChangeTrigger.Instance.forItems(ModItems.GOLDEN_KNIFE.get())).withRequirementsStrategy(IRequirementsStrategy.OR)
+			Advancement huntAndGather = getAdvancement(farmersDelight, ModItems.FLINT_KNIFE, "craft_knife", FrameType.TASK, true, true, false)
+					.withCriterion("flint_knife", InventoryChangeTrigger.Instance.forItems(ModItems.FLINT_KNIFE))
+					.withCriterion("iron_knife", InventoryChangeTrigger.Instance.forItems(ModItems.IRON_KNIFE))
+					.withCriterion("diamond_knife", InventoryChangeTrigger.Instance.forItems(ModItems.DIAMOND_KNIFE))
+					.withCriterion("golden_knife", InventoryChangeTrigger.Instance.forItems(ModItems.GOLDEN_KNIFE)).withRequirementsStrategy(IRequirementsStrategy.OR)
 					.register(consumer, getNameId("main/craft_knife"));
 
-			Advancement dippingYourRoots = getAdvancement(huntAndGather, ModItems.RICE_PANICLE.get(), "plant_rice", FrameType.TASK, true, true, false)
-					.withCriterion("plant_rice", PlacedBlockTrigger.Instance.placedBlock(ModBlocks.RICE_CROP.get()))
+			Advancement dippingYourRoots = getAdvancement(huntAndGather, ModItems.RICE_PANICLE, "plant_rice", FrameType.TASK, true, true, false)
+					.withCriterion("plant_rice", PlacedBlockTrigger.Instance.placedBlock(ModBlocks.RICE_CROP))
 					.register(consumer, getNameId("main/plant_rice"));
 
-			Advancement graspingAtStraws = getAdvancement(huntAndGather, ModItems.STRAW.get(), "harvest_straw", FrameType.TASK, true, true, false)
-					.withCriterion("harvest_straw", InventoryChangeTrigger.Instance.forItems(ModItems.STRAW.get()))
+			Advancement graspingAtStraws = getAdvancement(huntAndGather, ModItems.STRAW, "harvest_straw", FrameType.TASK, true, true, false)
+					.withCriterion("harvest_straw", InventoryChangeTrigger.Instance.forItems(ModItems.STRAW))
 					.register(consumer, getNameId("main/harvest_straw"));
 
-			Advancement plantFood = getAdvancement(graspingAtStraws, ModItems.RICH_SOIL.get(), "get_rich_soil", FrameType.TASK, true, true, false)
-					.withCriterion("get_rich_soil", InventoryChangeTrigger.Instance.forItems(ModItems.RICH_SOIL.get()))
+			Advancement plantFood = getAdvancement(graspingAtStraws, ModItems.RICH_SOIL, "get_rich_soil", FrameType.TASK, true, true, false)
+					.withCriterion("get_rich_soil", InventoryChangeTrigger.Instance.forItems(ModItems.RICH_SOIL))
 					.register(consumer, getNameId("main/get_rich_soil"));
 
 			// Cooking Branch
@@ -103,45 +103,45 @@ public class Advancements extends AdvancementProvider
 					.withCriterion("campfire", PlacedBlockTrigger.Instance.placedBlock(Blocks.CAMPFIRE))
 					.register(consumer, getNameId("main/place_campfire"));
 
-			Advancement fireUpTheGrill = getAdvancement(bonfireLit, ModItems.STOVE.get(), "craft_stove", FrameType.TASK, true, true, false)
-					.withCriterion("stove", InventoryChangeTrigger.Instance.forItems(ModItems.STOVE.get()))
+			Advancement fireUpTheGrill = getAdvancement(bonfireLit, ModItems.STOVE, "craft_stove", FrameType.TASK, true, true, false)
+					.withCriterion("stove", InventoryChangeTrigger.Instance.forItems(ModItems.STOVE))
 					.register(consumer, getNameId("main/craft_stove"));
 
-			Advancement dinnerIsServed = getAdvancement(fireUpTheGrill, ModItems.COOKING_POT.get(), "place_cooking_pot", FrameType.GOAL, true, true, false)
-					.withCriterion("cooking_pot", PlacedBlockTrigger.Instance.placedBlock(ModBlocks.COOKING_POT.get()))
+			Advancement dinnerIsServed = getAdvancement(fireUpTheGrill, ModItems.COOKING_POT, "place_cooking_pot", FrameType.GOAL, true, true, false)
+					.withCriterion("cooking_pot", PlacedBlockTrigger.Instance.placedBlock(ModBlocks.COOKING_POT))
 					.register(consumer, getNameId("main/place_cooking_pot"));
 
-			Advancement warmAndCozy = getAdvancement(dinnerIsServed, ModItems.CHICKEN_SOUP.get(), "eat_comfort_food", FrameType.TASK, true, true, false)
-					.withCriterion("comfort", EffectsChangedTrigger.Instance.forEffect(MobEffectsPredicate.any().addEffect(ModEffects.COMFORT.get())))
+			Advancement warmAndCozy = getAdvancement(dinnerIsServed, ModItems.CHICKEN_SOUP, "eat_comfort_food", FrameType.TASK, true, true, false)
+					.withCriterion("comfort", EffectsChangedTrigger.Instance.forEffect(MobEffectsPredicate.any().addEffect(ModEffects.COMFORT)))
 					.register(consumer, getNameId("main/eat_comfort_food"));
 
-			Advancement wellServed = getAdvancement(warmAndCozy, ModItems.STEAK_AND_POTATOES.get(), "eat_nourishing_food", FrameType.TASK, true, true, false)
-					.withCriterion("nourished", EffectsChangedTrigger.Instance.forEffect(MobEffectsPredicate.any().addEffect(ModEffects.NOURISHED.get())))
+			Advancement wellServed = getAdvancement(warmAndCozy, ModItems.STEAK_AND_POTATOES, "eat_nourishing_food", FrameType.TASK, true, true, false)
+					.withCriterion("nourished", EffectsChangedTrigger.Instance.forEffect(MobEffectsPredicate.any().addEffect(ModEffects.NOURISHED)))
 					.register(consumer, getNameId("main/eat_nourishing_food"));
 
-			Advancement watchYourFingers = getAdvancement(fireUpTheGrill, ModItems.CUTTING_BOARD.get(), "use_cutting_board", FrameType.TASK, true, true, false)
+			Advancement watchYourFingers = getAdvancement(fireUpTheGrill, ModItems.CUTTING_BOARD, "use_cutting_board", FrameType.TASK, true, true, false)
 					.withCriterion("cutting_board", new CuttingBoardTrigger.Instance())
 					.register(consumer, getNameId("main/use_cutting_board"));
 
-			Advancement masterChef = getAdvancement(dinnerIsServed, ModItems.PASTA_WITH_MUTTON_CHOP.get(), "master_chef", FrameType.CHALLENGE, true, true, false)
-					.withCriterion("mixed_salad", ConsumeItemTrigger.Instance.forItem(ModItems.MIXED_SALAD.get()))
-					.withCriterion("beef_stew", ConsumeItemTrigger.Instance.forItem(ModItems.BEEF_STEW.get()))
-					.withCriterion("chicken_soup", ConsumeItemTrigger.Instance.forItem(ModItems.CHICKEN_SOUP.get()))
-					.withCriterion("vegetable_soup", ConsumeItemTrigger.Instance.forItem(ModItems.VEGETABLE_SOUP.get()))
-					.withCriterion("fish_stew", ConsumeItemTrigger.Instance.forItem(ModItems.FISH_STEW.get()))
-					.withCriterion("fried_rice", ConsumeItemTrigger.Instance.forItem(ModItems.FRIED_RICE.get()))
-					.withCriterion("pumpkin_soup", ConsumeItemTrigger.Instance.forItem(ModItems.PUMPKIN_SOUP.get()))
-					.withCriterion("baked_cod_stew", ConsumeItemTrigger.Instance.forItem(ModItems.BAKED_COD_STEW.get()))
-					.withCriterion("honey_glazed_ham", ConsumeItemTrigger.Instance.forItem(ModItems.HONEY_GLAZED_HAM.get()))
-					.withCriterion("pasta_with_meatballs", ConsumeItemTrigger.Instance.forItem(ModItems.PASTA_WITH_MEATBALLS.get()))
-					.withCriterion("pasta_with_mutton_chop", ConsumeItemTrigger.Instance.forItem(ModItems.PASTA_WITH_MUTTON_CHOP.get()))
-					.withCriterion("vegetable_noodles", ConsumeItemTrigger.Instance.forItem(ModItems.VEGETABLE_NOODLES.get()))
-					.withCriterion("steak_and_potatoes", ConsumeItemTrigger.Instance.forItem(ModItems.STEAK_AND_POTATOES.get()))
-					.withCriterion("shepherds_pie", ConsumeItemTrigger.Instance.forItem(ModItems.SHEPHERDS_PIE.get()))
-					.withCriterion("ratatouille", ConsumeItemTrigger.Instance.forItem(ModItems.RATATOUILLE.get()))
-					.withCriterion("squid_ink_pasta", ConsumeItemTrigger.Instance.forItem(ModItems.SQUID_INK_PASTA.get()))
-					.withCriterion("grilled_salmon", ConsumeItemTrigger.Instance.forItem(ModItems.GRILLED_SALMON.get()))
-					.withCriterion("stuffed_pumpkin", ConsumeItemTrigger.Instance.forItem(ModItems.STUFFED_PUMPKIN.get()))
+			Advancement masterChef = getAdvancement(dinnerIsServed, ModItems.PASTA_WITH_MUTTON_CHOP, "master_chef", FrameType.CHALLENGE, true, true, false)
+					.withCriterion("mixed_salad", ConsumeItemTrigger.Instance.forItem(ModItems.MIXED_SALAD))
+					.withCriterion("beef_stew", ConsumeItemTrigger.Instance.forItem(ModItems.BEEF_STEW))
+					.withCriterion("chicken_soup", ConsumeItemTrigger.Instance.forItem(ModItems.CHICKEN_SOUP))
+					.withCriterion("vegetable_soup", ConsumeItemTrigger.Instance.forItem(ModItems.VEGETABLE_SOUP))
+					.withCriterion("fish_stew", ConsumeItemTrigger.Instance.forItem(ModItems.FISH_STEW))
+					.withCriterion("fried_rice", ConsumeItemTrigger.Instance.forItem(ModItems.FRIED_RICE))
+					.withCriterion("pumpkin_soup", ConsumeItemTrigger.Instance.forItem(ModItems.PUMPKIN_SOUP))
+					.withCriterion("baked_cod_stew", ConsumeItemTrigger.Instance.forItem(ModItems.BAKED_COD_STEW))
+					.withCriterion("honey_glazed_ham", ConsumeItemTrigger.Instance.forItem(ModItems.HONEY_GLAZED_HAM))
+					.withCriterion("pasta_with_meatballs", ConsumeItemTrigger.Instance.forItem(ModItems.PASTA_WITH_MEATBALLS))
+					.withCriterion("pasta_with_mutton_chop", ConsumeItemTrigger.Instance.forItem(ModItems.PASTA_WITH_MUTTON_CHOP))
+					.withCriterion("vegetable_noodles", ConsumeItemTrigger.Instance.forItem(ModItems.VEGETABLE_NOODLES))
+					.withCriterion("steak_and_potatoes", ConsumeItemTrigger.Instance.forItem(ModItems.STEAK_AND_POTATOES))
+					.withCriterion("shepherds_pie", ConsumeItemTrigger.Instance.forItem(ModItems.SHEPHERDS_PIE))
+					.withCriterion("ratatouille", ConsumeItemTrigger.Instance.forItem(ModItems.RATATOUILLE))
+					.withCriterion("squid_ink_pasta", ConsumeItemTrigger.Instance.forItem(ModItems.SQUID_INK_PASTA))
+					.withCriterion("grilled_salmon", ConsumeItemTrigger.Instance.forItem(ModItems.GRILLED_SALMON))
+					.withCriterion("stuffed_pumpkin", ConsumeItemTrigger.Instance.forItem(ModItems.STUFFED_PUMPKIN))
 					.withRewards(AdvancementRewards.Builder.experience(200))
 					.register(consumer, getNameId("main/master_chef"));
 		}

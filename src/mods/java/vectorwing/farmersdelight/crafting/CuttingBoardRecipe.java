@@ -12,7 +12,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import vectorwing.farmersdelight.FarmersDelight;
 
 import javax.annotation.Nullable;
@@ -118,11 +117,7 @@ public class CuttingBoardRecipe implements IRecipe<RecipeWrapper>
 		return CuttingBoardRecipe.TYPE;
 	}
 
-	private static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CuttingBoardRecipe> {
-
-		Serializer() {
-			this.setRegistryName(new ResourceLocation(FarmersDelight.MODID, "cutting"));
-		}
+	public static class Serializer extends IRecipeSerializer<CuttingBoardRecipe> {
 
 		@Override
 		public CuttingBoardRecipe read(ResourceLocation recipeId, JsonObject json)

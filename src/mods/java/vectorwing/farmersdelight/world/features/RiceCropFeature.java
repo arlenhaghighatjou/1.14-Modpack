@@ -9,34 +9,36 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.BushConfig;
 import net.minecraft.world.gen.feature.Feature;
 import vectorwing.farmersdelight.blocks.WildRiceBlock;
-import vectorwing.farmersdelight.registry.ModBlocks;
 
 import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
-public class RiceCropFeature extends Feature<BlockClusterFeatureConfig> {
-	public RiceCropFeature(Function<Dynamic<?>, ? extends BlockClusterFeatureConfig> configFactoryIn) {
+public class RiceCropFeature extends Feature<BushConfig> {
+	private static final int TRY_COUNT = 64;
+	private static final int SPREAD = 4;
+
+	public RiceCropFeature(Function<Dynamic<?>, ? extends BushConfig> configFactoryIn) {
 		super(configFactoryIn);
 	}
 
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, BlockClusterFeatureConfig config) {
-		BlockPos blockpos = worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, pos);;
+	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, BushConfig config) {
+		BlockPos blockpos = worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, pos);
 
 		int i = 0;
 		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
-		for(int j = 0; j < config.tryCount; ++j) {
+		for(int j = 0; j < TRY_COUNT; ++j) {
 			blockpos$mutable.setPos(blockpos).move(
-					rand.nextInt(config.xSpread + 1) - rand.nextInt(config.xSpread + 1),
-					rand.nextInt(config.ySpread + 1) - rand.nextInt(config.ySpread + 1),
-					rand.nextInt(config.zSpread + 1) - rand.nextInt(config.zSpread + 1));
+					rand.nextInt(SPREAD + 1) - rand.nextInt(SPREAD + 1),
+					0,
+					rand.nextInt(SPREAD + 1) - rand.nextInt(SPREAD + 1));
 
 			if (worldIn.getBlockState(blockpos$mutable).getBlock() == Blocks.WATER && worldIn.getBlockState(blockpos$mutable.up()).getBlock() == Blocks.AIR) {
-				BlockState bottomRiceState = ModBlocks.WILD_RICE.get().getDefaultState().with(WildRiceBlock.HALF, DoubleBlockHalf.LOWER);
+				BlockState bottomRiceState = config.state.with(WildRiceBlock.HALF, DoubleBlockHalf.LOWER);
 				if (bottomRiceState.isValidPosition(worldIn, blockpos$mutable)) {
 					((WildRiceBlock)bottomRiceState.getBlock()).placeAt(worldIn, blockpos$mutable, 2);
 					++i;

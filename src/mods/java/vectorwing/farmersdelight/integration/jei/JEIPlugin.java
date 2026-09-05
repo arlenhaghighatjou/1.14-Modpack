@@ -40,9 +40,9 @@ public class JEIPlugin implements IModPlugin
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(new ItemStack(ModItems.COOKING_POT.get()), CookingRecipeCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(ModItems.CUTTING_BOARD.get()), CuttingRecipeCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(ModItems.STOVE.get()), VanillaRecipeCategoryUid.CAMPFIRE);
+		registration.addRecipeCatalyst(new ItemStack(ModItems.COOKING_POT), CookingRecipeCategory.UID);
+		registration.addRecipeCatalyst(new ItemStack(ModItems.CUTTING_BOARD), CuttingRecipeCategory.UID);
+		registration.addRecipeCatalyst(new ItemStack(ModItems.STOVE), VanillaRecipeCategoryUid.CAMPFIRE);
 	}
 
 	@Override

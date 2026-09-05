@@ -51,7 +51,7 @@ public class RopeBlock extends PaneBlock
 				if (blockAbove == Blocks.BELL) {
 					((BellBlock)blockAbove).func_226885_a_(worldIn, blockpos$mutable, blockStateAbove.get(BellBlock.HORIZONTAL_FACING).rotateY());
 					return ActionResultType.SUCCESS;
-				} else if (blockAbove == ModBlocks.ROPE.get()) {
+				} else if (blockAbove == ModBlocks.ROPE) {
 					blockpos$mutable.move(Direction.UP);
 				} else {
 					return ActionResultType.PASS;

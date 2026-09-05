@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class KnifeItem extends ToolItem {
-	private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.HAY_BLOCK, ModBlocks.RICE_BALE.get());
+	private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.HAY_BLOCK, ModBlocks.RICE_BALE);
 
 	public KnifeItem(IItemTier tier, float attackDamageIn, float attackSpeedIn, Properties builder)	{
 		super(attackDamageIn, attackSpeedIn, tier, EFFECTIVE_ON, builder);

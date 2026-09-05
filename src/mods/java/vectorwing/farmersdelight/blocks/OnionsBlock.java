@@ -31,12 +31,12 @@ public class OnionsBlock extends CropsBlock
 
 	@Override
 	public BlockState getPlant(IBlockReader world, BlockPos pos) {
-		return ModBlocks.ONION_CROP.get().getDefaultState();
+		return ModBlocks.ONION_CROP.getDefaultState();
 	}
 
 	@Override
 	protected IItemProvider getSeedsItem() {
-		return ModItems.ONION.get();
+		return ModItems.ONION;
 	}
 
 	@Override

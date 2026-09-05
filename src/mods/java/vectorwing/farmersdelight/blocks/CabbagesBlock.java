@@ -30,12 +30,12 @@ public class CabbagesBlock extends CropsBlock
 
 	@Override
 	public BlockState getPlant(IBlockReader world, BlockPos pos) {
-		return ModBlocks.CABBAGE_CROP.get().getDefaultState();
+		return ModBlocks.CABBAGE_CROP.getDefaultState();
 	}
 
 	@Override
 	protected IItemProvider getSeedsItem() {
-		return ModItems.CABBAGE_SEEDS.get();
+		return ModItems.CABBAGE_SEEDS;
 	}
 
 	@Override

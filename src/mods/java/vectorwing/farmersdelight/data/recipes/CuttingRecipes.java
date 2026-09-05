@@ -31,39 +31,39 @@ public class CuttingRecipes {
 	}
 
 	private static void chopMeats(Consumer<IFinishedRecipe> consumer) {
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.BEEF), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.MINCED_BEEF.get(), 2)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.BEEF), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.MINCED_BEEF, 2)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.CHICKEN), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CHICKEN_CUTS.get(), 2)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.CHICKEN), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CHICKEN_CUTS, 2)
 				.addResult(Items.BONE_MEAL)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.COD), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.COD_SLICE.get(), 2)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.COD), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.COD_SLICE, 2)
 				.addResult(Items.BONE_MEAL)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.SALMON), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.SALMON_SLICE.get(), 2)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.SALMON), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.SALMON_SLICE, 2)
 				.addResult(Items.BONE_MEAL)
 				.build(consumer);
 	}
 
 	private static void chopPlants(Consumer<IFinishedRecipe> consumer) {
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.CABBAGE.get()), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CABBAGE_LEAF.get(), 2)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.CABBAGE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CABBAGE_LEAF, 2)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.RICE_PANICLE.get()), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.RICE.get(), 1)
-				.addResult(ModItems.STRAW.get())
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.RICE_PANICLE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.RICE, 1)
+				.addResult(ModItems.STRAW)
 				.build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.MELON), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), Items.MELON_SLICE, 9)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.PUMPKIN), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.PUMPKIN_SLICE.get(), 4)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.PUMPKIN), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.PUMPKIN_SLICE, 4)
 				.build(consumer);
 	}
 
 	private static void chopPastries(Consumer<IFinishedRecipe> consumer) {
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.CAKE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CAKE_SLICE.get(), 7)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.CAKE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CAKE_SLICE, 7)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.APPLE_PIE.get()), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.APPLE_PIE_SLICE.get(), 4)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.APPLE_PIE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.APPLE_PIE_SLICE, 4)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.SWEET_BERRY_CHEESECAKE.get()), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.SWEET_BERRY_CHEESECAKE_SLICE.get(), 4)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.SWEET_BERRY_CHEESECAKE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.SWEET_BERRY_CHEESECAKE_SLICE, 4)
 				.build(consumer);
-		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.CHOCOLATE_PIE.get()), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CHOCOLATE_PIE_SLICE.get(), 4)
+		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(ModItems.CHOCOLATE_PIE), Ingredient.fromTag(ForgeTags.TOOLS_KNIVES), ModItems.CHOCOLATE_PIE_SLICE, 4)
 				.build(consumer);
 	}
 
@@ -77,50 +77,50 @@ public class CuttingRecipes {
 	private static void stripWood(Consumer<IFinishedRecipe> consumer) {
 		// Oak
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.OAK_LOG), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_OAK_LOG)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.OAK_WOOD), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_OAK_WOOD)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 
 		// Birch
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.BIRCH_LOG), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_BIRCH_LOG)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.BIRCH_WOOD), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_BIRCH_WOOD)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 
 		// Spruce
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.SPRUCE_LOG), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_SPRUCE_LOG)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.SPRUCE_WOOD), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_SPRUCE_WOOD)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 
 		// Jungle
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.JUNGLE_LOG), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_JUNGLE_LOG)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.JUNGLE_WOOD), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_JUNGLE_WOOD)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 
 		// Acacia
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.ACACIA_LOG), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_ACACIA_LOG)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.ACACIA_WOOD), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_ACACIA_WOOD)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 
 		// Dark Oak
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.DARK_OAK_LOG), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_DARK_OAK_LOG)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 		CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.fromItems(Items.DARK_OAK_WOOD), Ingredient.fromTag(ForgeTags.TOOLS_AXES), Items.STRIPPED_DARK_OAK_WOOD)
-				.addResult(ModItems.TREE_BARK.get())
+				.addResult(ModItems.TREE_BARK)
 				.addSound(SoundEvents.ITEM_AXE_STRIP.getRegistryName().toString()).build(consumer);
 	}
 

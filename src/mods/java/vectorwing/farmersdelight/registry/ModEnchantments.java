@@ -3,19 +3,17 @@ package vectorwing.farmersdelight.registry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.enchantments.BackstabbingEnchantment;
-import vectorwing.farmersdelight.items.KnifeItem;
 
 public class ModEnchantments
 {
-	public static final EnchantmentType KNIFE = EnchantmentType.create("knife", item -> item instanceof KnifeItem);
+	public static Enchantment BACKSTABBING;
 
-	public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, FarmersDelight.MODID);
-
-	public static final RegistryObject<Enchantment> BACKSTABBING = ENCHANTMENTS.register("backstabbing",
-			() -> new BackstabbingEnchantment(Enchantment.Rarity.UNCOMMON, KNIFE, EquipmentSlotType.MAINHAND));
+	public static void registerEnchantments()
+	{
+		BACKSTABBING = Registry.register(Registry.ENCHANTMENT, new ResourceLocation(FarmersDelight.MODID, "backstabbing"), new BackstabbingEnchantment(Enchantment.Rarity.UNCOMMON, EnchantmentType.KNIFE, EquipmentSlotType.MAINHAND));
+	}
 }

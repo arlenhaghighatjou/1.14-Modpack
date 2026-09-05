@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.PumpkinBlock;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import vectorwing.farmersdelight.items.KnifeItem;
 
 public enum EnchantmentType {
     ALL {
@@ -82,6 +83,11 @@ public enum EnchantmentType {
     CROSSBOW {
         public boolean canEnchantItem(Item itemIn) {
             return itemIn instanceof CrossbowItem;
+        }
+    },
+    KNIFE {
+        public boolean canEnchantItem(Item itemIn) {
+            return itemIn instanceof KnifeItem;
         }
     };
 

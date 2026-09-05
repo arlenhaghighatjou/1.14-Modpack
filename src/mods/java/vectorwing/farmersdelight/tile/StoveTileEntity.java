@@ -44,7 +44,7 @@ public class StoveTileEntity extends TileEntity implements IClearable, ITickable
 		super(tileEntityTypeIn);
 	}
 
-	public StoveTileEntity() { this(ModTileEntityTypes.STOVE_TILE.get()); }
+	public StoveTileEntity() { this(ModTileEntityTypes.STOVE_TILE); }
 
 	@Override
 	public void tick() {

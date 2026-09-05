@@ -1,17 +1,20 @@
 package vectorwing.farmersdelight.registry;
 
 import net.minecraft.potion.Effect;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.effects.ComfortEffect;
 import vectorwing.farmersdelight.effects.NourishedEffect;
 
 public class ModEffects
 {
-	public static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, FarmersDelight.MODID);
+	public static Effect NOURISHED;
+	public static Effect COMFORT;
 
-	public static final RegistryObject<Effect> NOURISHED = EFFECTS.register("nourished", NourishedEffect::new);
-	public static final RegistryObject<Effect> COMFORT = EFFECTS.register("comfort", ComfortEffect::new);
+	public static void registerEffects()
+	{
+		NOURISHED = Registry.register(Registry.EFFECTS, new ResourceLocation(FarmersDelight.MODID, "nourished"), new NourishedEffect());
+		COMFORT = Registry.register(Registry.EFFECTS, new ResourceLocation(FarmersDelight.MODID, "comfort"), new ComfortEffect());
+	}
 }

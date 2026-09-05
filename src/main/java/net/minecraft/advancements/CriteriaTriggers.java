@@ -73,7 +73,7 @@ public class CriteriaTriggers {
    public static final PositionTrigger HERO_OF_THE_VILLAGE = register(new PositionTrigger(new ResourceLocation("hero_of_the_village")));
    public static final PositionTrigger VOLUNTARY_EXILE = register(new PositionTrigger(new ResourceLocation("voluntary_exile")));
 
-   private static <T extends ICriterionTrigger<?>> T register(T criterion) {
+   public static <T extends ICriterionTrigger<?>> T register(T criterion) {
       if (REGISTRY.containsKey(criterion.getId())) {
          throw new IllegalArgumentException("Duplicate criterion id " + criterion.getId());
       } else {

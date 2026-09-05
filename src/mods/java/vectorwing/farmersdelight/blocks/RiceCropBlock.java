@@ -52,7 +52,7 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 				float chance = 10;
 				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / chance) + 1) == 0)) {
 					if (age == this.getMaxAge()) {
-						RiceUpperCropBlock riceUpper = (RiceUpperCropBlock)ModBlocks.RICE_UPPER_CROP.get();
+						RiceUpperCropBlock riceUpper = (RiceUpperCropBlock)ModBlocks.RICE_UPPER_CROP;
 						if (riceUpper.getDefaultState().isValidPosition(worldIn, pos.up()) && worldIn.isAirBlock(pos.up())) {
 							worldIn.setBlockState(pos.up(), riceUpper.getDefaultState());
 							net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
@@ -92,7 +92,7 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 	}
 
 	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
-		return new ItemStack(ModItems.RICE.get());
+		return new ItemStack(ModItems.RICE);
 	}
 
 	public BlockState withAge(int age) {
@@ -121,7 +121,7 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 	}
 
 	public boolean isSupportingRiceUpper(BlockState topState) {
-		return topState.getBlock() == ModBlocks.RICE_UPPER_CROP.get();
+		return topState.getBlock() == ModBlocks.RICE_UPPER_CROP;
 	}
 
 	@Nullable
@@ -153,13 +153,13 @@ public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContai
 			worldIn.setBlockState(pos, state.with(AGE, ageGrowth));
 		} else {
 			BlockState top = worldIn.getBlockState(pos.up());
-			if (top.getBlock() == ModBlocks.RICE_UPPER_CROP.get()) {
+			if (top.getBlock() == ModBlocks.RICE_UPPER_CROP) {
 				IGrowable growable = (IGrowable) worldIn.getBlockState(pos.up()).getBlock();
 				if (growable.canGrow(worldIn, pos.up(), top, false)) {
 					growable.grow(worldIn, worldIn.rand, pos.up(), top);
 				}
 			} else {
-				RiceUpperCropBlock riceUpper = (RiceUpperCropBlock)ModBlocks.RICE_UPPER_CROP.get();
+				RiceUpperCropBlock riceUpper = (RiceUpperCropBlock)ModBlocks.RICE_UPPER_CROP;
 				int remainingGrowth = ageGrowth - this.getMaxAge() - 1;
 				if (riceUpper.getDefaultState().isValidPosition(worldIn, pos.up()) && worldIn.isAirBlock(pos.up())) {
 					worldIn.setBlockState(pos, state.with(AGE, this.getMaxAge()));

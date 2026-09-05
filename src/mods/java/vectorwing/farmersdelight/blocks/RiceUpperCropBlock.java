@@ -45,7 +45,7 @@ public class RiceUpperCropBlock extends CropsBlock {
 
 	@Override
 	protected IItemProvider getSeedsItem() {
-		return ModItems.RICE.get();
+		return ModItems.RICE;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class RiceUpperCropBlock extends CropsBlock {
 
 	@Override
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return state.getBlock() == ModBlocks.RICE_CROP.get();
+		return state.getBlock() == ModBlocks.RICE_CROP;
 	}
 
 	protected int getBonemealAgeIncrease(World worldIn) {
@@ -64,6 +64,6 @@ public class RiceUpperCropBlock extends CropsBlock {
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return (worldIn.getLightSubtracted(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && worldIn.getBlockState(pos.down()).getBlock() == ModBlocks.RICE_CROP.get();
+		return (worldIn.getLightSubtracted(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && worldIn.getBlockState(pos.down()).getBlock() == ModBlocks.RICE_CROP;
 	}
 }

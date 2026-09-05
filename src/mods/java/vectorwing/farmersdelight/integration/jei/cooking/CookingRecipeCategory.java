@@ -34,7 +34,7 @@ public class CookingRecipeCategory implements IRecipeCategory<CookingPotRecipe>
 		title = I18n.format(FarmersDelight.MODID + ".jei.cooking");
 		ResourceLocation backgroundImage = new ResourceLocation(FarmersDelight.MODID, "textures/gui/cooking_pot.png");
 		background = helper.createDrawable(backgroundImage, 29, 16, 117, 57);
-		icon = helper.createDrawableIngredient(new ItemStack(ModItems.COOKING_POT.get()));
+		icon = helper.createDrawableIngredient(new ItemStack(ModItems.COOKING_POT));
 		heatIndicator = helper.createDrawable(backgroundImage, 176, 0, 17, 15);
 		arrow = helper.drawableBuilder(backgroundImage, 176, 15, 24, 17)
 				.buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);

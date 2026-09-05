@@ -33,7 +33,7 @@ public class ComfortEffect extends Effect {
 		public static void onComfortDuration(PotionEvent.PotionApplicableEvent event) {
 			EffectInstance effect = event.getPotionEffect();
 			LivingEntity entity = event.getEntityLiving();
-			if (entity.getActivePotionEffect(ModEffects.COMFORT.get()) != null && COMFORT_IMMUNITIES.contains(effect.getPotion())) {
+			if (entity.getActivePotionEffect(ModEffects.COMFORT) != null && COMFORT_IMMUNITIES.contains(effect.getPotion())) {
 				event.setResult(Event.Result.DENY);
 			}
 		}
@@ -42,7 +42,7 @@ public class ComfortEffect extends Effect {
 		public static void onComfortApplied(PotionEvent.PotionAddedEvent event) {
 			EffectInstance addedEffect = event.getPotionEffect();
 			LivingEntity entity = event.getEntityLiving();
-			if (addedEffect.getPotion().equals(ModEffects.COMFORT.get())) {
+			if (addedEffect.getPotion().equals(ModEffects.COMFORT)) {
 				for (Effect effect : COMFORT_IMMUNITIES) {
 					entity.removePotionEffect(effect);
 				}

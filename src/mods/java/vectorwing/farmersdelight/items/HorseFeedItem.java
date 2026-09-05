@@ -54,7 +54,7 @@ public class HorseFeedItem extends MealItem
 
 			if (target instanceof AbstractHorseEntity) {
 				AbstractHorseEntity horse = (AbstractHorseEntity)target;
-				if (horse.isAlive() && horse.isTame() && itemStack.getItem().equals(ModItems.HORSE_FEED.get())) {
+				if (horse.isAlive() && horse.isTame() && itemStack.getItem().equals(ModItems.HORSE_FEED)) {
 					horse.setHealth(horse.getMaxHealth());
 					for(EffectInstance effect : EFFECTS) {
 						horse.addPotionEffect(new EffectInstance(effect));
@@ -65,7 +65,7 @@ public class HorseFeedItem extends MealItem
 						double d0 = MathUtils.RAND.nextGaussian() * 0.02D;
 						double d1 = MathUtils.RAND.nextGaussian() * 0.02D;
 						double d2 = MathUtils.RAND.nextGaussian() * 0.02D;
-						horse.world.addParticle(ModParticleTypes.STAR_PARTICLE.get(), horse.getPosXRandom(1.0D), horse.getPosYRandom() + 0.5D, horse.getPosZRandom(1.0D), d0, d1, d2);
+						horse.world.addParticle(ModParticleTypes.STAR_PARTICLE, horse.getPosXRandom(1.0D), horse.getPosYRandom() + 0.5D, horse.getPosZRandom(1.0D), d0, d1, d2);
 					}
 
 					if (itemStack.getContainerItem() != ItemStack.EMPTY && !player.isCreative()) {

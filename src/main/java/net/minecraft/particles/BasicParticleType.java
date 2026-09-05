@@ -16,7 +16,7 @@ public class BasicParticleType extends ParticleType<BasicParticleType> implement
         }
     };
 
-    protected BasicParticleType(boolean p_i50791_1_) {
+    public BasicParticleType(boolean p_i50791_1_) {
         super(p_i50791_1_, DESERIALIZER);
     }
 

@@ -42,7 +42,7 @@ public class WildRiceBlock extends DoublePlantBlock implements IWaterLoggable {
 		if (state.get(DoublePlantBlock.HALF) == DoubleBlockHalf.LOWER) {
 			return super.isValidPosition(state, worldIn, pos) && this.isValidGround(worldIn.getBlockState(floorPos), worldIn, floorPos) && ifluidstate.isTagged(FluidTags.WATER) && ifluidstate.getLevel() == 8;
 		}
-		return super.isValidPosition(state, worldIn, pos) && worldIn.getBlockState(pos.down()).getBlock() == ModBlocks.WILD_RICE.get();
+		return super.isValidPosition(state, worldIn, pos) && worldIn.getBlockState(pos.down()).getBlock() == ModBlocks.WILD_RICE;
 	}
 
 	public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {

@@ -1,15 +1,16 @@
 package vectorwing.farmersdelight.registry;
 
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.FarmersDelight;
 
-public class ModParticleTypes {
-	public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, FarmersDelight.MODID);
+public class ModParticleTypes
+{
+	public static BasicParticleType STAR_PARTICLE;
 
-	public static final RegistryObject<BasicParticleType> STAR_PARTICLE = PARTICLE_TYPES.register("star",
-			() -> new BasicParticleType(true));
+	public static void registerParticleTypes()
+	{
+		STAR_PARTICLE = Registry.register(Registry.PARTICLE_TYPE, new ResourceLocation(FarmersDelight.MODID, "star"), new BasicParticleType(true));
+	}
 }
