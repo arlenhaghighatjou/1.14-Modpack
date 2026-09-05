@@ -22,7 +22,7 @@ public class WorldType {
     private boolean hasInfoNotice;
     private boolean field_205395_p;
 
-    private WorldType(int id, String name) {
+    protected WorldType(int id, String name) {
         this(id, name, name, 0);
     }
 

@@ -21,10 +21,9 @@ public class WorldTypeBOP extends WorldType
 {
     public WorldTypeBOP()
     {
-        super("biomesoplenty");
+        super(7, "biomesoplenty");
     }
 
-    @Override
     public ChunkGenerator<?> createChunkGenerator(World world)
     {
     	if (world.getDimension().getType() == DimensionType.OVERWORLD)
@@ -62,7 +61,7 @@ public class WorldTypeBOP extends WorldType
     	}*/
     	else
     	{
-    		return super.createChunkGenerator(world);
+			return world.getDimension().createChunkGenerator();
     	}
     }
 }

@@ -56,6 +56,9 @@ public class OverworldDimension extends Dimension {
 
    public ChunkGenerator<? extends GenerationSettings> createChunkGenerator() {
       WorldType worldtype = this.world.getWorldInfo().getGenerator();
+		if (worldtype instanceof biomesoplenty.common.world.WorldTypeBOP) {
+			return ((biomesoplenty.common.world.WorldTypeBOP) worldtype).createChunkGenerator(this.world);
+		}
       ChunkGeneratorType<FlatGenerationSettings, FlatChunkGenerator> chunkgeneratortype = ChunkGeneratorType.FLAT;
       ChunkGeneratorType<DebugGenerationSettings, DebugChunkGenerator> chunkgeneratortype1 = ChunkGeneratorType.DEBUG;
       ChunkGeneratorType<NetherGenSettings, NetherChunkGenerator> chunkgeneratortype2 = ChunkGeneratorType.CAVES;
