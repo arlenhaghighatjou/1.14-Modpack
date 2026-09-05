@@ -37,6 +37,7 @@ public class Bootstrap {
          } else {
             FireBlock.init();
             ComposterBlock.init();
+            modpack.ModLoader.registerContent();
             if (EntityType.getKey(EntityType.PLAYER) == null) {
                throw new IllegalStateException("Failed loading EntityTypes");
             } else {

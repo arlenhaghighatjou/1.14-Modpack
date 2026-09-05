@@ -462,6 +462,7 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
         this.resourceManager.addReloadListener(new EmissiveItems());
         this.ingameGUI = new IngameGui(this);
         this.debugRenderer = new DebugRenderer(this);
+        modpack.ModLoader.registerClient();
         if (this.gameSettings.fullscreen && !this.mainWindow.isFullscreen()) {
             this.mainWindow.toggleFullscreen();
             this.gameSettings.fullscreen = this.mainWindow.isFullscreen();

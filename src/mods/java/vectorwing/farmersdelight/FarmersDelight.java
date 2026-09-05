@@ -1,11 +1,7 @@
 package vectorwing.farmersdelight;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import vectorwing.farmersdelight.crafting.CookingPotRecipe;
-import vectorwing.farmersdelight.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.registry.*;
 import vectorwing.farmersdelight.setup.ClientEventHandler;
 import vectorwing.farmersdelight.setup.CommonEventHandler;
@@ -43,8 +39,7 @@ public class FarmersDelight
 
     private static void registerRecipeTypes()
     {
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(FarmersDelight.MODID, "cooking"), CookingPotRecipe.TYPE);
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(FarmersDelight.MODID, "cutting"), CuttingBoardRecipe.TYPE);
+        // CookingPotRecipe.TYPE and CuttingBoardRecipe.TYPE register themselves through IRecipeType.register
         ModRecipeSerializers.registerRecipeSerializers();
     }
 }
