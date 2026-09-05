@@ -18,11 +18,11 @@ public class SyncContainerClientDataMessage {
 	}
 
 	public static void encode(SyncContainerClientDataMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeNbt(msg.data);
+		packetBuffer.writeCompoundTag(msg.data);
 	}
 
 	public static SyncContainerClientDataMessage decode(PacketBuffer packetBuffer) {
-		return new SyncContainerClientDataMessage(packetBuffer.readNbt());
+		return new SyncContainerClientDataMessage(packetBuffer.readCompoundTag());
 	}
 
 	public static void onMessage(SyncContainerClientDataMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {

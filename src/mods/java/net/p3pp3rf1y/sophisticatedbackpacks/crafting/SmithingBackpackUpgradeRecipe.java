@@ -42,7 +42,7 @@ public class SmithingBackpackUpgradeRecipe extends SmithingRecipe implements IWr
 	}
 
 	private Optional<ItemStack> getBackpack(IInventory inv) {
-		ItemStack slotStack = inv.getItem(0);
+		ItemStack slotStack = inv.getStackInSlot(0);
 		if (slotStack.getItem() instanceof BackpackItem) {
 			return Optional.of(slotStack);
 		}

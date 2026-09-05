@@ -17,11 +17,11 @@ public class SoundStopNotificationMessage {
 	}
 
 	public static void encode(SoundStopNotificationMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeUUID(msg.backpackUuid);
+		packetBuffer.writeUniqueId(msg.backpackUuid);
 	}
 
 	public static SoundStopNotificationMessage decode(PacketBuffer packetBuffer) {
-		return new SoundStopNotificationMessage(packetBuffer.readUUID());
+		return new SoundStopNotificationMessage(packetBuffer.readUniqueId());
 	}
 
 	public static void onMessage(SoundStopNotificationMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {

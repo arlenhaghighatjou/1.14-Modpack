@@ -185,10 +185,10 @@ public class BackpackItem extends ItemBase {
         if (!blockItemUseContext.canPlace()) {
             return ActionResultType.FAIL;
         }
-        World world = blockItemUseContext.getLevel();
-        BlockPos pos = blockItemUseContext.getClickedPos();
+        World world = blockItemUseContext.getWorld();
+        BlockPos pos = blockItemUseContext.getPos();
 
-        FluidState fluidstate = blockItemUseContext.getLevel().getFluidState(pos);
+        FluidState fluidstate = blockItemUseContext.getWorld().getFluidState(pos);
         BlockState placementState = blockSupplier.get().defaultBlockState().setValue(BackpackBlock.FACING, direction)
                 .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
         if (!canPlace(blockItemUseContext, placementState)) {
@@ -234,7 +234,7 @@ public class BackpackItem extends ItemBase {
     protected boolean canPlace(BlockItemUseContext context, BlockState state) {
         PlayerEntity playerentity = context.getPlayer();
         ISelectionContext iselectioncontext = playerentity == null ? ISelectionContext.empty() : ISelectionContext.of(playerentity);
-        return (state.canSurvive(context.getLevel(), context.getClickedPos())) && context.getLevel().isUnobstructed(state, context.getClickedPos(), iselectioncontext);
+        return (state.canSurvive(context.getWorld(), context.getPos())) && context.getWorld().isUnobstructed(state, context.getPos(), iselectioncontext);
     }
 
     @Override

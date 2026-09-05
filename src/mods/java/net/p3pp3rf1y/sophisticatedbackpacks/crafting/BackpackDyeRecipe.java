@@ -33,8 +33,8 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 	public boolean matches(CraftingInventory inv, World worldIn) {
 		boolean backpackPresent = false;
 		boolean dyePresent = false;
-		for (int slot = 0; slot < inv.getContainerSize(); slot++) {
-			ItemStack slotStack = inv.getItem(slot);
+		for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
+			ItemStack slotStack = inv.getStackInSlot(slot);
 			if (slotStack.isEmpty()) {
 				continue;
 			}
@@ -58,8 +58,8 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 		Map<Integer, List<DyeColor>> columnDyes = new HashMap<>();
 		Tuple<Integer, ItemStack> columnBackpack = null;
 
-		for (int slot = 0; slot < inv.getContainerSize(); slot++) {
-			ItemStack slotStack = inv.getItem(slot);
+		for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
+			ItemStack slotStack = inv.getStackInSlot(slot);
 			if (slotStack.isEmpty()) {
 				continue;
 			}

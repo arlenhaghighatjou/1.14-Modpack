@@ -30,7 +30,7 @@ public class ServerBackpackSoundHandler {
 			return;
 		}
 		ServerWorld world = (ServerWorld) event.world;
-		RegistryKey<World> dim = world.dimension();
+		RegistryKey<World> dim = world.getDimension();
 		if (lastWorldCheck.computeIfAbsent(dim, key -> world.getGameTime()) > world.getGameTime() - KEEP_ALIVE_CHECK_INTERVAL || !worldBackpackKeepAlive.containsKey(dim)) {
 			return;
 		}
@@ -94,17 +94,17 @@ public class ServerBackpackSoundHandler {
 
 	public static void startPlayingDisc(ServerWorld serverWorld, BlockPos position, EaglercraftUUID backpackUuid, int discItemId, Runnable onStopHandler) {
 		Vector3d pos = Vector3d.atCenterOf(position);
-		PacketHandler.sendToAllNear(serverWorld, serverWorld.dimension(), pos, 128, new PlayDiscMessage(backpackUuid, discItemId, position));
+		PacketHandler.sendToAllNear(serverWorld, serverWorld.getDimension(), pos, 128, new PlayDiscMessage(backpackUuid, discItemId, position));
 		putKeepAliveInfo(serverWorld, backpackUuid, onStopHandler, pos);
 	}
 
 	public static void startPlayingDisc(ServerWorld serverWorld, Vector3d position, EaglercraftUUID backpackUuid, int entityId, int discItemId, Runnable onStopHandler) {
-		PacketHandler.sendToAllNear(serverWorld, serverWorld.dimension(), position, 128, new PlayDiscMessage(backpackUuid, discItemId, entityId));
+		PacketHandler.sendToAllNear(serverWorld, serverWorld.getDimension(), position, 128, new PlayDiscMessage(backpackUuid, discItemId, entityId));
 		putKeepAliveInfo(serverWorld, backpackUuid, onStopHandler, position);
 	}
 
 	private static void putKeepAliveInfo(ServerWorld serverWorld, EaglercraftUUID backpackUuid, Runnable onStopHandler, Vector3d pos) {
-		worldBackpackKeepAlive.computeIfAbsent(serverWorld.dimension(), dim -> new HashMap<>()).put(backpackUuid, new KeepAliveInfo(onStopHandler, serverWorld.getGameTime(), pos));
+		worldBackpackKeepAlive.computeIfAbsent(serverWorld.getDimension(), dim -> new HashMap<>()).put(backpackUuid, new KeepAliveInfo(onStopHandler, serverWorld.getGameTime(), pos));
 	}
 
 	public static void stopPlayingDisc(ServerWorld serverWorld, Vector3d position, EaglercraftUUID backpackUuid) {
@@ -113,13 +113,13 @@ public class ServerBackpackSoundHandler {
 	}
 
 	private static void removeKeepAliveInfo(ServerWorld serverWorld, EaglercraftUUID backpackUuid) {
-		RegistryKey<World> dim = serverWorld.dimension();
+		RegistryKey<World> dim = serverWorld.getDimension();
 		if (worldBackpackKeepAlive.containsKey(dim) && worldBackpackKeepAlive.get(dim).containsKey(backpackUuid)) {
 			worldBackpackKeepAlive.get(dim).remove(backpackUuid).runOnStop();
 		}
 	}
 
 	private static void sendStopMessage(ServerWorld serverWorld, Vector3d position, EaglercraftUUID backpackUuid) {
-		PacketHandler.sendToAllNear(serverWorld, serverWorld.dimension(), position, 128, new StopDiscPlaybackMessage(backpackUuid));
+		PacketHandler.sendToAllNear(serverWorld, serverWorld.getDimension(), position, 128, new StopDiscPlaybackMessage(backpackUuid));
 	}
 }

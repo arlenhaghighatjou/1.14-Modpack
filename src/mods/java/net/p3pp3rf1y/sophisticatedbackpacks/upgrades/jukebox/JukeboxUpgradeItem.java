@@ -70,7 +70,7 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 
 		public void play(LivingEntity entity) {
 			play(entity.level, (world, backpackUuid) ->
-					ServerBackpackSoundHandler.startPlayingDisc(world, entity.position(), backpackUuid, entity.getId(),
+					ServerBackpackSoundHandler.startPlayingDisc(world, entity.getPositionVec(), backpackUuid, entity.getId(),
 							Item.getId(getDisc().getItem()), () -> setIsPlaying(false)));
 		}
 
@@ -98,7 +98,7 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 				return;
 			}
 			backpackWrapper.getContentsUuid().ifPresent(backpackUuid ->
-					ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) entity.level, entity.position(), backpackUuid)
+					ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) entity.level, entity.getPositionVec(), backpackUuid)
 			);
 			setIsPlaying(false);
 		}
@@ -111,7 +111,7 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 		public void tick(@Nullable LivingEntity entity, World world, BlockPos pos) {
 			if (isPlaying && lastKeepAliveSendTime < world.getGameTime() - KEEP_ALIVE_SEND_INTERVAL) {
 				backpackWrapper.getContentsUuid().ifPresent(backpackUuid ->
-						ServerBackpackSoundHandler.updateKeepAlive(backpackUuid, world, entity != null ? entity.position() : Vector3d.atCenterOf(pos), () -> setIsPlaying(false))
+						ServerBackpackSoundHandler.updateKeepAlive(backpackUuid, world, entity != null ? entity.getPositionVec() : Vector3d.atCenterOf(pos), () -> setIsPlaying(false))
 				);
 				lastKeepAliveSendTime = world.getGameTime();
 			}

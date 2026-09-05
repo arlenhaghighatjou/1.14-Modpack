@@ -218,7 +218,7 @@ public class BackpackTooltipRenderer {
 		}
 
 		private int getStackCountWidth(FontRenderer fontRenderer, ItemStack stack) {
-			return fontRenderer.width(CountAbbreviator.abbreviate(stack.getCount())) + COUNT_PADDING;
+			return fontRenderer.getStringWidth(CountAbbreviator.abbreviate(stack.getCount())) + COUNT_PADDING;
 		}
 
 		private void calculateHeight() {
@@ -258,7 +258,7 @@ public class BackpackTooltipRenderer {
 		}
 
 		private int renderTooltipLine(int leftX, int topY, MatrixStack matrixStack, FontRenderer font, String tooltip) {
-			IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
+			IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 			topY = GuiHelper.writeTooltipLines(Collections.singletonList(new TranslationTextComponent(BackpackItem.BACKPACK_TOOLTIP + tooltip).applyTextStyle(TextFormatting.YELLOW)),
 					font, leftX, topY, matrixStack.last().pose(), renderTypeBuffer, -1);
 			renderTypeBuffer.endBatch();

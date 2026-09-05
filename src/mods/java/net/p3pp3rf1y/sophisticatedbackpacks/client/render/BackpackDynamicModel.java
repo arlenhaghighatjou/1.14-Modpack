@@ -307,12 +307,12 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 
 		private BakedQuad createQuad(List<Vector3f> vecs, float[] colors, TextureAtlasSprite sprite, Direction face, float u1, float u2, float v1, float v2) {
 			BakedQuadBuilder builder = new BakedQuadBuilder(sprite);
-			Vector3i dirVec = face.getNormal();
+			Vector3i dirVec = face.getDirectionVec();
 			Vector3f normal = new Vector3f(dirVec.getX(), dirVec.getY(), dirVec.getZ());
-			putVertex(builder, normal, vecs.get(0).x(), vecs.get(0).y(), vecs.get(0).z(), u1, v1, sprite, colors);
-			putVertex(builder, normal, vecs.get(1).x(), vecs.get(1).y(), vecs.get(1).z(), u1, v2, sprite, colors);
-			putVertex(builder, normal, vecs.get(2).x(), vecs.get(2).y(), vecs.get(2).z(), u2, v2, sprite, colors);
-			putVertex(builder, normal, vecs.get(3).x(), vecs.get(3).y(), vecs.get(3).z(), u2, v1, sprite, colors);
+			putVertex(builder, normal, vecs.get(0).getX, vecs.get(0).getY, vecs.get(0).getZ, u1, v1, sprite, colors);
+			putVertex(builder, normal, vecs.get(1).getX, vecs.get(1).getY, vecs.get(1).getZ, u1, v2, sprite, colors);
+			putVertex(builder, normal, vecs.get(2).getX, vecs.get(2).getY, vecs.get(2).getZ, u2, v2, sprite, colors);
+			putVertex(builder, normal, vecs.get(3).getX, vecs.get(3).getY, vecs.get(3).getZ, u2, v1, sprite, colors);
 			builder.setQuadOrientation(face);
 			return builder.build();
 		}
@@ -330,15 +330,15 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 						break;
 					case UV:
 						if (elements.get(e).getIndex() == 0) {
-							float iu = sprite.getU(u);
-							float iv = sprite.getV(v);
+							float iu = sprite.getInterpolatedU(u);
+							float iv = sprite.getInterpolatedV(v);
 							builder.put(e, iu, iv);
 						} else {
 							builder.put(e);
 						}
 						break;
 					case NORMAL:
-						builder.put(e, normal.x(), normal.y(), normal.z());
+						builder.put(e, normal.getX, normal.getY, normal.getZ);
 						break;
 					default:
 						builder.put(e);
@@ -349,9 +349,9 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 
 		private void rotate(Vector3f posIn, Matrix4f transformIn) {
 			Vector3f originIn = new Vector3f(0.5f, 0.5f, 0.5f);
-			Vector4f vector4f = new Vector4f(posIn.x() - originIn.x(), posIn.y() - originIn.y(), posIn.z() - originIn.z(), 1.0F);
+			Vector4f vector4f = new Vector4f(posIn.getX - originIn.getX, posIn.getY - originIn.getY, posIn.getZ - originIn.getZ, 1.0F);
 			vector4f.transform(transformIn);
-			posIn.set(vector4f.x() + originIn.x(), vector4f.y() + originIn.y(), vector4f.z() + originIn.z());
+			posIn.set(vector4f.getX + originIn.getX, vector4f.getY + originIn.getY, vector4f.getZ + originIn.getZ);
 		}
 	}
 

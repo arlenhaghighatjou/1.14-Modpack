@@ -1301,7 +1301,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	public void sendSlotUpdates() {
 		if (!player.level.isRemote) {
 			ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-			slotStacksToUpdate.forEach((slot, stack) -> serverPlayer.connection.send(new SSetSlotPacket(serverPlayer.containerMenu.containerId, slot, stack)));
+			slotStacksToUpdate.forEach((slot, stack) -> serverPlayer.connection.sendPacket(new SSetSlotPacket(serverPlayer.containerMenu.containerId, slot, stack)));
 			slotStacksToUpdate.clear();
 		}
 	}

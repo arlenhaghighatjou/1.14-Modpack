@@ -16,7 +16,7 @@ abstract class TypedMatcherFactory<T> implements IMatcherFactory<T> {
 
 	@Override
 	public boolean appliesTo(JsonElement jsonElement) {
-		return jsonElement.isJsonObject() && JSONUtils.getAsString(jsonElement.getAsJsonObject(), "type").equals(typeName);
+		return jsonElement.isJsonObject() && JSONUtils.getString(jsonElement.getAsJsonObject(), "type").equals(typeName);
 	}
 
 	@Override

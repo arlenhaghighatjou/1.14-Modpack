@@ -26,7 +26,7 @@ public class BackpackAccessLogger {
 			return;
 		}
 		//noinspection ConstantConditions - at this point the registry name of item exists for sure otherwise the player wouldn't be able to open the backpack
-		BackpackStorage.get().putAccessLog(new AccessLogRecord(Registry.ITEM.getKey(backpackItem), backpackUuid, player.getDisplayName().getString(), backpackName, clothColor, trimColor, Util.getEpochMillis(), columnsTaken));
+		BackpackStorage.get().putAccessLog(new AccessLogRecord(Registry.ITEM.getKey(backpackItem), backpackUuid, player.getDisplayName().getString(), backpackName, clothColor, trimColor, Util.millisecondsSinceEpoch(), columnsTaken));
 	}
 
 	public static Set<String> getPlayerNames() {
@@ -40,10 +40,10 @@ public class BackpackAccessLogger {
 	}
 
 	private static void initPlayerBackpackCache() {
-		if (lastCacheRefresh + (REFRESH_INTERVAL_SECONDS * 1000) >= Util.getEpochMillis()) {
+		if (lastCacheRefresh + (REFRESH_INTERVAL_SECONDS * 1000) >= Util.millisecondsSinceEpoch()) {
 			return;
 		}
-		lastCacheRefresh = Util.getEpochMillis();
+		lastCacheRefresh = Util.millisecondsSinceEpoch();
 
 		playerLogCache.clear();
 		BackpackStorage.get().getAccessLogs().values().forEach(alr -> playerLogCache.computeIfAbsent(alr.getPlayerName(), name -> new HashSet<>()).add(alr));

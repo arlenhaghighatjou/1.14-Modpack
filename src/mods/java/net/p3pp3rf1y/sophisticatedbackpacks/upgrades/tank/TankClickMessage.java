@@ -52,7 +52,7 @@ public class TankClickMessage {
 			} else {
 				if (!tankWrapper.fillHandler(fluidHandler, itemStackIn -> {
 					sender.inventory.setCarried(itemStackIn);
-					sender.connection.send(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
+					sender.connection.sendPacket(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
 				})) {
 					drainHandler(sender, fluidHandler, tankWrapper);
 				}
@@ -63,7 +63,7 @@ public class TankClickMessage {
 	private static void drainHandler(ServerPlayerEntity sender, net.minecraftforge.fluids.capability.IFluidHandlerItem fluidHandler, TankUpgradeWrapper tankWrapper) {
 		tankWrapper.drainHandler(fluidHandler, itemStackIn -> {
 			sender.inventory.setCarried(itemStackIn);
-			sender.connection.send(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
+			sender.connection.sendPacket(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
 		});
 	}
 }

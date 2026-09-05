@@ -23,12 +23,12 @@ public class BackpackContentsMessage {
 	}
 
 	public static void encode(BackpackContentsMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeUUID(msg.backpackUuid);
-		packetBuffer.writeNbt(msg.backpackContents);
+		packetBuffer.writeUniqueId(msg.backpackUuid);
+		packetBuffer.writeCompoundTag(msg.backpackContents);
 	}
 
 	public static BackpackContentsMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackContentsMessage(packetBuffer.readUUID(), packetBuffer.readNbt());
+		return new BackpackContentsMessage(packetBuffer.readUniqueId(), packetBuffer.readCompoundTag());
 	}
 
 	static void onMessage(BackpackContentsMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {

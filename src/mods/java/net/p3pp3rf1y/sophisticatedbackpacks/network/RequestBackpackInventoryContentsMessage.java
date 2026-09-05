@@ -21,11 +21,11 @@ public class RequestBackpackInventoryContentsMessage {
 	}
 
 	public static void encode(RequestBackpackInventoryContentsMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeUUID(msg.backpackUuid);
+		packetBuffer.writeUniqueId(msg.backpackUuid);
 	}
 
 	public static RequestBackpackInventoryContentsMessage decode(PacketBuffer packetBuffer) {
-		return new RequestBackpackInventoryContentsMessage(packetBuffer.readUUID());
+		return new RequestBackpackInventoryContentsMessage(packetBuffer.readUniqueId());
 	}
 
 	static void onMessage(RequestBackpackInventoryContentsMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {

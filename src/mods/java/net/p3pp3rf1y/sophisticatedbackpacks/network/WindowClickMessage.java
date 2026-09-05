@@ -60,16 +60,16 @@ public class WindowClickMessage {
 		} else {
 			ItemStack stackClickResult = player.containerMenu.clicked(msg.slotNumber, msg.mouseButton, msg.clickType, player);
 			if (ItemStack.matches(msg.clickedItem, stackClickResult)) {
-				player.connection.send(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
+				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
 				player.ignoreSlotUpdateHack = true;
 				player.containerMenu.broadcastChanges();
 				player.broadcastCarriedItem();
 				player.ignoreSlotUpdateHack = false;
 			} else {
-				player.connection.send(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
+				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
 				player.containerMenu.setSynched(player, false);
 				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.containerMenu.containerId, player.containerMenu.getItems()));
-				player.connection.send(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
+				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}
 		}
 	}

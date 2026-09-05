@@ -34,7 +34,7 @@ public class ListCommand {
 	private static int printBackpackList(List<AccessLogRecord> allLogs, CommandSource source) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
 		allLogs.sort(Comparator.comparing(AccessLogRecord::getAccessTime).reversed());
-		source.sendSuccess(new TranslationTextComponent("commands.sophisticatedbackpacks.list.header"), false);
+		source.sendFeedback(new TranslationTextComponent("commands.sophisticatedbackpacks.list.header"), false);
 		allLogs.forEach(alr -> {
 			IFormattableTextComponent message = new StringTextComponent("");
 			message.append(new StringTextComponent(alr.getBackpackName())

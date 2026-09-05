@@ -356,13 +356,13 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		RenderSystem.enableDepthTest();
 		itemRenderer.renderAndDecorateItem(minecraft.player, itemstack, i, j);
 		if (shouldUseSpecialCountRender(itemstack)) {
-			itemRenderer.renderGuiItemDecorations(font, itemstack, i, j, "");
+			itemRenderer.renderItemOverlayIntoGUI(font, itemstack, i, j, "");
 			if (stackCountText == null) {
 				stackCountText = CountAbbreviator.abbreviate(itemstack.getCount());
 			}
 			renderStackCount(stackCountText, i, j);
 		} else {
-			itemRenderer.renderGuiItemDecorations(font, itemstack, i, j, stackCountText);
+			itemRenderer.renderItemOverlayIntoGUI(font, itemstack, i, j, stackCountText);
 		}
 
 	}
@@ -621,14 +621,14 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	private void renderStackCount(String count, int x, int y) {
 		MatrixStack matrixStack = new MatrixStack();
 		matrixStack.translate(0.0D, 0.0D, itemRenderer.blitOffset + 200.0F);
-		IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
+		IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 
 		RenderSystem.pushMatrix();
-		float scale = Math.min(1f, (float) 16 / font.width(count));
+		float scale = Math.min(1f, (float) 16 / font.getStringWidth(count));
 		if (scale < 1f) {
 			RenderSystem.scalef(scale, scale, 1.0F);
 		}
-		font.drawInBatch(count, (x + 19 - 2 - (font.width(count) * scale)) / scale,
+		font.drawInBatch(count, (x + 19 - 2 - (font.getStringWidth(count) * scale)) / scale,
 				(y + 6 + 3 + (1 / (scale * scale) - 1)) / scale, 16777215, true, matrixStack.last().pose(), renderBuffer, false, 0, 15728880);
 		renderBuffer.endBatch();
 		RenderSystem.popMatrix();
@@ -691,7 +691,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		RenderSystem.translatef((float) width / 2, topPos + inventoryLabelY + 4, 300F);
 		FontRenderer fontrenderer = Minecraft.getInstance().font;
 
-		int tooltipWidth = font.width(overlayErrorMessage);
+		int tooltipWidth = font.getStringWidth(overlayErrorMessage);
 
 		List<ITextProperties> wrappedTextLines = new ArrayList<>();
 		int maxLineWidth = 260;
@@ -718,7 +718,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		float leftX = (float) -tooltipWidth / 2;
 
 		GuiHelper.renderTooltipBackground(matrix4f, tooltipWidth, (int) leftX, 0, tooltipHeight, ERROR_BACKGROUND_COLOR, ERROR_BORDER_COLOR, ERROR_BORDER_COLOR);
-		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
+		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 		matrixStack.translate(0.0D, 0.0D, 400.0D);
 		GuiHelper.writeTooltipLines(wrappedTextLines, fontrenderer, leftX, 0, matrix4f, renderTypeBuffer, DyeColor.RED.getColorValue());
 		renderTypeBuffer.endBatch();

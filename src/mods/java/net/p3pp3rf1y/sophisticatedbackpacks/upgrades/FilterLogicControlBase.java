@@ -286,7 +286,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 
 	private void renderTagNames(MatrixStack matrixStack, int mouseX, int mouseY) {
 		int count = 0;
-		int prefixWidth = font.width("...");
+		int prefixWidth = font.getStringWidth("...");
 		Set<ResourceLocation> tagNames = container.getTagNames();
 		int maxTagNameLines = getTagListHeight() / 10;
 		for (ResourceLocation tagName : tagNames) {
@@ -296,7 +296,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 			}
 			String name = tagName.toString();
 			String shortened = name;
-			if (font.width(name) > MAX_TAG_NAME_WIDTH) {
+			if (font.getStringWidth(name) > MAX_TAG_NAME_WIDTH) {
 				shortened = font.plainSubstrByWidth(name, MAX_TAG_NAME_WIDTH - prefixWidth, true);
 				if (!shortened.equals(name)) {
 					shortened = "..." + shortened;

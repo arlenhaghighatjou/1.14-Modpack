@@ -27,12 +27,12 @@ public class SyncClientInfoMessage {
 
 	public static void encode(SyncClientInfoMessage msg, PacketBuffer packetBuffer) {
 		packetBuffer.writeInt(msg.slotIndex);
-		packetBuffer.writeNbt(msg.renderInfoNbt);
+		packetBuffer.writeCompoundTag(msg.renderInfoNbt);
 		packetBuffer.writeInt(msg.columnsTaken);
 	}
 
 	public static SyncClientInfoMessage decode(PacketBuffer packetBuffer) {
-		return new SyncClientInfoMessage(packetBuffer.readInt(), packetBuffer.readNbt(), packetBuffer.readInt());
+		return new SyncClientInfoMessage(packetBuffer.readInt(), packetBuffer.readCompoundTag(), packetBuffer.readInt());
 	}
 
 	static void onMessage(SyncClientInfoMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {

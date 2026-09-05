@@ -193,13 +193,13 @@ public abstract class BackpackContext {
 		}
 
 		public static BackpackContext fromBuffer(PacketBuffer packetBuffer) {
-			return new BackpackContext.Item(packetBuffer.readUtf(), packetBuffer.readUtf(), packetBuffer.readInt(), packetBuffer.readBoolean());
+			return new BackpackContext.Item(packetBuffer.readString(), packetBuffer.readString(), packetBuffer.readInt(), packetBuffer.readBoolean());
 		}
 
 		@Override
 		public void addToBuffer(PacketBuffer packetBuffer) {
-			packetBuffer.writeUtf(handlerName);
-			packetBuffer.writeUtf(identifier);
+			packetBuffer.writeString(handlerName);
+			packetBuffer.writeString(identifier);
 			packetBuffer.writeInt(backpackSlotIndex);
 			packetBuffer.writeBoolean(openFromInventory);
 		}
@@ -235,7 +235,7 @@ public abstract class BackpackContext {
 		}
 
 		public static BackpackContext fromBuffer(PacketBuffer packetBuffer) {
-			return new BackpackContext.ItemSubBackpack(packetBuffer.readUtf(), packetBuffer.readUtf(), packetBuffer.readInt(), packetBuffer.readBoolean(), packetBuffer.readInt());
+			return new BackpackContext.ItemSubBackpack(packetBuffer.readString(), packetBuffer.readString(), packetBuffer.readInt(), packetBuffer.readBoolean(), packetBuffer.readInt());
 		}
 
 		@Override

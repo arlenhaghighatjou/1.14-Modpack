@@ -63,6 +63,10 @@ public enum DyeColor implements IStringSerializable {
         return this.id;
     }
 
+    public int getColorValue() {
+        return this.colorValue;
+    }
+
     public String getTranslationKey() {
         return this.translationKey;
     }

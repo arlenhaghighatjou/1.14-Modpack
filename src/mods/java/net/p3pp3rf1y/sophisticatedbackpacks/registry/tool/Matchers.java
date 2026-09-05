@@ -35,7 +35,7 @@ public class Matchers {
 		addItemMatcherFactory(new ItemMatcherFactory("tag") {
 			@Override
 			protected Optional<CacheableStackPredicate> getPredicateFromObject(JsonObject jsonObject) {
-				String tagName = JSONUtils.getAsString(jsonObject, "tag");
+				String tagName = JSONUtils.getString(jsonObject, "tag");
 				ITag<Item> tag = TagCollectionManager.getInstance().getItems().getTag(new ResourceLocation(tagName));
 				return tag == null ? Optional.empty() : Optional.of(new ItemTagMatcher(tag));
 			}
@@ -44,7 +44,7 @@ public class Matchers {
 		addItemMatcherFactory(new ItemMatcherFactory("emptynbt") {
 			@Override
 			protected Optional<CacheableStackPredicate> getPredicateFromObject(JsonObject jsonObject) {
-				ResourceLocation itemName = new ResourceLocation(JSONUtils.getAsString(jsonObject, "item"));
+				ResourceLocation itemName = new ResourceLocation(JSONUtils.getString(jsonObject, "item"));
 				if (!Registry.ITEM.keySet().contains(itemName)) {
 					SophisticatedBackpacks.LOGGER.debug("{} isn't loaded in item registry, skipping ...", itemName);
 				}

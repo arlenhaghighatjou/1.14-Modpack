@@ -23,7 +23,7 @@ public class InventoryInteractionHelper {
 		if (player == null) {
 			return false;
 		}
-		return tryInventoryInteraction(context.getClickedPos(), context.getLevel(), context.getItemInHand(), context.getClickedFace(), player);
+		return tryInventoryInteraction(context.getPos(), context.getWorld(), context.getItemInHand(), context.getClickedFace(), player);
 	}
 
 	public static boolean tryInventoryInteraction(BlockPos pos, World world, ItemStack backpack, Direction face, PlayerEntity player) {

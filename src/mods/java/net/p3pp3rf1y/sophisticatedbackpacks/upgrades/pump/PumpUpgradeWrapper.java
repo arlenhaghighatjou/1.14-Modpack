@@ -94,7 +94,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 
 	private Optional<Integer> interactWithAttachedFluidHandlers(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {
 		for (Direction dir : Direction.values()) {
-			boolean successful = WorldHelper.getTile(world, pos.offset(dir.getNormal())).map(te ->
+			boolean successful = WorldHelper.getTile(world, pos.offset(dir.getDirectionVec())).map(te ->
 					te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite()).map(fluidHandler -> {
 						if (isInput()) {
 							return fillFromFluidHandler(fluidHandler, backpackFluidHandler, getMaxInOut());
@@ -123,7 +123,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 			return fillFromBlockInRange(world, pos, backpackFluidHandler);
 		} else {
 			for (Direction dir : Direction.values()) {
-				BlockPos offsetPos = pos.offset(dir.getNormal());
+				BlockPos offsetPos = pos.offset(dir.getDirectionVec());
 				if (placeFluidInWorld(world, backpackFluidHandler, dir, offsetPos)) {
 					return Optional.of(WORLD_INTERACTION_COOLDOWN_TIME);
 				}
@@ -163,7 +163,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 			}
 
 			for (Direction dir : Direction.values()) {
-				BlockPos offsetPos = pos.offset(dir.getNormal());
+				BlockPos offsetPos = pos.offset(dir.getDirectionVec());
 				if (!searchedPositions.contains(offsetPos)) {
 					searchedPositions.add(offsetPos);
 					if (basePos.distSqr(offsetPos) < PUMP_IN_WORLD_RANGE_SQR) {
@@ -194,9 +194,9 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	}
 
 	private boolean handleFluidContainersInHandsOfNearbyPlayers(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {
-		AxisAlignedBB searchBox = new AxisAlignedBB(pos).inflate(PLAYER_SEARCH_RANGE);
+		AxisAlignedBB searchBox = new AxisAlignedBB(pos).grow(PLAYER_SEARCH_RANGE);
 		for (PlayerEntity player : world.players()) {
-			if (searchBox.contains(player.getX(), player.getY(), player.getZ()) && handleFluidContainerInHands(player, backpackFluidHandler)) {
+			if (searchBox.contains(player.posX, player.posY, player.posZ) && handleFluidContainerInHands(player, backpackFluidHandler)) {
 				return true;
 			}
 		}

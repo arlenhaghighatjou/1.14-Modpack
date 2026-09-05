@@ -43,7 +43,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		}
 
 		if (entity == null) {
-			world.getEntities(EntityType.PLAYER, new AxisAlignedBB(pos).inflate(FEEDING_RANGE), p -> true).forEach(p -> feedPlayerAndGetHungry(p, world));
+			world.getEntities(EntityType.PLAYER, new AxisAlignedBB(pos).grow(FEEDING_RANGE), p -> true).forEach(p -> feedPlayerAndGetHungry(p, world));
 		} else {
 			if (feedPlayerAndGetHungry((PlayerEntity) entity, world)) {
 				setCooldown(world, STILL_HUNGRY_COOLDOWN);

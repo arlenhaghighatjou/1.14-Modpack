@@ -39,7 +39,7 @@ public class ProgressBar extends BackpackWidget {
 		} else if (dir == ProgressDirection.LEFT_RIGHT) {
 			width = (int) (width * progress);
 		}
-		minecraft.getTextureManager().bind(progressTexture.getTextureName());
+		minecraft.getTextureManager().bindTexture(progressTexture.getTextureName());
 		blit(matrixStack, x, y + yOffset, progressTexture.getU(), (float) progressTexture.getV() + yOffset, width, height, progressTexture.getTextureWidth(), progressTexture.getTextureHeight());
 	}
 

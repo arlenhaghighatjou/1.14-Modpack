@@ -126,8 +126,8 @@ public class ClientProxy extends CommonProxy {
 		if (mc.player != null && mc.player.containerMenu instanceof BackpackContainer && gui instanceof BackpackScreen) {
 			BackpackScreen screen = (BackpackScreen) gui;
 			MouseHelper mh = mc.mouseHandler;
-			double mouseX = mh.xpos() * mc.getWindow().getGuiScaledWidth() / mc.getWindow().getScreenWidth();
-			double mouseY = mh.ypos() * mc.getWindow().getGuiScaledHeight() / mc.getWindow().getScreenHeight();
+			double mouseX = mh.xpos() * mc.mainWindow.getGuiScaledWidth() / mc.mainWindow.getScreenWidth();
+			double mouseY = mh.ypos() * mc.mainWindow.getGuiScaledHeight() / mc.mainWindow.getScreenHeight();
 			BackpackContainer container = (BackpackContainer) mc.player.containerMenu;
 			Slot selectedSlot = screen.findSlot(mouseX, mouseY);
 			if (selectedSlot != null && !container.isPlayersInventorySlot(selectedSlot.index)) {
@@ -154,15 +154,15 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public static void handleKeyInputEvent(TickEvent.ClientTickEvent event) {
-		if (BACKPACK_OPEN_KEYBIND.consumeClick()) {
+		if (BACKPACK_OPEN_KEYBIND.isPressed()) {
 			sendBackpackOpenOrCloseMessage();
-		} else if (INVENTORY_INTERACTION_KEYBIND.consumeClick()) {
+		} else if (INVENTORY_INTERACTION_KEYBIND.isPressed()) {
 			sendInteractWithInventoryMessage();
-		} else if (TOOL_SWAP_KEYBIND.consumeClick()) {
+		} else if (TOOL_SWAP_KEYBIND.isPressed()) {
 			sendToolSwapMessage();
 		} else {
 			for (Map.Entry<Integer, KeyBinding> slotKeybind : UPGRADE_SLOT_TOGGLE_KEYBINDS.entrySet()) {
-				if (slotKeybind.getValue().consumeClick()) {
+				if (slotKeybind.getValue().isPressed()) {
 					PacketHandler.sendToServer(new UpgradeToggleMessage(slotKeybind.getKey()));
 				}
 			}

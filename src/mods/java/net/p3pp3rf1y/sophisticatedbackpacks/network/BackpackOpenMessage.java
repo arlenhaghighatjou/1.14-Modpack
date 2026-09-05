@@ -34,11 +34,11 @@ public class BackpackOpenMessage {
 
 	public static void encode(BackpackOpenMessage msg, PacketBuffer packetBuffer) {
 		packetBuffer.writeInt(msg.slotIndex);
-		packetBuffer.writeUtf(msg.identifier);
+		packetBuffer.writeString(msg.identifier);
 	}
 
 	public static BackpackOpenMessage decode(PacketBuffer packetBuffer) {
-		return new BackpackOpenMessage(packetBuffer.readInt(), packetBuffer.readUtf());
+		return new BackpackOpenMessage(packetBuffer.readInt(), packetBuffer.readString());
 	}
 
 	static void onMessage(BackpackOpenMessage msg, Supplier<NetworkEvent.Context> contextSupplier) {

@@ -69,7 +69,7 @@ public class ToolRegistry {
 		Matchers.addItemMatcherFactory(new ItemMatcherFactory("tool") {
 			@Override
 			protected Optional<CacheableStackPredicate> getPredicateFromObject(JsonObject jsonObject) {
-				String toolName = JSONUtils.getAsString(jsonObject, "tool");
+				String toolName = JSONUtils.getString(jsonObject, "tool");
 				return Optional.of(new ToolTypeMatcher(ToolType.get(toolName)));
 			}
 		});
@@ -146,7 +146,7 @@ public class ToolRegistry {
 				parseFromProperty(entry);
 			} else {
 				if (entry.size() == 2 && entry.has(TOOLS_PROPERTY) && entry.has("types")) {
-					parseFromArrays(JSONUtils.getAsJsonArray(entry, TOOLS_PROPERTY), JSONUtils.getAsJsonArray(entry, "types"));
+					parseFromArrays(JSONUtils.getJsonArray(entry, TOOLS_PROPERTY), JSONUtils.getJsonArray(entry, "types"));
 				} else {
 					SophisticatedBackpacks.LOGGER.error("Invalid tool types entry - needs to have either 1 array property with item name or \"tools\" and \"types\" array properties {}", entry);
 				}
@@ -225,7 +225,7 @@ public class ToolRegistry {
 
 		@Override
 		public void parse(JsonObject json, @Nullable String modId) {
-			JsonArray toolsMap = JSONUtils.getAsJsonArray(json, name);
+			JsonArray toolsMap = JSONUtils.getJsonArray(json, name);
 
 			for (JsonElement jsonElement : toolsMap) {
 				if (!jsonElement.isJsonObject()) {
@@ -248,7 +248,7 @@ public class ToolRegistry {
 				parseFromProperty(entry);
 			} else {
 				if (entry.size() == 2 && entry.has(objectJsonArrayName) && entry.has(TOOLS_PROPERTY)) {
-					parseFromArrays(JSONUtils.getAsJsonArray(entry, objectJsonArrayName), JSONUtils.getAsJsonArray(entry, TOOLS_PROPERTY));
+					parseFromArrays(JSONUtils.getJsonArray(entry, objectJsonArrayName), JSONUtils.getJsonArray(entry, TOOLS_PROPERTY));
 				} else {
 					SophisticatedBackpacks.LOGGER.error("Invalid block tools entry - needs to have either 1 array property with mod/entity name or \"{}\" and \"tools\" array properties {}", objectJsonArrayName, entry);
 				}

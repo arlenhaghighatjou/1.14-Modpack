@@ -107,8 +107,8 @@ public class RegistryLoader extends JsonReloadListener {
 		loadedRegistries.put(name, loader.get().getName());
 
 		String modId = null;
-		if (JSONUtils.isValidNode(json, "mod")) {
-			modId = JSONUtils.getAsString(json, "mod");
+		if (JSONUtils.hasField(json, "mod")) {
+			modId = JSONUtils.getString(json, "mod");
 		}
 
 		if (isDisabled(json) || (modId != null && !ModList.get().isLoaded(modId))) {
@@ -134,13 +134,13 @@ public class RegistryLoader extends JsonReloadListener {
 	}
 
 	private boolean isDisabled(JsonObject json) {
-		return json.has("disabled") && JSONUtils.getAsBoolean(json, "disabled");
+		return json.has("disabled") && JSONUtils.getBoolean(json, "disabled");
 	}
 
 	private Optional<IRegistryDataLoader> getLoader(String fileName, JsonObject json) {
 		String parserName = fileName;
 		if (json.has("type")) {
-			parserName = JSONUtils.getAsString(json, "type");
+			parserName = JSONUtils.getString(json, "type");
 		}
 		return loaders.containsKey(parserName) ? Optional.of(loaders.get(parserName)) : Optional.empty();
 	}

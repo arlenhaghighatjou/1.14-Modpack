@@ -29,12 +29,12 @@ public class BackpackSoundHandler {
 	public static void playBackpackSound(EaglercraftUUID backpackUuid, ISound sound) {
 		stopBackpackSound(backpackUuid);
 		backpackSounds.put(backpackUuid, sound);
-		Minecraft.getInstance().getSoundManager().play(sound);
+		Minecraft.getInstance().getSoundHandler().play(sound);
 	}
 
 	public static void stopBackpackSound(EaglercraftUUID backpackUuid) {
 		if (backpackSounds.containsKey(backpackUuid)) {
-			Minecraft.getInstance().getSoundManager().stop(backpackSounds.remove(backpackUuid));
+			Minecraft.getInstance().getSoundHandler().stop(backpackSounds.remove(backpackUuid));
 			PacketHandler.sendToServer(new SoundStopNotificationMessage(backpackUuid));
 		}
 	}
@@ -43,7 +43,7 @@ public class BackpackSoundHandler {
 		if (!backpackSounds.isEmpty() && lastPlaybackChecked < event.world.getGameTime() - SOUND_STOP_CHECK_INTERVAL) {
 			lastPlaybackChecked = event.world.getGameTime();
 			backpackSounds.entrySet().removeIf(entry -> {
-				if (!Minecraft.getInstance().getSoundManager().isActive(entry.getValue())) {
+				if (!Minecraft.getInstance().getSoundHandler().isActive(entry.getValue())) {
 					PacketHandler.sendToServer(new SoundStopNotificationMessage(entry.getKey()));
 					return true;
 				}

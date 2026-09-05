@@ -80,7 +80,7 @@ public abstract class Tab extends CompositeBackpackWidget<BackpackWidget> {
 
 	@Override
 	protected void renderBg(MatrixStack matrixStack, Minecraft minecraft, int mouseX, int mouseY) {
-		minecraft.getTextureManager().bind(GuiHelper.GUI_CONTROLS);
+		minecraft.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 
 		int halfHeight = height / 2;
 		blit(matrixStack, x, y, (float) TEXTURE_WIDTH - width, 0, width, halfHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);

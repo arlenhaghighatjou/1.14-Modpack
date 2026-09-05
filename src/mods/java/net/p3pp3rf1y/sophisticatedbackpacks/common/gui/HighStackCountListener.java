@@ -21,7 +21,7 @@ public class HighStackCountListener implements IContainerListener {
 	@Override
 	public void refreshContainer(Container containerToSend, NonNullList<ItemStack> itemsList) {
 		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(containerToSend.containerId, itemsList));
-		player.connection.send(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
+		player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 	}
 
 	@Override

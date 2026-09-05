@@ -124,7 +124,7 @@ public class RecipeHelper {
 
 	private static boolean uncompactMatchesItem(ItemStack result, World w, Item item, int count) {
 		CraftingInventory craftingInventory = getFilledCraftingInventory(result.getItem(), 1, 1);
-		result = w.getRecipeManager().getRecipeFor(IRecipeType.CRAFTING, craftingInventory, w).map(r -> r.assemble(craftingInventory)).orElse(ItemStack.EMPTY);
+		result = w.getRecipeManager().getRecipe(IRecipeType.CRAFTING, craftingInventory, w).map(r -> r.assemble(craftingInventory)).orElse(ItemStack.EMPTY);
 		return result.getItem() == item && result.getCount() == count;
 	}
 
@@ -140,7 +140,7 @@ public class RecipeHelper {
 
 		CraftingInventory craftingInventory = getFilledCraftingInventory(item, width, height);
 		List<ItemStack> remainingItems = new ArrayList<>();
-		ItemStack result = w.getRecipeManager().getRecipeFor(IRecipeType.CRAFTING, craftingInventory, w).map(r -> {
+		ItemStack result = w.getRecipeManager().getRecipe(IRecipeType.CRAFTING, craftingInventory, w).map(r -> {
 			r.getRemainingItems(craftingInventory).forEach(stack -> {
 				if (!stack.isEmpty()) {
 					remainingItems.add(stack);
@@ -163,14 +163,14 @@ public class RecipeHelper {
 			}
 		}, width, height);
 
-		for (int i = 0; i < craftinginventory.getContainerSize(); i++) {
+		for (int i = 0; i < craftinginventory.getSizeInventory(); i++) {
 			craftinginventory.setItem(i, new ItemStack(item));
 		}
 		return craftinginventory;
 	}
 
 	public static <T extends AbstractCookingRecipe> Optional<T> getCookingRecipe(ItemStack stack, IRecipeType<T> recipeType) {
-		return getWorld().flatMap(w -> w.getRecipeManager().getRecipeFor(recipeType, new RecipeWrapper(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, stack))), w));
+		return getWorld().flatMap(w -> w.getRecipeManager().getRecipe(recipeType, new RecipeWrapper(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, stack))), w));
 	}
 
 	public static Set<CompactingShape> getItemCompactingShapes(Item item) {

@@ -91,7 +91,7 @@ public class GuiHelper {
 		ItemRenderer itemRenderer = minecraft.getItemRenderer();
 		float originalZLevel = itemRenderer.blitOffset;
 		itemRenderer.blitOffset += getZOffset(matrixStack);
-		itemRenderer.renderAndDecorateItem(stack, xPosition, yPosition);
+		itemRenderer.renderItemAndEffectIntoGUI(stack, xPosition, yPosition);
 		if (renderOverlay) {
 			itemRenderer.renderGuiItemDecorations(minecraft.font, stack, xPosition, yPosition, countText);
 		}
@@ -104,7 +104,7 @@ public class GuiHelper {
 	}
 
 	public static void blit(Minecraft minecraft, MatrixStack matrixStack, int x, int y, TextureBlitData texData) {
-		minecraft.getTextureManager().bind(texData.getTextureName());
+		minecraft.getTextureManager().bindTexture(texData.getTextureName());
 		AbstractGui.blit(matrixStack, x + texData.getXOffset(), y + texData.getYOffset(), texData.getU(), texData.getV(), texData.getWidth(), texData.getHeight(), texData.getTextureWidth(), texData.getTextureHeight());
 	}
 
@@ -124,12 +124,12 @@ public class GuiHelper {
 		float minV = (float) texData.getV() / texData.getTextureHeight();
 		float maxV = minV + ((float) texData.getHeight() / texData.getTextureWidth());
 
-		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
+		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-		bufferbuilder.vertex(matrix, xMin, yMax, 0).color(red, green, blue, alpha).uv(minU, maxV).endVertex();
-		bufferbuilder.vertex(matrix, xMax, yMax, 0).color(red, green, blue, alpha).uv(maxU, maxV).endVertex();
-		bufferbuilder.vertex(matrix, xMax, yMin, 0).color(red, green, blue, alpha).uv(maxU, minV).endVertex();
-		bufferbuilder.vertex(matrix, xMin, yMin, 0).color(red, green, blue, alpha).uv(minU, minV).endVertex();
+		bufferbuilder.pos(matrix, xMin, yMax, 0).color(red, green, blue, alpha).uv(minU, maxV).endVertex();
+		bufferbuilder.pos(matrix, xMax, yMax, 0).color(red, green, blue, alpha).uv(maxU, maxV).endVertex();
+		bufferbuilder.pos(matrix, xMax, yMin, 0).color(red, green, blue, alpha).uv(maxU, minV).endVertex();
+		bufferbuilder.pos(matrix, xMin, yMin, 0).color(red, green, blue, alpha).uv(minU, minV).endVertex();
 		bufferbuilder.end();
 		WorldVertexBufferUploader.end(bufferbuilder);
 	}
@@ -159,8 +159,8 @@ public class GuiHelper {
 
 		FontRenderer font = tooltipRenderFont == null ? minecraft.font : tooltipRenderFont;
 
-		int windowWidth = minecraft.getWindow().getGuiScaledWidth();
-		int windowHeight = minecraft.getWindow().getGuiScaledHeight();
+		int windowWidth = minecraft.mainWindow.getGuiScaledWidth();
+		int windowHeight = minecraft.mainWindow.getGuiScaledHeight();
 
 		int tooltipWidth = getMaxLineWidth(textLines, font);
 
@@ -215,7 +215,7 @@ public class GuiHelper {
 
 		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostBackground(stack, textLines, matrixStack, leftX, topY, font, tooltipWidth, tooltipHeight));
 
-		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
+		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 		matrixStack.translate(0.0D, 0.0D, 400.0D);
 
 		topY = writeTooltipLines(textLines, font, leftX, topY, matrix4f, renderTypeBuffer, -1);
@@ -229,7 +229,7 @@ public class GuiHelper {
 
 	public static void renderTooltipBackground(Matrix4f matrix4f, int tooltipWidth, int leftX, int topY, int tooltipHeight, int backgroundColor, int borderColorStart, int borderColorEnd) {
 		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuilder();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
 		fillGradient(matrix4f, bufferbuilder, leftX - 3, topY - 4, leftX + tooltipWidth + 3, topY - 3, 400, backgroundColor, backgroundColor);
@@ -289,10 +289,10 @@ public class GuiHelper {
 		float f5 = (colorB >> 16 & 255) / 255.0F;
 		float f6 = (colorB >> 8 & 255) / 255.0F;
 		float f7 = (colorB & 255) / 255.0F;
-		builder.vertex(matrix, x2, y1, z).color(f1, f2, f3, f).endVertex();
-		builder.vertex(matrix, x1, y1, z).color(f1, f2, f3, f).endVertex();
-		builder.vertex(matrix, x1, y2, z).color(f5, f6, f7, f4).endVertex();
-		builder.vertex(matrix, x2, y2, z).color(f5, f6, f7, f4).endVertex();
+		builder.pos(matrix, x2, y1, z).color(f1, f2, f3, f).endVertex();
+		builder.pos(matrix, x1, y1, z).color(f1, f2, f3, f).endVertex();
+		builder.pos(matrix, x1, y2, z).color(f5, f6, f7, f4).endVertex();
+		builder.pos(matrix, x2, y2, z).color(f5, f6, f7, f4).endVertex();
 	}
 
 	public static ToggleButton.StateData getButtonStateData(UV uv, Dimension dimension, Position offset, ITextComponent... tooltip) {
@@ -322,11 +322,11 @@ public class GuiHelper {
 
 	public static void renderTiledFluidTextureAtlas(MatrixStack matrixStack, TextureAtlasSprite sprite, int color, int x, int y, int height, Minecraft minecraft) {
 		minecraft.getTextureManager().bind(sprite.atlas().location());
-		BufferBuilder builder = Tessellator.getInstance().getBuilder();
+		BufferBuilder builder = Tessellator.getInstance().getBuffer();
 		builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX);
 
-		float u1 = sprite.getU0();
-		float v1 = sprite.getV0();
+		float u1 = sprite.getMinU();
+		float v1 = sprite.getMinV();
 		int spriteHeight = sprite.getHeight();
 		int spriteWidth = sprite.getWidth();
 		int startY = y;
@@ -336,15 +336,15 @@ public class GuiHelper {
 		do {
 			int renderHeight = Math.min(spriteHeight, height);
 			height -= renderHeight;
-			float v2 = sprite.getV((16f * renderHeight) / spriteHeight);
+			float v2 = sprite.getInterpolatedV((16f * renderHeight) / spriteHeight);
 
 			// we need to draw the quads per width too
 			Matrix4f matrix = matrixStack.last().pose();
-			float u2 = sprite.getU((16f * 16) / spriteWidth);
-			builder.vertex(matrix, x, (float) startY + renderHeight, 100).color(red, green, blue, 1).uv(u1, v2).endVertex();
-			builder.vertex(matrix, (float) x + 16, (float) startY + renderHeight, 100).color(red, green, blue, 1).uv(u2, v2).endVertex();
-			builder.vertex(matrix, (float) x + 16, startY, 100).color(red, green, blue, 1).uv(u2, v1).endVertex();
-			builder.vertex(matrix, x, startY, 100).color(red, green, blue, 1).uv(u1, v1).endVertex();
+			float u2 = sprite.getInterpolatedU((16f * 16) / spriteWidth);
+			builder.pos(matrix, x, (float) startY + renderHeight, 100).color(red, green, blue, 1).uv(u1, v2).endVertex();
+			builder.pos(matrix, (float) x + 16, (float) startY + renderHeight, 100).color(red, green, blue, 1).uv(u2, v2).endVertex();
+			builder.pos(matrix, (float) x + 16, startY, 100).color(red, green, blue, 1).uv(u2, v1).endVertex();
+			builder.pos(matrix, x, startY, 100).color(red, green, blue, 1).uv(u1, v1).endVertex();
 
 			startY += renderHeight;
 		} while (height > 0);
@@ -356,7 +356,7 @@ public class GuiHelper {
 	}
 
 	public static void renderControlBackground(MatrixStack matrixStack, Minecraft minecraft, int x, int y, int renderWidth, int renderHeight) {
-		minecraft.getTextureManager().bind(GUI_CONTROLS);
+		minecraft.getTextureManager().bindTexture(GUI_CONTROLS);
 
 		int u = 29;
 		int v = 146;

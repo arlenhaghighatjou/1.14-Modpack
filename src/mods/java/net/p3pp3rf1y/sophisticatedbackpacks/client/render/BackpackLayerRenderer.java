@@ -142,7 +142,7 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 	}
 
 	private static Vector3d getBackpackMiddleFacePoint(LivingEntity livingEntity, Vector3d vector3d) {
-		return vector3d.xRot(livingEntity.isCrouching() ? 25 * ((float) Math.PI / 180F) : 0).add(0, 0.8, livingEntity.isCrouching() ? 0.9 : 0.7).yRot((float) (-livingEntity.yBodyRot * (Math.PI / 180F) - Math.PI)).add(livingEntity.position());
+		return vector3d.xRot(livingEntity.isCrouching() ? 25 * ((float) Math.PI / 180F) : 0).add(0, 0.8, livingEntity.isCrouching() ? 0.9 : 0.7).yRot((float) (-livingEntity.yBodyRot * (Math.PI / 180F) - Math.PI)).add(livingEntity.getPositionVec());
 	}
 
 	private static <T extends IUpgradeRenderData> void renderUpgrade(IUpgradeRenderer<T> renderer, LivingEntity livingEntity, UpgradeRenderDataType<?> type, IUpgradeRenderData data) {

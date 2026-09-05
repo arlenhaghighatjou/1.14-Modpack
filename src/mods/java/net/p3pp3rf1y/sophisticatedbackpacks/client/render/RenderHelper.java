@@ -28,9 +28,9 @@ public class RenderHelper {
 		ResourceLocation texture = fluid.getAttributes().getStillTexture(new FluidStack(fluid, 5000));
 		TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(PlayerContainer.BLOCK_ATLAS).apply(texture);
 		IVertexBuilder vertexBuilder = buffer.getBuffer(RenderType.entityTranslucent(PlayerContainer.BLOCK_ATLAS));
-		int atlasWidth = (int) (still.getWidth() / (still.getU1() - still.getU0()));
-		int atlasHeight = (int) (still.getHeight() / (still.getV1() - still.getV0()));
-		ModelRenderer fluidBox = new ModelRenderer(atlasWidth, atlasHeight, (int) (atlasWidth * still.getU0()), (int) (atlasHeight * still.getV0()));
+		int atlasWidth = (int) (still.getWidth() / (still.getMaxU() - still.getMinU()));
+		int atlasHeight = (int) (still.getHeight() / (still.getMaxV() - still.getMinV()));
+		ModelRenderer fluidBox = new ModelRenderer(atlasWidth, atlasHeight, (int) (atlasWidth * still.getMinU()), (int) (atlasHeight * still.getMinV()));
 		fluidBox.addBox(xOffset, yOffset + fillYOffsetMultiplier * fill * 10.0F, zOffset, 3.5F, fill * 10.0F, 4.0F, 0.0F, false);
 		int color = fluid.getAttributes().getColor();
 		float red = (color >> 16 & 255) / 255.0F;

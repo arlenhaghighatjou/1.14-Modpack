@@ -168,7 +168,7 @@ public class StonecutterRecipeControl extends BackpackWidget {
 				double relativeX = mouseX - (double) (listInnerLeftX + visibleRecipeIndex % 4 * 16);
 				double relativeY = mouseY - (double) (listInnerTopY + Math.floorDiv(visibleRecipeIndex, 4) * 18);
 				if (relativeX >= 0.0D && relativeY >= 0.0D && relativeX < 16.0D && relativeY < 18.0D && container.selectRecipe(recipeIndex)) {
-					Minecraft.getInstance().getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
+					Minecraft.getInstance().getSoundHandler().play(SimpleSound.forUI(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, 1.0F));
 					return true;
 				}
 			}

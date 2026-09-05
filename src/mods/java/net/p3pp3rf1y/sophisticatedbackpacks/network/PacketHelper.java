@@ -15,7 +15,7 @@ public class PacketHelper {
 			int i = packetBuffer.readVarInt();
 			int j = packetBuffer.readInt();
 			ItemStack itemstack = new ItemStack(Item.byId(i), j);
-			itemstack.readShareTag(packetBuffer.readNbt());
+			itemstack.readShareTag(packetBuffer.readCompoundTag());
 			return itemstack;
 		}
 	}
@@ -33,7 +33,7 @@ public class PacketHelper {
 				compoundnbt = stack.getShareTag();
 			}
 
-			packetBuffer.writeNbt(compoundnbt);
+			packetBuffer.writeCompoundTag(compoundnbt);
 		}
 	}
 }
