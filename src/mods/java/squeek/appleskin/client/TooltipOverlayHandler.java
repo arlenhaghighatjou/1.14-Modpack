@@ -10,9 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.lax1dude.eaglercraft.opengl.RealOpenGLEnums;
 import squeek.appleskin.ModConfig;
 import squeek.appleskin.ModInfo;
@@ -27,19 +24,13 @@ public class TooltipOverlayHandler
 	public static final int TOOLTIP_REAL_HEIGHT_OFFSET_TOP = -3;
 	public static final int TOOLTIP_REAL_WIDTH_OFFSET_RIGHT = 3;
 
-	public static void init()
-	{
-		MinecraftForge.EVENT_BUS.register(new TooltipOverlayHandler());
-	}
 
-	@SubscribeEvent
-	public void onRenderTooltip(RenderTooltipEvent.PostText event)
+	public static void onRenderTooltip(ItemStack hoveredStack, int toolTipX, int toolTipY, int toolTipW, int toolTipH)
 	{
-		ItemStack hoveredStack = event.getStack();
 		if (hoveredStack.isEmpty())
 			return;
 
-		boolean shouldShowTooltip = (ModConfig.SHOW_FOOD_VALUES_IN_TOOLTIP.get() && KeyHelper.isShiftKeyDown()) || ModConfig.ALWAYS_SHOW_FOOD_VALUES_TOOLTIP.get();
+		boolean shouldShowTooltip = (ModConfig.SHOW_FOOD_VALUES_IN_TOOLTIP && KeyHelper.isShiftKeyDown()) || ModConfig.ALWAYS_SHOW_FOOD_VALUES_TOOLTIP;
 		if (!shouldShowTooltip)
 			return;
 
@@ -53,10 +44,6 @@ public class TooltipOverlayHandler
 			return;
 
 		PlayerEntity player = mc.player;
-		int toolTipY = event.getY();
-		int toolTipX = event.getX();
-		int toolTipW = event.getWidth();
-		int toolTipH = event.getHeight();
 
 		FoodHelper.BasicFoodValues defaultFoodValues = FoodHelper.getDefaultFoodValues(hoveredStack);
 		FoodHelper.BasicFoodValues modifiedFoodValues = FoodHelper.getModifiedFoodValues(hoveredStack, player);

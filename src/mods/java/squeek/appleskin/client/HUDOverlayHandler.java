@@ -10,12 +10,6 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeIngameGui;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.lax1dude.eaglercraft.opengl.RealOpenGLEnums;
 import squeek.appleskin.ModConfig;
 import squeek.appleskin.ModInfo;
@@ -27,48 +21,25 @@ public class HUDOverlayHandler
 {
 	private float flashAlpha = 0f;
 	private byte alphaDir = 1;
-	protected int foodIconsOffset;
 
 	private static final ResourceLocation modIcons = new ResourceLocation(ModInfo.MODID_LOWER, "textures/icons.png");
 
-	public static void init()
+
+	public void onPreRender(int left, int top)
 	{
-		MinecraftForge.EVENT_BUS.register(new HUDOverlayHandler());
-	}
-
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onPreRender(RenderGameOverlayEvent.Pre event)
-	{
-		if (event.getType() != RenderGameOverlayEvent.ElementType.FOOD)
-			return;
-
-		foodIconsOffset = ForgeIngameGui.right_height;
-
-		if (event.isCanceled())
-			return;
-
-		if (!ModConfig.SHOW_FOOD_EXHAUSTION_UNDERLAY.get())
+		if (!ModConfig.SHOW_FOOD_EXHAUSTION_UNDERLAY)
 			return;
 
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 
-		int left = mc.mainWindow.getScaledWidth() / 2 + 91;
-		int top = mc.mainWindow.getScaledHeight() - foodIconsOffset;
 
 		drawExhaustionOverlay(HungerHelper.getExhaustion(player), mc, left, top, 1f);
 	}
 
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onRender(RenderGameOverlayEvent.Post event)
+	public void onRender(int left, int top)
 	{
-		if (event.getType() != RenderGameOverlayEvent.ElementType.FOOD)
-			return;
-
-		if (event.isCanceled())
-			return;
-
-		if (!ModConfig.SHOW_FOOD_VALUES_OVERLAY.get() && !ModConfig.SHOW_SATURATION_OVERLAY.get())
+		if (!ModConfig.SHOW_FOOD_VALUES_OVERLAY && !ModConfig.SHOW_SATURATION_OVERLAY)
 			return;
 
 		Minecraft mc = Minecraft.getInstance();
@@ -78,14 +49,12 @@ public class HUDOverlayHandler
 			heldItem = player.getHeldItemOffhand();
 		FoodStats stats = player.getFoodStats();
 
-		int left = mc.mainWindow.getScaledWidth() / 2 + 91;
-		int top = mc.mainWindow.getScaledHeight() - foodIconsOffset;
 
 		// saturation overlay
-		if (ModConfig.SHOW_SATURATION_OVERLAY.get())
+		if (ModConfig.SHOW_SATURATION_OVERLAY)
 			drawSaturationOverlay(0, stats.getSaturationLevel(), mc, left, top, 1f);
 
-		if (!ModConfig.SHOW_FOOD_VALUES_OVERLAY.get() || heldItem.isEmpty() || !FoodHelper.isFood(heldItem))
+		if (!ModConfig.SHOW_FOOD_VALUES_OVERLAY || heldItem.isEmpty() || !FoodHelper.isFood(heldItem))
 		{
 			flashAlpha = 0;
 			alphaDir = 1;
@@ -96,7 +65,7 @@ public class HUDOverlayHandler
 		FoodHelper.BasicFoodValues foodValues = FoodHelper.getModifiedFoodValues(heldItem, player);
 		drawHungerOverlay(foodValues.hunger, stats.getFoodLevel(), mc, left, top, flashAlpha);
 
-		if (ModConfig.SHOW_SATURATION_OVERLAY.get())
+		if (ModConfig.SHOW_SATURATION_OVERLAY)
 		{
 			int newFoodValue = stats.getFoodLevel() + foodValues.hunger;
 			float newSaturationValue = stats.getSaturationLevel() + foodValues.getSaturationIncrement();
@@ -210,12 +179,8 @@ public class HUDOverlayHandler
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
-	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event)
+	public void onClientTick()
 	{
-		if (event.phase != TickEvent.Phase.END)
-			return;
-
 		flashAlpha += alphaDir * 0.125f;
 		if (flashAlpha >= 1.5f)
 		{

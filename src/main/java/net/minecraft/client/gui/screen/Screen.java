@@ -148,7 +148,7 @@ public abstract class Screen extends FocusableGui implements IRenderable {
     }
 
     protected void renderTooltip(ItemStack p_renderTooltip_1_, int p_renderTooltip_2_, int p_renderTooltip_3_) {
-        this.renderTooltip(this.getTooltipFromItem(p_renderTooltip_1_), p_renderTooltip_2_, p_renderTooltip_3_);
+        this.renderTooltip(this.getTooltipFromItem(p_renderTooltip_1_), p_renderTooltip_2_, p_renderTooltip_3_, p_renderTooltip_1_);
     }
 
     public List<String> getTooltipFromItem(ItemStack p_getTooltipFromItem_1_) {
@@ -167,6 +167,10 @@ public abstract class Screen extends FocusableGui implements IRenderable {
     }
 
     public void renderTooltip(List<String> p_renderTooltip_1_, int p_renderTooltip_2_, int p_renderTooltip_3_) {
+		this.renderTooltip(p_renderTooltip_1_, p_renderTooltip_2_, p_renderTooltip_3_, ItemStack.EMPTY);
+	}
+
+	private void renderTooltip(List<String> p_renderTooltip_1_, int p_renderTooltip_2_, int p_renderTooltip_3_, ItemStack hoveredStack) {
         if (!p_renderTooltip_1_.isEmpty()) {
             GlStateManager.disableRescaleNormal();
             RenderHelper.disableStandardItemLighting();
@@ -196,6 +200,7 @@ public abstract class Screen extends FocusableGui implements IRenderable {
                 i2 = this.height - k - 6;
             }
 
+			int tooltipTop = i2;
             this.blitOffset = 300;
             this.itemRenderer.zLevel = 300.0F;
             int l = -267386864;
@@ -221,6 +226,7 @@ public abstract class Screen extends FocusableGui implements IRenderable {
                 i2 += 10;
             }
 
+			squeek.appleskin.client.TooltipOverlayHandler.onRenderTooltip(hoveredStack, l1, tooltipTop, i, k);
             this.blitOffset = 0;
             this.itemRenderer.zLevel = 0.0F;
             GlStateManager.enableLighting();

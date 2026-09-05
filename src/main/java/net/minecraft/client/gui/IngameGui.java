@@ -1196,6 +1196,7 @@ public class IngameGui extends AbstractGui {
          int j6 = this.func_212306_a(livingentity);
          if (j6 == 0) {
             this.mc.getProfiler().endStartSection("food");
+			squeek.appleskin.AppleSkin.HUD.onPreRender(j1, k1);
 
             for(int k6 = 0; k6 < 10; ++k6) {
                int i7 = k1;
@@ -1221,6 +1222,7 @@ public class IngameGui extends AbstractGui {
                }
             }
 
+			squeek.appleskin.AppleSkin.HUD.onRender(j1, k1);
             l2 -= 10;
          }
 
@@ -1400,6 +1402,7 @@ public class IngameGui extends AbstractGui {
    }
 
    public void tick() {
+		squeek.appleskin.AppleSkin.HUD.onClientTick();
       if (this.overlayMessageTime > 0) {
          --this.overlayMessageTime;
       }
