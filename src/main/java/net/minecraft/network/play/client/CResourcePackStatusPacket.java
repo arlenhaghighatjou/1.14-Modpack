@@ -1,0 +1,37 @@
+package net.minecraft.network.play.client;
+
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.IServerPlayNetHandler;
+
+import java.io.IOException;
+
+public class CResourcePackStatusPacket implements IPacket<IServerPlayNetHandler> {
+    private CResourcePackStatusPacket.Action action;
+
+    public CResourcePackStatusPacket() {
+    }
+
+    public CResourcePackStatusPacket(CResourcePackStatusPacket.Action p_i47156_1_) {
+        this.action = p_i47156_1_;
+    }
+
+    public void readPacketData(PacketBuffer buf) throws IOException {
+        this.action = buf.readEnumValue(CResourcePackStatusPacket.Action.class);
+    }
+
+    public void writePacketData(PacketBuffer buf) throws IOException {
+        buf.writeEnumValue(this.action);
+    }
+
+    public void processPacket(IServerPlayNetHandler handler) {
+        handler.handleResourcePackStatus(this);
+    }
+
+    public static enum Action {
+        SUCCESSFULLY_LOADED,
+        DECLINED,
+        FAILED_DOWNLOAD,
+        ACCEPTED;
+    }
+}

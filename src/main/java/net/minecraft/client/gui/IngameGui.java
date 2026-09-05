@@ -1,0 +1,1693 @@
+package net.minecraft.client.gui;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
+import net.eymenwsmc.network.NetworkHandler;import net.lax1dude.eaglercraft.Random;
+
+import net.lax1dude.eaglercraft.EagRuntime;
+import net.lax1dude.eaglercraft.HString;
+import net.lax1dude.eaglercraft.PointerInputAbstraction;
+import net.lax1dude.eaglercraft.Touch;
+import net.lax1dude.eaglercraft.sp.SingleplayerServerController;
+import net.lax1dude.eaglercraft.touch_gui.EnumTouchControl;
+import net.lax1dude.eaglercraft.touch_gui.TouchControls;
+import net.lax1dude.eaglercraft.touch_gui.TouchOverlayRenderer;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.GameSettings;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.chat.IChatListener;
+import net.minecraft.client.gui.chat.NarratorChatListener;
+import net.minecraft.client.gui.chat.NormalChatListener;
+import net.minecraft.client.gui.chat.OverlayChatListener;
+import net.minecraft.client.gui.overlay.BossOverlayGui;
+import net.minecraft.client.gui.overlay.DebugOverlayGui;
+import net.minecraft.client.gui.overlay.PlayerTabOverlayGui;
+import net.minecraft.client.gui.overlay.SubtitleOverlayGui;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.PotionSpriteUploader;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.AttackIndicatorStatus;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.LightType;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.potion.Effects;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.FoodStats;
+import net.minecraft.util.HandSide;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StringUtils;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.GameType;
+import net.minecraft.world.World;
+import net.minecraft.world.border.WorldBorder;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
+
+@OnlyIn(Dist.CLIENT)
+public class IngameGui extends AbstractGui {
+   private static final ResourceLocation VIGNETTE_TEX_PATH = new ResourceLocation("textures/misc/vignette.png");
+   private static final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
+   private static final ResourceLocation PUMPKIN_BLUR_TEX_PATH = new ResourceLocation("textures/misc/pumpkinblur.png");
+   private final Random rand = new Random();
+   private final Minecraft mc;
+   private final ItemRenderer itemRenderer;
+   private final NewChatGui persistantChatGUI;
+   private int ticks;
+   private String overlayMessage = "";
+   private int overlayMessageTime;
+   private boolean animateOverlayMessageColor;
+   public float prevVignetteBrightness = 0.0F;
+   private int remainingHighlightTicks;
+   private ItemStack highlightingItemStack = ItemStack.EMPTY;
+   private final DebugOverlayGui overlayDebug;
+   private final SubtitleOverlayGui overlaySubtitle;
+   private final SpectatorGui spectatorGui;
+   private final PlayerTabOverlayGui overlayPlayerList;
+   private final BossOverlayGui overlayBoss;
+   private int titlesTimer;
+   private String displayedTitle = "";
+   private String displayedSubTitle = "";
+   private int titleFadeIn;
+   private int titleDisplayTime;
+   private int titleFadeOut;
+   private int playerHealth;
+   private int lastPlayerHealth;
+   private long lastSystemTime;
+   private long healthUpdateCounter;
+   private int scaledWidth;
+   private int scaledHeight;
+   private final Map<ChatType, List<IChatListener>> chatListeners = Maps.newHashMap();
+   private final List<Score> sidebarScoreScratch = new ArrayList<>(16);
+   private final List<SidebarEntry> sidebarEntries = new ArrayList<>(15);
+   private int hotbarAreaX = -1;
+   private int hotbarAreaY = -1;
+   private int hotbarAreaW = -1;
+   private int hotbarAreaH = -1;
+   private int currentHotbarSlotTouch = -1;
+   private long hotbarSlotTouchStart = -1l;
+   private boolean hotbarSlotTouchAlreadySelected = false;
+   private int interactButtonX = -1;
+   private int interactButtonY = -1;
+   private int interactButtonW = -1;
+   private int interactButtonH = -1;
+   private int touchVPosX = -1;
+   private int touchVPosY = -1;
+   private int touchEventUID = -1;
+   private ScoreObjective cachedSidebarObjective;
+   private int cachedSidebarTick = Integer.MIN_VALUE;
+   private String cachedSidebarTitle = "";
+   private int cachedSidebarTitleWidth;
+   private int cachedSidebarWidth;
+
+   public IngameGui(Minecraft mcIn) {
+      this.mc = mcIn;
+      this.itemRenderer = mcIn.getItemRenderer();
+      this.overlayDebug = new DebugOverlayGui(mcIn);
+      this.spectatorGui = new SpectatorGui(mcIn);
+      this.persistantChatGUI = new NewChatGui(mcIn);
+      this.overlayPlayerList = new PlayerTabOverlayGui(mcIn, this);
+      this.overlayBoss = new BossOverlayGui(mcIn);
+      this.overlaySubtitle = new SubtitleOverlayGui(mcIn);
+
+      for(ChatType chattype : ChatType.values()) {
+         this.chatListeners.put(chattype, Lists.newArrayList());
+      }
+
+      IChatListener ichatlistener = NarratorChatListener.INSTANCE;
+      this.chatListeners.get(ChatType.CHAT).add(new NormalChatListener(mcIn));
+      this.chatListeners.get(ChatType.CHAT).add(ichatlistener);
+      this.chatListeners.get(ChatType.SYSTEM).add(new NormalChatListener(mcIn));
+      this.chatListeners.get(ChatType.SYSTEM).add(ichatlistener);
+      this.chatListeners.get(ChatType.GAME_INFO).add(new OverlayChatListener(mcIn));
+      this.setDefaultTitlesTimes();
+   }
+
+   public void setDefaultTitlesTimes() {
+      this.titleFadeIn = 10;
+      this.titleDisplayTime = 70;
+      this.titleFadeOut = 20;
+   }
+
+   public void renderGameOverlay(float partialTicks) {
+      this.scaledWidth = this.mc.mainWindow.getScaledWidth();
+      this.scaledHeight = this.mc.mainWindow.getScaledHeight();
+      FontRenderer fontrenderer = this.getFontRenderer();
+      GlStateManager.enableBlend();
+      if (Minecraft.isFancyGraphicsEnabled()) {
+         this.renderVignette(this.mc.getRenderViewEntity());
+      } else {
+         GlStateManager.enableDepthTest();
+         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+      }
+
+      ItemStack itemstack = this.mc.player.inventory.armorItemInSlot(3);
+      if (this.mc.gameSettings.thirdPersonView == 0 && itemstack.getItem() == Blocks.CARVED_PUMPKIN.asItem()) {
+         this.renderPumpkinOverlay();
+      }
+
+      if (!this.mc.player.isPotionActive(Effects.NAUSEA)) {
+         float f = MathHelper.lerp(partialTicks, this.mc.player.prevTimeInPortal, this.mc.player.timeInPortal);
+         if (f > 0.0F) {
+            this.renderPortal(f);
+         }
+      }
+
+      if (this.mc.playerController.getCurrentGameType() == GameType.SPECTATOR) {
+         this.spectatorGui.renderTooltip(partialTicks);
+      } else if (!this.mc.gameSettings.hideGUI) {
+         this.renderHotbar(partialTicks);
+         this.drawEaglerInteractButton();
+      }
+
+      if (!this.mc.gameSettings.hideGUI) {
+         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+         this.mc.getTextureManager().bindTexture(GUI_ICONS_LOCATION);
+         GlStateManager.enableBlend();
+         GlStateManager.enableAlphaTest();
+         this.renderAttackIndicator();
+         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+         this.mc.getProfiler().startSection("bossHealth");
+         this.overlayBoss.render();
+         this.mc.getProfiler().endSection();
+         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+         this.mc.getTextureManager().bindTexture(GUI_ICONS_LOCATION);
+         if (this.mc.playerController.shouldDrawHUD()) {
+            this.renderPlayerStats();
+         }
+
+         this.renderVehicleHealth();
+         GlStateManager.disableBlend();
+         int l = this.scaledWidth / 2 - 91;
+         if (this.mc.player.isRidingHorse()) {
+            this.renderHorseJumpBar(l);
+         } else if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
+            this.renderExpBar(l);
+         }
+
+         if (this.mc.gameSettings.heldItemTooltips && this.mc.playerController.getCurrentGameType() != GameType.SPECTATOR) {
+            this.renderSelectedItem();
+         } else if (this.mc.player.isSpectator()) {
+            this.spectatorGui.renderSelectedItem();
+         }
+      }
+
+      if (this.mc.player.getSleepTimer() > 0) {
+         this.mc.getProfiler().startSection("sleep");
+         GlStateManager.disableDepthTest();
+         GlStateManager.disableAlphaTest();
+         float f2 = (float)this.mc.player.getSleepTimer();
+         float f1 = f2 / 100.0F;
+         if (f1 > 1.0F) {
+            f1 = 1.0F - (f2 - 100.0F) / 10.0F;
+         }
+
+         int i = (int)(220.0F * f1) << 24 | 1052704;
+         fill(0, 0, this.scaledWidth, this.scaledHeight, i);
+         GlStateManager.enableAlphaTest();
+         GlStateManager.enableDepthTest();
+         this.mc.getProfiler().endSection();
+         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+      }
+
+      if (this.mc.isDemo()) {
+         this.renderDemoOverlay();
+      }
+
+      this.renderPotionEffects();
+      if (this.mc.gameSettings.showDebugInfo) {
+         this.overlayDebug.render();
+      }
+
+      if (!this.mc.gameSettings.hideGUI) {
+         if (this.overlayMessageTime > 0) {
+            this.mc.getProfiler().startSection("overlayMessage");
+            float f3 = (float)this.overlayMessageTime - partialTicks;
+            int i1 = (int)(f3 * 255.0F / 20.0F);
+            if (i1 > 255) {
+               i1 = 255;
+            }
+
+            if (i1 > 8) {
+               GlStateManager.pushMatrix();
+               GlStateManager.translatef((float)(this.scaledWidth / 2), (float)(this.scaledHeight - 68), 0.0F);
+               GlStateManager.enableBlend();
+               GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+               int k1 = 16777215;
+               if (this.animateOverlayMessageColor) {
+                  k1 = MathHelper.hsvToRGB(f3 / 50.0F, 0.7F, 0.6F) & 16777215;
+               }
+
+               int j = i1 << 24 & -16777216;
+               this.func_212909_a(fontrenderer, -4, fontrenderer.getStringWidth(this.overlayMessage));
+               fontrenderer.drawString(this.overlayMessage, (float)(-fontrenderer.getStringWidth(this.overlayMessage) / 2), -4.0F, k1 | j);
+               GlStateManager.disableBlend();
+               GlStateManager.popMatrix();
+            }
+
+            this.mc.getProfiler().endSection();
+         }
+
+         if (this.titlesTimer > 0) {
+            this.mc.getProfiler().startSection("titleAndSubtitle");
+            float f4 = (float)this.titlesTimer - partialTicks;
+            int j1 = 255;
+            if (this.titlesTimer > this.titleFadeOut + this.titleDisplayTime) {
+               float f5 = (float)(this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut) - f4;
+               j1 = (int)(f5 * 255.0F / (float)this.titleFadeIn);
+            }
+
+            if (this.titlesTimer <= this.titleFadeOut) {
+               j1 = (int)(f4 * 255.0F / (float)this.titleFadeOut);
+            }
+
+            j1 = MathHelper.clamp(j1, 0, 255);
+            if (j1 > 8) {
+               GlStateManager.pushMatrix();
+               GlStateManager.translatef((float)(this.scaledWidth / 2), (float)(this.scaledHeight / 2), 0.0F);
+               GlStateManager.enableBlend();
+               GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+               GlStateManager.pushMatrix();
+               GlStateManager.scalef(4.0F, 4.0F, 4.0F);
+               int l1 = j1 << 24 & -16777216;
+               int i2 = fontrenderer.getStringWidth(this.displayedTitle);
+               this.func_212909_a(fontrenderer, -10, i2);
+               fontrenderer.drawStringWithShadow(this.displayedTitle, (float)(-i2 / 2), -10.0F, 16777215 | l1);
+               GlStateManager.popMatrix();
+               if (!this.displayedSubTitle.isEmpty()) {
+                  GlStateManager.pushMatrix();
+                  GlStateManager.scalef(2.0F, 2.0F, 2.0F);
+                  int k = fontrenderer.getStringWidth(this.displayedSubTitle);
+                  this.func_212909_a(fontrenderer, 5, k);
+                  fontrenderer.drawStringWithShadow(this.displayedSubTitle, (float)(-k / 2), 5.0F, 16777215 | l1);
+                  GlStateManager.popMatrix();
+               }
+
+               GlStateManager.disableBlend();
+               GlStateManager.popMatrix();
+            }
+
+            this.mc.getProfiler().endSection();
+         }
+
+         this.overlaySubtitle.render();
+         Scoreboard scoreboard = this.mc.world.getScoreboard();
+         ScoreObjective scoreobjective = null;
+         ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(this.mc.player.getScoreboardName());
+         if (scoreplayerteam != null) {
+            int j2 = scoreplayerteam.getColor().getColorIndex();
+            if (j2 >= 0) {
+               scoreobjective = scoreboard.getObjectiveInDisplaySlot(3 + j2);
+            }
+         }
+
+         ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
+         if (scoreobjective1 != null) {
+            this.renderScoreboard(scoreobjective1);
+         }
+
+         GlStateManager.enableBlend();
+         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+         GlStateManager.disableAlphaTest();
+         GlStateManager.pushMatrix();
+         GlStateManager.translatef(0.0F, (float)(this.scaledHeight - 48), 0.0F);
+         this.mc.getProfiler().startSection("socials_notifications");
+         NetworkHandler.renderNotifications(this.scaledWidth, this.scaledHeight, partialTicks);
+         this.mc.getProfiler().endSection();
+
+         this.mc.getProfiler().startSection("chat");
+         this.persistantChatGUI.render(this.ticks);
+         this.mc.getProfiler().endSection();
+         GlStateManager.popMatrix();
+
+         if (this.mc.notifRenderer != null) {
+            this.mc.getProfiler().startSection("server_notifications");
+            this.mc.notifRenderer.renderOverlay(0, 0);
+            this.mc.getProfiler().endSection();
+         }
+
+         if (this.mc.voiceOverlay != null) {
+            this.mc.getProfiler().startSection("voice_overlay");
+            this.mc.voiceOverlay.drawOverlay();
+            this.mc.getProfiler().endSection();
+         }
+         scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
+         if (!this.mc.gameSettings.keyBindPlayerList.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.player.connection.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
+            this.overlayPlayerList.setVisible(false);
+         } else {
+            this.overlayPlayerList.setVisible(true);
+            this.overlayPlayerList.render(this.scaledWidth, scoreboard, scoreobjective1);
+         }
+      }
+      drawFps();
+
+      drawSingleplayerStats();
+
+      if (mc.player != null && !mc.gameSettings.showDebugInfo) {
+         if (mc.gameSettings.hudWorld) {
+            drawWorldHUD(2, this.scaledHeight - 2);
+         }
+         if (mc.gameSettings.hudStats) {
+            drawStatsHUD(this.scaledWidth - 2, this.scaledHeight - 2);
+         }
+      }
+
+      GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+      GlStateManager.disableLighting();
+      GlStateManager.enableAlphaTest();
+   }
+
+   private void func_212909_a(FontRenderer p_212909_1_, int p_212909_2_, int p_212909_3_) {
+      int i = this.mc.gameSettings.func_216841_b(0.0F);
+      if (i != 0) {
+         int j = -p_212909_3_ / 2;
+         fill(j - 2, p_212909_2_ - 2, j + p_212909_3_ + 2, p_212909_2_ + 9 + 2, i);
+      }
+
+   }
+
+   private void renderAttackIndicator() {
+      GameSettings gamesettings = this.mc.gameSettings;
+      if (gamesettings.thirdPersonView == 0) {
+         if (this.mc.playerController.getCurrentGameType() != GameType.SPECTATOR || this.func_212913_a(this.mc.objectMouseOver)) {
+
+            GlStateManager.enableBlend();
+            GlStateManager.enableAlphaTest();
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+            if (gamesettings.showDebugInfo && !gamesettings.hideGUI && !this.mc.player.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
+               GlStateManager.pushMatrix();
+               GlStateManager.translatef((float)(this.scaledWidth / 2), (float)(this.scaledHeight / 2), (float)this.blitOffset);
+               ActiveRenderInfo activerenderinfo = this.mc.gameRenderer.getActiveRenderInfo();
+               GlStateManager.rotatef(activerenderinfo.getPitch(), -1.0F, 0.0F, 0.0F);
+               GlStateManager.rotatef(activerenderinfo.getYaw(), 0.0F, 1.0F, 0.0F);
+               GlStateManager.scalef(-1.0F, -1.0F, -1.0F);
+               GLX.renderCrosshair(10);
+               GlStateManager.popMatrix();
+            } else {
+               GlStateManager.blendFuncSeparate(
+                       GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
+                       GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
+                       GlStateManager.SourceFactor.ONE,
+                       GlStateManager.DestFactor.ZERO
+               );
+
+               GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+               this.blit((this.scaledWidth - 15) / 2, (this.scaledHeight - 15) / 2, 0, 0, 15, 15);
+
+               if (this.mc.gameSettings.attackIndicator == AttackIndicatorStatus.CROSSHAIR) {
+
+                  GlStateManager.blendFuncSeparate(
+                          GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
+                          GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
+                          GlStateManager.SourceFactor.ONE,
+                          GlStateManager.DestFactor.ZERO
+                  );
+
+                  GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+                  float f = this.mc.player.getCooledAttackStrength(0.0F);
+                  boolean flag = false;
+                  if (this.mc.pointedEntity != null && this.mc.pointedEntity instanceof LivingEntity && f >= 1.0F) {
+                     flag = this.mc.player.getCooldownPeriod() > 5.0F;
+                     flag = flag & this.mc.pointedEntity.isAlive();
+                  }
+
+                  int j = this.scaledHeight / 2 - 7 + 16;
+                  int k = this.scaledWidth / 2 - 8;
+                  if (flag) {
+                     this.blit(k, j, 68, 94, 16, 16);
+                  } else if (f < 1.0F) {
+                     int l = (int)(f * 17.0F);
+                     GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                     this.blit(k, j, 36, 94, 16, 4);
+                     this.blit(k, j, 52, 94, l, 4);
+                  }
+               }
+            }
+
+            GlStateManager.blendFuncSeparate(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                    GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO
+            );
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+         }
+      }
+   }
+
+   private void drawFps() {
+      if (!this.mc.gameSettings.hideGUI && this.mc.player != null && !this.mc.gameSettings.showDebugInfo) {
+         GlStateManager.pushMatrix();
+         GlStateManager.disableDepthTest();
+
+         String fpsText = "FPS: " + Minecraft.getDebugFPS();
+
+         double pX = this.mc.player.posX;
+         double pY = this.mc.player.posY;
+         double pZ = this.mc.player.posZ;
+         String xyzText = HString.format("X: %.2f Y: %.2f Z: %.2f", pX, pY, pZ);
+         float currentY = 5.0F;
+         if (mc.gameSettings.showFps) {
+            getFontRenderer().beginBatch();
+            try {
+               getFontRenderer().drawStringWithShadow(fpsText, 5.0F, currentY, 0xFFFFFF);
+               currentY += 10.0F;
+
+               if (mc.gameSettings.showXYZ) {
+                  getFontRenderer().drawStringWithShadow(xyzText, 5.0F, currentY, 0xFFFFFF);
+                  currentY += 10.0F;
+               }
+            } finally {
+               getFontRenderer().endBatch();
+            }
+         } else if (mc.gameSettings.showXYZ) {
+            getFontRenderer().drawStringWithShadow(xyzText, 5.0F, currentY, 0xFFFFFF);
+         }
+
+         GlStateManager.enableDepthTest();
+         GlStateManager.popMatrix();
+      }
+   }
+
+   private int drawSingleplayerStats() {
+      if (mc.isDemo()) {
+         return 13;
+      }
+
+      int i = 0;
+      if (SingleplayerServerController.isWorldRunning()) {
+         long tpsAge = SingleplayerServerController.getTPSAge();
+         if (tpsAge < 20000l) {
+            int color = tpsAge > 2000l ? 0x777777 : 0xFFFFFF;
+            List<String> strs = SingleplayerServerController.getTPS();
+            if (SingleplayerServerController.isRunningSingleThreadMode()) {
+               strs = Lists.newArrayList(strs);
+               strs.add("");
+               strs.add(I18n.format("singleplayer.tpscounter.singleThreadMode"));
+            }
+            int l;
+            int w = Minecraft.getInstance().mainWindow.getScaledWidth();
+            boolean first = true;
+            for (int j = 0, m = strs.size(); j < m; ++j) {
+               String str = strs.get(j);
+               if (!org.apache.commons.lang3.StringUtils.isAllEmpty(str)) {
+                  l = (int) (this.getFontRenderer().getStringWidth(str) * (!first ? 0.5f : 1.0f));
+                  GlStateManager.pushMatrix();
+                  GlStateManager.translated(w - 2 - l, i + 2, 0.0f);
+                  if (!first) {
+                     GlStateManager.scalef(0.5f, 0.5f, 0.5f);
+                  }
+                  if (!mc.gameSettings.showDebugInfo) {
+                     this.getFontRenderer().drawStringWithShadow(str, 0, 0, color);
+                  }
+                  GlStateManager.popMatrix();
+                  if (color == 0xFFFFFF) {
+                     color = 14737632;
+                  }
+               }
+               i += (int) (this.getFontRenderer().FONT_HEIGHT * (!first ? 0.5f : 1.0f));
+               first = false;
+            }
+         }
+      }
+      return i > 0 ? i + 2 : i;
+   }
+
+   private int getSingleplayerStatsHeight() {
+      if (mc.isDemo() || mc.gameSettings.showDebugInfo) {
+         return 0;
+      }
+      int i = 0;
+      if (SingleplayerServerController.isWorldRunning()) {
+         if (SingleplayerServerController.getTPSAge() < 20000l) {
+            List<String> strs = SingleplayerServerController.getTPS();
+            if (SingleplayerServerController.isRunningSingleThreadMode()) {
+               strs = Lists.newArrayList(strs);
+               strs.add("");
+               strs.add(I18n.format("singleplayer.tpscounter.singleThreadMode"));
+            }
+            boolean first = true;
+            for (int j = 0, m = strs.size(); j < m; ++j) {
+               i += (int) (this.getFontRenderer().FONT_HEIGHT * (!first ? 0.5f : 1.0f));
+               first = false;
+            }
+         }
+      }
+      return i > 0 ? i + 2 : i;
+   }
+
+   private void drawStatsHUD(int x, int y) {
+      int i = 9;
+
+      String line = "Walk: " + TextFormatting.YELLOW + HString.format("%.2f", mc.player.getAIMoveSpeed())
+            + TextFormatting.WHITE + " Flight: "
+            + (mc.player.abilities.allowFlying
+                  ? ("" + TextFormatting.YELLOW + mc.player.abilities.getFlySpeed())
+                  : TextFormatting.RED + "No");
+      int lw = getFontRenderer().getStringWidth(line);
+      getFontRenderer().drawStringWithShadow(line, x - lw, y - i, 0xFFFFFF);
+      i += 11;
+
+      line = "Food: " + TextFormatting.YELLOW + mc.player.getFoodStats().getFoodLevel()
+            + TextFormatting.WHITE + ", Sat: " + TextFormatting.YELLOW
+            + HString.format("%.1f", mc.player.getFoodStats().getSaturationLevel());
+      lw = getFontRenderer().getStringWidth(line);
+      getFontRenderer().drawStringWithShadow(line, x - lw, y - i, 0xFFFFFF);
+      i += 11;
+
+      line = "Amr: " + TextFormatting.YELLOW + mc.player.getTotalArmorValue() + TextFormatting.WHITE
+            + ", Health: " + TextFormatting.RED + HString.format("%.1f", mc.player.getHealth());
+      lw = getFontRenderer().getStringWidth(line);
+      getFontRenderer().drawStringWithShadow(line, x - lw, y - i, 0xFFFFFF);
+      i += 11;
+
+      int xpc = mc.player.xpBarCap();
+      line = "XP: " + TextFormatting.GREEN + MathHelper.floor(mc.player.experience * xpc)
+            + TextFormatting.WHITE + " / " + TextFormatting.GREEN + xpc;
+      lw = getFontRenderer().getStringWidth(line);
+      getFontRenderer().drawStringWithShadow(line, x - lw, y - i, 0xFFFFFF);
+      i += 11;
+
+      for (EffectInstance e : mc.player.getActivePotionEffects()) {
+         i += 11;
+         int t = e.getDuration() / 20;
+         int m = t / 60;
+         int s = t % 60;
+         int j = e.getAmplifier();
+         if (j > 0) {
+            line = I18n.format(e.getEffectName())
+                  + (j > 0 ? (" " + TextFormatting.YELLOW + TextFormatting.BOLD
+                        + I18n.format("potion.potency." + j) + TextFormatting.RESET) : "")
+                  + " [" + TextFormatting.YELLOW + HString.format("%02d:%02d", m, s)
+                  + TextFormatting.RESET + "]";
+         } else {
+            line = I18n.format(e.getEffectName()) + " [" + TextFormatting.YELLOW
+                  + HString.format("%02d:%02d", m, s) + TextFormatting.RESET + "]";
+         }
+         lw = getFontRenderer().getStringWidth(line);
+         getFontRenderer().drawStringWithShadow(line, x - lw, y - i, 0xFFFFFF);
+      }
+
+   }
+
+   public static final int ticksAtMidnight = 18000;
+   public static final int ticksPerDay = 24000;
+   public static final int ticksPerHour = 1000;
+   public static final double ticksPerMinute = 1000d / 60d;
+   public static final double ticksPerSecond = 1000d / 60d / 60d;
+   private static final SimpleDateFormat SDFTwentyFour = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+   private static final SimpleDateFormat SDFTwelve = new SimpleDateFormat("h:mm aa", Locale.ENGLISH);
+
+   private void drawWorldHUD(int x, int y) {
+      long totalTicks = mc.world.getDayTime();
+      long ticks = totalTicks;
+      ticks = ticks - ticksAtMidnight + ticksPerDay;
+      final long days = ticks / ticksPerDay;
+      ticks -= days * ticksPerDay;
+      final long hours = ticks / ticksPerHour;
+      ticks -= hours * ticksPerHour;
+      final long minutes = (long) Math.floor(ticks / ticksPerMinute);
+      final double dticks = ticks - minutes * ticksPerMinute;
+      final long seconds = (long) Math.floor(dticks / ticksPerSecond);
+
+      final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.ENGLISH);
+
+      cal.setLenient(true);
+      cal.set(0, Calendar.JANUARY, 1, 0, 0, 0);
+      cal.add(Calendar.DAY_OF_YEAR, (int) days);
+      cal.add(Calendar.HOUR_OF_DAY, (int) hours);
+      cal.add(Calendar.MINUTE, (int) minutes);
+      cal.add(Calendar.SECOND, (int) seconds + 1);
+
+      SimpleDateFormat fmt = SDFTwelve;
+      fmt.setCalendar(cal);
+      String timeString = TextFormatting.WHITE + "Day " + ((totalTicks + 30000l) / 24000l) + " ("
+            + TextFormatting.YELLOW + fmt.format(cal.getTime()) + TextFormatting.WHITE + ")";
+
+      Entity e = mc.getRenderViewEntity();
+      BlockPos blockpos = new BlockPos(e.posX, MathHelper.clamp(e.getBoundingBox().minY, 0.0D, 254.0D), e.posZ);
+      Biome biome = mc.world.getBiome(blockpos);
+
+      int blockLight = mc.world.getLightFor(LightType.BLOCK, blockpos);
+      int skyLight = mc.world.getLightFor(LightType.SKY, blockpos) - mc.world.getSkylightSubtracted();
+      int totalLight = Math.max(blockLight, skyLight);
+      TextFormatting lightColor = blockLight < 8
+            ? ((skyLight < 8 || !mc.world.isDaytime()) ? TextFormatting.RED : TextFormatting.YELLOW)
+            : TextFormatting.GREEN;
+      String lightString = "Light: " + lightColor + totalLight + TextFormatting.WHITE;
+
+      float temp = biome.getTemperature(blockpos);
+
+      String tempString = "Temp: "
+            + ((blockLight > 11 || temp > 0.15f) ? TextFormatting.YELLOW : TextFormatting.AQUA)
+            + HString.format("%.2f", temp) + TextFormatting.WHITE;
+
+      getFontRenderer().drawStringWithShadow(timeString, x, y - 30, 0xFFFFFF);
+      getFontRenderer().drawStringWithShadow("Biome: " + TextFormatting.AQUA + biome.getDisplayName().getString(), x, y - 19, 0xFFFFFF);
+      getFontRenderer().drawStringWithShadow(lightString + " " + tempString, x, y - 8, 0xFFFFFF);
+   }
+   private boolean func_212913_a(RayTraceResult p_212913_1_) {
+      if (p_212913_1_ == null) {
+         return false;
+      } else if (p_212913_1_.getType() == RayTraceResult.Type.ENTITY) {
+         return ((EntityRayTraceResult)p_212913_1_).getEntity() instanceof INamedContainerProvider;
+      } else if (p_212913_1_.getType() == RayTraceResult.Type.BLOCK) {
+         BlockPos blockpos = ((BlockRayTraceResult)p_212913_1_).getPos();
+         World world = this.mc.world;
+         return world.getBlockState(blockpos).getContainer(world, blockpos) != null;
+      } else {
+         return false;
+      }
+   }
+
+   protected void renderPotionEffects() {
+      Collection<EffectInstance> collection = this.mc.player.getActivePotionEffects();
+      if (!collection.isEmpty()) {
+         GlStateManager.enableBlend();
+         int i = 0;
+         int j = 0;
+         PotionSpriteUploader potionspriteuploader = this.mc.getPotionSpriteUploader();
+         List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
+         this.mc.getTextureManager().bindTexture(ContainerScreen.INVENTORY_BACKGROUND);
+
+         for(EffectInstance effectinstance : Ordering.natural().reverse().sortedCopy(collection)) {
+            Effect effect = effectinstance.getPotion();
+            if (effectinstance.isShowIcon()) {
+               int k = this.scaledWidth;
+               int l = 1 + this.getSingleplayerStatsHeight();
+               if (this.mc.isDemo()) {
+                  l += 15;
+               }
+
+               if (effect.isBeneficial()) {
+                  ++i;
+                  k = k - 25 * i;
+               } else {
+                  ++j;
+                  k = k - 25 * j;
+                  l += 26;
+               }
+
+               GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+               float f = 1.0F;
+               if (effectinstance.isAmbient()) {
+                  this.blit(k, l, 165, 166, 24, 24);
+               } else {
+                  this.blit(k, l, 141, 166, 24, 24);
+                  if (effectinstance.getDuration() <= 200) {
+                     int i1 = 10 - effectinstance.getDuration() / 20;
+                     f = MathHelper.clamp((float)effectinstance.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos((float)effectinstance.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp((float)i1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                  }
+               }
+
+               float f_f = f;
+               int k_f = k;
+               int l_f = l;
+               TextureAtlasSprite textureatlassprite = potionspriteuploader.getSprite(effect);
+               list.add(() -> {
+                  GlStateManager.color4f(1.0F, 1.0F, 1.0F, f_f);
+                  blit(k_f + 3, l_f + 3, this.blitOffset, 18, 18, textureatlassprite);
+               });
+            }
+         }
+
+         this.mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_EFFECTS_TEXTURE);
+         GL11.glTexParameteri(3553, 10241, 9728);
+         GL11.glTexParameteri(3553, 10240, 9728);
+         list.forEach(Runnable::run);
+      }
+   }
+
+   protected void renderHotbar(float partialTicks) {
+      PlayerEntity playerentity = this.func_212304_m();
+      if (playerentity != null) {
+         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+         this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
+         ItemStack itemstack = playerentity.getHeldItemOffhand();
+         HandSide handside = playerentity.getPrimaryHand().opposite();
+         int i = this.scaledWidth / 2;
+         int j = this.blitOffset;
+         if (PointerInputAbstraction.isTouchMode()) {
+            int fw = this.mc.mainWindow.getFramebufferWidth();
+            int fh = this.mc.mainWindow.getFramebufferHeight();
+            int sw = this.scaledWidth;
+            int sh = this.scaledHeight;
+            int areaHAdd = 0;
+            if (playerentity.isSpectator()) {
+               areaHAdd = 40;
+            }
+            this.hotbarAreaX = (i - 91) * fw / sw;
+            this.hotbarAreaY = (sh - 22 - areaHAdd) * fh / sh;
+            this.hotbarAreaW = 203 * fw / sw;
+            this.hotbarAreaH = (22 + areaHAdd) * fh / sh;
+         } else {
+            this.hotbarAreaX = -1;
+            this.hotbarAreaY = -1;
+            this.hotbarAreaW = -1;
+            this.hotbarAreaH = -1;
+         }
+         int k = 182;
+         int l = 91;
+         this.blitOffset = -90;
+         if (PointerInputAbstraction.isTouchMode()) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translatef((float)this.scaledWidth / -4.0F, (float)this.scaledHeight / -2.0F, (float)this.blitOffset);
+            GlStateManager.scalef(1.5f, 1.5f, 1.5f);
+         }
+         this.blit(i - 91, this.scaledHeight - 22, 0, 0, 182, 22);
+         this.blit(i - 91 - 1 + playerentity.inventory.currentItem * 20, this.scaledHeight - 22 - 1, 0, 22, 24, 22);
+         if (!itemstack.isEmpty()) {
+            if (handside == HandSide.LEFT) {
+               this.blit(i - 91 - 29, this.scaledHeight - 23, 24, 22, 29, 24);
+            } else {
+               this.blit(i + 91, this.scaledHeight - 23, 53, 22, 29, 24);
+            }
+         }
+
+         this.blitOffset = j;
+         GlStateManager.enableRescaleNormal();
+         GlStateManager.enableBlend();
+         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+         RenderHelper.enableGUIStandardItemLighting();
+
+         for(int i1 = 0; i1 < 9; ++i1) {
+            int j1 = i - 90 + i1 * 20 + 2;
+            int k1 = this.scaledHeight - 16 - 3;
+            this.renderHotbarItem(j1, k1, partialTicks, playerentity, playerentity.inventory.mainInventory.get(i1));
+         }
+
+         if (!itemstack.isEmpty()) {
+            int i2 = this.scaledHeight - 16 - 3;
+            if (handside == HandSide.LEFT) {
+               this.renderHotbarItem(i - 91 - 26, i2, partialTicks, playerentity, itemstack);
+            } else {
+               this.renderHotbarItem(i + 91 + 10, i2, partialTicks, playerentity, itemstack);
+            }
+         }
+
+         if (PointerInputAbstraction.isTouchMode()) {
+            GlStateManager.popMatrix();
+         }
+         if (this.mc.gameSettings.attackIndicator == AttackIndicatorStatus.HOTBAR) {
+            float f = this.mc.player.getCooledAttackStrength(0.0F);
+            if (f < 1.0F) {
+               int j2 = this.scaledHeight - 20;
+               int k2 = i + 91 + 6;
+               if (handside == HandSide.RIGHT) {
+                  k2 = i - 91 - 22;
+               }
+
+               this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+               int l1 = (int)(f * 19.0F);
+               GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+               this.blit(k2, j2, 0, 94, 18, 18);
+               this.blit(k2, j2 + 18 - l1, 18, 112 - l1, 18, l1);
+            }
+         }
+
+         RenderHelper.disableStandardItemLighting();
+         GlStateManager.disableRescaleNormal();
+         GlStateManager.disableBlend();
+      }
+   }
+
+   public void renderHorseJumpBar(int x) {
+      this.mc.getProfiler().startSection("jumpBar");
+      this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+      float f = this.mc.player.getHorseJumpPower();
+      int i = 182;
+      int j = (int)(f * 183.0F);
+      int k = this.scaledHeight - 32 + 3;
+      this.blit(x, k, 0, 84, 182, 5);
+      if (j > 0) {
+         this.blit(x, k, 0, 89, j, 5);
+      }
+
+      this.mc.getProfiler().endSection();
+   }
+
+   public void renderExpBar(int x) {
+      this.mc.getProfiler().startSection("expBar");
+      this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
+      int i = this.mc.player.xpBarCap();
+      if (i > 0) {
+         int j = 182;
+         int k = (int)(this.mc.player.experience * 183.0F);
+         int l = this.scaledHeight - 32 + 3;
+         this.blit(x, l, 0, 64, 182, 5);
+         if (k > 0) {
+            this.blit(x, l, 0, 69, k, 5);
+         }
+      }
+
+      this.mc.getProfiler().endSection();
+      if (this.mc.player.experienceLevel > 0) {
+         this.mc.getProfiler().startSection("expLevel");
+         String s = "" + this.mc.player.experienceLevel;
+         int i1 = (this.scaledWidth - this.getFontRenderer().getStringWidth(s)) / 2;
+         int j1 = this.scaledHeight - 31 - 4;
+         this.getFontRenderer().drawString(s, (float)(i1 + 1), (float)j1, 0);
+         this.getFontRenderer().drawString(s, (float)(i1 - 1), (float)j1, 0);
+         this.getFontRenderer().drawString(s, (float)i1, (float)(j1 + 1), 0);
+         this.getFontRenderer().drawString(s, (float)i1, (float)(j1 - 1), 0);
+         this.getFontRenderer().drawString(s, (float)i1, (float)j1, 8453920);
+         this.mc.getProfiler().endSection();
+      }
+
+   }
+
+   public void renderSelectedItem() {
+      this.mc.getProfiler().startSection("selectedItemName");
+      if (this.remainingHighlightTicks > 0 && !this.highlightingItemStack.isEmpty()) {
+         ITextComponent itextcomponent = (new StringTextComponent("")).appendSibling(this.highlightingItemStack.getDisplayName()).applyTextStyle(this.highlightingItemStack.getRarity().color);
+         if (this.highlightingItemStack.hasDisplayName()) {
+            itextcomponent.applyTextStyle(TextFormatting.ITALIC);
+         }
+
+         String s = itextcomponent.getFormattedText();
+         int i = (this.scaledWidth - this.getFontRenderer().getStringWidth(s)) / 2;
+         int j = this.scaledHeight - 59;
+         if (!this.mc.playerController.shouldDrawHUD()) {
+            j += 14;
+         }
+
+         int k = (int)((float)this.remainingHighlightTicks * 256.0F / 10.0F);
+         if (k > 255) {
+            k = 255;
+         }
+
+         if (k > 0) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            fill(i - 2, j - 2, i + this.getFontRenderer().getStringWidth(s) + 2, j + 9 + 2, this.mc.gameSettings.func_216839_a(0));
+            this.getFontRenderer().drawStringWithShadow(s, (float)i, (float)j, 16777215 + (k << 24));
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+         }
+      }
+
+      this.mc.getProfiler().endSection();
+   }
+
+   public void renderDemoOverlay() {
+      this.mc.getProfiler().startSection("demo");
+      String s;
+      if (this.mc.world.getGameTime() >= 120500L) {
+         s = I18n.format("demo.demoExpired");
+      } else {
+         s = I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int)(120500L - this.mc.world.getGameTime())));
+      }
+
+      int i = this.getFontRenderer().getStringWidth(s);
+      this.getFontRenderer().drawStringWithShadow(s, (float)(this.scaledWidth - i - 10), 5.0F, 16777215);
+      this.mc.getProfiler().endSection();
+   }
+
+   private void renderScoreboard(ScoreObjective objective) {
+      Scoreboard scoreboard = objective.getScoreboard();
+      this.updateSidebarCache(objective, scoreboard);
+      List<SidebarEntry> entries = this.sidebarEntries;
+      String s = this.cachedSidebarTitle;
+      int i = this.cachedSidebarTitleWidth;
+      int j = this.cachedSidebarWidth;
+
+      int l1 = entries.size() * 9;
+      int i2 = this.scaledHeight / 2 + l1 / 3;
+      int j2 = 3;
+      int k2 = this.scaledWidth - j - 3;
+      int k = 0;
+      int l = 0x80000000;
+      int i1 = 0x90000000; 
+
+      beginHudBatch();
+      this.getFontRenderer().beginBatch();
+      try {
+         for(SidebarEntry entry : entries) {
+            ++k;
+            String s2 = entry.name;
+            String s3 = entry.score;
+            int j1 = i2 - k * 9;
+            int k1 = this.scaledWidth - 3 + 2;
+            fill(k2 - 2, j1, k1, j1 + 9, l);
+            this.getFontRenderer().drawString(s2, (float)k2, (float)j1, 0xFFFFFFFF);
+            this.getFontRenderer().drawString(s3, (float)(k1 - this.getFontRenderer().getStringWidth(s3)), (float)j1, 0xFFFFFFFF);
+            if (k == entries.size()) {
+               fill(k2 - 2, j1 - 9 - 1, k1, j1 - 1, i1);
+               fill(k2 - 2, j1 - 1, k1, j1, l);
+               this.getFontRenderer().drawString(s, (float)(k2 + j / 2 - i / 2), (float)(j1 - 9), 0xFFFFFF00);
+            }
+         }
+      } finally {
+         endHudBatch();
+         this.getFontRenderer().endBatch();
+      }
+
+   }
+
+   private void updateSidebarCache(ScoreObjective objective, Scoreboard scoreboard) {
+      if (this.cachedSidebarObjective == objective && this.cachedSidebarTick == this.ticks) {
+         return;
+      }
+      this.cachedSidebarObjective = objective;
+      this.cachedSidebarTick = this.ticks;
+      this.sidebarScoreScratch.clear();
+      for (Score score : scoreboard.getSortedScores(objective)) {
+         String playerName = score.getPlayerName();
+         if (playerName != null && !playerName.startsWith("#")) {
+            this.sidebarScoreScratch.add(score);
+         }
+      }
+
+      this.sidebarEntries.clear();
+      this.cachedSidebarTitle = objective.getDisplayName().getFormattedText();
+      this.cachedSidebarTitleWidth = this.getFontRenderer().getStringWidth(this.cachedSidebarTitle);
+      this.cachedSidebarWidth = this.cachedSidebarTitleWidth;
+      int first = Math.max(0, this.sidebarScoreScratch.size() - 15);
+      for (int index = first; index < this.sidebarScoreScratch.size(); ++index) {
+         Score score = this.sidebarScoreScratch.get(index);
+         ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
+         String name = ScorePlayerTeam.formatMemberName(team,
+               new StringTextComponent(score.getPlayerName())).getFormattedText();
+         String scoreText = TextFormatting.RED + "" + score.getScorePoints();
+         this.cachedSidebarWidth = Math.max(this.cachedSidebarWidth,
+               this.getFontRenderer().getStringWidth(name + ": " + scoreText));
+         this.sidebarEntries.add(new SidebarEntry(name, scoreText));
+      }
+   }
+
+   private static class SidebarEntry {
+      final String name;
+      final String score;
+
+      SidebarEntry(String name, String score) {
+         this.name = name;
+         this.score = score;
+      }
+   }
+
+   private PlayerEntity func_212304_m() {
+      return !(this.mc.getRenderViewEntity() instanceof PlayerEntity) ? null : (PlayerEntity)this.mc.getRenderViewEntity();
+   }
+
+   private LivingEntity func_212305_n() {
+      PlayerEntity playerentity = this.func_212304_m();
+      if (playerentity != null) {
+         Entity entity = playerentity.getRidingEntity();
+         if (entity == null) {
+            return null;
+         }
+
+         if (entity instanceof LivingEntity) {
+            return (LivingEntity)entity;
+         }
+      }
+
+      return null;
+   }
+
+   private int func_212306_a(LivingEntity p_212306_1_) {
+      if (p_212306_1_ != null && p_212306_1_.isLiving()) {
+         float f = p_212306_1_.getMaxHealth();
+         int i = (int)(f + 0.5F) / 2;
+         if (i > 30) {
+            i = 30;
+         }
+
+         return i;
+      } else {
+         return 0;
+      }
+   }
+
+   private int func_212302_c(int p_212302_1_) {
+      return (int)Math.ceil((double)p_212302_1_ / 10.0D);
+   }
+
+   private void renderPlayerStats() {
+      PlayerEntity playerentity = this.func_212304_m();
+      if (playerentity != null) {
+         int i = MathHelper.ceil(playerentity.getHealth());
+         boolean flag = this.healthUpdateCounter > (long)this.ticks && (this.healthUpdateCounter - (long)this.ticks) / 3L % 2L == 1L;
+         long j = Util.milliTime();
+         if (i < this.playerHealth && playerentity.hurtResistantTime > 0) {
+            this.lastSystemTime = j;
+            this.healthUpdateCounter = (long)(this.ticks + 20);
+         } else if (i > this.playerHealth && playerentity.hurtResistantTime > 0) {
+            this.lastSystemTime = j;
+            this.healthUpdateCounter = (long)(this.ticks + 10);
+         }
+
+         if (j - this.lastSystemTime > 1000L) {
+            this.playerHealth = i;
+            this.lastPlayerHealth = i;
+            this.lastSystemTime = j;
+         }
+
+         this.playerHealth = i;
+         int k = this.lastPlayerHealth;
+         this.rand.setSeed((long)(this.ticks * 312871));
+         FoodStats foodstats = playerentity.getFoodStats();
+         int l = foodstats.getFoodLevel();
+         IAttributeInstance iattributeinstance = playerentity.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
+         int i1 = this.scaledWidth / 2 - 91;
+         int j1 = this.scaledWidth / 2 + 91;
+         int k1 = this.scaledHeight - 39;
+         float f = (float)iattributeinstance.getValue();
+         int l1 = MathHelper.ceil(playerentity.getAbsorptionAmount());
+         int i2 = MathHelper.ceil((f + (float)l1) / 2.0F / 10.0F);
+         int j2 = Math.max(10 - (i2 - 2), 3);
+         int k2 = k1 - (i2 - 1) * j2 - 10;
+         int l2 = k1 - 10;
+         int i3 = l1;
+         int j3 = playerentity.getTotalArmorValue();
+         int k3 = -1;
+         if (playerentity.isPotionActive(Effects.REGENERATION)) {
+            k3 = this.ticks % MathHelper.ceil(f + 5.0F);
+         }
+
+         this.mc.getProfiler().startSection("armor");
+
+         for(int l3 = 0; l3 < 10; ++l3) {
+            if (j3 > 0) {
+               int i4 = i1 + l3 * 8;
+               if (l3 * 2 + 1 < j3) {
+                  this.blit(i4, k2, 34, 9, 9, 9);
+               }
+
+               if (l3 * 2 + 1 == j3) {
+                  this.blit(i4, k2, 25, 9, 9, 9);
+               }
+
+               if (l3 * 2 + 1 > j3) {
+                  this.blit(i4, k2, 16, 9, 9, 9);
+               }
+            }
+         }
+
+         this.mc.getProfiler().endStartSection("health");
+
+         for(int l5 = MathHelper.ceil((f + (float)l1) / 2.0F) - 1; l5 >= 0; --l5) {
+            int i6 = 16;
+            if (playerentity.isPotionActive(Effects.POISON)) {
+               i6 += 36;
+            } else if (playerentity.isPotionActive(Effects.WITHER)) {
+               i6 += 72;
+            }
+
+            int j4 = 0;
+            if (flag) {
+               j4 = 1;
+            }
+
+            int k4 = MathHelper.ceil((float)(l5 + 1) / 10.0F) - 1;
+            int l4 = i1 + l5 % 10 * 8;
+            int i5 = k1 - k4 * j2;
+            if (i <= 4) {
+               i5 += this.rand.nextInt(2);
+            }
+
+            if (i3 <= 0 && l5 == k3) {
+               i5 -= 2;
+            }
+
+            int j5 = 0;
+            if (playerentity.world.getWorldInfo().isHardcore()) {
+               j5 = 5;
+            }
+
+            this.blit(l4, i5, 16 + j4 * 9, 9 * j5, 9, 9);
+            if (flag) {
+               if (l5 * 2 + 1 < k) {
+                  this.blit(l4, i5, i6 + 54, 9 * j5, 9, 9);
+               }
+
+               if (l5 * 2 + 1 == k) {
+                  this.blit(l4, i5, i6 + 63, 9 * j5, 9, 9);
+               }
+            }
+
+            if (i3 > 0) {
+               if (i3 == l1 && l1 % 2 == 1) {
+                  this.blit(l4, i5, i6 + 153, 9 * j5, 9, 9);
+                  --i3;
+               } else {
+                  this.blit(l4, i5, i6 + 144, 9 * j5, 9, 9);
+                  i3 -= 2;
+               }
+            } else {
+               if (l5 * 2 + 1 < i) {
+                  this.blit(l4, i5, i6 + 36, 9 * j5, 9, 9);
+               }
+
+               if (l5 * 2 + 1 == i) {
+                  this.blit(l4, i5, i6 + 45, 9 * j5, 9, 9);
+               }
+            }
+         }
+
+         LivingEntity livingentity = this.func_212305_n();
+         int j6 = this.func_212306_a(livingentity);
+         if (j6 == 0) {
+            this.mc.getProfiler().endStartSection("food");
+
+            for(int k6 = 0; k6 < 10; ++k6) {
+               int i7 = k1;
+               int k7 = 16;
+               int i8 = 0;
+               if (playerentity.isPotionActive(Effects.HUNGER)) {
+                  k7 += 36;
+                  i8 = 13;
+               }
+
+               if (playerentity.getFoodStats().getSaturationLevel() <= 0.0F && this.ticks % (l * 3 + 1) == 0) {
+                  i7 = k1 + (this.rand.nextInt(3) - 1);
+               }
+
+               int k8 = j1 - k6 * 8 - 9;
+               this.blit(k8, i7, 16 + i8 * 9, 27, 9, 9);
+               if (k6 * 2 + 1 < l) {
+                  this.blit(k8, i7, k7 + 36, 27, 9, 9);
+               }
+
+               if (k6 * 2 + 1 == l) {
+                  this.blit(k8, i7, k7 + 45, 27, 9, 9);
+               }
+            }
+
+            l2 -= 10;
+         }
+
+         this.mc.getProfiler().endStartSection("air");
+         int l6 = playerentity.getAir();
+         int j7 = playerentity.getMaxAir();
+         if (playerentity.areEyesInFluid(FluidTags.WATER) || l6 < j7) {
+            int l7 = this.func_212302_c(j6) - 1;
+            l2 = l2 - l7 * 10;
+            int j8 = MathHelper.ceil((double)(l6 - 2) * 10.0D / (double)j7);
+            int l8 = MathHelper.ceil((double)l6 * 10.0D / (double)j7) - j8;
+
+            for(int k5 = 0; k5 < j8 + l8; ++k5) {
+               if (k5 < j8) {
+                  this.blit(j1 - k5 * 8 - 9, l2, 16, 18, 9, 9);
+               } else {
+                  this.blit(j1 - k5 * 8 - 9, l2, 25, 18, 9, 9);
+               }
+            }
+         }
+
+         this.mc.getProfiler().endSection();
+      }
+   }
+
+   private void renderVehicleHealth() {
+      LivingEntity livingentity = this.func_212305_n();
+      if (livingentity != null) {
+         int i = this.func_212306_a(livingentity);
+         if (i != 0) {
+            int j = (int)Math.ceil((double)livingentity.getHealth());
+            this.mc.getProfiler().endStartSection("mountHealth");
+            int k = this.scaledHeight - 39;
+            int l = this.scaledWidth / 2 + 91;
+            int i1 = k;
+            int j1 = 0;
+
+            for(boolean flag = false; i > 0; j1 += 20) {
+               int k1 = Math.min(i, 10);
+               i -= k1;
+
+               for(int l1 = 0; l1 < k1; ++l1) {
+                  int i2 = 52;
+                  int j2 = 0;
+                  int k2 = l - l1 * 8 - 9;
+                  this.blit(k2, i1, 52 + j2 * 9, 9, 9, 9);
+                  if (l1 * 2 + 1 + j1 < j) {
+                     this.blit(k2, i1, 88, 9, 9, 9);
+                  }
+
+                  if (l1 * 2 + 1 + j1 == j) {
+                     this.blit(k2, i1, 97, 9, 9, 9);
+                  }
+               }
+
+               i1 -= 10;
+            }
+
+         }
+      }
+   }
+
+   private void renderPumpkinOverlay() {
+      GlStateManager.disableDepthTest();
+      GlStateManager.depthMask(false);
+      GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+      GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+      GlStateManager.disableAlphaTest();
+      this.mc.getTextureManager().bindTexture(PUMPKIN_BLUR_TEX_PATH);
+      Tessellator tessellator = Tessellator.getInstance();
+      BufferBuilder bufferbuilder = tessellator.getBuffer();
+      bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+      bufferbuilder.pos(0.0D, (double)this.scaledHeight, -90.0D).tex(0.0D, 1.0D).endVertex();
+      bufferbuilder.pos((double)this.scaledWidth, (double)this.scaledHeight, -90.0D).tex(1.0D, 1.0D).endVertex();
+      bufferbuilder.pos((double)this.scaledWidth, 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+      bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+      tessellator.draw();
+      GlStateManager.depthMask(true);
+      GlStateManager.enableDepthTest();
+      GlStateManager.enableAlphaTest();
+      GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+   }
+
+   private void updateVignetteBrightness(Entity p_212307_1_) {
+      if (p_212307_1_ != null) {
+         float f = MathHelper.clamp(1.0F - p_212307_1_.getBrightness(), 0.0F, 1.0F);
+         this.prevVignetteBrightness = (float)((double)this.prevVignetteBrightness + (double)(f - this.prevVignetteBrightness) * 0.01D);
+      }
+   }
+
+   private void renderVignette(Entity p_212303_1_) {
+      WorldBorder worldborder = this.mc.world.getWorldBorder();
+      float f = (float)worldborder.getClosestDistance(p_212303_1_);
+      double d0 = Math.min(worldborder.getResizeSpeed() * (double)worldborder.getWarningTime() * 1000.0D, Math.abs(worldborder.getTargetSize() - worldborder.getDiameter()));
+      double d1 = Math.max((double)worldborder.getWarningDistance(), d0);
+      if ((double)f < d1) {
+         f = 1.0F - (float)((double)f / d1);
+      } else {
+         f = 0.0F;
+      }
+
+      GlStateManager.disableDepthTest();
+      GlStateManager.depthMask(false);
+      GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+      if (f > 0.0F) {
+         GlStateManager.color4f(0.0F, f, f, 1.0F);
+      } else {
+         GlStateManager.color4f(this.prevVignetteBrightness, this.prevVignetteBrightness, this.prevVignetteBrightness, 1.0F);
+      }
+
+      this.mc.getTextureManager().bindTexture(VIGNETTE_TEX_PATH);
+      Tessellator tessellator = Tessellator.getInstance();
+      BufferBuilder bufferbuilder = tessellator.getBuffer();
+      bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+      bufferbuilder.pos(0.0D, (double)this.scaledHeight, -90.0D).tex(0.0D, 1.0D).endVertex();
+      bufferbuilder.pos((double)this.scaledWidth, (double)this.scaledHeight, -90.0D).tex(1.0D, 1.0D).endVertex();
+      bufferbuilder.pos((double)this.scaledWidth, 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+      bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+      tessellator.draw();
+      GlStateManager.depthMask(true);
+      GlStateManager.enableDepthTest();
+      GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+      GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+   }
+
+   private void renderPortal(float timeInPortal) {
+      if (timeInPortal < 1.0F) {
+         timeInPortal = timeInPortal * timeInPortal;
+         timeInPortal = timeInPortal * timeInPortal;
+         timeInPortal = timeInPortal * 0.8F + 0.2F;
+      }
+
+      GlStateManager.disableAlphaTest();
+      GlStateManager.disableDepthTest();
+      GlStateManager.depthMask(false);
+      GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+      GlStateManager.color4f(1.0F, 1.0F, 1.0F, timeInPortal);
+      this.mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+      TextureAtlasSprite textureatlassprite = this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(Blocks.NETHER_PORTAL.getDefaultState());
+      textureatlassprite.markActive();
+      float f = textureatlassprite.getMinU();
+      float f1 = textureatlassprite.getMinV();
+      float f2 = textureatlassprite.getMaxU();
+      float f3 = textureatlassprite.getMaxV();
+      Tessellator tessellator = Tessellator.getInstance();
+      BufferBuilder bufferbuilder = tessellator.getBuffer();
+      bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+      bufferbuilder.pos(0.0D, (double)this.scaledHeight, -90.0D).tex((double)f, (double)f3).endVertex();
+      bufferbuilder.pos((double)this.scaledWidth, (double)this.scaledHeight, -90.0D).tex((double)f2, (double)f3).endVertex();
+      bufferbuilder.pos((double)this.scaledWidth, 0.0D, -90.0D).tex((double)f2, (double)f1).endVertex();
+      bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex((double)f, (double)f1).endVertex();
+      tessellator.draw();
+      GlStateManager.depthMask(true);
+      GlStateManager.enableDepthTest();
+      GlStateManager.enableAlphaTest();
+      GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+   }
+
+   private void renderHotbarItem(int x, int y, float partialTicks, PlayerEntity player, ItemStack stack) {
+      if (!stack.isEmpty()) {
+         float f = (float)stack.getAnimationsToGo() - partialTicks;
+         if (f > 0.0F) {
+            GlStateManager.pushMatrix();
+            float f1 = 1.0F + f / 5.0F;
+            GlStateManager.translatef((float)(x + 8), (float)(y + 12), 0.0F);
+            GlStateManager.scalef(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
+            GlStateManager.translatef((float)(-(x + 8)), (float)(-(y + 12)), 0.0F);
+         }
+
+         this.itemRenderer.renderItemAndEffectIntoGUI(player, stack, x, y);
+         if (f > 0.0F) {
+            GlStateManager.popMatrix();
+         }
+
+         this.itemRenderer.renderItemOverlays(this.mc.fontRenderer, stack, x, y);
+      }
+   }
+
+   public void tick() {
+      if (this.overlayMessageTime > 0) {
+         --this.overlayMessageTime;
+      }
+
+      if (this.titlesTimer > 0) {
+         --this.titlesTimer;
+         if (this.titlesTimer <= 0) {
+            this.displayedTitle = "";
+            this.displayedSubTitle = "";
+         }
+      }
+
+      ++this.ticks;
+      Entity entity = this.mc.getRenderViewEntity();
+      if (entity != null) {
+         this.updateVignetteBrightness(entity);
+      }
+
+      if (this.mc.player != null) {
+         ItemStack itemstack = this.mc.player.inventory.getCurrentItem();
+         if (itemstack.isEmpty()) {
+            this.remainingHighlightTicks = 0;
+         } else if (!this.highlightingItemStack.isEmpty() && itemstack.getItem() == this.highlightingItemStack.getItem() && itemstack.getDisplayName().equals(this.highlightingItemStack.getDisplayName())) {
+            if (this.remainingHighlightTicks > 0) {
+               --this.remainingHighlightTicks;
+            }
+         } else {
+            this.remainingHighlightTicks = 40;
+         }
+
+         this.highlightingItemStack = itemstack;
+      }
+
+   }
+
+   public void setRecordPlayingMessage(String recordName) {
+      this.setOverlayMessage(I18n.format("record.nowPlaying", recordName), true);
+   }
+
+   public void setOverlayMessage(String message, boolean animateColor) {
+      this.overlayMessage = message;
+      this.overlayMessageTime = 60;
+      this.animateOverlayMessageColor = animateColor;
+   }
+
+   public void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut) {
+      if (title == null && subTitle == null && timeFadeIn < 0 && displayTime < 0 && timeFadeOut < 0) {
+         this.displayedTitle = "";
+         this.displayedSubTitle = "";
+         this.titlesTimer = 0;
+      } else if (title != null) {
+         this.displayedTitle = title;
+         this.titlesTimer = this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut;
+      } else if (subTitle != null) {
+         this.displayedSubTitle = subTitle;
+      } else {
+         if (timeFadeIn >= 0) {
+            this.titleFadeIn = timeFadeIn;
+         }
+
+         if (displayTime >= 0) {
+            this.titleDisplayTime = displayTime;
+         }
+
+         if (timeFadeOut >= 0) {
+            this.titleFadeOut = timeFadeOut;
+         }
+
+         if (this.titlesTimer > 0) {
+            this.titlesTimer = this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut;
+         }
+
+      }
+   }
+
+   public void setOverlayMessage(ITextComponent component, boolean animateColor) {
+      this.setOverlayMessage(component.getString(), animateColor);
+   }
+
+   public void addChatMessage(ChatType chatTypeIn, ITextComponent message) {
+      for(IChatListener ichatlistener : this.chatListeners.get(chatTypeIn)) {
+         ichatlistener.say(chatTypeIn, message);
+      }
+
+   }
+
+   public NewChatGui getChatGUI() {
+      return this.persistantChatGUI;
+   }
+
+   public int getTicks() {
+      return this.ticks;
+   }
+
+   public FontRenderer getFontRenderer() {
+      return this.mc.fontRenderer;
+   }
+
+   public SpectatorGui getSpectatorGui() {
+      return this.spectatorGui;
+   }
+
+   public PlayerTabOverlayGui getTabList() {
+      return this.overlayPlayerList;
+   }
+
+   public void resetPlayersOverlayFooterHeader() {
+      this.overlayPlayerList.resetFooterHeader();
+      this.overlayBoss.clearBossInfos();
+      this.mc.getToastGui().clear();
+   }
+
+   public BossOverlayGui getBossOverlay() {
+      return this.overlayBoss;
+   }
+
+   public void func_212910_m() {
+      this.overlayDebug.func_212921_a();
+   }
+
+   public boolean isTouchOverlapEagler(int uid, int pointX, int pointY) {
+      return touchEventUID == uid;
+   }
+
+   public void updateTouchEagler(boolean inGame) {
+      if (inGame) {
+         int pointCount = Touch.touchPointCount();
+         for (int i = 0; i < pointCount; ++i) {
+            int uid = Touch.touchPointUID(i);
+            if (TouchControls.touchControls.containsKey(uid)) {
+               continue;
+            }
+            if (touchEventUID == -1 || touchEventUID == uid) {
+               touchVPosX = applyTouchHotbarTransformX(Touch.touchPointX(i), false);
+               touchVPosY = applyTouchHotbarTransformY(this.mc.mainWindow.getFramebufferHeight() - Touch.touchPointY(i) - 1, false);
+               long millis = EagRuntime.steadyTimeMillis();
+               if (touchEventUID != -1 && hotbarSlotTouchStart != -1l) {
+                  if (currentHotbarSlotTouch != 69) {
+                     int slot = getHotbarSlotTouched(touchVPosX);
+                     if (slot != currentHotbarSlotTouch) {
+                        hotbarSlotTouchAlreadySelected = false;
+                        currentHotbarSlotTouch = slot;
+                        hotbarSlotTouchStart = millis;
+                        if (slot >= 0 && slot < 9) {
+                           if (this.mc.player.isSpectator()) {
+                              this.getSpectatorGui().onHotbarSelected(slot);
+                           } else {
+                              this.mc.player.inventory.currentItem = slot;
+                           }
+                        }
+                     } else {
+                        if (millis - hotbarSlotTouchStart > 1200l) {
+                           if (!this.mc.player.isSpectator()) {
+                              hotbarSlotTouchStart = millis;
+                              this.mc.player.dropItem(false);
+                           }
+                        }
+                     }
+                  }
+               }
+               return;
+            }
+         }
+      }
+      if (touchEventUID != -1) {
+         handleTouchEndEagler(touchEventUID, touchVPosX, touchVPosY);
+      }
+      touchVPosX = -1;
+      touchVPosY = -1;
+   }
+
+   public boolean handleTouchBeginEagler(int uid, int pointX, int pointY) {
+      if (this.mc.player == null) {
+         return false;
+      }
+      if (touchEventUID == -1) {
+         pointX = applyTouchHotbarTransformX(pointX, false);
+         pointY = applyTouchHotbarTransformY(pointY, false);
+         if (pointX >= hotbarAreaX && pointY >= hotbarAreaY && pointX < hotbarAreaX + hotbarAreaW
+               && pointY < hotbarAreaY + hotbarAreaH) {
+            touchEventUID = uid;
+            currentHotbarSlotTouch = getHotbarSlotTouched(pointX);
+            hotbarSlotTouchStart = EagRuntime.steadyTimeMillis();
+            if (currentHotbarSlotTouch >= 0 && currentHotbarSlotTouch < 9) {
+               if (this.mc.player.isSpectator()) {
+                  hotbarSlotTouchAlreadySelected = false;
+                  this.getSpectatorGui().onHotbarSelected(currentHotbarSlotTouch);
+               } else {
+                  hotbarSlotTouchAlreadySelected = (this.mc.player.inventory.currentItem == currentHotbarSlotTouch);
+                  this.mc.player.inventory.currentItem = currentHotbarSlotTouch;
+               }
+            } else if (currentHotbarSlotTouch == 9) {
+               hotbarSlotTouchAlreadySelected = false;
+               currentHotbarSlotTouch = 69;
+               if (this.mc.playerController.isSpectatorMode()) {
+               } else {
+                  this.mc.displayGuiScreen(new net.minecraft.client.gui.screen.inventory.InventoryScreen(this.mc.player));
+               }
+            }
+            return true;
+         }
+         if (pointX >= interactButtonX && pointY >= interactButtonY && pointX < interactButtonX + interactButtonW
+               && pointY < interactButtonY + interactButtonH) {
+            touchEventUID = uid;
+            this.mc.playerController.processRightClick(this.mc.player, this.mc.world, net.minecraft.util.Hand.MAIN_HAND);
+            return true;
+         }
+      }
+      return false;
+   }
+
+   public boolean handleTouchEndEagler(int uid, int pointX, int pointY) {
+      if (uid == touchEventUID) {
+         if (hotbarSlotTouchStart != -1l && currentHotbarSlotTouch != 69) {
+            if (EagRuntime.steadyTimeMillis() - hotbarSlotTouchStart < 350l) {
+               if (hotbarSlotTouchAlreadySelected) {
+                  if (this.mc.player != null) {
+                     this.mc.player.dropItem(false);
+                  }
+               }
+            }
+         }
+         touchVPosX = -1;
+         touchVPosY = -1;
+         touchEventUID = -1;
+         currentHotbarSlotTouch = -1;
+         hotbarSlotTouchStart = -1l;
+         hotbarSlotTouchAlreadySelected = false;
+         return true;
+      }
+      return false;
+   }
+
+   private int applyTouchHotbarTransformX(int posX, boolean scaled) {
+      if (scaled) {
+         return (posX + this.scaledWidth / 4) * 2 / 3;
+      } else {
+         return (posX + this.mc.mainWindow.getFramebufferWidth() / 4) * 2 / 3;
+      }
+   }
+
+   private int applyTouchHotbarTransformY(int posY, boolean scaled) {
+      if (scaled) {
+         return (posY + this.scaledHeight / 2) * 2 / 3;
+      } else {
+         return (posY + this.mc.mainWindow.getFramebufferHeight() / 2) * 2 / 3;
+      }
+   }
+
+   private int getHotbarSlotTouched(int pointX) {
+      int xx = pointX - hotbarAreaX - 2;
+      xx /= 20 * (int)this.mc.mainWindow.getGuiScaleFactor();
+      if (xx < 0) xx = 0;
+      if (xx > 9) xx = 9;
+      return xx;
+   }
+
+   private void drawEaglerInteractButton() {
+      if (PointerInputAbstraction.isTouchMode() && this.mc.objectMouseOver != null
+            && this.mc.objectMouseOver.getType() == net.minecraft.util.math.RayTraceResult.Type.ENTITY) {
+         MainWindow mainWindow = this.mc.mainWindow;
+         float f = MathHelper.clamp(this.mc.gameSettings.touchControlOpacity, 0.0F, 1.0F);
+         if (f > 0.0F) {
+            int scale = (int)mainWindow.getGuiScaleFactor();
+            int sw = mainWindow.getScaledWidth();
+            int sh = mainWindow.getScaledHeight();
+            interactButtonW = 118 * scale;
+            interactButtonH = 20 * scale;
+            int xx = (sw - 118) / 2;
+            int yy = sh - 70;
+            interactButtonX = xx * scale;
+            interactButtonY = yy * scale;
+            this.mc.getTextureManager().bindTexture(TouchOverlayRenderer.spriteSheet);
+            boolean hover = touchVPosX >= interactButtonX && touchVPosY >= interactButtonY
+                  && touchVPosX < interactButtonX + interactButtonW && touchVPosY < interactButtonY + interactButtonH;
+            if (f < 1.0F) GlStateManager.enableBlend();
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, f);
+            TouchOverlayRenderer.drawTexturedModalRect((float)xx, (float)yy, 0, hover ? 216 : 236, 118, 20, 2);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.mc.fontRenderer.drawString(I18n.format("touch.interact.entity"), (sw - this.mc.fontRenderer.getStringWidth(I18n.format("touch.interact.entity"))) / 2, yy + 6,
+                  (hover ? 16777120 : 14737632) | ((int)(f * 255.0F) << 24));
+            if (f < 1.0F) GlStateManager.disableBlend();
+         }
+      } else {
+         interactButtonX = -1;
+         interactButtonY = -1;
+         interactButtonW = -1;
+         interactButtonH = -1;
+      }
+   }
+}

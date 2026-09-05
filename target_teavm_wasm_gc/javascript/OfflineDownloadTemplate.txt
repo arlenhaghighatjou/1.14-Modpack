@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+
+
+<!--
+
+This file is from ${date}, there is no official eagler download link anymore, check the websites and discords of your favorite eagler servers for new versions
+
+Be aware that some server owners are lazy and do not update their client regularly
+
+This is the WASM-GC version of EaglercraftX and may not be compatible with outdated browsers
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html style="width:100%;height:100%;background-color:black;">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="description" content="EaglercraftX 1.14.4 WASM-GC Offline" />
+<meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.14, 1.14.4" />
+<title>EaglercraftX 1.14.4 WASM-GC</title>
+<meta property="og:locale" content="en-US" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="EaglercraftX 1.14.4 WASM-GC Offline" />
+<meta property="og:description" content="this file is not a website, whoever uploaded it to this URL is a dumbass" />
+<script type="text/javascript">
+"use strict";
+var relayId = Math.floor(Math.random() * 3);
+
+// %%%%%%%%% launch options %%%%%%%%%%%%
+
+window.eaglercraftXOpts = {
+	container: "game_frame",
+	worldsDB: "worlds",
+	relays: [
+		{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
+		{ addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
+		{ addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
+	]
+};
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+</script>
+<script type="text/javascript">
+"use strict";
+if(typeof window !== "undefined") window.eaglercraftXClientScriptElement = document.currentScript;
+${classes_js}
+</script>
+<script type="text/javascript">
+"use strict";
+(function(){
+	window.eaglercraftXOpts.assetsURI = ${assets_epk};
+
+	var launchInterval = -1;
+	var launchCounter = 1;
+	var launchCountdownNumberElement = null;
+	var launchCountdownProgressElement = null;
+	var launchSkipCountdown = false;
+
+	var launchTick = function() {
+		launchCountdownNumberElement.innerText = "" + Math.floor(6.0 - launchCounter * 0.06);
+		launchCountdownProgressElement.style.width = "" + launchCounter + "%";
+		if(++launchCounter > 100 || launchSkipCountdown) {
+			clearInterval(launchInterval);
+			setTimeout(function() { document.body.removeChild(document.getElementById("launch_countdown_screen")); document.body.style.backgroundColor = "black"; main(); }, 50);
+		}
+	};
+
+	window.addEventListener("load", function() {
+		launchCountdownNumberElement = document.getElementById("launchCountdownNumber");
+		launchCountdownProgressElement = document.getElementById("launchCountdownProgress");
+		launchInterval = setInterval(launchTick, 50);
+		document.getElementById("skipCountdown").addEventListener("click", function() {
+			launchSkipCountdown = true;
+		});
+	});
+})();
+</script>
+<link type="image/png" rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAR/SURBVEhLtZXZK3ZRFMYPcqXc+gv413DHxVuGIpIhkciQWaRccCNjSCkligwXSOZ5nmfv9zvn2e8+58V753sudmuvvdZ61l5r7XOc8H+GS/D19aUNkPz5+aktQH5/f//4+LBKZKuRkpUtQjCUYG5gD2T38vLy/PwsDfL9/f3Dw8PT05M0b29vnKLhCKCBT4L4gvBLBIei4//4+Hh1dUVEQutUuLu7E83FxQUGnKLBWKfQaA3S+AREVxaEOD8/Pzk50XpzcyMDcH19zdZG3N3d3dzc3Nvb01aX5pQUpQGGQJxcQpfNysoKhUIdHR1o1tbWbInYAgxIPDMzMy8vLzc3FxqOdMoRqwJK8G8ALUYIhHMiSEhIwI6CyIb0qQzC4eGhsXCc1tZWnZIEKzdQJQSXgKxfX18RCM3Z5eWlcfVAxKOjo+Pj49PTU88lTOk2NjbMsePc3t6SAfcgFdszOyMuAdeBg0CQi2lhYUHOeOLDCisN8FzcPFZXV3t7ezHY3t5GQ+6it+2xMASsKhEEWKsmRLRBBUpPvpJ/TpFKFBwKYAiITmicsbYhdHfJAltqhUCVsCQhwslmeXmZxiBQT9c0Ar9E2O3v72sYSE0N1yQArkKy0kBMXLqlZqIZHR3t6empqqqSDcBdhXEJSJ/bUc3q6uq+vj629GB9fR1WsLW1NTs7u7S0RN2locMjIyOEm5ubQ7+4uJienk4/+vv77Y1hwhLBEKhwWHitdVFfX9/Y2Gg2HuLi4owUAysrK8yCG97rh0+ApP5Q2ZycHFlPTExUVFRIBvn5+WhKSkp2dnaMKhptbW2426GgQ/rwuAQCZ1hwFayLiork9hMFBQV1dXVmE0BLS4vqw3QFB8kn4IAxoGPkYpxi4FeDmpqas7Mz4pClAgqGwD48rjY2NmacYqC0tJQ1KSlJWyE5OZkpUKkBAxZVIntAoZh04+Q48fHxPNGBgYHExMT29naj9cBodnZ2mo3jlJWVMeW2OGQck4B1amqqoaGhqamJjx2lGxwcpL0mUgR8fJhsWqJtSkoKU2SbHHUDpkhPBujd8xuQG6PJRM/Pz09PT7O1NNnZ2Tw3fgZkXVhYKCUlUhBATP+hCVyKZGky17RV0g04laayslJ6hlVeFHB4eFhKaogGd0LxtmTgE+hbhKDnPjMzgw8E3qGL2tpaBWpubjYqj2BoaEj6rq4uNATRZ0ZwCbiL6gXEzINk5vCBQJ9rMD4+rkA8QNK036uDg4Py8vLu7m680KjIBNR3zBDoWQM1g98snyB+VSoRW8C/UwR81/SvhgNj9JOTkwwVERUdRBEI0BAdLRVERkhLS8vIyEDQlrsTPTU1lVFhKxARvZgUlFLbegCf4BvIsbi4mIg4E5EogIHhiKCMtU0WUFiVy06j5fAJIDdSBDQw+PegDfBRcbOPwH4F9LuFWIIQdQNKwWqzIE0aoFUaBsw+SQuFw0uNtC9A+F4i3QNrbg3IDn+SAsHh+wYiEpeyBEMLv/cAO6KzAijxxB+Y4wisBhssJUhjEbPJf4Nw+B+JXqLW3bw+wQAAAABJRU5ErkJggg==" />
+<style type="text/css">
+			html, body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #0d1117;
+			}
+
+			.eagx_splash {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				box-sizing: border-box;
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: #0d1117;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+				user-select: none;
+				transition: opacity 0.45s ease;
+			}
+
+			.eagx_splash_hide {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			.eagx_splash_panel {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 16px;
+				max-width: 92vw;
+				text-align: center;
+			}
+
+			.eagx_logo {
+				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+				font-size: clamp(24px, 5vw, 34px);
+				font-weight: 600;
+				color: #f0f6fc;
+				letter-spacing: 0.5px;
+			}
+
+			.eagx_logo .slash {
+				color: #8b949e;
+				font-weight: 400;
+				margin: 0 6px;
+			}
+
+			.eagx_subtitle {
+				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+				font-size: 12px;
+				color: #8b949e;
+			}
+
+			.eagx_loader {
+				display: flex;
+				align-items: center;
+				gap: 9px;
+				margin-top: 6px;
+				font-size: 14px;
+				color: #8b949e;
+			}
+
+			.eagx_spinner {
+				width: 16px;
+				height: 16px;
+				flex: 0 0 auto;
+				border: 2px solid rgba(88, 166, 255, 0.2);
+				border-top-color: #58a6ff;
+				border-radius: 50%;
+				animation: eagx_spin 0.8s linear infinite;
+			}
+
+			@keyframes eagx_spin {
+				to { transform: rotate(360deg); }
+			}
+
+			.eagx_dots span {
+				opacity: 0;
+				animation: eagx_dot_blink 1.3s infinite;
+			}
+
+			.eagx_dots span:nth-child(1) { animation-delay: 0s; }
+			.eagx_dots span:nth-child(2) { animation-delay: 0.22s; }
+			.eagx_dots span:nth-child(3) { animation-delay: 0.44s; }
+
+			@keyframes eagx_dot_blink {
+				0%, 60%, 100% { opacity: 0; }
+				30% { opacity: 1; }
+			}
+
+			/* countdown (offline download) */
+			.eagx_countdown_track {
+				position: relative;
+				width: min(360px, 68vw);
+				height: 5px;
+				overflow: hidden;
+				border-radius: 3px;
+				background: #21262d;
+				border: 1px solid #30363d;
+			}
+
+			.eagx_countdown_track div {
+				height: 100%;
+				width: 0%;
+				background: #58a6ff;
+			}
+
+			.eagx_btn {
+				font-family: inherit;
+				font-size: 12px;
+				color: #f0f6fc;
+				background: #21262d;
+				border: 1px solid rgba(240, 246, 252, 0.1);
+				border-radius: 6px;
+				padding: 6px 14px;
+				cursor: pointer;
+				margin-top: 4px;
+			}
+
+			.eagx_countdown_note {
+				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+				font-size: 11px;
+				color: #8b949e;
+				margin-top: 8px;
+			}
+
+			._eaglercraftX_press_any_key_image {
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				background: #0d1117 !important;
+				background-image: none !important;
+				cursor: pointer;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+			}
+
+			._eaglercraftX_press_any_key_image::before {
+				content: "click to play";
+				display: block;
+				box-sizing: border-box;
+				min-width: 280px;
+				max-width: 74vw;
+				padding: 18px 30px;
+				font-size: 18px;
+				font-weight: 500;
+				text-align: center;
+				color: #f0f6fc;
+				background: #21262d;
+				border: 1px solid #30363d;
+				border-radius: 6px;
+			}
+
+			._eaglercraftX_press_any_key_image::after {
+				content: "press any key or click anywhere to continue";
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 12%;
+				text-align: center;
+				font-size: 12px;
+				color: #8b949e;
+			}
+
+			/* all ts for mobile!! */
+			._eaglercraftX_mobile_press_any_key {
+				background: #0d1117 !important;
+				border-color: #30363d !important;
+				border-width: 1px !important;
+				border-radius: 6px !important;
+				color: #c9d1d9 !important;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+			}
+
+			._eaglercraftX_mobile_press_any_key h3 {
+				color: #f0f6fc !important;
+			}
+
+			._eaglercraftX_mobile_launch_client {
+				background: #238636 !important;
+				color: #ffffff !important;
+				border: 1px solid rgba(240, 246, 252, 0.1) !important;
+				border-radius: 6px !important;
+				padding: 8px 18px !important;
+				font-family: inherit !important;
+				font-weight: 500 !important;
+				cursor: pointer;
+			}
+		</style>
+		<script type="text/javascript">
+			"use strict";
+			window.__eagxSetStatus = function(txt) {
+				var el = document.querySelector("#eagx_splash .eagx_status_text");
+				if(el) el.textContent = txt;
+			};
+			window.__eagxHideSplash = function() {
+				var el = document.getElementById("eagx_splash");
+				if(!el) return;
+				el.classList.add("eagx_splash_hide");
+				setTimeout(function() {
+					if(el.parentNode) el.parentNode.removeChild(el);
+				}, 500);
+			};
+		</script>
+	</head>
+	<body style="margin:0px;width:100%;height:100%;overflow:hidden;background-color:#0d1117;" id="game_frame">
+		<div style="margin:0px;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background-color:#0d1117;" id="launch_countdown_screen">
+			<div class="eagx_splash_panel">
+				<div class="eagx_logo">Eaglercraft</div>
+				<div class="eagx_subtitle">minecraft 1.14.4</div>
+				<div class="eagx_loader"><span class="eagx_spinner"></span><span class="eagx_countdown_text">launching in <span id="launchCountdownNumber">5</span>s</span></div>
+				<div class="eagx_countdown_track"><div id="launchCountdownProgress"></div></div>
+				<button id="skipCountdown" class="eagx_btn" autofocus>skip</button>
+				<div class="eagx_countdown_note">this file is from ${date}</div>
+			</div>
+		</div>
+	</body>
+</html>

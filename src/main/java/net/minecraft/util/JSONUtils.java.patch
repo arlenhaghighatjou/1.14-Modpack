@@ -1,0 +1,17 @@
+--- /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/util/JSONUtils.java
++++ /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/util/JSONUtils.java
+@@ -345,7 +345,13 @@
+          while ((read = p_212744_0_.read(buffer)) != -1) {
+             sb.append(buffer, 0, read);
+          }
+-         return (new com.google.gson.JsonParser()).parse(sb.toString()).getAsJsonObject();
++         String jsonStr = sb.toString();
++         if (jsonStr.startsWith("\uFEFF")) {
++            jsonStr = jsonStr.substring(1);
++         }
++         return (new com.google.gson.JsonParser()).parse(jsonStr).getAsJsonObject();
+       } catch (Exception e) {
++         e.printStackTrace();
+          throw new JsonParseException(e);
+       }
+    }

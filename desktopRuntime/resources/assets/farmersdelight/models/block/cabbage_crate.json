@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "farmersdelight:block/cabbage_crate_top",
+    "side": "farmersdelight:block/cabbage_crate_side",
+    "bottom": "farmersdelight:block/cabbage_crate_bottom"
+  }
+}

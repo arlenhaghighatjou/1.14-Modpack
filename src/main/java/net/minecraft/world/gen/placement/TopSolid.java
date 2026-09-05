@@ -1,0 +1,27 @@
+package net.minecraft.world.gen.placement;
+
+import com.mojang.datafixers.Dynamic;
+import net.lax1dude.eaglercraft.Random;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.Heightmap;
+
+import java.util.function.Function;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class TopSolid extends Placement<FrequencyConfig> {
+    public TopSolid(Function<Dynamic<?>, ? extends FrequencyConfig> p_i51380_1_) {
+        super(p_i51380_1_);
+    }
+
+    public Stream<BlockPos> getPositions(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generatorIn, Random random, FrequencyConfig configIn, BlockPos pos) {
+        return IntStream.range(0, configIn.count).mapToObj((p_215049_3_) -> {
+            int i = random.nextInt(16) + pos.getX();
+            int j = random.nextInt(16) + pos.getZ();
+            return new BlockPos(i, worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, i, j), j);
+        });
+    }
+}

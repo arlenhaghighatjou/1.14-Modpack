@@ -1,0 +1,11 @@
+--- /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/client/particle/ParticleManager.java
++++ /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/client/particle/ParticleManager.java
+@@ -235,7 +235,7 @@
+             BufferBuilder bufferbuilder = tessellator.getBuffer();
+             iparticlerendertype.beginRender(bufferbuilder, this.renderer);
+ 
+-            System.out.println("Rendering particles! Active texture: " + net.lax1dude.eaglercraft.opengl.GlStateManager.activeTexture + ", Bound ID: " + net.lax1dude.eaglercraft.opengl.GlStateManager.boundTexture[net.lax1dude.eaglercraft.opengl.GlStateManager.activeTexture] + ", ParticleAtlas ID: " + this.atlas.getGlTextureId());
++            if (iterable.iterator().hasNext()) System.out.println("Rendering particles! Active texture: " + net.lax1dude.eaglercraft.opengl.GlStateManager.activeTexture + ", Bound ID: " + net.lax1dude.eaglercraft.opengl.GlStateManager.boundTexture[net.lax1dude.eaglercraft.opengl.GlStateManager.activeTexture] + ", ParticleAtlas ID: " + this.atlas.getGlTextureId());
+ 
+             for(Particle particle : iterable) {
+                try {

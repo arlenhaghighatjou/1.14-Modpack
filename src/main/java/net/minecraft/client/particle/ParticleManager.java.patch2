@@ -1,0 +1,10 @@
+--- /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/client/particle/ParticleManager.java
++++ /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/client/particle/ParticleManager.java
+@@ -165,6 +165,7 @@
+          preparationsProfiler.startSection("stitching");
+          Set<ResourceLocation> set = map.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+          AtlasTexture.SheetData atlastexture$sheetdata = this.atlas.stitch(resourceManager, set, preparationsProfiler);
++         System.err.println("PARTICLE ATLAS STITCHED: " + atlastexture$sheetdata.width + "x" + atlastexture$sheetdata.height + " with " + atlastexture$sheetdata.sprites.size() + " sprites");
+          preparationsProfiler.endSection();
+          preparationsProfiler.endTick();
+          return atlastexture$sheetdata;

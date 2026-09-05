@@ -1,0 +1,19 @@
+package net.minecraft.world;
+
+import net.minecraft.util.math.BlockPos;
+
+import java.util.stream.Stream;
+
+public interface ITickList<T> {
+    boolean isTickScheduled(BlockPos pos, T itemIn);
+
+    default void scheduleTick(BlockPos pos, T itemIn, int scheduledTime) {
+        this.scheduleTick(pos, itemIn, scheduledTime, TickPriority.NORMAL);
+    }
+
+    void scheduleTick(BlockPos pos, T itemIn, int scheduledTime, TickPriority priority);
+
+    boolean isTickPending(BlockPos pos, T obj);
+
+    void func_219497_a(Stream<NextTickListEntry<T>> p_219497_1_);
+}

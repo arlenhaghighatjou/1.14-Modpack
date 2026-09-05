@@ -1,0 +1,78 @@
+{
+    "pack": {
+        "description": "The default data for Minecraft",
+        "pack_format": 4
+    },
+    "language": {
+        "ar_sa": {
+            "name": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+            "region": "\u0627\u0644\u0639\u0627\u0644\u0645 \u0627\u0644\u0639\u0631\u0628\u064a",
+            "bidirectional": true
+        },
+        "de_de": {
+            "name": "Deutsch",
+            "region": "Deutschland",
+            "bidirectional": false
+        },
+        "en_gb": {
+            "name": "English",
+            "region": "United Kingdom",
+            "bidirectional": false
+        },
+        "en_us": {
+            "name": "English",
+            "region": "US",
+            "bidirectional": false
+        },
+        "es_es": {
+            "name": "Espa\u00f1ol",
+            "region": "Espa\u00f1a",
+            "bidirectional": false
+        },
+        "fr_fr": {
+            "name": "Fran\u00e7ais",
+            "region": "France",
+            "bidirectional": false
+        },
+        "it_it": {
+            "name": "Italiano",
+            "region": "Italia",
+            "bidirectional": false
+        },
+        "ja_jp": {
+            "name": "\u65e5\u672c\u8a9e",
+            "region": "\u65e5\u672c",
+            "bidirectional": false
+        },
+        "ko_kr": {
+            "name": "\ud55c\uad6d\uc5b4",
+            "region": "\ub300\ud55c\ubbfc\uad6d",
+            "bidirectional": false
+        },
+        "pt_br": {
+            "name": "Portugu\u00eas",
+            "region": "Brasil",
+            "bidirectional": false
+        },
+        "ru_ru": {
+            "name": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+            "region": "\u0420\u043e\u0441\u0441\u0438\u044f",
+            "bidirectional": false
+        },
+        "tr_tr": {
+            "name": "T\u00fcrk\u00e7e",
+            "region": "T\u00fcrkiye",
+            "bidirectional": false
+        },
+        "zh_cn": {
+            "name": "\u4e2d\u6587",
+            "region": "\u4e2d\u56fd\u5927\u9646",
+            "bidirectional": false
+        },
+        "zh_tw": {
+            "name": "\u4e2d\u6587",
+            "region": "\u53f0\u7063",
+            "bidirectional": false
+        }
+    }
+}

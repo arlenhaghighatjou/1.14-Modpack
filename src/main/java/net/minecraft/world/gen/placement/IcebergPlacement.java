@@ -1,0 +1,28 @@
+package net.minecraft.world.gen.placement;
+
+import com.mojang.datafixers.Dynamic;
+import net.lax1dude.eaglercraft.Random;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.Heightmap;
+
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+public class IcebergPlacement extends Placement<ChanceConfig> {
+    public IcebergPlacement(Function<Dynamic<?>, ? extends ChanceConfig> p_i51369_1_) {
+        super(p_i51369_1_);
+    }
+
+    public Stream<BlockPos> getPositions(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generatorIn, Random random, ChanceConfig configIn, BlockPos pos) {
+        if (random.nextFloat() < 1.0F / (float) configIn.chance) {
+            int i = random.nextInt(8) + 4;
+            int j = random.nextInt(8) + 4;
+            return Stream.of(worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, pos.add(i, 0, j)));
+        } else {
+            return Stream.empty();
+        }
+    }
+}

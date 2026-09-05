@@ -1,0 +1,19 @@
+--- /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/client/particle/ParticleManager.java
++++ /home/eymen/Masaüstü/Projects/EagSECRET/src/main/java/net/minecraft/client/particle/ParticleManager.java
+@@ -211,10 +211,16 @@
+       for(ResourceLocation resourcelocation : this.sprites.keySet()) {
+          completablefuture = completablefuture.thenCompose((p_215234_4_) -> {
+             return CompletableFuture.runAsync(() -> {
+-               this.loadTextureLists(resourceManager, resourcelocation, map);
++               try {
++                  this.loadTextureLists(resourceManager, resourcelocation, map);
++               } catch (Throwable t) {
++                  System.err.println("FATAL ASYNC ERROR IN PARTICLE MANAGER: " + resourcelocation);
++                  t.printStackTrace();
++               }
+             }, backgroundExecutor);
+          });
+       }
+ 
+       return CompletableFuture.allOf(completablefuture).thenCompose((p_215232_4_) -> {
+          return AtlasTexture.LOCATION_PARTICLES_TEXTURE.stitch(resourceManager, map.values().stream().flatMap(Collection::stream), profilerIn, 0);
