@@ -109,7 +109,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	@Override
 	public void broadcastChanges() {
 		for (int i = 0; i < ghostSlots.size(); ++i) {
-			ItemStack itemstack = ghostSlots.get(i).getItem();
+			ItemStack itemstack = ghostSlots.get(i).getStack();
 			ItemStack itemstack1 = ghostItemStacks.get(i);
 			if (!ItemStack.matches(itemstack1, itemstack)) {
 				boolean clientStackChanged = !itemstack1.equals(itemstack, true);

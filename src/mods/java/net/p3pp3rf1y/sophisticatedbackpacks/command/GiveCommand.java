@@ -62,7 +62,7 @@ public class GiveCommand {
 		boolean flag = p.inventory.add(backpack);
 		if (flag && backpack.isEmpty()) {
 			backpack.setCount(1);
-			ItemEntity itemEntity = p.drop(backpack, false);
+			ItemEntity itemEntity = p.dropItem(backpack, false);
 			if (itemEntity != null) {
 				itemEntity.makeFakeItem();
 			}
@@ -70,14 +70,14 @@ public class GiveCommand {
 			p.level.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(p.getRandom()) * 0.7F + 1.0F) * 2.0F);
 			p.container.broadcastChanges();
 		} else {
-			ItemEntity itementity = p.drop(backpack, false);
+			ItemEntity itementity = p.dropItem(backpack, false);
 			if (itementity != null) {
 				itementity.setNoPickUpDelay();
 				itementity.setOwner(p.getUUID());
 			}
 		}
 
-		ItemEntity itemEntity = p.drop(backpack, false);
+		ItemEntity itemEntity = p.dropItem(backpack, false);
 		if (itemEntity != null) {
 			itemEntity.makeFakeItem();
 		}

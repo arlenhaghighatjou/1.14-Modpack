@@ -23,10 +23,10 @@ public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
 	@Override
 	public void render(BackpackTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
 		BlockState state = tileEntityIn.getBlockState();
-		Direction facing = state.getValue(BackpackBlock.FACING);
-		boolean showLeftTank = state.getValue(BackpackBlock.LEFT_TANK);
-		boolean showRightTank = state.getValue(BackpackBlock.RIGHT_TANK);
-		boolean showBattery = state.getValue(BackpackBlock.BATTERY);
+		Direction facing = state.get(BackpackBlock.FACING);
+		boolean showLeftTank = state.get(BackpackBlock.LEFT_TANK);
+		boolean showRightTank = state.get(BackpackBlock.RIGHT_TANK);
+		boolean showBattery = state.get(BackpackBlock.BATTERY);
 		BackpackRenderInfo renderInfo = tileEntityIn.getBackpackWrapper().getRenderInfo();
 		matrixStack.pushPose();
 		matrixStack.translate(0.5, 0, 0.5);

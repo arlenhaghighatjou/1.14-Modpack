@@ -52,7 +52,7 @@ public class FilterLogicBase {
 			return false;
 		}
 
-		if (shouldMatchDurability() && stack.getDamageValue() != filter.getDamageValue()) {
+		if (shouldMatchDurability() && stack.getDamage() != filter.getDamage()) {
 			return false;
 		}
 

@@ -156,40 +156,40 @@ public class BackpackModel extends AgeableModel<LivingEntity> {
 		rightTank.texOffs(52, 48).addBox(4.5F, -11.5F, -1.5F, 3.0F, 1.0F, 3.0F, 0.0F, true);
 
 		clipsBody = ImmutableMap.of(
-				ModItems.BACKPACK.get(), getBodyClipsRenderer(29),
-				ModItems.IRON_BACKPACK.get(), getBodyClipsRenderer(32),
-				ModItems.GOLD_BACKPACK.get(), getBodyClipsRenderer(35),
-				ModItems.DIAMOND_BACKPACK.get(), getBodyClipsRenderer(38),
-				ModItems.NETHERITE_BACKPACK.get(), getBodyClipsRenderer(41)
+				ModItems.BACKPACK, getBodyClipsRenderer(29),
+				ModItems.IRON_BACKPACK, getBodyClipsRenderer(32),
+				ModItems.GOLD_BACKPACK, getBodyClipsRenderer(35),
+				ModItems.DIAMOND_BACKPACK, getBodyClipsRenderer(38),
+				ModItems.NETHERITE_BACKPACK, getBodyClipsRenderer(41)
 		);
 		clipsLeftPouches = ImmutableMap.of(
-				ModItems.BACKPACK.get(), getLeftPouchesClipsRenderer(29),
-				ModItems.IRON_BACKPACK.get(), getLeftPouchesClipsRenderer(32),
-				ModItems.GOLD_BACKPACK.get(), getLeftPouchesClipsRenderer(35),
-				ModItems.DIAMOND_BACKPACK.get(), getLeftPouchesClipsRenderer(38),
-				ModItems.NETHERITE_BACKPACK.get(), getLeftPouchesClipsRenderer(41)
+				ModItems.BACKPACK, getLeftPouchesClipsRenderer(29),
+				ModItems.IRON_BACKPACK, getLeftPouchesClipsRenderer(32),
+				ModItems.GOLD_BACKPACK, getLeftPouchesClipsRenderer(35),
+				ModItems.DIAMOND_BACKPACK, getLeftPouchesClipsRenderer(38),
+				ModItems.NETHERITE_BACKPACK, getLeftPouchesClipsRenderer(41)
 		);
 		clipsRightPouches = ImmutableMap.of(
-				ModItems.BACKPACK.get(), getRightPouchesClipsRenderer(29),
-				ModItems.IRON_BACKPACK.get(), getRightPouchesClipsRenderer(32),
-				ModItems.GOLD_BACKPACK.get(), getRightPouchesClipsRenderer(35),
-				ModItems.DIAMOND_BACKPACK.get(), getRightPouchesClipsRenderer(38),
-				ModItems.NETHERITE_BACKPACK.get(), getRightPouchesClipsRenderer(41)
+				ModItems.BACKPACK, getRightPouchesClipsRenderer(29),
+				ModItems.IRON_BACKPACK, getRightPouchesClipsRenderer(32),
+				ModItems.GOLD_BACKPACK, getRightPouchesClipsRenderer(35),
+				ModItems.DIAMOND_BACKPACK, getRightPouchesClipsRenderer(38),
+				ModItems.NETHERITE_BACKPACK, getRightPouchesClipsRenderer(41)
 		);
 		clipsFrontPouch = ImmutableMap.of(
-				ModItems.BACKPACK.get(), getFrontPouchClipsRenderer(29),
-				ModItems.IRON_BACKPACK.get(), getFrontPouchClipsRenderer(32),
-				ModItems.GOLD_BACKPACK.get(), getFrontPouchClipsRenderer(35),
-				ModItems.DIAMOND_BACKPACK.get(), getFrontPouchClipsRenderer(38),
-				ModItems.NETHERITE_BACKPACK.get(), getFrontPouchClipsRenderer(41)
+				ModItems.BACKPACK, getFrontPouchClipsRenderer(29),
+				ModItems.IRON_BACKPACK, getFrontPouchClipsRenderer(32),
+				ModItems.GOLD_BACKPACK, getFrontPouchClipsRenderer(35),
+				ModItems.DIAMOND_BACKPACK, getFrontPouchClipsRenderer(38),
+				ModItems.NETHERITE_BACKPACK, getFrontPouchClipsRenderer(41)
 		);
 
 		clipsBattery = ImmutableMap.of(
-				ModItems.BACKPACK.get(), getBatteryClipsRenderer(30),
-				ModItems.IRON_BACKPACK.get(), getBatteryClipsRenderer(33),
-				ModItems.GOLD_BACKPACK.get(), getBatteryClipsRenderer(36),
-				ModItems.DIAMOND_BACKPACK.get(), getBatteryClipsRenderer(39),
-				ModItems.NETHERITE_BACKPACK.get(), getBatteryClipsRenderer(42)
+				ModItems.BACKPACK, getBatteryClipsRenderer(30),
+				ModItems.IRON_BACKPACK, getBatteryClipsRenderer(33),
+				ModItems.GOLD_BACKPACK, getBatteryClipsRenderer(36),
+				ModItems.DIAMOND_BACKPACK, getBatteryClipsRenderer(39),
+				ModItems.NETHERITE_BACKPACK, getBatteryClipsRenderer(42)
 		);
 	}
 

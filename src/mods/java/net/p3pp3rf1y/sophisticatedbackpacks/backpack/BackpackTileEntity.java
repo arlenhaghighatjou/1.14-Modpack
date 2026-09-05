@@ -121,17 +121,17 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 
 	public void refreshRenderState() {
 		BlockState state = getBlockState();
-		state = state.setValue(LEFT_TANK, false);
-		state = state.setValue(RIGHT_TANK, false);
+		state = state.with(LEFT_TANK, false);
+		state = state.with(RIGHT_TANK, false);
 		BackpackRenderInfo renderInfo = backpackWrapper.getRenderInfo();
 		for (TankPosition pos : renderInfo.getTankRenderInfos().keySet()) {
 			if (pos == TankPosition.LEFT) {
-				state = state.setValue(LEFT_TANK, true);
+				state = state.with(LEFT_TANK, true);
 			} else if (pos == TankPosition.RIGHT) {
-				state = state.setValue(RIGHT_TANK, true);
+				state = state.with(RIGHT_TANK, true);
 			}
 		}
-		state = state.setValue(BATTERY, renderInfo.getBatteryRenderInfo().isPresent());
+		state = state.with(BATTERY, renderInfo.getBatteryRenderInfo().isPresent());
 		level.setBlockAndUpdate(worldPosition, state);
 		level.updateNeighborsAt(worldPosition, state.getBlock());
 		WorldHelper.notifyBlockUpdate(this);

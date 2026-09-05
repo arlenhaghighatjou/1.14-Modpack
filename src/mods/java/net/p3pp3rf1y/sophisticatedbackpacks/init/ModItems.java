@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.init;
 
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.dispenser.IBlockSource;
@@ -17,14 +19,6 @@ import net.minecraft.item.crafting.SmokingRecipe;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
@@ -132,114 +126,112 @@ import net.p3pp3rf1y.sophisticatedbackpacks.util.ItemBase;
 public class ModItems {
 	private ModItems() {}
 
-	private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SophisticatedBackpacks.MOD_ID);
-	private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, SophisticatedBackpacks.MOD_ID);
-	private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, SophisticatedBackpacks.MOD_ID);
 
-	public static final RegistryObject<BackpackItem> BACKPACK = ITEMS.register("backpack",
-			() -> new BackpackItem(Config.COMMON.leatherBackpack.inventorySlotCount::get, Config.COMMON.leatherBackpack.upgradeSlotCount::get, ModBlocks.BACKPACK));
-	public static final RegistryObject<BackpackItem> IRON_BACKPACK = ITEMS.register("iron_backpack",
-			() -> new BackpackItem(Config.COMMON.ironBackpack.inventorySlotCount::get, Config.COMMON.ironBackpack.upgradeSlotCount::get, ModBlocks.IRON_BACKPACK));
-	public static final RegistryObject<BackpackItem> GOLD_BACKPACK = ITEMS.register("gold_backpack",
-			() -> new BackpackItem(Config.COMMON.goldBackpack.inventorySlotCount::get, Config.COMMON.goldBackpack.upgradeSlotCount::get, ModBlocks.GOLD_BACKPACK));
-	public static final RegistryObject<BackpackItem> DIAMOND_BACKPACK = ITEMS.register("diamond_backpack",
-			() -> new BackpackItem(Config.COMMON.diamondBackpack.inventorySlotCount::get, Config.COMMON.diamondBackpack.upgradeSlotCount::get, ModBlocks.DIAMOND_BACKPACK));
-	public static final RegistryObject<BackpackItem> NETHERITE_BACKPACK = ITEMS.register("netherite_backpack",
-			() -> new BackpackItem(Config.COMMON.netheriteBackpack.inventorySlotCount::get, Config.COMMON.netheriteBackpack.upgradeSlotCount::get, ModBlocks.NETHERITE_BACKPACK, Item.Properties::fireResistant));
-	public static final RegistryObject<PickupUpgradeItem> PICKUP_UPGRADE = ITEMS.register("pickup_upgrade",
-			() -> new PickupUpgradeItem(Config.COMMON.pickupUpgrade.filterSlots::get));
-	public static final RegistryObject<PickupUpgradeItem> ADVANCED_PICKUP_UPGRADE = ITEMS.register("advanced_pickup_upgrade",
-			() -> new PickupUpgradeItem(Config.COMMON.advancedPickupUpgrade.filterSlots::get));
-	public static final RegistryObject<FilterUpgradeItem> FILTER_UPGRADE = ITEMS.register("filter_upgrade",
-			() -> new FilterUpgradeItem(Config.COMMON.filterUpgrade.filterSlots::get));
-	public static final RegistryObject<FilterUpgradeItem> ADVANCED_FILTER_UPGRADE = ITEMS.register("advanced_filter_upgrade",
-			() -> new FilterUpgradeItem(Config.COMMON.advancedFilterUpgrade.filterSlots::get));
-	public static final RegistryObject<MagnetUpgradeItem> MAGNET_UPGRADE = ITEMS.register("magnet_upgrade",
-			() -> new MagnetUpgradeItem(Config.COMMON.magnetUpgrade.magnetRange::get, Config.COMMON.magnetUpgrade.filterSlots::get));
-	public static final RegistryObject<MagnetUpgradeItem> ADVANCED_MAGNET_UPGRADE = ITEMS.register("advanced_magnet_upgrade",
-			() -> new MagnetUpgradeItem(Config.COMMON.advancedMagnetUpgrade.magnetRange::get, Config.COMMON.advancedMagnetUpgrade.filterSlots::get));
-	public static final RegistryObject<FeedingUpgradeItem> FEEDING_UPGRADE = ITEMS.register("feeding_upgrade",
-			() -> new FeedingUpgradeItem(Config.COMMON.feedingUpgrade.filterSlots::get));
-	public static final RegistryObject<FeedingUpgradeItem> ADVANCED_FEEDING_UPGRADE = ITEMS.register("advanced_feeding_upgrade",
-			() -> new FeedingUpgradeItem(Config.COMMON.advancedFeedingUpgrade.filterSlots::get));
-	public static final RegistryObject<CompactingUpgradeItem> COMPACTING_UPGRADE = ITEMS.register("compacting_upgrade",
-			() -> new CompactingUpgradeItem(false, Config.COMMON.compactingUpgrade.filterSlots::get));
-	public static final RegistryObject<CompactingUpgradeItem> ADVANCED_COMPACTING_UPGRADE = ITEMS.register("advanced_compacting_upgrade",
-			() -> new CompactingUpgradeItem(true, Config.COMMON.advancedCompactingUpgrade.filterSlots::get));
-	public static final RegistryObject<VoidUpgradeItem> VOID_UPGRADE = ITEMS.register("void_upgrade",
-			() -> new VoidUpgradeItem(Config.COMMON.voidUpgrade.filterSlots::get));
-	public static final RegistryObject<VoidUpgradeItem> ADVANCED_VOID_UPGRADE = ITEMS.register("advanced_void_upgrade",
-			() -> new VoidUpgradeItem(Config.COMMON.advancedVoidUpgrade.filterSlots::get));
-	public static final RegistryObject<RestockUpgradeItem> RESTOCK_UPGRADE = ITEMS.register("restock_upgrade",
-			() -> new RestockUpgradeItem(Config.COMMON.restockUpgrade.filterSlots::get));
-	public static final RegistryObject<RestockUpgradeItem> ADVANCED_RESTOCK_UPGRADE = ITEMS.register("advanced_restock_upgrade",
-			() -> new RestockUpgradeItem(Config.COMMON.advancedRestockUpgrade.filterSlots::get));
-	public static final RegistryObject<DepositUpgradeItem> DEPOSIT_UPGRADE = ITEMS.register("deposit_upgrade",
-			() -> new DepositUpgradeItem(Config.COMMON.depositUpgrade.filterSlots::get));
-	public static final RegistryObject<DepositUpgradeItem> ADVANCED_DEPOSIT_UPGRADE = ITEMS.register("advanced_deposit_upgrade",
-			() -> new DepositUpgradeItem(Config.COMMON.advancedDepositUpgrade.filterSlots::get));
-	public static final RegistryObject<RefillUpgradeItem> REFILL_UPGRADE = ITEMS.register("refill_upgrade",
-			RefillUpgradeItem::new);
-	public static final RegistryObject<InceptionUpgradeItem> INCEPTION_UPGRADE = ITEMS.register("inception_upgrade",
-			InceptionUpgradeItem::new);
-	public static final RegistryObject<EverlastingUpgradeItem> EVERLASTING_UPGRADE = ITEMS.register("everlasting_upgrade",
-			EverlastingUpgradeItem::new);
-	public static final RegistryObject<SmeltingUpgradeItem> SMELTING_UPGRADE = ITEMS.register("smelting_upgrade",
-			SmeltingUpgradeItem::new);
-	public static final RegistryObject<AutoSmeltingUpgradeItem> AUTO_SMELTING_UPGRADE = ITEMS.register("auto_smelting_upgrade",
-			AutoSmeltingUpgradeItem::new);
-	public static final RegistryObject<SmokingUpgradeItem> SMOKING_UPGRADE = ITEMS.register("smoking_upgrade",
-			SmokingUpgradeItem::new);
-	public static final RegistryObject<AutoSmokingUpgradeItem> AUTO_SMOKING_UPGRADE = ITEMS.register("auto_smoking_upgrade",
-			AutoSmokingUpgradeItem::new);
-	public static final RegistryObject<BlastingUpgradeItem> BLASTING_UPGRADE = ITEMS.register("blasting_upgrade",
-			BlastingUpgradeItem::new);
-	public static final RegistryObject<AutoBlastingUpgradeItem> AUTO_BLASTING_UPGRADE = ITEMS.register("auto_blasting_upgrade",
-			AutoBlastingUpgradeItem::new);
-	public static final RegistryObject<CraftingUpgradeItem> CRAFTING_UPGRADE = ITEMS.register("crafting_upgrade",
-			CraftingUpgradeItem::new);
-	public static final RegistryObject<StonecutterUpgradeItem> STONECUTTER_UPGRADE = ITEMS.register("stonecutter_upgrade",
-			StonecutterUpgradeItem::new);
-	public static final RegistryObject<StackUpgradeItem> STACK_UPGRADE_TIER_1 = ITEMS.register("stack_upgrade_tier_1", () ->
-			new StackUpgradeItem(2));
-	public static final RegistryObject<StackUpgradeItem> STACK_UPGRADE_TIER_2 = ITEMS.register("stack_upgrade_tier_2", () ->
-			new StackUpgradeItem(4));
-	public static final RegistryObject<StackUpgradeItem> STACK_UPGRADE_TIER_3 = ITEMS.register("stack_upgrade_tier_3", () ->
-			new StackUpgradeItem(8));
-	public static final RegistryObject<StackUpgradeItem> STACK_UPGRADE_TIER_4 = ITEMS.register("stack_upgrade_tier_4", () ->
-			new StackUpgradeItem(16));
-	public static final RegistryObject<JukeboxUpgradeItem> JUKEBOX_UPGRADE = ITEMS.register("jukebox_upgrade",
-			JukeboxUpgradeItem::new);
-	public static final RegistryObject<ToolSwapperUpgradeItem> TOOL_SWAPPER_UPGRADE = ITEMS.register("tool_swapper_upgrade",
-			() -> new ToolSwapperUpgradeItem(false, false));
-	public static final RegistryObject<ToolSwapperUpgradeItem> ADVANCED_TOOL_SWAPPER_UPGRADE = ITEMS.register("advanced_tool_swapper_upgrade",
-			() -> new ToolSwapperUpgradeItem(true, true));
-	public static final RegistryObject<TankUpgradeItem> TANK_UPGRADE = ITEMS.register("tank_upgrade", TankUpgradeItem::new);
-	public static final RegistryObject<BatteryUpgradeItem> BATTERY_UPGRADE = ITEMS.register("battery_upgrade", BatteryUpgradeItem::new);
-	public static final RegistryObject<PumpUpgradeItem> PUMP_UPGRADE = ITEMS.register("pump_upgrade", () -> new PumpUpgradeItem(false, false));
-	public static final RegistryObject<PumpUpgradeItem> ADVANCED_PUMP_UPGRADE = ITEMS.register("advanced_pump_upgrade", () -> new PumpUpgradeItem(true, true));
-	public static final RegistryObject<XpPumpUpgradeItem> XP_PUMP_UPGRADE = ITEMS.register("xp_pump_upgrade", XpPumpUpgradeItem::new);
+	public static BackpackItem BACKPACK;
+	public static BackpackItem IRON_BACKPACK;
+	public static BackpackItem GOLD_BACKPACK;
+	public static BackpackItem DIAMOND_BACKPACK;
+	public static BackpackItem NETHERITE_BACKPACK;
+	public static PickupUpgradeItem PICKUP_UPGRADE;
+	public static PickupUpgradeItem ADVANCED_PICKUP_UPGRADE;
+	public static FilterUpgradeItem FILTER_UPGRADE;
+	public static FilterUpgradeItem ADVANCED_FILTER_UPGRADE;
+	public static MagnetUpgradeItem MAGNET_UPGRADE;
+	public static MagnetUpgradeItem ADVANCED_MAGNET_UPGRADE;
+	public static FeedingUpgradeItem FEEDING_UPGRADE;
+	public static FeedingUpgradeItem ADVANCED_FEEDING_UPGRADE;
+	public static CompactingUpgradeItem COMPACTING_UPGRADE;
+	public static CompactingUpgradeItem ADVANCED_COMPACTING_UPGRADE;
+	public static VoidUpgradeItem VOID_UPGRADE;
+	public static VoidUpgradeItem ADVANCED_VOID_UPGRADE;
+	public static RestockUpgradeItem RESTOCK_UPGRADE;
+	public static RestockUpgradeItem ADVANCED_RESTOCK_UPGRADE;
+	public static DepositUpgradeItem DEPOSIT_UPGRADE;
+	public static DepositUpgradeItem ADVANCED_DEPOSIT_UPGRADE;
+	public static RefillUpgradeItem REFILL_UPGRADE;
+	public static InceptionUpgradeItem INCEPTION_UPGRADE;
+	public static EverlastingUpgradeItem EVERLASTING_UPGRADE;
+	public static SmeltingUpgradeItem SMELTING_UPGRADE;
+	public static AutoSmeltingUpgradeItem AUTO_SMELTING_UPGRADE;
+	public static SmokingUpgradeItem SMOKING_UPGRADE;
+	public static AutoSmokingUpgradeItem AUTO_SMOKING_UPGRADE;
+	public static BlastingUpgradeItem BLASTING_UPGRADE;
+	public static AutoBlastingUpgradeItem AUTO_BLASTING_UPGRADE;
+	public static CraftingUpgradeItem CRAFTING_UPGRADE;
+	public static StonecutterUpgradeItem STONECUTTER_UPGRADE;
+	public static StackUpgradeItem STACK_UPGRADE_TIER_1;
+	public static StackUpgradeItem STACK_UPGRADE_TIER_2;
+	public static StackUpgradeItem STACK_UPGRADE_TIER_3;
+	public static StackUpgradeItem STACK_UPGRADE_TIER_4;
+	public static JukeboxUpgradeItem JUKEBOX_UPGRADE;
+	public static ToolSwapperUpgradeItem TOOL_SWAPPER_UPGRADE;
+	public static ToolSwapperUpgradeItem ADVANCED_TOOL_SWAPPER_UPGRADE;
+	public static TankUpgradeItem TANK_UPGRADE;
+	public static BatteryUpgradeItem BATTERY_UPGRADE;
+	public static PumpUpgradeItem PUMP_UPGRADE;
+	public static PumpUpgradeItem ADVANCED_PUMP_UPGRADE;
+	public static XpPumpUpgradeItem XP_PUMP_UPGRADE;
 
-	public static final RegistryObject<ItemBase> UPGRADE_BASE = ITEMS.register("upgrade_base", () -> new ItemBase(new Item.Properties().stacksTo(16)));
+	public static ItemBase UPGRADE_BASE;
 
-	public static final RegistryObject<ContainerType<BackpackContainer>> BACKPACK_CONTAINER_TYPE = CONTAINERS.register("backpack",
-			() -> IForgeContainerType.create(BackpackContainer::fromBuffer));
+	public static ContainerType<BackpackContainer> BACKPACK_CONTAINER_TYPE;
 
-	public static final RegistryObject<ContainerType<SettingsContainer>> SETTINGS_CONTAINER_TYPE = CONTAINERS.register("settings",
-			() -> IForgeContainerType.create(SettingsContainer::fromBuffer));
+	public static ContainerType<SettingsContainer> SETTINGS_CONTAINER_TYPE;
 
-	public static final RegistryObject<EntityType<EverlastingBackpackItemEntity>> EVERLASTING_BACKPACK_ITEM_ENTITY = ENTITIES.register(
-			"everlasting_backpack_item", () -> EntityType.Builder.of(EverlastingBackpackItemEntity::new, EntityClassification.MISC)
-					.sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(20).build("")
-	);
+	public static EntityType<EverlastingBackpackItemEntity> EVERLASTING_BACKPACK_ITEM_ENTITY;
 
-	public static void registerHandlers(IEventBus modBus) {
-		ITEMS.register(modBus);
-		CONTAINERS.register(modBus);
-		ENTITIES.register(modBus);
-		modBus.addGenericListener(ContainerType.class, ModItems::registerContainers);
-		modBus.addGenericListener(IRecipeSerializer.class, ModItems::registerRecipeSerializers);
+
+	public static void registerContent() {
+		BACKPACK = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "backpack"), new BackpackItem(() -> Config.COMMON.leatherBackpack.inventorySlotCount, () -> Config.COMMON.leatherBackpack.upgradeSlotCount, ModBlocks.BACKPACK));
+		IRON_BACKPACK = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "iron_backpack"), new BackpackItem(() -> Config.COMMON.ironBackpack.inventorySlotCount, () -> Config.COMMON.ironBackpack.upgradeSlotCount, ModBlocks.IRON_BACKPACK));
+		GOLD_BACKPACK = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "gold_backpack"), new BackpackItem(() -> Config.COMMON.goldBackpack.inventorySlotCount, () -> Config.COMMON.goldBackpack.upgradeSlotCount, ModBlocks.GOLD_BACKPACK));
+		DIAMOND_BACKPACK = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "diamond_backpack"), new BackpackItem(() -> Config.COMMON.diamondBackpack.inventorySlotCount, () -> Config.COMMON.diamondBackpack.upgradeSlotCount, ModBlocks.DIAMOND_BACKPACK));
+		NETHERITE_BACKPACK = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "netherite_backpack"), new BackpackItem(() -> Config.COMMON.netheriteBackpack.inventorySlotCount, () -> Config.COMMON.netheriteBackpack.upgradeSlotCount, ModBlocks.NETHERITE_BACKPACK));
+		PICKUP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "pickup_upgrade"), new PickupUpgradeItem(() -> Config.COMMON.pickupUpgrade.filterSlots));
+		ADVANCED_PICKUP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_pickup_upgrade"), new PickupUpgradeItem(() -> Config.COMMON.advancedPickupUpgrade.filterSlots));
+		FILTER_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "filter_upgrade"), new FilterUpgradeItem(() -> Config.COMMON.filterUpgrade.filterSlots));
+		ADVANCED_FILTER_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_filter_upgrade"), new FilterUpgradeItem(() -> Config.COMMON.advancedFilterUpgrade.filterSlots));
+		MAGNET_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "magnet_upgrade"), new MagnetUpgradeItem(() -> Config.COMMON.magnetUpgrade.magnetRange, () -> Config.COMMON.magnetUpgrade.filterSlots));
+		ADVANCED_MAGNET_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_magnet_upgrade"), new MagnetUpgradeItem(() -> Config.COMMON.advancedMagnetUpgrade.magnetRange, () -> Config.COMMON.advancedMagnetUpgrade.filterSlots));
+		FEEDING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "feeding_upgrade"), new FeedingUpgradeItem(() -> Config.COMMON.feedingUpgrade.filterSlots));
+		ADVANCED_FEEDING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_feeding_upgrade"), new FeedingUpgradeItem(() -> Config.COMMON.advancedFeedingUpgrade.filterSlots));
+		COMPACTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "compacting_upgrade"), new CompactingUpgradeItem(false, () -> Config.COMMON.compactingUpgrade.filterSlots));
+		ADVANCED_COMPACTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_compacting_upgrade"), new CompactingUpgradeItem(true, () -> Config.COMMON.advancedCompactingUpgrade.filterSlots));
+		VOID_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "void_upgrade"), new VoidUpgradeItem(() -> Config.COMMON.voidUpgrade.filterSlots));
+		ADVANCED_VOID_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_void_upgrade"), new VoidUpgradeItem(() -> Config.COMMON.advancedVoidUpgrade.filterSlots));
+		RESTOCK_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "restock_upgrade"), new RestockUpgradeItem(() -> Config.COMMON.restockUpgrade.filterSlots));
+		ADVANCED_RESTOCK_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_restock_upgrade"), new RestockUpgradeItem(() -> Config.COMMON.advancedRestockUpgrade.filterSlots));
+		DEPOSIT_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "deposit_upgrade"), new DepositUpgradeItem(() -> Config.COMMON.depositUpgrade.filterSlots));
+		ADVANCED_DEPOSIT_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_deposit_upgrade"), new DepositUpgradeItem(() -> Config.COMMON.advancedDepositUpgrade.filterSlots));
+		REFILL_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "refill_upgrade"), new RefillUpgradeItem());
+		INCEPTION_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "inception_upgrade"), new InceptionUpgradeItem());
+		EVERLASTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "everlasting_upgrade"), new EverlastingUpgradeItem());
+		SMELTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "smelting_upgrade"), new SmeltingUpgradeItem());
+		AUTO_SMELTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "auto_smelting_upgrade"), new AutoSmeltingUpgradeItem());
+		SMOKING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "smoking_upgrade"), new SmokingUpgradeItem());
+		AUTO_SMOKING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "auto_smoking_upgrade"), new AutoSmokingUpgradeItem());
+		BLASTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "blasting_upgrade"), new BlastingUpgradeItem());
+		AUTO_BLASTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "auto_blasting_upgrade"), new AutoBlastingUpgradeItem());
+		CRAFTING_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "crafting_upgrade"), new CraftingUpgradeItem());
+		STONECUTTER_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "stonecutter_upgrade"), new StonecutterUpgradeItem());
+		STACK_UPGRADE_TIER_1 = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "stack_upgrade_tier_1"), new StackUpgradeItem(2));
+		STACK_UPGRADE_TIER_2 = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "stack_upgrade_tier_2"), new StackUpgradeItem(4));
+		STACK_UPGRADE_TIER_3 = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "stack_upgrade_tier_3"), new StackUpgradeItem(8));
+		STACK_UPGRADE_TIER_4 = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "stack_upgrade_tier_4"), new StackUpgradeItem(16));
+		JUKEBOX_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "jukebox_upgrade"), new JukeboxUpgradeItem());
+		TOOL_SWAPPER_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "tool_swapper_upgrade"), new ToolSwapperUpgradeItem(false, false));
+		ADVANCED_TOOL_SWAPPER_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_tool_swapper_upgrade"), new ToolSwapperUpgradeItem(true, true));
+		TANK_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "tank_upgrade"), new TankUpgradeItem());
+		BATTERY_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "battery_upgrade"), new BatteryUpgradeItem());
+		PUMP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "pump_upgrade"), new PumpUpgradeItem(false, false));
+		ADVANCED_PUMP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_pump_upgrade"), new PumpUpgradeItem(true, true));
+		XP_PUMP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "xp_pump_upgrade"), new XpPumpUpgradeItem());
+		UPGRADE_BASE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "upgrade_base"), new ItemBase(new Item.Properties().stacksTo(16)));
+		BACKPACK_CONTAINER_TYPE = Registry.register(Registry.MENU, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "backpack"), new ContainerType<>(BackpackContainer::fromOpenData));
+		SETTINGS_CONTAINER_TYPE = Registry.register(Registry.MENU, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "settings"), new ContainerType<>(SettingsContainer::fromOpenData));
+		EVERLASTING_BACKPACK_ITEM_ENTITY = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "everlasting_backpack_item"), EntityType.Builder.<EverlastingBackpackItemEntity>create(EverlastingBackpackItemEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).build("everlasting_backpack_item"));
 	}
+
 
 	private static final UpgradeContainerType<PickupUpgradeWrapper, ContentsFilteredUpgradeContainer<PickupUpgradeWrapper>> PICKUP_BASIC_TYPE = new UpgradeContainerType<>(ContentsFilteredUpgradeContainer::new);
 	private static final UpgradeContainerType<PickupUpgradeWrapper, ContentsFilteredUpgradeContainer<PickupUpgradeWrapper>> PICKUP_ADVANCED_TYPE = new UpgradeContainerType<>(ContentsFilteredUpgradeContainer::new);
@@ -273,40 +265,40 @@ public class ModItems {
 	private static final UpgradeContainerType<PumpUpgradeWrapper, PumpUpgradeContainer> ADVANCED_PUMP_TYPE = new UpgradeContainerType<>(PumpUpgradeContainer::new);
 	private static final UpgradeContainerType<XpPumpUpgradeWrapper, XpPumpUpgradeContainer> XP_PUMP_TYPE = new UpgradeContainerType<>(XpPumpUpgradeContainer::new);
 
-	public static void registerContainers(RegistryEvent.Register<ContainerType<?>> evt) {
-		UpgradeContainerRegistry.register(PICKUP_UPGRADE.getId(), PICKUP_BASIC_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_PICKUP_UPGRADE.getId(), PICKUP_ADVANCED_TYPE);
-		UpgradeContainerRegistry.register(FILTER_UPGRADE.getId(), FilterUpgradeContainer.BASIC_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_FILTER_UPGRADE.getId(), FilterUpgradeContainer.ADVANCED_TYPE);
-		UpgradeContainerRegistry.register(MAGNET_UPGRADE.getId(), MAGNET_BASIC_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_MAGNET_UPGRADE.getId(), MAGNET_ADVANCED_TYPE);
-		UpgradeContainerRegistry.register(FEEDING_UPGRADE.getId(), FEEDING_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_FEEDING_UPGRADE.getId(), ADVANCED_FEEDING_TYPE);
-		UpgradeContainerRegistry.register(COMPACTING_UPGRADE.getId(), COMPACTING_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_COMPACTING_UPGRADE.getId(), ADVANCED_COMPACTING_TYPE);
-		UpgradeContainerRegistry.register(VOID_UPGRADE.getId(), VOID_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_VOID_UPGRADE.getId(), ADVANCED_VOID_TYPE);
-		UpgradeContainerRegistry.register(RESTOCK_UPGRADE.getId(), RESTOCK_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_RESTOCK_UPGRADE.getId(), ADVANCED_RESTOCK_TYPE);
-		UpgradeContainerRegistry.register(DEPOSIT_UPGRADE.getId(), DEPOSIT_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_DEPOSIT_UPGRADE.getId(), ADVANCED_DEPOSIT_TYPE);
-		UpgradeContainerRegistry.register(REFILL_UPGRADE.getId(), REFILL_TYPE);
-		UpgradeContainerRegistry.register(SMELTING_UPGRADE.getId(), SMELTING_TYPE);
-		UpgradeContainerRegistry.register(AUTO_SMELTING_UPGRADE.getId(), AUTO_SMELTING_TYPE);
-		UpgradeContainerRegistry.register(SMOKING_UPGRADE.getId(), SMOKING_TYPE);
-		UpgradeContainerRegistry.register(AUTO_SMOKING_UPGRADE.getId(), AUTO_SMOKING_TYPE);
-		UpgradeContainerRegistry.register(BLASTING_UPGRADE.getId(), BLASTING_TYPE);
-		UpgradeContainerRegistry.register(AUTO_BLASTING_UPGRADE.getId(), AUTO_BLASTING_TYPE);
-		UpgradeContainerRegistry.register(CRAFTING_UPGRADE.getId(), CRAFTING_TYPE);
-		UpgradeContainerRegistry.register(INCEPTION_UPGRADE.getId(), INCEPTION_TYPE);
-		UpgradeContainerRegistry.register(STONECUTTER_UPGRADE.getId(), STONECUTTER_TYPE);
-		UpgradeContainerRegistry.register(JUKEBOX_UPGRADE.getId(), JUKEBOX_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_TOOL_SWAPPER_UPGRADE.getId(), TOOL_SWAPPER_TYPE);
-		UpgradeContainerRegistry.register(TANK_UPGRADE.getId(), TANK_TYPE);
-		UpgradeContainerRegistry.register(BATTERY_UPGRADE.getId(), BATTERY_TYPE);
-		UpgradeContainerRegistry.register(PUMP_UPGRADE.getId(), PUMP_TYPE);
-		UpgradeContainerRegistry.register(ADVANCED_PUMP_UPGRADE.getId(), ADVANCED_PUMP_TYPE);
-		UpgradeContainerRegistry.register(XP_PUMP_UPGRADE.getId(), XP_PUMP_TYPE);
+	public static void registerContainers() {
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(PICKUP_UPGRADE), PICKUP_BASIC_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_PICKUP_UPGRADE), PICKUP_ADVANCED_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(FILTER_UPGRADE), FilterUpgradeContainer.BASIC_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_FILTER_UPGRADE), FilterUpgradeContainer.ADVANCED_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(MAGNET_UPGRADE), MAGNET_BASIC_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_MAGNET_UPGRADE), MAGNET_ADVANCED_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(FEEDING_UPGRADE), FEEDING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_FEEDING_UPGRADE), ADVANCED_FEEDING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(COMPACTING_UPGRADE), COMPACTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_COMPACTING_UPGRADE), ADVANCED_COMPACTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(VOID_UPGRADE), VOID_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_VOID_UPGRADE), ADVANCED_VOID_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(RESTOCK_UPGRADE), RESTOCK_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_RESTOCK_UPGRADE), ADVANCED_RESTOCK_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(DEPOSIT_UPGRADE), DEPOSIT_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_DEPOSIT_UPGRADE), ADVANCED_DEPOSIT_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(REFILL_UPGRADE), REFILL_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(SMELTING_UPGRADE), SMELTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(AUTO_SMELTING_UPGRADE), AUTO_SMELTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(SMOKING_UPGRADE), SMOKING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(AUTO_SMOKING_UPGRADE), AUTO_SMOKING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(BLASTING_UPGRADE), BLASTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(AUTO_BLASTING_UPGRADE), AUTO_BLASTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(CRAFTING_UPGRADE), CRAFTING_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(INCEPTION_UPGRADE), INCEPTION_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(STONECUTTER_UPGRADE), STONECUTTER_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(JUKEBOX_UPGRADE), JUKEBOX_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_TOOL_SWAPPER_UPGRADE), TOOL_SWAPPER_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(TANK_UPGRADE), TANK_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(BATTERY_UPGRADE), BATTERY_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(PUMP_UPGRADE), PUMP_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_PUMP_UPGRADE), ADVANCED_PUMP_TYPE);
+		UpgradeContainerRegistry.register(Registry.ITEM.getKey(XP_PUMP_UPGRADE), XP_PUMP_TYPE);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			ScreenManager.register(BACKPACK_CONTAINER_TYPE.get(), BackpackScreen::constructScreen);
@@ -350,7 +342,7 @@ public class ModItems {
 		});
 	}
 
-	public static void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> evt) {
+	public static void registerRecipeSerializers() {
 		CraftingHelper.register(ItemEnabledCondition.Serializer.INSTANCE);
 
 		evt.getRegistry().register(BackpackUpgradeRecipe.SERIALIZER.setRegistryName(SophisticatedBackpacks.MOD_ID, "backpack_upgrade"));

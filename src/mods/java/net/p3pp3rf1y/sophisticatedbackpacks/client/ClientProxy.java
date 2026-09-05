@@ -218,8 +218,8 @@ public class ClientProxy extends CommonProxy {
 			BackpackScreen backpackScreen = (BackpackScreen) screen;
 
 			Slot slot = backpackScreen.getSlotUnderMouse();
-			if (slot != null && slot.getItem().getItem() instanceof BackpackItem) {
-				if (slot.getItem().getCount() == 1) {
+			if (slot != null && slot.getStack().getStack() instanceof BackpackItem) {
+				if (slot.getStack().getCount() == 1) {
 					PacketHandler.sendToServer(new BackpackOpenMessage(slot.index));
 				}
 			} else {
@@ -228,7 +228,7 @@ public class ClientProxy extends CommonProxy {
 		} else if (screen instanceof InventoryScreen) {
 			Slot slot = ((InventoryScreen) screen).getSlotUnderMouse();
 
-			if (slot != null && isSupportedPlayerInventorySlot(slot.index) && slot.getItem().getItem() instanceof BackpackItem) {
+			if (slot != null && isSupportedPlayerInventorySlot(slot.index) && slot.getStack().getStack() instanceof BackpackItem) {
 				PacketHandler.sendToServer(new BackpackOpenMessage(slot.getSlotIndex()));
 			}
 		}
@@ -284,7 +284,7 @@ public class ClientProxy extends CommonProxy {
 			MatrixStack poseStack = event.getMatrixStack();
 
 			for (Slot s : menu.slots) {
-				ItemStack stack = s.getItem();
+				ItemStack stack = s.getStack();
 				if (!s.canTakeStack(player) || stack.getCount() != 1) {
 					continue;
 				}
@@ -322,7 +322,7 @@ public class ClientProxy extends CommonProxy {
 			ItemStack held = mc.player.inventory.getItemStack();
 
 			if (under != null && !held.isEmpty() && under.canTakeStack(mc.player)) {
-				ItemStack stack = under.getItem();
+				ItemStack stack = under.getStack();
 				if (stack.getItem() instanceof BackpackItem && stack.getCount() == 1) {
 					PacketHandler.sendToServer(new BackpackInsertMessage(under.index));
 					screen.mouseReleased(0, 0, -1);
@@ -344,13 +344,13 @@ public class ClientProxy extends CommonProxy {
 			ClientRegistry.registerKeyBinding(SORT_KEYBIND);
 			UPGRADE_SLOT_TOGGLE_KEYBINDS.forEach((slot, keybind) -> ClientRegistry.registerKeyBinding(keybind));
 		});
-		RenderTypeLookup.setRenderLayer(ModBlocks.BACKPACK.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.IRON_BACKPACK.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.GOLD_BACKPACK.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.DIAMOND_BACKPACK.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.NETHERITE_BACKPACK.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.BACKPACK, RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.IRON_BACKPACK, RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.GOLD_BACKPACK, RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.DIAMOND_BACKPACK, RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(ModBlocks.NETHERITE_BACKPACK, RenderType.cutout());
 		RenderingRegistry.registerEntityRenderingHandler(EVERLASTING_BACKPACK_ITEM_ENTITY.get(), renderManager -> new ItemRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
-		ClientRegistry.bindTileEntityRenderer(ModBlocks.BACKPACK_TILE_TYPE.get(), BackpackTESR::new);
+		ClientRegistry.bindTileEntityRenderer(ModBlocks.BACKPACK_TILE_TYPE, BackpackTESR::new);
 	}
 
 	@SuppressWarnings("java:S3740") //explanation below

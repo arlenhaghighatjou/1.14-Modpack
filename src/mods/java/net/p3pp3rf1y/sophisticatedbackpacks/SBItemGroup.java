@@ -14,7 +14,7 @@ public class SBItemGroup extends ItemGroup {
 	@Override
 	public ItemStack makeIcon() {
 		if (tabIcon == null) {
-			tabIcon = new ItemStack(ModItems.BACKPACK.get());
+			tabIcon = new ItemStack(ModItems.BACKPACK);
 		}
 		return tabIcon;
 	}

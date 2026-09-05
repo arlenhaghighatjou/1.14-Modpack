@@ -74,17 +74,17 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 							itemstack1.grow(itemstack.getCount());
 							craftMatrix.setItem(i, itemstack1);
 						} else if (!player.inventory.add(itemstack1)) {
-							player.drop(itemstack1, false);
+							player.dropItem(itemstack1, false);
 						}
 					}
 					if (thePlayer.containerMenu instanceof BackpackContainer) {
 						Slot slot = slots.get(i);
-						((BackpackContainer) thePlayer.containerMenu).setSlotStackToUpdate(slot.index, slot.getItem());
+						((BackpackContainer) thePlayer.containerMenu).setSlotStackToUpdate(slot.index, slot.getStack());
 					}
 				}
 
 				if (!remainingStack.isEmpty()) {
-					player.drop(remainingStack, false);
+					player.dropItem(remainingStack, false);
 				}
 
 				return stack;
@@ -140,7 +140,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 	@Override
 	public ItemStack getSlotStackToTransfer(Slot slot) {
 		if (slot == craftingResultSlot) {
-			ItemStack slotStack = slot.getItem();
+			ItemStack slotStack = slot.getStack();
 			slotStack.getItem().onCraftedBy(slotStack, player.level, player);
 			return slotStack;
 		}

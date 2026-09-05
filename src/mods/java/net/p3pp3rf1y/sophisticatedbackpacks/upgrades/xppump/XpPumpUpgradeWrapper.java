@@ -66,13 +66,13 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 		if (entry != null) {
 			ItemStack itemStack = entry.getValue();
 			if (!itemStack.isEmpty() && itemStack.isDamaged() && itemStack.getXpRepairRatio() > 0) {
-				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending, itemStack.getDamageValue() / itemStack.getXpRepairRatio());
+				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending, itemStack.getDamage() / itemStack.getXpRepairRatio());
 				if (xpToTryDrain > 0) {
 					backpackWrapper.getFluidHandler().ifPresent(fluidHandler -> {
 						FluidStack drained = fluidHandler.drain(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(xpToTryDrain), IFluidHandler.FluidAction.EXECUTE, false);
 						float xpDrained = XpHelper.liquidToExperience(drained.getAmount());
 						int durationToRepair = (int) (xpDrained * itemStack.getXpRepairRatio());
-						itemStack.setDamageValue(itemStack.getDamageValue() - durationToRepair);
+						itemStack.setDamage(itemStack.getDamage() - durationToRepair);
 					});
 				}
 			}
@@ -116,7 +116,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 
 	private void tryFillTankWithPlayerExperience(PlayerEntity player, IBackpackFluidHandler fluidHandler, int stopAtLevel, boolean ignoreInOutLimit) {
 		int maxXpPointsToTake = XpHelper.getPlayerTotalExperience(player) - XpHelper.getExperienceForLevel(stopAtLevel);
-		int filled = fluidHandler.fill(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(maxXpPointsToTake), ModFluids.XP_STILL.get(), IFluidHandler.FluidAction.EXECUTE, ignoreInOutLimit);
+		int filled = fluidHandler.fill(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(maxXpPointsToTake), ModFluids.XP_STILL, IFluidHandler.FluidAction.EXECUTE, ignoreInOutLimit);
 
 		if (filled > 0) {
 			player.giveExperiencePoints((int) -XpHelper.liquidToExperience(filled));

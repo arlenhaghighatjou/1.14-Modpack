@@ -15,7 +15,7 @@ public interface IOverflowResponseUpgrade {
 			return true;
 		}
 
-		if (getFilterLogic().shouldMatchDurability() && stack.getDamageValue() != filterStack.getDamageValue()) {
+		if (getFilterLogic().shouldMatchDurability() && stack.getDamage() != filterStack.getDamage()) {
 			return false;
 		}
 

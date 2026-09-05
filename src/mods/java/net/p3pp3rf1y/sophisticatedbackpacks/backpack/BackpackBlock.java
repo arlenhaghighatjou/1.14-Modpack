@@ -110,12 +110,12 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public FluidState getFluidState(BlockState state) {
-		return Boolean.TRUE.equals(state.getValue(WATERLOGGED)) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+		return Boolean.TRUE.equals(state.get(WATERLOGGED)) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (Boolean.TRUE.equals(stateIn.getValue(WATERLOGGED))) {
+		if (Boolean.TRUE.equals(stateIn.get(WATERLOGGED))) {
 			worldIn.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
 		}
 
@@ -141,7 +141,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return BackpackShapes.getShape(state.getValue(FACING), state.getValue(LEFT_TANK), state.getValue(RIGHT_TANK), state.getValue(BATTERY));
+		return BackpackShapes.getShape(state.get(FACING), state.get(LEFT_TANK), state.get(RIGHT_TANK), state.get(BATTERY));
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 			return ActionResultType.SUCCESS;
 		}
 
-		ItemStack heldItem = player.getItemInHand(hand);
+		ItemStack heldItem = player.getHeldItem(hand);
 		if (player.isShiftKeyDown() && heldItem.isEmpty()) {
 			putInPlayersHandAndRemove(state, world, pos, player, hand);
 			return ActionResultType.SUCCESS;
@@ -191,7 +191,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	private ITextComponent getBackpackDisplayName(World world, BlockPos pos) {
-		ITextComponent defaultDisplayName = new ItemStack(ModItems.BACKPACK.get()).getDisplayName();
+		ITextComponent defaultDisplayName = new ItemStack(ModItems.BACKPACK).getDisplayName();
 		return WorldHelper.getTile(world, pos, BackpackTileEntity.class).map(te -> te.getBackpackWrapper().getBackpack().getDisplayName()).orElse(defaultDisplayName);
 	}
 
@@ -233,7 +233,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 			return;
 		}
 
-		putInPlayersHandAndRemove(state, world, pos, player, player.getMainHandItem().isEmpty() ? Hand.MAIN_HAND : Hand.OFF_HAND);
+		putInPlayersHandAndRemove(state, world, pos, player, player.getHeldItemMainhand().isEmpty() ? Hand.MAIN_HAND : Hand.OFF_HAND);
 
 		event.setCanceled(true);
 		event.setCancellationResult(ActionResultType.SUCCESS);
@@ -244,7 +244,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	private static boolean hasEmptyMainHandAndSomethingInOffhand(PlayerEntity player) {
-		return player.getMainHandItem().isEmpty() && !player.getOffhandItem().isEmpty();
+		return player.getHeldItemMainhand().isEmpty() && !player.getHeldItemOffhand().isEmpty();
 	}
 
 	@Override
@@ -276,7 +276,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	public void animateTick(BlockState state, World level, BlockPos pos, Random rand) {
 		WorldHelper.getTile(level, pos, BackpackTileEntity.class).ifPresent(te -> {
 			BackpackRenderInfo renderInfo = te.getBackpackWrapper().getRenderInfo();
-			renderUpgrades(level, rand, pos, state.getValue(FACING), renderInfo);
+			renderUpgrades(level, rand, pos, state.get(FACING), renderInfo);
 		});
 
 	}

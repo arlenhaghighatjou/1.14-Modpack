@@ -85,7 +85,7 @@ public class BackpackItem extends ItemBase {
     public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         super.fillItemCategory(group, items);
 
-        if (!allowdedIn(group) || this != ModItems.BACKPACK.get() || !Config.COMMON.enabledItems.isItemEnabled(this)) {
+        if (!allowdedIn(group) || this != ModItems.BACKPACK || !Config.COMMON.enabledItems.isItemEnabled(this)) {
             return;
         }
 
@@ -143,7 +143,7 @@ public class BackpackItem extends ItemBase {
 
     @Nullable
     private EverlastingBackpackItemEntity createEverlastingBackpack(World world, ItemEntity itemEntity, ItemStack itemstack) {
-        EverlastingBackpackItemEntity backpackItemEntity = ModItems.EVERLASTING_BACKPACK_ITEM_ENTITY.get().create(world);
+        EverlastingBackpackItemEntity backpackItemEntity = ModItems.EVERLASTING_BACKPACK_ITEM_ENTITY.create(world);
         if (backpackItemEntity != null) {
             backpackItemEntity.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
             backpackItemEntity.setItem(itemstack);
@@ -228,7 +228,7 @@ public class BackpackItem extends ItemBase {
             return backpack.copy();
         }
         return BackpackWrapperLookup.get(backpack)
-                .map(IBackpackWrapper::cloneBackpack).orElse(new ItemStack(ModItems.BACKPACK.get()));
+                .map(IBackpackWrapper::cloneBackpack).orElse(new ItemStack(ModItems.BACKPACK));
     }
 
     protected boolean canPlace(BlockItemUseContext context, BlockState state) {
@@ -239,7 +239,7 @@ public class BackpackItem extends ItemBase {
 
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+        ItemStack stack = player.getHeldItem(hand);
 
         if (!world.isRemote && player instanceof ServerPlayerEntity) {
             String handlerName = hand == Hand.MAIN_HAND ? PlayerInventoryProvider.MAIN_INVENTORY : PlayerInventoryProvider.OFFHAND_INVENTORY;
@@ -313,7 +313,7 @@ public class BackpackItem extends ItemBase {
 
     @Override
     public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
-        return stack.getItem() == ModItems.GOLD_BACKPACK.get();
+        return stack.getItem() == ModItems.GOLD_BACKPACK;
     }
 
     @Override

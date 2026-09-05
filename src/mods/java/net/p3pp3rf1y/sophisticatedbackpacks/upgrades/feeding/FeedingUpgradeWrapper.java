@@ -68,7 +68,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		AtomicBoolean fedPlayer = new AtomicBoolean(false);
 		InventoryHelper.iterate(inventory, (slot, stack) -> {
 			if (stack.isEdible() && filterLogic.matchesFilter(stack) && (isHungryEnoughForFood(hungerLevel, stack) || shouldFeedImmediatelyWhenHurt() && hungerLevel > 0 && isHurt)) {
-				ItemStack mainHandItem = player.getMainHandItem();
+				ItemStack mainHandItem = player.getHeldItemMainhand();
 				player.inventory.items.set(player.inventory.selected, stack);
 				if (stack.use(world, player, Hand.MAIN_HAND).getResult() == ActionResultType.CONSUME) {
 					player.inventory.items.set(player.inventory.selected, mainHandItem);

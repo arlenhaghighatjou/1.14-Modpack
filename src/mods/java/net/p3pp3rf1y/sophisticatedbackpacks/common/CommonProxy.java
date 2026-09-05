@@ -129,7 +129,7 @@ public class CommonProxy {
 	private void onCauldronInteract(PlayerInteractEvent.RightClickBlock event) {
 		PlayerEntity player = event.getPlayer();
 		Hand hand = event.getHand();
-		ItemStack backpack = player.getItemInHand(hand);
+		ItemStack backpack = player.getHeldItem(hand);
 		if (!(backpack.getItem() instanceof BackpackItem)) {
 			return;
 		}
@@ -141,7 +141,7 @@ public class CommonProxy {
 		if (block != Blocks.CAULDRON) {
 			return;
 		}
-		int level = state.getValue(CauldronBlock.LEVEL);
+		int level = state.get(CauldronBlock.LEVEL);
 
 		LazyOptional<IBackpackWrapper> backpackWrapperCapability = BackpackWrapperLookup.get(backpack);
 		if (level == 0 || backpackWrapperCapability.map(this::hasDefaultColor).orElse(true)) {

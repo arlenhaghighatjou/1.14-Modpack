@@ -94,7 +94,7 @@ public abstract class UpgradeContainerBase<W extends IUpgradeWrapper, C extends 
 	}
 
 	public ItemStack getSlotStackToTransfer(Slot slot) {
-		return slot.getItem();
+		return slot.getStack();
 	}
 
 	public void onTakeFromSlot(Slot slot, PlayerEntity player, ItemStack slotStack) {

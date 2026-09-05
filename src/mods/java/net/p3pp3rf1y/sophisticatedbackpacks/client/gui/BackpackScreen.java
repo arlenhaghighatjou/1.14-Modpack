@@ -218,7 +218,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	private boolean mouseNotOverBackpack() {
 		Slot selectedSlot = getSlotUnderMouse();
-		return selectedSlot == null || !(selectedSlot.getItem().getItem() instanceof BackpackItem);
+		return selectedSlot == null || !(selectedSlot.getStack().getStack() instanceof BackpackItem);
 	}
 
 	private Position getSortButtonsPosition(SortButtonsPosition sortButtonsPosition) {
@@ -279,7 +279,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			Slot slot = menu.realInventorySlots.get(slotId);
 			renderSlot(matrixStack, slot);
 
-			if (isHovering(slot, mouseX, mouseY) && slot.isActive()) {
+			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
 				renderSlotOverlay(matrixStack, slot, getSlotColor(slotId));
 			}
@@ -291,12 +291,12 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			Slot slot = menu.upgradeSlots.get(slotId);
 			if (slot.x != DISABLED_SLOT_X_POS) {
 				renderSlot(matrixStack, slot);
-				if (!slot.isActive()) {
+				if (!slot.isEnabled()) {
 					renderSlotOverlay(matrixStack, slot, DISABLED_SLOT_COLOR);
 				}
 			}
 
-			if (isHovering(slot, mouseX, mouseY) && slot.isActive()) {
+			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
 				renderSlotOverlay(matrixStack, slot, getSlotColor(slotId));
 			}
@@ -307,7 +307,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	protected void renderSlot(MatrixStack matrixStack, Slot slot) {
 		int i = slot.x;
 		int j = slot.y;
-		ItemStack itemstack = slot.getItem();
+		ItemStack itemstack = slot.getStack();
 		boolean flag = false;
 		boolean rightClickDragging = slot == clickedSlot && !draggingItem.isEmpty() && !isSplittingStack;
 		//noinspection ConstantConditions - player is not null at this point for sure
@@ -324,8 +324,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			if (BackpackContainer.canMergeItemToSlot(slot, itemstack1) && menu.canDragTo(slot)) {
 				itemstack = itemstack1.copy();
 				flag = true;
-				Container.getQuickCraftSlotCount(quickCraftSlots, quickCraftingType, itemstack, slot.getItem().isEmpty() ? 0 : slot.getItem().getCount());
-				int slotLimit = slot.getMaxStackSize(itemstack);
+				Container.getQuickCraftSlotCount(quickCraftSlots, quickCraftingType, itemstack, slot.getStack().isEmpty() ? 0 : slot.getStack().getCount());
+				int slotLimit = slot.getSlotStackLimit(itemstack);
 				if (itemstack.getCount() > slotLimit) {
 					stackCountText = TextFormatting.YELLOW + CountAbbreviator.abbreviate(slotLimit);
 					itemstack.setCount(slotLimit);
@@ -338,7 +338,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 		setBlitOffset(100);
 		itemRenderer.blitOffset = 100.0F;
-		if (itemstack.isEmpty() && slot.isActive()) {
+		if (itemstack.isEmpty() && slot.isEnabled()) {
 			renderSlotBackground(matrixStack, slot, i, j);
 		} else if (!rightClickDragging) {
 			renderStack(matrixStack, i, j, itemstack, flag, stackCountText);
@@ -373,7 +373,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			itemRenderer.renderAndDecorateItem(minecraft.player, memorizedStack.get(), i, j);
 			drawMemorizedStackOverlay(matrixStack, i, j);
 		} else {
-			Pair<ResourceLocation, ResourceLocation> pair = slot.getNoItemIcon();
+			Pair<ResourceLocation, ResourceLocation> pair = slot.getBackgroundLocation();
 			if (pair != null) {
 				TextureAtlasSprite textureatlassprite = minecraft.getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
 				minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
@@ -421,8 +421,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	@Override
 	protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
 		if (minecraft.player.inventory.getItemStack().isEmpty() && hoveredSlot != null) {
-			if (hoveredSlot.hasItem()) {
-				renderTooltip(matrixStack, hoveredSlot.getItem(), x, y);
+			if (hoveredSlot.getHasStack()) {
+				renderTooltip(matrixStack, hoveredSlot.getStack(), x, y);
 			} else if (hoveredSlot instanceof INameableEmptySlot) {
 				INameableEmptySlot emptySlot = (INameableEmptySlot) hoveredSlot;
 				if (emptySlot.hasEmptyTooltip()) {
@@ -504,14 +504,14 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	public Slot findSlot(double mouseX, double mouseY) {
 		for (int i = 0; i < menu.upgradeSlots.size(); ++i) {
 			Slot slot = menu.upgradeSlots.get(i);
-			if (isHovering(slot, mouseX, mouseY) && slot.isActive()) {
+			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}
 
 		for (int i = 0; i < menu.realInventorySlots.size(); ++i) {
 			Slot slot = menu.realInventorySlots.get(i);
-			if (isHovering(slot, mouseX, mouseY) && slot.isActive()) {
+			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}
@@ -542,8 +542,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void tryQuickMoveSlot(int button, Slot slot, Slot slot2) {
-		if (slot2.canTakeStack(minecraft.player) && slot2.hasItem() && slot2.isSameInventory(slot)) {
-			ItemStack slotItem = slot2.getItem();
+		if (slot2.canTakeStack(minecraft.player) && slot2.getHasStack() && slot2.isSameInventory(slot)) {
+			ItemStack slotItem = slot2.getStack();
 			if (slotItem.sameItem(lastQuickMoved) && ItemStack.tagMatches(lastQuickMoved, slotItem)) {
 				if (slotItem.getCount() > slotItem.getMaxStackSize()) {
 					PacketHandler.sendToServer(new TransferFullSlotMessage(slot2.index));
@@ -646,10 +646,10 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 				for (Slot slot : quickCraftSlots) {
 					ItemStack itemstack1 = cursorStack.copy();
-					ItemStack slotStack = slot.getItem();
+					ItemStack slotStack = slot.getStack();
 					int slotStackCount = slotStack.isEmpty() ? 0 : slotStack.getCount();
 					Container.getQuickCraftSlotCount(quickCraftSlots, quickCraftingType, itemstack1, slotStackCount);
-					int j = slot.getMaxStackSize(itemstack1);
+					int j = slot.getSlotStackLimit(itemstack1);
 					if (itemstack1.getCount() > j) {
 						itemstack1.setCount(j);
 					}

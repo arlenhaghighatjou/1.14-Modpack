@@ -408,7 +408,7 @@ public class GuiHelper {
 				CrashReportCategory crashreportcategory = crashreport.addCategory("Item being rendered");
 				crashreportcategory.setDetail("Item Type", () -> String.valueOf(stack.getItem()));
 				crashreportcategory.setDetail("Registry Name", () -> String.valueOf(Registry.ITEM.getKey(stack.getItem())));
-				crashreportcategory.setDetail("Item Damage", () -> String.valueOf(stack.getDamageValue()));
+				crashreportcategory.setDetail("Item Damage", () -> String.valueOf(stack.getDamage()));
 				crashreportcategory.setDetail("Item NBT", () -> String.valueOf(stack.getTag()));
 				crashreportcategory.setDetail("Item Foil", () -> String.valueOf(stack.hasFoil()));
 				throw new ReportedException(crashreport);

@@ -81,15 +81,15 @@ public class EntityBackpackAdditionHandler {
 	);
 
 	private static final List<WeightedElement<BackpackAddition>> BACKPACK_CHANCES = ImmutableList.of(
-			new WeightedElement<>(1, new BackpackAddition(ModItems.NETHERITE_BACKPACK.get(), 4,
+			new WeightedElement<>(1, new BackpackAddition(ModItems.NETHERITE_BACKPACK, 4,
 					HELMET_CHANCES.subList(0, 1), LEGGINGS_CHANCES.subList(0, 1), BOOTS_CHANCES.subList(0, 1))),
-			new WeightedElement<>(5, new BackpackAddition(ModItems.DIAMOND_BACKPACK.get(), 3,
+			new WeightedElement<>(5, new BackpackAddition(ModItems.DIAMOND_BACKPACK, 3,
 					HELMET_CHANCES.subList(0, 2), LEGGINGS_CHANCES.subList(0, 2), BOOTS_CHANCES.subList(0, 2))),
-			new WeightedElement<>(25, new BackpackAddition(ModItems.GOLD_BACKPACK.get(), 2,
+			new WeightedElement<>(25, new BackpackAddition(ModItems.GOLD_BACKPACK, 2,
 					HELMET_CHANCES.subList(1, 3), LEGGINGS_CHANCES.subList(1, 3), BOOTS_CHANCES.subList(1, 3))),
-			new WeightedElement<>(125, new BackpackAddition(ModItems.IRON_BACKPACK.get(), 1,
+			new WeightedElement<>(125, new BackpackAddition(ModItems.IRON_BACKPACK, 1,
 					HELMET_CHANCES.subList(2, 4), LEGGINGS_CHANCES.subList(2, 4), BOOTS_CHANCES.subList(2, 4))),
-			new WeightedElement<>(625, new BackpackAddition(ModItems.BACKPACK.get(), 0,
+			new WeightedElement<>(625, new BackpackAddition(ModItems.BACKPACK, 0,
 					HELMET_CHANCES.subList(3, 5), LEGGINGS_CHANCES.subList(3, 5), BOOTS_CHANCES.subList(3, 5)))
 	);
 
@@ -157,7 +157,7 @@ public class EntityBackpackAdditionHandler {
 	}
 
 	private static void addJukeboxUpgradeAndRandomDisc(MonsterEntity monster, IBackpackWrapper w) {
-		w.getUpgradeHandler().setStackInSlot(0, new ItemStack(ModItems.JUKEBOX_UPGRADE.get()));
+		w.getUpgradeHandler().setStackInSlot(0, new ItemStack(ModItems.JUKEBOX_UPGRADE));
 		Iterator<JukeboxUpgradeItem.Wrapper> it = w.getUpgradeHandler().getTypeWrappers(JukeboxUpgradeItem.TYPE).iterator();
 		if (it.hasNext()) {
 			JukeboxUpgradeItem.Wrapper wrapper = it.next();

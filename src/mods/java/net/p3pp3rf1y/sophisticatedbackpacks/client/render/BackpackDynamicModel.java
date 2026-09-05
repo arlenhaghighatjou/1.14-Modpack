@@ -168,9 +168,9 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 				addRightSide(state, side, rand, extraData, ret, tankRight);
 				addFront(state, side, rand, extraData, ret, battery);
 			} else {
-				addLeftSide(state, side, rand, extraData, ret, state.getValue(LEFT_TANK));
-				addRightSide(state, side, rand, extraData, ret, state.getValue(RIGHT_TANK));
-				addFront(state, side, rand, extraData, ret, state.getValue(BATTERY));
+				addLeftSide(state, side, rand, extraData, ret, state.get(LEFT_TANK));
+				addRightSide(state, side, rand, extraData, ret, state.get(RIGHT_TANK));
+				addFront(state, side, rand, extraData, ret, state.get(BATTERY));
 			}
 
 			return ret;

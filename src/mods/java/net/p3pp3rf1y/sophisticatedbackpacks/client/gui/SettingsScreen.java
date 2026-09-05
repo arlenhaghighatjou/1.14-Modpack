@@ -64,7 +64,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 			settingsTabControl.renderSlotOverlays(matrixStack, slot, this::renderSlotOverlay);
 
-			if (isHovering(slot, mouseX, mouseY) && slot.isActive()) {
+			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
 				renderSlotOverlay(matrixStack, slot, getSlotColor(slotId));
 			}
@@ -74,7 +74,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	@Override
 	protected void renderSlot(MatrixStack matrixStack, Slot slot) {
 		Optional<ItemStack> memorizedStack = getMenu().getMemorizedStackInSlot(slot.getSlotIndex());
-		ItemStack itemstack = slot.getItem();
+		ItemStack itemstack = slot.getStack();
 		if (memorizedStack.isPresent()) {
 			itemstack = memorizedStack.get();
 		}
@@ -128,7 +128,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	protected Slot findSlot(double mouseX, double mouseY) {
 		for (int i = 0; i < menu.ghostSlots.size(); ++i) {
 			Slot slot = menu.ghostSlots.get(i);
-			if (isHovering(slot, mouseX, mouseY) && slot.isActive()) {
+			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}

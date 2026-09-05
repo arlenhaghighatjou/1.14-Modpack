@@ -71,7 +71,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return false;
 		}
 
-		ItemStack mainHandItem = player.getMainHandItem();
+		ItemStack mainHandItem = player.getHeldItemMainhand();
 		if (mainHandItem.getItem() instanceof BackpackItem || (toolSwapMode == ToolSwapMode.ONLY_TOOLS && isSword(mainHandItem, player)) || (!isSword(mainHandItem, player) && !isTool(mainHandItem))) {
 			return false;
 		}
@@ -151,7 +151,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return false;
 		}
 
-		ItemStack mainHandItem = player.getMainHandItem();
+		ItemStack mainHandItem = player.getHeldItemMainhand();
 
 		if (isSword(mainHandItem, player)) {
 			return true;
@@ -310,7 +310,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean tryToSwapTool(PlayerEntity player, Predicate<ItemStack> isToolValid, @Nullable ResourceLocation targetRegistryName) {
-		ItemStack mainHandStack = player.getMainHandItem();
+		ItemStack mainHandStack = player.getHeldItemMainhand();
 		if (mainHandStack.getItem() instanceof BackpackItem) {
 			return false;
 		}

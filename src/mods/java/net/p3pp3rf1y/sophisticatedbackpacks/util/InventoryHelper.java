@@ -260,7 +260,7 @@ public class InventoryHelper {
 			}
 		}
 		if (!ret.isEmpty()) {
-			player.drop(ret, true);
+			player.dropItem(ret, true);
 		}
 	}
 
