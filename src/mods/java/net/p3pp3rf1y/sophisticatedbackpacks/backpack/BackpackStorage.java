@@ -20,15 +20,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BackpackStorage extends WorldSavedData {
 	private static final String SAVED_DATA_NAME = SophisticatedBackpacks.MOD_ID;
 
-	private final Map<UUID, CompoundNBT> backpackContents = new HashMap<>();
+	private final Map<EaglercraftUUID, CompoundNBT> backpackContents = new HashMap<>();
 	private static final BackpackStorage clientStorageCopy = new BackpackStorage();
-	private final Map<UUID, AccessLogRecord> accessLogRecords = new HashMap<>();
+	private final Map<EaglercraftUUID, AccessLogRecord> accessLogRecords = new HashMap<>();
 
 	private BackpackStorage() {
 		super(SAVED_DATA_NAME);
@@ -63,7 +63,7 @@ public class BackpackStorage extends WorldSavedData {
 	private void readBackpackContents(CompoundNBT nbt) {
 		for (INBT n : nbt.getList("backpackContents", Constants.NBT.TAG_COMPOUND)) {
 			CompoundNBT uuidContentsPair = (CompoundNBT) n;
-			UUID uuid = NBTUtil.loadUUID(Objects.requireNonNull(uuidContentsPair.get("uuid")));
+			EaglercraftUUID uuid = NBTUtil.loadUUID(Objects.requireNonNull(uuidContentsPair.get("uuid")));
 			CompoundNBT contents = uuidContentsPair.getCompound("contents");
 			backpackContents.put(uuid, contents);
 		}
@@ -79,7 +79,7 @@ public class BackpackStorage extends WorldSavedData {
 
 	private void writeBackpackContents(CompoundNBT ret) {
 		ListNBT backpackContentsNbt = new ListNBT();
-		for (Map.Entry<UUID, CompoundNBT> entry : backpackContents.entrySet()) {
+		for (Map.Entry<EaglercraftUUID, CompoundNBT> entry : backpackContents.entrySet()) {
 			CompoundNBT uuidContentsPair = new CompoundNBT();
 			uuidContentsPair.put("uuid", NBTUtil.createUUID(entry.getKey()));
 			uuidContentsPair.put("contents", entry.getValue());
@@ -96,7 +96,7 @@ public class BackpackStorage extends WorldSavedData {
 		ret.put("accessLogRecords", accessLogsNbt);
 	}
 
-	public CompoundNBT getOrCreateBackpackContents(UUID backpackUuid) {
+	public CompoundNBT getOrCreateBackpackContents(EaglercraftUUID backpackUuid) {
 		return backpackContents.computeIfAbsent(backpackUuid, uuid -> {
 			setDirty();
 			return new CompoundNBT();
@@ -108,11 +108,11 @@ public class BackpackStorage extends WorldSavedData {
 		setDirty();
 	}
 
-	public void removeBackpackContents(UUID backpackUuid) {
+	public void removeBackpackContents(EaglercraftUUID backpackUuid) {
 		backpackContents.remove(backpackUuid);
 	}
 
-	public void setBackpackContents(UUID backpackUuid, CompoundNBT contents) {
+	public void setBackpackContents(EaglercraftUUID backpackUuid, CompoundNBT contents) {
 		if (!backpackContents.containsKey(backpackUuid)) {
 			backpackContents.put(backpackUuid, contents);
 			updatedBackpackSettingsFlags.add(backpackUuid);
@@ -129,7 +129,7 @@ public class BackpackStorage extends WorldSavedData {
 		}
 	}
 
-	public Map<UUID, AccessLogRecord> getAccessLogs() {
+	public Map<EaglercraftUUID, AccessLogRecord> getAccessLogs() {
 		return accessLogRecords;
 	}
 
@@ -148,9 +148,9 @@ public class BackpackStorage extends WorldSavedData {
 		return numberRemoved.get();
 	}
 
-	private final Set<UUID> updatedBackpackSettingsFlags = new HashSet<>();
+	private final Set<EaglercraftUUID> updatedBackpackSettingsFlags = new HashSet<>();
 
-	public boolean removeUpdatedBackpackSettingsFlag(UUID backpackUuid) {
+	public boolean removeUpdatedBackpackSettingsFlag(EaglercraftUUID backpackUuid) {
 		return updatedBackpackSettingsFlags.remove(backpackUuid);
 	}
 }

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.Supplier;
 
 public class PlayerKnownWaystonesMessage {
@@ -39,7 +39,7 @@ public class PlayerKnownWaystonesMessage {
         int waystoneCount = buf.readShort();
         List<IWaystone> waystones = new ArrayList<>();
         for (int i = 0; i < waystoneCount; i++) {
-            UUID waystoneUid = buf.readUniqueId();
+            EaglercraftUUID waystoneUid = buf.readUniqueId();
             String name = buf.readString();
             boolean isGlobal = buf.readBoolean();
             DimensionType dimensionType = DimensionType.getById(buf.readInt());

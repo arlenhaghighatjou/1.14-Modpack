@@ -9,15 +9,15 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.render.BackpackTooltipRenderer;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.Supplier;
 
 public class BackpackContentsMessage {
-	private final UUID backpackUuid;
+	private final EaglercraftUUID backpackUuid;
 	@Nullable
 	private final CompoundNBT backpackContents;
 
-	public BackpackContentsMessage(UUID backpackUuid, @Nullable CompoundNBT backpackContents) {
+	public BackpackContentsMessage(EaglercraftUUID backpackUuid, @Nullable CompoundNBT backpackContents) {
 		this.backpackUuid = backpackUuid;
 		this.backpackContents = backpackContents;
 	}

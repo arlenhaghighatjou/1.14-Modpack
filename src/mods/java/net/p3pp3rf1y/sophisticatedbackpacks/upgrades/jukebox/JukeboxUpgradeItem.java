@@ -18,7 +18,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.UpgradeWrapperBase;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.NBTHelper;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -74,7 +74,7 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 							Item.getId(getDisc().getItem()), () -> setIsPlaying(false)));
 		}
 
-		private void play(World world, BiConsumer<ServerWorld, UUID> play) {
+		private void play(World world, BiConsumer<ServerWorld, EaglercraftUUID> play) {
 			if (!(world instanceof ServerWorld) || getDisc().isEmpty()) {
 				return;
 			}

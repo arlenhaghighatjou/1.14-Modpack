@@ -26,7 +26,7 @@ import net.minecraft.world.IWorld;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class WaystoneTileEntity extends TileEntity {
 
@@ -99,7 +99,7 @@ public class WaystoneTileEntity extends TileEntity {
     }
 
     public void initializeWaystone(IWorld world, @Nullable LivingEntity player, boolean wasGenerated) {
-        Waystone waystone = new Waystone(UUID.randomUUID(), world.getDimension().getType(), pos, wasGenerated, player != null ? player.getUniqueID() : null);
+        Waystone waystone = new Waystone(EaglercraftUUID.randomUUID(), world.getDimension().getType(), pos, wasGenerated, player != null ? player.getUniqueID() : null);
         String name = NameGenerator.get().getName(waystone, world.getRandom());
         waystone.setName(name);
         WaystoneManager.get().addWaystone(waystone);

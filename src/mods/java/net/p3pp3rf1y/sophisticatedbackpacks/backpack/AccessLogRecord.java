@@ -3,11 +3,11 @@ package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class AccessLogRecord {
 	private final ResourceLocation backpackItemRegistryName;
-	private final UUID backpackUuid;
+	private final EaglercraftUUID backpackUuid;
 	private final String playerName;
 	private final String backpackName;
 	private final int clothColor;
@@ -15,7 +15,7 @@ public class AccessLogRecord {
 	private final long accessTime;
 	private final int columnsTaken;
 
-	public AccessLogRecord(ResourceLocation backpackItemRegistryName, UUID backpackUuid, String playerName, String backpackName, int clothColor, int trimColor, long accessTime, int columnsTaken) {
+	public AccessLogRecord(ResourceLocation backpackItemRegistryName, EaglercraftUUID backpackUuid, String playerName, String backpackName, int clothColor, int trimColor, long accessTime, int columnsTaken) {
 		this.backpackItemRegistryName = backpackItemRegistryName;
 		this.backpackUuid = backpackUuid;
 		this.playerName = playerName;
@@ -26,7 +26,7 @@ public class AccessLogRecord {
 		this.columnsTaken = columnsTaken;
 	}
 
-	public UUID getBackpackUuid() {
+	public EaglercraftUUID getBackpackUuid() {
 		return backpackUuid;
 	}
 

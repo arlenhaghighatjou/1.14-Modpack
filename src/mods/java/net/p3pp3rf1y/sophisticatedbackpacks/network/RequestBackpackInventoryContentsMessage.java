@@ -10,13 +10,13 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackInventoryHa
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackUpgradeHandler;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.Supplier;
 
 public class RequestBackpackInventoryContentsMessage {
-	private final UUID backpackUuid;
+	private final EaglercraftUUID backpackUuid;
 
-	public RequestBackpackInventoryContentsMessage(UUID backpackUuid) {
+	public RequestBackpackInventoryContentsMessage(EaglercraftUUID backpackUuid) {
 		this.backpackUuid = backpackUuid;
 	}
 

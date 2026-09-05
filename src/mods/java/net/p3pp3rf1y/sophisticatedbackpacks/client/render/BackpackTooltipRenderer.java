@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class BackpackTooltipRenderer {
 
@@ -50,7 +50,7 @@ public class BackpackTooltipRenderer {
 	private static long lastRequestTime = 0;
 	private static ContentsTooltipPart contentsTooltipPart;
 	@Nullable
-	private static UUID backpackUuid = null;
+	private static EaglercraftUUID backpackUuid = null;
 
 	@SuppressWarnings("unused") //parameter needs to be there so that addListener logic would know which event this method listens to
 	public static void onWorldLoad(WorldEvent.Load event) {
@@ -105,7 +105,7 @@ public class BackpackTooltipRenderer {
 	}
 
 	private static void initContents(Minecraft minecraft, ClientPlayerEntity player, IBackpackWrapper wrapper) {
-		UUID newUuid = wrapper.getContentsUuid().orElse(null);
+		EaglercraftUUID newUuid = wrapper.getContentsUuid().orElse(null);
 		if (backpackUuid == null && newUuid != null || backpackUuid != null && !backpackUuid.equals(newUuid)) {
 			lastRequestTime = 0;
 			backpackUuid = newUuid;

@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -102,7 +102,7 @@ public class NBTHelper {
 		return getTagValue(stack, key, CompoundNBT::getLong);
 	}
 
-	public static Optional<UUID> getUniqueId(ItemStack stack, String key) {
+	public static Optional<EaglercraftUUID> getUniqueId(ItemStack stack, String key) {
 		//noinspection ConstantConditions - contains check is run before this get so it won't be null
 		return getTagValue(stack, key, (compound, k) -> NBTUtil.loadUUID(compound.get(k)));
 	}
@@ -171,7 +171,7 @@ public class NBTHelper {
 		stack.getOrCreateTag().putInt(key, value);
 	}
 
-	public static void setUniqueId(ItemStack stack, String key, UUID uuid) {
+	public static void setUniqueId(ItemStack stack, String key, EaglercraftUUID uuid) {
 		stack.getOrCreateTag().putIntArray(key, UUIDCodec.uuidToIntArray(uuid));
 	}
 

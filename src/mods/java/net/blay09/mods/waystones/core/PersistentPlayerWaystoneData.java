@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class PersistentPlayerWaystoneData implements IPlayerWaystoneData {
     private static final String TAG_NAME = "WaystonesData";
@@ -44,7 +44,7 @@ public class PersistentPlayerWaystoneData implements IPlayerWaystoneData {
         ListNBT activatedWaystones = getActivatedWaystonesData(getWaystonesData(player));
         List<IWaystone> waystones = new ArrayList<>();
         for (INBT activatedWaystone : activatedWaystones) {
-            WaystoneProxy proxy = new WaystoneProxy(UUID.fromString(activatedWaystone.getString()));
+            WaystoneProxy proxy = new WaystoneProxy(EaglercraftUUID.fromString(activatedWaystone.getString()));
             if (proxy.isValid()) {
                 waystones.add(proxy);
             }

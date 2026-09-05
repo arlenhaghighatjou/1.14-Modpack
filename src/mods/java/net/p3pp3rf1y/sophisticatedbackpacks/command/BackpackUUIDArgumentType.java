@@ -8,7 +8,7 @@ import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.UUIDArgument;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackAccessLogger;
 
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -16,7 +16,7 @@ public class BackpackUUIDArgumentType extends UUIDArgument {
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
 		if (context.getSource() instanceof CommandSource) {
-			return ISuggestionProvider.suggest(BackpackAccessLogger.getBackpackUuids().stream().map(UUID::toString).collect(Collectors.toList()), builder);
+			return ISuggestionProvider.suggest(BackpackAccessLogger.getBackpackUuids().stream().map(EaglercraftUUID::toString).collect(Collectors.toList()), builder);
 		} else if (context.getSource() instanceof ISuggestionProvider) {
 			ISuggestionProvider isuggestionprovider = (ISuggestionProvider) context.getSource();
 			return isuggestionprovider.customSuggestion((CommandContext<ISuggestionProvider>) context, builder);

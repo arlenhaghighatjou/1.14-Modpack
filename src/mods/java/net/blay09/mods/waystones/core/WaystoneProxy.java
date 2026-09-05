@@ -5,14 +5,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class WaystoneProxy implements IWaystone {
 
-    private final UUID waystoneUid;
+    private final EaglercraftUUID waystoneUid;
     private IWaystone backingWaystone;
 
-    public WaystoneProxy(UUID waystoneUid) {
+    public WaystoneProxy(EaglercraftUUID waystoneUid) {
         this.waystoneUid = waystoneUid;
     }
 
@@ -30,12 +30,12 @@ public class WaystoneProxy implements IWaystone {
     }
 
     @Override
-    public UUID getOwnerUid() {
+    public EaglercraftUUID getOwnerUid() {
         return getBackingWaystone().getOwnerUid();
     }
 
     @Override
-    public UUID getWaystoneUid() {
+    public EaglercraftUUID getWaystoneUid() {
         return waystoneUid;
     }
 

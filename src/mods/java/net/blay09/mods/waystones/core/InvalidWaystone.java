@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class InvalidWaystone implements IWaystone {
 
@@ -20,13 +20,13 @@ public class InvalidWaystone implements IWaystone {
 
     @Nullable
     @Override
-    public UUID getOwnerUid() {
+    public EaglercraftUUID getOwnerUid() {
         return null;
     }
 
     @Override
-    public UUID getWaystoneUid() {
-        return UUID.randomUUID();
+    public EaglercraftUUID getWaystoneUid() {
+        return EaglercraftUUID.randomUUID();
     }
 
     @Override

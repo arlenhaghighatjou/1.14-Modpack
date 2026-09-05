@@ -6,13 +6,13 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.Supplier;
 
 public class SoundStopNotificationMessage {
-	private final UUID backpackUuid;
+	private final EaglercraftUUID backpackUuid;
 
-	public SoundStopNotificationMessage(UUID backpackUuid) {
+	public SoundStopNotificationMessage(EaglercraftUUID backpackUuid) {
 		this.backpackUuid = backpackUuid;
 	}
 

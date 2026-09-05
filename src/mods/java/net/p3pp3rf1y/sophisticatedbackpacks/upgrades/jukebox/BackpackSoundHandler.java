@@ -15,7 +15,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 
 import java.util.Map;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BackpackSoundHandler {
@@ -23,16 +23,16 @@ public class BackpackSoundHandler {
 
 	private BackpackSoundHandler() {}
 
-	private static final Map<UUID, ISound> backpackSounds = new ConcurrentHashMap<>();
+	private static final Map<EaglercraftUUID, ISound> backpackSounds = new ConcurrentHashMap<>();
 	private static long lastPlaybackChecked = 0;
 
-	public static void playBackpackSound(UUID backpackUuid, ISound sound) {
+	public static void playBackpackSound(EaglercraftUUID backpackUuid, ISound sound) {
 		stopBackpackSound(backpackUuid);
 		backpackSounds.put(backpackUuid, sound);
 		Minecraft.getInstance().getSoundManager().play(sound);
 	}
 
-	public static void stopBackpackSound(UUID backpackUuid) {
+	public static void stopBackpackSound(EaglercraftUUID backpackUuid) {
 		if (backpackSounds.containsKey(backpackUuid)) {
 			Minecraft.getInstance().getSoundManager().stop(backpackSounds.remove(backpackUuid));
 			PacketHandler.sendToServer(new SoundStopNotificationMessage(backpackUuid));
@@ -52,11 +52,11 @@ public class BackpackSoundHandler {
 		}
 	}
 
-	public static void playBackpackSound(SoundEvent soundEvent, UUID backpackUuid, BlockPos pos) {
+	public static void playBackpackSound(SoundEvent soundEvent, EaglercraftUUID backpackUuid, BlockPos pos) {
 		playBackpackSound(backpackUuid, SimpleSound.forRecord(soundEvent, pos.getX(), pos.getY(), pos.getZ()));
 	}
 
-	public static void playBackpackSound(SoundEvent soundEvent, UUID backpackUuid, int entityId) {
+	public static void playBackpackSound(SoundEvent soundEvent, EaglercraftUUID backpackUuid, int entityId) {
 		ClientWorld world = Minecraft.getInstance().level;
 		if (world == null) {
 			return;

@@ -3,13 +3,13 @@ package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.Supplier;
 
 public class StopDiscPlaybackMessage {
-	private final UUID backpackUuid;
+	private final EaglercraftUUID backpackUuid;
 
-	public StopDiscPlaybackMessage(UUID backpackUuid) {
+	public StopDiscPlaybackMessage(EaglercraftUUID backpackUuid) {
 		this.backpackUuid = backpackUuid;
 	}
 

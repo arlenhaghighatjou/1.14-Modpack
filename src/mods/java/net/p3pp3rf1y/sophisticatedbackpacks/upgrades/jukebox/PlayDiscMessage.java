@@ -7,24 +7,24 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import java.util.function.Supplier;
 
 public class PlayDiscMessage {
 	private final boolean blockBackpack;
-	private final UUID backpackUuid;
+	private final EaglercraftUUID backpackUuid;
 	private final int musicDiscItemId;
 	private int entityId;
 	private BlockPos pos;
 
-	public PlayDiscMessage(UUID backpackUuid, int musicDiscItemId, BlockPos pos) {
+	public PlayDiscMessage(EaglercraftUUID backpackUuid, int musicDiscItemId, BlockPos pos) {
 		blockBackpack = true;
 		this.backpackUuid = backpackUuid;
 		this.musicDiscItemId = musicDiscItemId;
 		this.pos = pos;
 	}
 
-	public PlayDiscMessage(UUID backpackUuid, int musicDiscItemId, int entityId) {
+	public PlayDiscMessage(EaglercraftUUID backpackUuid, int musicDiscItemId, int entityId) {
 		blockBackpack = false;
 		this.backpackUuid = backpackUuid;
 		this.musicDiscItemId = musicDiscItemId;
@@ -61,7 +61,7 @@ public class PlayDiscMessage {
 			return;
 		}
 		SoundEvent soundEvent = ((MusicDiscItem) discItem).getSound();
-		UUID backpackUuid = msg.backpackUuid;
+		EaglercraftUUID backpackUuid = msg.backpackUuid;
 		if (msg.blockBackpack) {
 			BackpackSoundHandler.playBackpackSound(soundEvent, backpackUuid, msg.pos);
 		} else {

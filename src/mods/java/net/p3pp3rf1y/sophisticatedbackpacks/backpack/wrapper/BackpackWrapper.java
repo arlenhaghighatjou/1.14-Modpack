@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class BackpackWrapper implements IBackpackWrapper {
 	public static final int DEFAULT_CLOTH_COLOR = 13394234;
@@ -242,17 +242,17 @@ public class BackpackWrapper implements IBackpackWrapper {
 	}
 
 	@Override
-	public Optional<UUID> getContentsUuid() {
+	public Optional<EaglercraftUUID> getContentsUuid() {
 		return NBTHelper.getUniqueId(backpack, CONTENTS_UUID_TAG);
 	}
 
-	private UUID getOrCreateContentsUuid() {
-		Optional<UUID> contentsUuid = getContentsUuid();
+	private EaglercraftUUID getOrCreateContentsUuid() {
+		Optional<EaglercraftUUID> contentsUuid = getContentsUuid();
 		if (contentsUuid.isPresent()) {
 			return contentsUuid.get();
 		}
 		clearDummyHandlers();
-		UUID newUuid = UUID.randomUUID();
+		EaglercraftUUID newUuid = EaglercraftUUID.randomUUID();
 		setContentsUuid(newUuid);
 		migrateBackpackContents(newUuid);
 		return newUuid;
@@ -267,12 +267,12 @@ public class BackpackWrapper implements IBackpackWrapper {
 		}
 	}
 
-	private void migrateBackpackContents(UUID newUuid) {
+	private void migrateBackpackContents(EaglercraftUUID newUuid) {
 		migrateNbtTag(newUuid, BackpackInventoryHandler.INVENTORY_TAG);
 		migrateNbtTag(newUuid, BackpackUpgradeHandler.UPGRADE_INVENTORY_TAG);
 	}
 
-	private void migrateNbtTag(UUID newUuid, String key) {
+	private void migrateNbtTag(EaglercraftUUID newUuid, String key) {
 		NBTHelper.getCompound(backpack, key)
 				.ifPresent(nbt -> {
 					BackpackStorage.get().getOrCreateBackpackContents(newUuid).put(key, nbt);
@@ -413,7 +413,7 @@ public class BackpackWrapper implements IBackpackWrapper {
 	}
 
 	@Override
-	public void setContentsUuid(UUID backpackUuid) {
+	public void setContentsUuid(EaglercraftUUID backpackUuid) {
 		NBTHelper.setUniqueId(backpack, CONTENTS_UUID_TAG, backpackUuid);
 	}
 

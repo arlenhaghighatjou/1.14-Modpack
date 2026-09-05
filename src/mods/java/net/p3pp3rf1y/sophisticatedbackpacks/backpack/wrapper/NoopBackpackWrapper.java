@@ -10,7 +10,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.IItemHandlerSimpleInserter;
 
 import java.util.Optional;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 @SuppressWarnings("java:S4144") //this is noop wrapper and thus identical implementation isn't an issue especially when it means just returning same field
 public class NoopBackpackWrapper implements IBackpackWrapper {
@@ -60,7 +60,7 @@ public class NoopBackpackWrapper implements IBackpackWrapper {
 	}
 
 	@Override
-	public Optional<UUID> getContentsUuid() {
+	public Optional<EaglercraftUUID> getContentsUuid() {
 		return Optional.empty();
 	}
 
@@ -155,7 +155,7 @@ public class NoopBackpackWrapper implements IBackpackWrapper {
 	}
 
 	@Override
-	public void setContentsUuid(UUID backpackUuid) {
+	public void setContentsUuid(EaglercraftUUID backpackUuid) {
 		//noop
 	}
 

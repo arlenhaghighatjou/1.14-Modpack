@@ -18,7 +18,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackAccessLogger;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.RandHelper;
 
 import java.util.Collection;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class GiveCommand {
 	private GiveCommand() {}
@@ -28,12 +28,12 @@ public class GiveCommand {
 		return Commands.literal("give")
 				.then(Commands.argument("targets", EntityArgument.players())
 						.then(Commands.argument("backpackUuid", BackpackUUIDArgumentType.backpackUuid())
-								.executes(context -> giveBackpack(context.getSource(), context.getArgument("backpackUuid", UUID.class), EntityArgument.getPlayers(context, "targets")))
+								.executes(context -> giveBackpack(context.getSource(), context.getArgument("backpackUuid", EaglercraftUUID.class), EntityArgument.getPlayers(context, "targets")))
 						)
 				);
 	}
 
-	private static int giveBackpack(CommandSource source, UUID backpackUuid, Collection<ServerPlayerEntity> players) {
+	private static int giveBackpack(CommandSource source, EaglercraftUUID backpackUuid, Collection<ServerPlayerEntity> players) {
 		BackpackAccessLogger.getBackpackLog(backpackUuid).ifPresent(alr -> {
 			Item item = ForgeRegistries.ITEMS.getValue(alr.getBackpackItemRegistryName());
 			ItemStack backpack = new ItemStack(item);

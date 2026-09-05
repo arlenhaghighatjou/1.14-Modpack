@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public class BackpackAccessLogger {
 	private static final int REFRESH_INTERVAL_SECONDS = 30;
@@ -20,7 +20,7 @@ public class BackpackAccessLogger {
 	private static long lastCacheRefresh = 0;
 	private static final Map<String, Set<AccessLogRecord>> playerLogCache = new HashMap<>();
 
-	public static void logPlayerAccess(PlayerEntity player, Item backpackItem, UUID backpackUuid, String backpackName, int clothColor, int trimColor, int columnsTaken) {
+	public static void logPlayerAccess(PlayerEntity player, Item backpackItem, EaglercraftUUID backpackUuid, String backpackName, int clothColor, int trimColor, int columnsTaken) {
 		if (player.level.isClientSide) {
 			return;
 		}
@@ -52,11 +52,11 @@ public class BackpackAccessLogger {
 		return BackpackStorage.get().getAccessLogs().values();
 	}
 
-	public static Set<UUID> getBackpackUuids() {
+	public static Set<EaglercraftUUID> getBackpackUuids() {
 		return BackpackStorage.get().getAccessLogs().keySet();
 	}
 
-	public static Optional<AccessLogRecord> getBackpackLog(UUID backpackUuid) {
+	public static Optional<AccessLogRecord> getBackpackLog(EaglercraftUUID backpackUuid) {
 		return Optional.ofNullable(BackpackStorage.get().getAccessLogs().get(backpackUuid));
 	}
 }

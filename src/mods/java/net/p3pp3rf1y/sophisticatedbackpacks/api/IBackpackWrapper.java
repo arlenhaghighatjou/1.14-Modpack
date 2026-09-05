@@ -12,7 +12,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.SortBy;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.IItemHandlerSimpleInserter;
 
 import java.util.Optional;
-import java.util.UUID;
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 
 public interface IBackpackWrapper {
 
@@ -34,7 +34,7 @@ public interface IBackpackWrapper {
 
 	BackpackUpgradeHandler getUpgradeHandler();
 
-	Optional<UUID> getContentsUuid();
+	Optional<EaglercraftUUID> getContentsUuid();
 
 	int getClothColor();
 
@@ -72,7 +72,7 @@ public interface IBackpackWrapper {
 
 	void fillWithLoot(PlayerEntity playerEntity);
 
-	void setContentsUuid(UUID backpackUuid);
+	void setContentsUuid(EaglercraftUUID backpackUuid);
 
 	BackpackRenderInfo getRenderInfo();
 
