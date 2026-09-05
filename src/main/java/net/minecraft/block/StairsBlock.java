@@ -76,7 +76,7 @@ public class StairsBlock extends Block implements IWaterLoggable {
         return voxelshape;
     }
 
-    protected StairsBlock(BlockState state, Block.Properties properties) {
+    public StairsBlock(BlockState state, Block.Properties properties) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(HALF, Half.BOTTOM).with(SHAPE, StairsShape.STRAIGHT).with(WATERLOGGED, Boolean.valueOf(false)));
         this.modelBlock = state.getBlock();

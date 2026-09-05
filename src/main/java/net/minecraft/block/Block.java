@@ -67,7 +67,7 @@ public class Block implements IItemProvider {
     protected final boolean ticksRandomly;
     protected final SoundType soundType;
     protected final Material material;
-    protected final MaterialColor materialColor;
+    public final MaterialColor materialColor;
     private final float slipperiness;
     protected final StateContainer<Block, BlockState> stateContainer;
     private BlockState defaultState;
@@ -790,12 +790,12 @@ public class Block implements IItemProvider {
             return this;
         }
 
-        protected Block.Properties sound(SoundType soundTypeIn) {
+        public Block.Properties sound(SoundType soundTypeIn) {
             this.soundType = soundTypeIn;
             return this;
         }
 
-        protected Block.Properties lightValue(int lightValueIn) {
+        public Block.Properties lightValue(int lightValueIn) {
             this.lightValue = lightValueIn;
             return this;
         }
@@ -806,26 +806,26 @@ public class Block implements IItemProvider {
             return this;
         }
 
-        protected Block.Properties zeroHardnessAndResistance() {
+        public Block.Properties zeroHardnessAndResistance() {
             return this.hardnessAndResistance(0.0F);
         }
 
-        protected Block.Properties hardnessAndResistance(float hardnessAndResistance) {
+        public Block.Properties hardnessAndResistance(float hardnessAndResistance) {
             this.hardnessAndResistance(hardnessAndResistance, hardnessAndResistance);
             return this;
         }
 
-        protected Block.Properties tickRandomly() {
+        public Block.Properties tickRandomly() {
             this.ticksRandomly = true;
             return this;
         }
 
-        protected Block.Properties variableOpacity() {
+        public Block.Properties variableOpacity() {
             this.variableOpacity = true;
             return this;
         }
 
-        protected Block.Properties noDrops() {
+        public Block.Properties noDrops() {
             this.lootTable = LootTables.EMPTY;
             return this;
         }
