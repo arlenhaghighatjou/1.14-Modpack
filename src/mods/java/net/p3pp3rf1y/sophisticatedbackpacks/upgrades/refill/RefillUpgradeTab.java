@@ -19,7 +19,7 @@ public class RefillUpgradeTab extends UpgradeSettingsTab<FilteredUpgradeContaine
 		super(upgradeContainer, position, screen, translUpgrade("refill"), translUpgradeTooltip("refill"));
 
 		filterLogicControl = addHideableChild(new FilterLogicControl<>(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-				Config.COMMON.refillUpgrade.slotsInRow.get()));
+				Config.COMMON.refillUpgrade.slotsInRow));
 	}
 
 	@Override

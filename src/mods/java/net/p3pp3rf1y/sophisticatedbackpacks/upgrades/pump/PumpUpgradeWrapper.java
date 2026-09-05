@@ -50,7 +50,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 
 	protected PumpUpgradeWrapper(IBackpackWrapper backpackWrapper, ItemStack upgrade, Consumer<ItemStack> upgradeSaveHandler) {
 		super(backpackWrapper, upgrade, upgradeSaveHandler);
-		fluidFilterLogic = new FluidFilterLogic(Config.COMMON.pumpUpgrade.filterSlots.get(), upgrade, upgradeSaveHandler);
+		fluidFilterLogic = new FluidFilterLogic(Config.COMMON.pumpUpgrade.filterSlots, upgrade, upgradeSaveHandler);
 	}
 
 	@Override
@@ -111,11 +111,11 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	}
 
 	private int getMaxInOut() {
-		return Math.max(FluidAttributes.BUCKET_VOLUME, Config.COMMON.pumpUpgrade.maxInputOutput.get() * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
+		return Math.max(FluidAttributes.BUCKET_VOLUME, Config.COMMON.pumpUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
 	}
 
 	public static int getAdjustedStackMultiplier(IBackpackWrapper backpackWrapper) {
-		return 1 + (int) (Config.COMMON.pumpUpgrade.stackMultiplierRatio.get() * (backpackWrapper.getInventoryHandler().getStackSizeMultiplier() - 1));
+		return 1 + (int) (Config.COMMON.pumpUpgrade.stackMultiplierRatio * (backpackWrapper.getInventoryHandler().getStackSizeMultiplier() - 1));
 	}
 
 	private Optional<Integer> interactWithWorld(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {

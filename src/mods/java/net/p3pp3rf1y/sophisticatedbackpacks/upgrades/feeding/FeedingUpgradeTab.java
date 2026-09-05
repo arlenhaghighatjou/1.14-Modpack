@@ -48,7 +48,7 @@ public class FeedingUpgradeTab extends UpgradeSettingsTab<FeedingUpgradeContaine
 		public Basic(FeedingUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("feeding"), translUpgradeTooltip("feeding"));
 			filterLogicControl = addHideableChild(new FilterLogicControl.Basic(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.restockUpgrade.slotsInRow.get()));
+					Config.COMMON.restockUpgrade.slotsInRow));
 		}
 	}
 
@@ -63,7 +63,7 @@ public class FeedingUpgradeTab extends UpgradeSettingsTab<FeedingUpgradeContaine
 					() -> getContainer().shouldFeedImmediatelyWhenHurt()));
 
 			filterLogicControl = addHideableChild(new FilterLogicControl.Advanced(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedRestockUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedRestockUpgrade.slotsInRow));
 		}
 	}
 }

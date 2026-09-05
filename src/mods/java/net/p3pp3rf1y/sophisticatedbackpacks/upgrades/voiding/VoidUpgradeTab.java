@@ -47,7 +47,7 @@ public class VoidUpgradeTab extends UpgradeSettingsTab<VoidUpgradeContainer> {
 		public Basic(VoidUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("void"), translUpgradeTooltip("void"));
 			filterLogicControl = addHideableChild(new FilterLogicControl.Basic(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.voidUpgrade.slotsInRow.get()));
+					Config.COMMON.voidUpgrade.slotsInRow));
 		}
 	}
 
@@ -55,7 +55,7 @@ public class VoidUpgradeTab extends UpgradeSettingsTab<VoidUpgradeContainer> {
 		public Advanced(VoidUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_void"), translUpgradeTooltip("advanced_void"));
 			filterLogicControl = addHideableChild(new FilterLogicControl.Advanced(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedVoidUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedVoidUpgrade.slotsInRow));
 		}
 	}
 }

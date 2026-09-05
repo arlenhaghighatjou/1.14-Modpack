@@ -24,10 +24,10 @@ public abstract class AutoCookingUpgradeTab<R extends AbstractCookingRecipe, W e
 	protected AutoCookingUpgradeTab(AutoCookingUpgradeContainer<R, W> upgradeContainer, Position position, BackpackScreen screen, String tabLabel, String closedTooltip) {
 		super(upgradeContainer, position, screen, translUpgrade(tabLabel), translUpgradeTooltip(closedTooltip));
 		inputFilterLogicControl = addHideableChild(new FilterLogicControl.Advanced(screen, new Position(x + 3, y + 24), getContainer().getInputFilterLogicContainer(),
-				Config.COMMON.autoSmeltingUpgrade.inputFilterSlotsInRow.get()));
+				Config.COMMON.autoSmeltingUpgrade.inputFilterSlotsInRow));
 		cookingLogicControl = addHideableChild(new CookingLogicControl<>(new Position(x + 3, y + 84), getContainer().getCookingLogicContainer()));
 		fuelFilterLogicControl = addHideableChild(new FilterLogicControl<>(screen, new Position(x + 3, y + 142), getContainer().getFuelFilterLogicContainer(),
-				Config.COMMON.autoSmeltingUpgrade.fuelFilterSlotsInRow.get()));
+				Config.COMMON.autoSmeltingUpgrade.fuelFilterSlotsInRow));
 	}
 
 	@Override

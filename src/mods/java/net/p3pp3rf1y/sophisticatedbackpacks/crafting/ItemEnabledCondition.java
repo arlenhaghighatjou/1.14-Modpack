@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.crafting;
 
+import net.minecraft.util.registry.Registry;
 import com.google.gson.JsonObject;
 import net.minecraft.item.Item;
 import net.minecraft.util.JSONUtils;
@@ -15,7 +16,7 @@ public class ItemEnabledCondition implements ICondition {
 
 	public ItemEnabledCondition(Item item) {
 		//noinspection ConstantConditions - only called after actually registered
-		this(item.getRegistryName().getPath());
+		this(Registry.ITEM.getKey(item).getPath());
 	}
 
 	public ItemEnabledCondition(String itemRegistryName) {

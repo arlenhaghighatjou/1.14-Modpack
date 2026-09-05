@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.registry.tool;
 
+import net.minecraft.util.registry.Registry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.AbstractRailBlock;
@@ -15,7 +16,6 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.WorldHelper;
 
@@ -45,10 +45,10 @@ public class Matchers {
 			@Override
 			protected Optional<CacheableStackPredicate> getPredicateFromObject(JsonObject jsonObject) {
 				ResourceLocation itemName = new ResourceLocation(JSONUtils.getAsString(jsonObject, "item"));
-				if (!ForgeRegistries.ITEMS.containsKey(itemName)) {
+				if (!Registry.ITEM.keySet().contains(itemName)) {
 					SophisticatedBackpacks.LOGGER.debug("{} isn't loaded in item registry, skipping ...", itemName);
 				}
-				Item item = ForgeRegistries.ITEMS.getValue(itemName);
+				Item item = Registry.ITEM.getOrDefault(itemName);
 				return Optional.of(st -> st.getItem() == item && (st.getTag() == null || st.getTag().isEmpty()));
 			}
 		});

@@ -58,7 +58,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 	}
 
 	private void mendItems(PlayerEntity player) {
-		if (Boolean.FALSE.equals(Config.COMMON.xpPumpUpgrade.mendingOn.get()) || !shouldMendItems()) {
+		if (Boolean.FALSE.equals(Config.COMMON.xpPumpUpgrade.mendingOn) || !shouldMendItems()) {
 			return;
 		}
 
@@ -66,7 +66,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 		if (entry != null) {
 			ItemStack itemStack = entry.getValue();
 			if (!itemStack.isEmpty() && itemStack.isDamaged() && itemStack.getXpRepairRatio() > 0) {
-				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending.get(), itemStack.getDamageValue() / itemStack.getXpRepairRatio());
+				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending, itemStack.getDamageValue() / itemStack.getXpRepairRatio());
 				if (xpToTryDrain > 0) {
 					backpackWrapper.getFluidHandler().ifPresent(fluidHandler -> {
 						FluidStack drained = fluidHandler.drain(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(xpToTryDrain), IFluidHandler.FluidAction.EXECUTE, false);

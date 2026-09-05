@@ -53,7 +53,7 @@ public class MagnetUpgradeTab extends UpgradeSettingsTab<MagnetUpgradeContainer>
 		public Basic(MagnetUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("magnet"), translUpgradeTooltip("magnet"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Basic(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.magnetUpgrade.slotsInRow.get()));
+					Config.COMMON.magnetUpgrade.slotsInRow));
 		}
 	}
 
@@ -61,7 +61,7 @@ public class MagnetUpgradeTab extends UpgradeSettingsTab<MagnetUpgradeContainer>
 		public Advanced(MagnetUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_magnet"), translUpgradeTooltip("advanced_magnet"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Advanced(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedMagnetUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedMagnetUpgrade.slotsInRow));
 		}
 	}
 }

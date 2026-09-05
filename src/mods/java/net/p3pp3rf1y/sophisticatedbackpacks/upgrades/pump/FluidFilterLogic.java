@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.pump;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
@@ -9,7 +10,6 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.NBTHelper;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class FluidFilterLogic {
 		NBTHelper.getTagValue(upgrade, "", "fluids", (c, n1) -> c.getList(n1, Constants.NBT.TAG_STRING)).ifPresent(listNbt -> {
 			int i = 0;
 			for (INBT elementNbt : listNbt) {
-				Fluid value = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(elementNbt.getAsString()));
+				Fluid value = Registry.FLUID.getOrDefault(new ResourceLocation(elementNbt.getAsString()));
 				if (value != null) {
 					fluidFilters.set(i, value);
 				}
@@ -90,7 +90,7 @@ public class FluidFilterLogic {
 	private void serializeFluidFilters() {
 		ListNBT fluids = new ListNBT();
 		//noinspection ConstantConditions - only registered fluids get added
-		fluidFilters.forEach(f -> fluids.add(StringNBT.valueOf(f.getRegistryName().toString())));
+		fluidFilters.forEach(f -> fluids.add(StringNBT.valueOf(Registry.ITEM.getKey(f).toString())));
 		upgrade.getOrCreateTag().put("fluids", fluids);
 	}
 }

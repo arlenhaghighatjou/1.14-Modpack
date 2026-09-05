@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -23,6 +24,6 @@ public abstract class UpgradeItemBase<T extends IUpgradeWrapper> extends ItemBas
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		//noinspection ConstantConditions - item is registered at this point and thus registry name can't be null
-		tooltip.addAll(getTranslatedLines(translItemTooltip(stack.getItem().getRegistryName().getPath()), null, TextFormatting.DARK_GRAY));
+		tooltip.addAll(getTranslatedLines(translItemTooltip(Registry.ITEM.getKey(stack.getItem()).getPath()), null, TextFormatting.DARK_GRAY));
 	}
 }

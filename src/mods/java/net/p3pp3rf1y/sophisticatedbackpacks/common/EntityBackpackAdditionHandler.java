@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.common;
 
+import net.minecraft.util.registry.Registry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Ints;
@@ -100,7 +101,7 @@ public class EntityBackpackAdditionHandler {
 	static void addBackpack(MonsterEntity monster) {
 		Random rnd = monster.level.random;
 		if (!Config.COMMON.entityBackpackAdditions.canWearBackpack(monster.getType())
-				|| rnd.nextInt((int) (1 / Config.COMMON.entityBackpackAdditions.chance.get())) != 0) {
+				|| rnd.nextInt((int) (1 / Config.COMMON.entityBackpackAdditions.chance)) != 0) {
 			return;
 		}
 
@@ -111,10 +112,10 @@ public class EntityBackpackAdditionHandler {
 			ItemStack backpack = new ItemStack(backpackAddition.getBackpackItem());
 			int minDifficulty = backpackAddition.getMinDifficulty();
 			int difficulty = Math.max(minDifficulty, rnd.nextInt(MAX_DIFFICULTY + 1));
-			equipBackpack(monster, backpack, difficulty, Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.playJukebox.get()) && rnd.nextInt(4) == 0);
+			equipBackpack(monster, backpack, difficulty, Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.playJukebox) && rnd.nextInt(4) == 0);
 			applyPotions(monster, difficulty, minDifficulty);
 			raiseHealth(monster, minDifficulty);
-			if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.equipWithArmor.get())) {
+			if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.equipWithArmor)) {
 				equipArmorPiece(monster, rnd, minDifficulty, backpackAddition.getHelmetChances(), EquipmentSlotType.HEAD);
 				equipArmorPiece(monster, rnd, minDifficulty, backpackAddition.getLeggingsChances(), EquipmentSlotType.LEGS);
 				equipArmorPiece(monster, rnd, minDifficulty, backpackAddition.getBootsChances(), EquipmentSlotType.FEET);
@@ -172,11 +173,11 @@ public class EntityBackpackAdditionHandler {
 			if (records == null) {
 				musicDiscs = new ArrayList<>();
 			} else {
-				Set<String> blockedDiscs = new HashSet<>(Config.COMMON.entityBackpackAdditions.discBlockList.get());
+				Set<String> blockedDiscs = new HashSet<>(Config.COMMON.entityBackpackAdditions.discBlockList);
 				musicDiscs = new ArrayList<>();
 				records.forEach((sound, musicDisc) -> {
 					//noinspection ConstantConditions - by this point the disc has registry name
-					if (!blockedDiscs.contains(musicDisc.getRegistryName().toString())) {
+					if (!blockedDiscs.contains(Registry.ITEM.getKey(musicDisc).toString())) {
 						musicDiscs.add(musicDisc);
 					}
 				});
@@ -187,7 +188,7 @@ public class EntityBackpackAdditionHandler {
 	}
 
 	private static void raiseHealth(MonsterEntity monster, int minDifficulty) {
-		if (Boolean.FALSE.equals(Config.COMMON.entityBackpackAdditions.buffHealth.get())) {
+		if (Boolean.FALSE.equals(Config.COMMON.entityBackpackAdditions.buffHealth)) {
 			return;
 		}
 		ModifiableAttributeInstance maxHealth = monster.getAttribute(Attributes.MAX_HEALTH);
@@ -230,13 +231,13 @@ public class EntityBackpackAdditionHandler {
 			return;
 		}
 
-		if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.addLoot.get())) {
+		if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.addLoot)) {
 			addLoot(monster, backpackWrapper, difficulty);
 		}
 	}
 
 	private static void applyPotions(MonsterEntity monster, int difficulty, int minDifficulty) {
-		if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.buffWithPotionEffects.get())) {
+		if (Boolean.TRUE.equals(Config.COMMON.entityBackpackAdditions.buffWithPotionEffects)) {
 			RandHelper.getNRandomElements(APPLICABLE_EFFECTS, difficulty + 2)
 					.forEach(applicableEffect -> {
 						int amplifier = Math.min(Math.max(minDifficulty, monster.level.random.nextInt(difficulty + 1)), applicableEffect.getMaxAmplifier());
@@ -259,7 +260,7 @@ public class EntityBackpackAdditionHandler {
 			LivingEntity mob = event.getEntityLiving();
 			ItemStack backpack = mob.getItemBySlot(EquipmentSlotType.CHEST);
 			if (event.getSource().getEntity() instanceof PlayerEntity && !(event.getSource().getEntity() instanceof FakePlayer) &&
-					Math.max(mob.level.random.nextFloat() - event.getLootingLevel() * Config.COMMON.entityBackpackAdditions.lootingChanceIncreasePerLevel.get(), 0.0F) < Config.COMMON.entityBackpackAdditions.backpackDropChance.get()) {
+					Math.max(mob.level.random.nextFloat() - event.getLootingLevel() * Config.COMMON.entityBackpackAdditions.lootingChanceIncreasePerLevel, 0.0F) < Config.COMMON.entityBackpackAdditions.backpackDropChance) {
 				ItemEntity backpackEntity = new ItemEntity(mob.level, mob.getX(), mob.getY(), mob.getZ(), backpack);
 				event.getDrops().add(backpackEntity);
 				mob.setItemSlot(EquipmentSlotType.CHEST, ItemStack.EMPTY);

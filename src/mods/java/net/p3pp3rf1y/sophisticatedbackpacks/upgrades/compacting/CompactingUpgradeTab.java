@@ -47,7 +47,7 @@ public abstract class CompactingUpgradeTab extends UpgradeSettingsTab<Compacting
 		public Basic(CompactingUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("compacting"), translUpgradeTooltip("compacting"));
 			filterLogicControl = addHideableChild(new FilterLogicControl.Basic(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.compactingUpgrade.slotsInRow.get()));
+					Config.COMMON.compactingUpgrade.slotsInRow));
 		}
 	}
 
@@ -55,7 +55,7 @@ public abstract class CompactingUpgradeTab extends UpgradeSettingsTab<Compacting
 		public Advanced(CompactingUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_compacting"), translUpgradeTooltip("advanced_compacting"));
 			filterLogicControl = addHideableChild(new FilterLogicControl<>(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedCompactingUpgrade.slotsInRow.get(), ALLOW_LIST, PRIMARY_MATCH));
+					Config.COMMON.advancedCompactingUpgrade.slotsInRow, ALLOW_LIST, PRIMARY_MATCH));
 		}
 	}
 }

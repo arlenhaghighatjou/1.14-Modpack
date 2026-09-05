@@ -25,7 +25,7 @@ public class DepositUpgradeTab extends UpgradeSettingsTab<DepositUpgradeContaine
 		public Basic(DepositUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("deposit"), translUpgradeTooltip("deposit"));
 			filterLogicControl = addHideableChild(new DepositFilterLogicControl.Basic(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.depositUpgrade.slotsInRow.get()));
+					Config.COMMON.depositUpgrade.slotsInRow));
 		}
 	}
 
@@ -33,7 +33,7 @@ public class DepositUpgradeTab extends UpgradeSettingsTab<DepositUpgradeContaine
 		public Advanced(DepositUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_deposit"), translUpgradeTooltip("advanced_deposit"));
 			filterLogicControl = addHideableChild(new DepositFilterLogicControl.Advanced(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedDepositUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedDepositUpgrade.slotsInRow));
 		}
 	}
 }

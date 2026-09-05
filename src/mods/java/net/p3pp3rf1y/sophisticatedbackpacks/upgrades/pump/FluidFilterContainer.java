@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.pump;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
@@ -10,7 +11,6 @@ import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.IServerUpdater;
 
 import java.util.function.Supplier;
@@ -41,7 +41,7 @@ public class FluidFilterContainer {
 		CompoundNBT fluidNbt = new CompoundNBT();
 		fluidNbt.putInt("index", index);
 		//noinspection ConstantConditions
-		fluidNbt.putString("fluid", fluid.getRegistryName().toString());
+		fluidNbt.putString("fluid", Registry.FLUID.getKey(fluid).toString());
 		ret.put(DATA_FLUID, fluidNbt);
 		return ret;
 	}
@@ -49,7 +49,7 @@ public class FluidFilterContainer {
 	public boolean handleMessage(CompoundNBT data) {
 		if (data.contains(DATA_FLUID)) {
 			CompoundNBT fluidData = data.getCompound(DATA_FLUID);
-			Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidData.getString("fluid")));
+			Fluid fluid = Registry.FLUID.getOrDefault(new ResourceLocation(fluidData.getString("fluid")));
 			if (fluid != null) {
 				setFluid(fluidData.getInt("index"), fluid);
 			}

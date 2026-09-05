@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.registry.tool;
 
+import net.minecraft.util.registry.Registry;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -18,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.IRegistryDataLoader;
@@ -175,7 +175,7 @@ public class ToolRegistry {
 		}
 
 		private void parseTool(String toolName, Set<ToolType> toolTypes) {
-			Item tool = ForgeRegistries.ITEMS.getValue(new ResourceLocation(toolName));
+			Item tool = Registry.ITEM.getOrDefault(new ResourceLocation(toolName));
 			if (tool != null) {
 				TOOL_TYPE_MAPPING.toolTypes.computeIfAbsent(tool, t -> new HashSet<>()).addAll(toolTypes);
 			} else {
@@ -337,10 +337,10 @@ public class ToolRegistry {
 		for (JsonElement jsonElement : toolArray) {
 			if (jsonElement.isJsonPrimitive()) {
 				ResourceLocation itemName = new ResourceLocation(jsonElement.getAsString());
-				if (!ForgeRegistries.ITEMS.containsKey(itemName)) {
+				if (!Registry.ITEM.keySet().contains(itemName)) {
 					SophisticatedBackpacks.LOGGER.debug("{} isn't loaded in item registry, skipping ...", itemName);
 				}
-				Item item = ForgeRegistries.ITEMS.getValue(itemName);
+				Item item = Registry.ITEM.getOrDefault(itemName);
 				items.add(item);
 			} else if (jsonElement.isJsonObject()) {
 				Matchers.getItemMatcher(jsonElement).ifPresent(itemPredicates::add);
@@ -351,13 +351,13 @@ public class ToolRegistry {
 
 	public static class BlockToolsLoader extends ToolsLoaderBase<Block, BlockContext> {
 		public BlockToolsLoader() {
-			super(Matchers.getBlockMatcherFactories(), BLOCK_TOOL_MAPPING, rn -> Optional.ofNullable(ForgeRegistries.BLOCKS.getValue(rn)), "block_tools", "blocks");
+			super(Matchers.getBlockMatcherFactories(), BLOCK_TOOL_MAPPING, rn -> Optional.ofNullable(Registry.BLOCK.getOrDefault(rn)), "block_tools", "blocks");
 		}
 	}
 
 	public static class EntityToolsLoader extends ToolsLoaderBase<EntityType<?>, Entity> {
 		public EntityToolsLoader() {
-			super(Matchers.getEntityMatcherFactories(), ENTITY_TOOL_MAPPING, rn -> Optional.ofNullable(ForgeRegistries.ENTITIES.getValue(rn)), "entity_tools", "entities");
+			super(Matchers.getEntityMatcherFactories(), ENTITY_TOOL_MAPPING, rn -> Optional.ofNullable(Registry.ENTITY_TYPE.getOrDefault(rn)), "entity_tools", "entities");
 		}
 	}
 

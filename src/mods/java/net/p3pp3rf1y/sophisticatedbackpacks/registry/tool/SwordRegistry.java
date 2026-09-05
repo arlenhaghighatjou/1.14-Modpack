@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.registry.tool;
 
+import net.minecraft.util.registry.Registry;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -7,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.IRegistryDataLoader;
 
@@ -30,7 +30,7 @@ public class SwordRegistry {
 			return true;
 		}
 
-		ResourceLocation registryName = stack.getItem().getRegistryName();
+		ResourceLocation registryName = Registry.ITEM.getKey(stack.getItem());
 		if (registryName == null) {
 			return false;
 		}
@@ -87,7 +87,7 @@ public class SwordRegistry {
 		}
 
 		private void parseSword(String swordName) {
-			Item sword = ForgeRegistries.ITEMS.getValue(new ResourceLocation(swordName));
+			Item sword = Registry.ITEM.getOrDefault(new ResourceLocation(swordName));
 			if (sword != null) {
 				SWORD_ITEMS.add(sword);
 			} else {

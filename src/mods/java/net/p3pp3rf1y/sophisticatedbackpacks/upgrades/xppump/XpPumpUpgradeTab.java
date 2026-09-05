@@ -67,7 +67,7 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 				upgradeContainer.setLevel(upgradeContainer.getLevel() + (delta > 0 ? 1 : -1))));
 		currentYOffset += 20;
 
-		if (Config.COMMON.xpPumpUpgrade.mendingOn.get()) {
+		if (Config.COMMON.xpPumpUpgrade.mendingOn) {
 			addHideableChild(new ToggleButton<>(new Position(x + 3, y + currentYOffset), MEND_ITEMS, button -> upgradeContainer.setMendItems(!upgradeContainer.shouldMendItems()), upgradeContainer::shouldMendItems));
 			currentYOffset += 20;
 		}

@@ -1,11 +1,11 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.settings.memory;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackInventoryHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.settings.ISettingsCategory;
@@ -45,7 +45,7 @@ public class MemorySettingsCategory implements ISettingsCategory {
 
 		NBTHelper.getMap(categoryNbt.getCompound(SLOT_FILTER_ITEMS_TAG),
 						Integer::valueOf,
-						(k, v) -> Optional.ofNullable(ForgeRegistries.ITEMS.getValue(new ResourceLocation(v.getAsString()))))
+						(k, v) -> Optional.ofNullable(Registry.ITEM.getOrDefault(new ResourceLocation(v.getAsString()))))
 				.ifPresent(map -> map.forEach(this::addSlotItem));
 	}
 
@@ -113,7 +113,7 @@ public class MemorySettingsCategory implements ISettingsCategory {
 
 	private void serializeFilterItems() {
 		//noinspection ConstantConditions - item registry name exists in this content otherwise player wouldn't be able to work with it
-		NBTHelper.putMap(categoryNbt, SLOT_FILTER_ITEMS_TAG, slotFilterItems, String::valueOf, i -> StringNBT.valueOf(i.getRegistryName().toString()));
+		NBTHelper.putMap(categoryNbt, SLOT_FILTER_ITEMS_TAG, slotFilterItems, String::valueOf, i -> StringNBT.valueOf(Registry.ITEM.getKey(i).toString()));
 		saveNbt.accept(categoryNbt);
 	}
 

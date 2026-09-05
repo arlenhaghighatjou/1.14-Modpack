@@ -1,9 +1,9 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.api;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -49,11 +49,11 @@ public interface IRenderedTankUpgrade {
 		}
 
 		public void setFluid(Fluid fluid) {
-			fluidRegistryName = fluid.getRegistryName();
+			fluidRegistryName = Registry.FLUID.getKey(fluid);
 		}
 
 		public Optional<Fluid> getFluid() {
-			return Optional.ofNullable(ForgeRegistries.FLUIDS.getValue(fluidRegistryName));
+			return Optional.ofNullable(Registry.FLUID.getOrDefault(fluidRegistryName));
 		}
 
 		public void setFillRatio(float fillRatio) {

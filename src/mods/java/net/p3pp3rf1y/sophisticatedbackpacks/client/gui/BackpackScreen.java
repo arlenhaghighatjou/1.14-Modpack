@@ -178,7 +178,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void addSortButtons() {
-		SortButtonsPosition sortButtonsPosition = Config.CLIENT.sortButtonsPosition.get();
+		SortButtonsPosition sortButtonsPosition = Config.CLIENT.sortButtonsPosition;
 		if (sortButtonsPosition == SortButtonsPosition.HIDDEN) {
 			return;
 		}

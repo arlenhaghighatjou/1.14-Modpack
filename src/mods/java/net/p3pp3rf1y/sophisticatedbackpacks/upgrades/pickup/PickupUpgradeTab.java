@@ -27,7 +27,7 @@ public class PickupUpgradeTab extends UpgradeSettingsTab<ContentsFilteredUpgrade
 		public Basic(ContentsFilteredUpgradeContainer<PickupUpgradeWrapper> upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("pickup"), translUpgradeTooltip("pickup"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Basic(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.pickupUpgrade.slotsInRow.get()));
+					Config.COMMON.pickupUpgrade.slotsInRow));
 		}
 	}
 
@@ -35,7 +35,7 @@ public class PickupUpgradeTab extends UpgradeSettingsTab<ContentsFilteredUpgrade
 		public Advanced(ContentsFilteredUpgradeContainer<PickupUpgradeWrapper> upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_pickup"), translUpgradeTooltip("advanced_pickup"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Advanced(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedPickupUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedPickupUpgrade.slotsInRow));
 		}
 	}
 }

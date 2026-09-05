@@ -118,11 +118,11 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 	}
 
 	public static int getAdjustedStackMultiplier(IBackpackWrapper backpackWrapper) {
-		return 1 + (int) (Config.COMMON.tankUpgrade.stackMultiplierRatio.get() * (backpackWrapper.getInventoryHandler().getStackSizeMultiplier() - 1));
+		return 1 + (int) (Config.COMMON.tankUpgrade.stackMultiplierRatio * (backpackWrapper.getInventoryHandler().getStackSizeMultiplier() - 1));
 	}
 
 	private static int getBaseCapacity(IBackpackWrapper backpackWrapper) {
-		return Config.COMMON.tankUpgrade.capacityPerSlotRow.get() * backpackWrapper.getNumberOfSlotRows();
+		return Config.COMMON.tankUpgrade.capacityPerSlotRow * backpackWrapper.getNumberOfSlotRows();
 	}
 
 	public static int getTankCapacity(IBackpackWrapper backpackWrapper) {
@@ -136,7 +136,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 	}
 
 	private int getMaxInOut() {
-		return Math.max(FluidAttributes.BUCKET_VOLUME, Config.COMMON.tankUpgrade.maxInputOutput.get() * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
+		return Math.max(FluidAttributes.BUCKET_VOLUME, Config.COMMON.tankUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
 	}
 
 	public int fill(FluidStack resource, IFluidHandler.FluidAction action, boolean ignoreInOutLimit) {
@@ -207,7 +207,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 		);
 
 		if (didSomething.get()) {
-			cooldownTime = world.getGameTime() + Config.COMMON.tankUpgrade.autoFillDrainContainerCooldown.get();
+			cooldownTime = world.getGameTime() + Config.COMMON.tankUpgrade.autoFillDrainContainerCooldown;
 		}
 	}
 

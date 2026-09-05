@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.command;
 
+import net.minecraft.util.registry.Registry;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -12,7 +13,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackAccessLogger;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.RandHelper;
@@ -35,7 +35,7 @@ public class GiveCommand {
 
 	private static int giveBackpack(CommandSource source, EaglercraftUUID backpackUuid, Collection<ServerPlayerEntity> players) {
 		BackpackAccessLogger.getBackpackLog(backpackUuid).ifPresent(alr -> {
-			Item item = ForgeRegistries.ITEMS.getValue(alr.getBackpackItemRegistryName());
+			Item item = Registry.ITEM.getOrDefault(alr.getBackpackItemRegistryName());
 			ItemStack backpack = new ItemStack(item);
 			if (!backpack.getHoverName().getString().equals(alr.getBackpackName())) {
 				backpack.setHoverName(new StringTextComponent(alr.getBackpackName()));

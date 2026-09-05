@@ -48,7 +48,7 @@ public class ToolSwapperUpgradeTab extends UpgradeSettingsTab<ToolSwapperUpgrade
 				getContainer()::getToolSwapMode));
 
 		filterLogicControl = addHideableChild(new ToolSwapperFilterControl(screen, getContainer().getFilterLogicContainer(), new Position(x + 3, y + 44), true,
-				Config.COMMON.toolSwapperUpgrade.slotsInRow.get()));
+				Config.COMMON.toolSwapperUpgrade.slotsInRow));
 	}
 
 	@Override

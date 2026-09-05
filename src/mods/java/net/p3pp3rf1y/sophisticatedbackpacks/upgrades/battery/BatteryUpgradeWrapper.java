@@ -131,15 +131,15 @@ public class BatteryUpgradeWrapper extends UpgradeWrapperBase<BatteryUpgradeWrap
 	}
 
 	public static int getAdjustedStackMultiplier(IBackpackWrapper backpackWrapper) {
-		return 1 + (int) (Config.COMMON.batteryUpgrade.stackMultiplierRatio.get() * (backpackWrapper.getInventoryHandler().getStackSizeMultiplier() - 1));
+		return 1 + (int) (Config.COMMON.batteryUpgrade.stackMultiplierRatio * (backpackWrapper.getInventoryHandler().getStackSizeMultiplier() - 1));
 	}
 
 	private static int getMaxEnergyBase(IBackpackWrapper backpackWrapper) {
-		return Config.COMMON.batteryUpgrade.energyPerSlotRow.get() * backpackWrapper.getNumberOfSlotRows();
+		return Config.COMMON.batteryUpgrade.energyPerSlotRow * backpackWrapper.getNumberOfSlotRows();
 	}
 
 	private int getMaxInOut() {
-		return Config.COMMON.batteryUpgrade.maxInputOutput.get() * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper);
+		return Config.COMMON.batteryUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper);
 	}
 
 	private boolean isValidEnergyItem(ItemStack stack, boolean isOutput) {

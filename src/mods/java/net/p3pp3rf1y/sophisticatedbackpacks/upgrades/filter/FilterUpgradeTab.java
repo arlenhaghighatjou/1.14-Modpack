@@ -43,7 +43,7 @@ public abstract class FilterUpgradeTab extends UpgradeSettingsTab<FilterUpgradeC
 		public Basic(FilterUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("filter"), translUpgradeTooltip("filter"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Basic(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.filterUpgrade.slotsInRow.get()));
+					Config.COMMON.filterUpgrade.slotsInRow));
 		}
 	}
 
@@ -51,7 +51,7 @@ public abstract class FilterUpgradeTab extends UpgradeSettingsTab<FilterUpgradeC
 		public Advanced(FilterUpgradeContainer upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_filter"), translUpgradeTooltip("advanced_filter"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Advanced(screen, new Position(x + 3, y + 44), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedFilterUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedFilterUpgrade.slotsInRow));
 		}
 	}
 }

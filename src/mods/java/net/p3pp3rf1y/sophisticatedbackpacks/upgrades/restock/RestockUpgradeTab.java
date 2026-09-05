@@ -27,7 +27,7 @@ public abstract class RestockUpgradeTab extends UpgradeSettingsTab<ContentsFilte
 		public Basic(ContentsFilteredUpgradeContainer<RestockUpgradeWrapper> upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("restock"), translUpgradeTooltip("restock"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Basic(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.restockUpgrade.slotsInRow.get()));
+					Config.COMMON.restockUpgrade.slotsInRow));
 		}
 	}
 
@@ -35,7 +35,7 @@ public abstract class RestockUpgradeTab extends UpgradeSettingsTab<ContentsFilte
 		public Advanced(ContentsFilteredUpgradeContainer<RestockUpgradeWrapper> upgradeContainer, Position position, BackpackScreen screen) {
 			super(upgradeContainer, position, screen, translUpgrade("advanced_restock"), translUpgradeTooltip("advanced_restock"));
 			filterLogicControl = addHideableChild(new ContentsFilterControl.Advanced(screen, new Position(x + 3, y + 24), getContainer().getFilterLogicContainer(),
-					Config.COMMON.advancedRestockUpgrade.slotsInRow.get()));
+					Config.COMMON.advancedRestockUpgrade.slotsInRow));
 		}
 	}
 }

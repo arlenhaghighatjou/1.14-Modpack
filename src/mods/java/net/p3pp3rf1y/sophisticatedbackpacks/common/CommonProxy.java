@@ -90,7 +90,7 @@ public class CommonProxy {
 	private long nextBackpackCountCheck = 0;
 
 	private void onWorldTick(TickEvent.WorldTickEvent event) {
-		if (event.world.isClientSide || event.phase != TickEvent.Phase.END || Boolean.FALSE.equals(Config.COMMON.nerfsConfig.tooManyBackpacksSlowness.get()) || nextBackpackCountCheck > event.world.getGameTime()) {
+		if (event.world.isClientSide || event.phase != TickEvent.Phase.END || Boolean.FALSE.equals(Config.COMMON.nerfsConfig.tooManyBackpacksSlowness) || nextBackpackCountCheck > event.world.getGameTime()) {
 			return;
 		}
 		nextBackpackCountCheck = event.world.getGameTime() + BACKPACK_COUNT_CHECK_COOLDOWN;
@@ -101,9 +101,9 @@ public class CommonProxy {
 				numberOfBackpacks.incrementAndGet();
 				return false;
 			});
-			int maxNumberOfBackpacks = Config.COMMON.nerfsConfig.maxNumberOfBackpacks.get();
+			int maxNumberOfBackpacks = Config.COMMON.nerfsConfig.maxNumberOfBackpacks;
 			if (numberOfBackpacks.get() > maxNumberOfBackpacks) {
-				int numberOfSlownessLevels = Math.min(10, (int) Math.ceil((numberOfBackpacks.get() - maxNumberOfBackpacks) * Config.COMMON.nerfsConfig.slownessLevelsPerAdditionalBackpack.get()));
+				int numberOfSlownessLevels = Math.min(10, (int) Math.ceil((numberOfBackpacks.get() - maxNumberOfBackpacks) * Config.COMMON.nerfsConfig.slownessLevelsPerAdditionalBackpack));
 				player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, BACKPACK_COUNT_CHECK_COOLDOWN * 2, numberOfSlownessLevels - 1, false, false));
 			}
 		});

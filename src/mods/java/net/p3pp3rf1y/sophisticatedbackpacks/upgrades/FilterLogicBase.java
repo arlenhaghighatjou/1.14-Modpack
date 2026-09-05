@@ -1,5 +1,6 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
@@ -44,7 +45,7 @@ public class FilterLogicBase {
 		PrimaryMatch primaryMatch = getPrimaryMatch();
 		if (primaryMatch == PrimaryMatch.MOD) {
 			//noinspection ConstantConditions
-			if (!stack.getItem().getRegistryName().getNamespace().equals(filter.getItem().getRegistryName().getNamespace())) {
+			if (!Registry.ITEM.getKey(stack.getItem()).getNamespace().equals(Registry.ITEM.getKey(filter.getItem()).getNamespace())) {
 				return false;
 			}
 		} else if (primaryMatch == PrimaryMatch.ITEM && !ItemStack.isSame(stack, filter)) {
