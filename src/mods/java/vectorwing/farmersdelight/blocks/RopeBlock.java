@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.blocks;
 
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -91,4 +92,8 @@ public class RopeBlock extends PaneBlock
 
 	@Override public boolean isLadder(BlockState state, IWorldReader world, BlockPos pos, net.minecraft.entity.LivingEntity entity) { return true; }
 
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
+	}
 }

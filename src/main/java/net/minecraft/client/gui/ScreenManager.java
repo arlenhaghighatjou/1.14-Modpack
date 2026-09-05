@@ -38,7 +38,7 @@ public class ScreenManager {
         return (ScreenManager.IScreenFactory<T, ?>) FACTORIES.get(type);
     }
 
-    private static <M extends Container, U extends Screen & IHasContainer<M>> void registerFactory(ContainerType<? extends M> p_216911_0_, ScreenManager.IScreenFactory<M, U> p_216911_1_) {
+    public static <M extends Container, U extends Screen & IHasContainer<M>> void registerFactory(ContainerType<? extends M> p_216911_0_, ScreenManager.IScreenFactory<M, U> p_216911_1_) {
         ScreenManager.IScreenFactory<?, ?> iscreenfactory = FACTORIES.put(p_216911_0_, p_216911_1_);
         if (iscreenfactory != null) {
             throw new IllegalStateException("Duplicate registration for " + Registry.MENU.getKey(p_216911_0_));

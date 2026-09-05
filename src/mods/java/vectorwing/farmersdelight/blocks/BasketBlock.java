@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.blocks;
 
+import net.minecraft.util.BlockRenderLayer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.block.*;
@@ -198,5 +199,10 @@ public class BasketBlock extends ContainerBlock implements IWaterLoggable
 
 	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		return false;
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 }

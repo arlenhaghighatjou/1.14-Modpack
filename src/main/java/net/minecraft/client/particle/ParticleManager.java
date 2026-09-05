@@ -138,11 +138,11 @@ public class ParticleManager implements IFutureReloadListener {
       this.registerFactory(ParticleTypes.WITCH, SpellParticle.WitchFactory::new);
    }
 
-   private <T extends IParticleData> void registerFactory(ParticleType<T> particleTypeIn, IParticleFactory<T> particleFactoryIn) {
+   public <T extends IParticleData> void registerFactory(ParticleType<T> particleTypeIn, IParticleFactory<T> particleFactoryIn) {
       this.factories.put(Registry.PARTICLE_TYPE.getId(particleTypeIn), particleFactoryIn);
    }
 
-   private <T extends IParticleData> void registerFactory(ParticleType<T> particleTypeIn, ParticleManager.IParticleMetaFactory<T> particleMetaFactoryIn) {
+   public <T extends IParticleData> void registerFactory(ParticleType<T> particleTypeIn, ParticleManager.IParticleMetaFactory<T> particleMetaFactoryIn) {
       ParticleManager.AnimatedSpriteImpl particlemanager$animatedspriteimpl = new ParticleManager.AnimatedSpriteImpl();
       this.sprites.put(Registry.PARTICLE_TYPE.getKey(particleTypeIn), particlemanager$animatedspriteimpl);
       this.factories.put(Registry.PARTICLE_TYPE.getId(particleTypeIn), particleMetaFactoryIn.create(particlemanager$animatedspriteimpl));

@@ -50,6 +50,11 @@ public class TileEntityRendererDispatcher {
    public ActiveRenderInfo renderInfo;
    public RayTraceResult cameraHitResult;
 
+
+   public <T extends TileEntity> void register(Class<T> tileEntityClass, TileEntityRenderer<? super T> renderer) {
+      renderer.setRendererDispatcher(this);
+      this.renderers.put(tileEntityClass, renderer);
+   }
    private TileEntityRendererDispatcher() {
       this.renderers.put(SignTileEntity.class, new SignTileEntityRenderer());
       this.renderers.put(MobSpawnerTileEntity.class, new MobSpawnerTileEntityRenderer());

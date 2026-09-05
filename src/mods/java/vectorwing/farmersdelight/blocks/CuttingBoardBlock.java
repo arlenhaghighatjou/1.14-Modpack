@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.blocks;
 
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.SoundEngine;
@@ -203,5 +204,10 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 				}
 			}
 		}
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 }

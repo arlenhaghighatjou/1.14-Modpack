@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.blocks;
 
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -87,5 +88,10 @@ public class SafetyNetBlock extends Block implements IWaterLoggable
 			double d0 = entityIn instanceof LivingEntity ? 0.6D : 0.8D;
 			entityIn.setMotion(vec3d.x, -vec3d.y * d0, vec3d.z);
 		}
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 }

@@ -1,5 +1,6 @@
 package vectorwing.farmersdelight.blocks;
 
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.block.*;
 
 import net.minecraft.block.BlockState;
@@ -215,5 +216,10 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 
 	public IFluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 }
