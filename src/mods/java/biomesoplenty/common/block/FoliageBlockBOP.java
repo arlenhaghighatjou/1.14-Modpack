@@ -24,12 +24,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
-
 import javax.annotation.Nullable;
 
-public class FoliageBlockBOP extends BushBlock implements IPlantable
+public class FoliageBlockBOP extends BushBlock
 {
 	protected static final VoxelShape NORMAL = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 	protected static final VoxelShape SHORT = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 7.0D, 15.0D);
@@ -102,8 +99,8 @@ public class FoliageBlockBOP extends BushBlock implements IPlantable
     }
     
     @Override
-    public PlantType getPlantType(IBlockReader world, BlockPos pos)
+    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
     {
-    	return PlantType.Plains;
+        return super.isValidGround(state, worldIn, pos) || state.getBlock() == BOPBlocks.dried_sand;
     }
 }

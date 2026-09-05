@@ -24,7 +24,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.PlantType;
 
 import javax.annotation.Nullable;
 
@@ -42,7 +41,7 @@ public class DoubleWaterPlantBlock extends DoublePlantBlock implements IWaterLog
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         IFluidState ifluidstate = context.getWorld().getFluidState(context.getPos());
         BlockPos blockpos = context.getPos();
-        return blockpos.getY() < context.getWorld().getDimension().getHeight() - 1 && context.getWorld().getBlockState(blockpos.up()).isReplaceable(context) ? super.getStateForPlacement(context).with(WATERLOGGED, Boolean.valueOf(ifluidstate.isTagged(FluidTags.WATER) && ifluidstate.getLevel() == 8)) : null;
+        return blockpos.getY() < 255 && context.getWorld().getBlockState(blockpos.up()).isReplaceable(context) ? super.getStateForPlacement(context).with(WATERLOGGED, Boolean.valueOf(ifluidstate.isTagged(FluidTags.WATER) && ifluidstate.getLevel() == 8)) : null;
     }
 
     @Override
@@ -79,12 +78,6 @@ public class DoubleWaterPlantBlock extends DoublePlantBlock implements IWaterLog
     public void placeAt(IWorld worldIn, BlockPos pos, int flags) {
         worldIn.setBlockState(pos, this.getDefaultState().with(HALF, DoubleBlockHalf.LOWER).with(WATERLOGGED, true), flags);
         worldIn.setBlockState(pos.up(), this.getDefaultState().with(HALF, DoubleBlockHalf.UPPER).with(WATERLOGGED, false), flags);
-    }
-
-    @Override
-    public PlantType getPlantType(IBlockReader world, BlockPos pos)
-    {
-        return PlantType.Plains;
     }
 
     @Override

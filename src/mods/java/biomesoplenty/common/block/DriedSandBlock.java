@@ -8,32 +8,11 @@
 package biomesoplenty.common.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.PlantType;
 
 public class DriedSandBlock extends Block
 {
     public DriedSandBlock(Block.Properties properties)
     {
         super(properties);
-    }
-    
-    @Override
-    public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
-        PlantType type = plantable.getPlantType(world, pos.offset(facing));
-
-        switch (type) {
-            case Desert: return true;
-            case Nether: return true;
-            case Crop: return false;
-            case Cave: return true;
-            case Plains: return true;
-            case Water: return false;
-            case Beach: return false;
-        }
-        return false;
     }
 }

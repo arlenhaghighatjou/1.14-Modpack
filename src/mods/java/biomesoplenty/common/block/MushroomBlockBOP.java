@@ -33,10 +33,9 @@ public class MushroomBlockBOP extends MushroomBlock
     @Override
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
     {
-        Block ground = worldIn.getBlockState(pos.down()).getBlock();
-        BlockState BlockState = worldIn.getBlockState(pos.down());
+        BlockPos blockpos = pos.down();
 
-        return BlockState.canSustainPlant(worldIn, pos.down(), net.minecraft.util.Direction.UP, this);
+        return this.isValidGround(worldIn.getBlockState(blockpos), worldIn, blockpos);
     }
 
     @Override

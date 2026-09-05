@@ -9,20 +9,11 @@ package biomesoplenty.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.PlantType;
 
 public class DoublePlantBlockBOP extends DoublePlantBlock
 {
     public DoublePlantBlockBOP(Block.Properties properties)
     {
         super(properties);
-    }
-
-    @Override
-    public PlantType getPlantType(IBlockReader world, BlockPos pos)
-    {
-        return PlantType.Plains;
     }
 }

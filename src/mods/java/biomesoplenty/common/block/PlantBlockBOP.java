@@ -14,11 +14,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
 
-public class PlantBlockBOP extends BushBlock implements IPlantable
+import biomesoplenty.api.block.BOPBlocks;
+
+public class PlantBlockBOP extends BushBlock
 {
 	protected static final VoxelShape NORMAL = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 	
@@ -40,18 +39,8 @@ public class PlantBlockBOP extends BushBlock implements IPlantable
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
+    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
     {
-        Block ground = worldIn.getBlockState(pos.down()).getBlock();
-
-        return super.isValidPosition(state, worldIn, pos);
-    }
-
-    @Override
-    public PlantType getPlantType(IBlockReader world, BlockPos pos)
-    {
-    	Block block = world.getBlockState(pos).getBlock();
-    	
-    	return PlantType.Plains;
+        return super.isValidGround(state, worldIn, pos) || state.getBlock() == BOPBlocks.dried_sand;
     }
 }

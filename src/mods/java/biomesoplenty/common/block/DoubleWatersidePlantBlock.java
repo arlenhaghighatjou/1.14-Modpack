@@ -17,7 +17,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.PlantType;
+
+import biomesoplenty.api.block.BOPBlocks;
 
 import java.util.Iterator;
 
@@ -29,9 +30,11 @@ public class DoubleWatersidePlantBlock extends DoublePlantBlockBOP
     }
     
     @Override
-    public PlantType getPlantType(IBlockReader world, BlockPos pos)
+    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
     {
-    	return PlantType.Beach;
+        Block block = state.getBlock();
+
+        return super.isValidGround(state, worldIn, pos) || block == Blocks.SAND || block == Blocks.RED_SAND || block == BOPBlocks.white_sand || block == BOPBlocks.mud;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class DoubleWatersidePlantBlock extends DoublePlantBlockBOP
         if (state.get(HALF) != DoubleBlockHalf.UPPER)
         {
             BlockState soil = worldReader.getBlockState(pos.down());
-            if (soil.canSustainPlant(worldReader, pos.down(), Direction.UP, this))
+            if (this.isValidGround(soil, worldReader, pos.down()))
             {
                 BlockPos blockpos = pos.down();
                 Iterator var7 = Direction.Plane.HORIZONTAL.iterator();

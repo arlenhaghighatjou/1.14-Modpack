@@ -46,7 +46,7 @@ public class SaplingBlockBOP extends SaplingBlock implements IGrowable
    public void tick(BlockState state, World worldIn, BlockPos pos, Random random)
    {
       super.tick(state, worldIn, pos, random);
-      if (!worldIn.isAreaLoaded(pos, 1)) return; // Forge: prevent loading unloaded chunks when checking neighbor's light
+      if (!worldIn.isAreaLoaded(pos.add(-1, -1, -1), pos.add(1, 1, 1))) return;
       if (worldIn.getLight(pos.up()) >= 9 && random.nextInt(7) == 0) {
          this.grow(worldIn, pos, state, random);
       }
@@ -62,7 +62,6 @@ public class SaplingBlockBOP extends SaplingBlock implements IGrowable
       }
       else
       {
-         if (!net.minecraftforge.event.ForgeEventFactory.saplingGrowTree(worldIn, rand, pos)) return;
          this.tree.spawn(worldIn, pos, state, rand);
       }
 
