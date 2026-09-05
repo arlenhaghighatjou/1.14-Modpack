@@ -104,6 +104,10 @@ public class TagCollection<T> {
                 }
             }
 
+            if ("item".equals(this.itemTypeName)) {
+                modpack.ModTags.addItemTags((Map) map);
+            }
+
             return map;
         }, p_219781_2_);
     }

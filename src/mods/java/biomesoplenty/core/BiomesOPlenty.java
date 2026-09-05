@@ -35,6 +35,7 @@ public class BiomesOPlenty
         ModItems.registerItems();
         ModSounds.registerSounds();
         ModEntities.registerEntities();
+        ModBiomes.registerBiomes();
         ModBiomes.setup();
         ModVanillaCompat.setup();
     }
