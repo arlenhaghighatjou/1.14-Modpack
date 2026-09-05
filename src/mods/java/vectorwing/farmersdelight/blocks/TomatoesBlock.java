@@ -1,7 +1,6 @@
 package vectorwing.farmersdelight.blocks;
 
 
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BushBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.Entity;
@@ -29,7 +28,6 @@ import net.minecraft.world.World;
 import javax.annotation.ParametersAreNonnullByDefault;
 import net.lax1dude.eaglercraft.Random;
 
-@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @SuppressWarnings("deprecation")
 public class TomatoesBlock extends BushBlock implements IGrowable

@@ -1,6 +1,5 @@
 package vectorwing.farmersdelight.blocks;
 
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.particles.ParticleTypes;
@@ -18,7 +17,6 @@ import vectorwing.farmersdelight.utils.tags.ModTags;
 import javax.annotation.ParametersAreNonnullByDefault;
 import net.lax1dude.eaglercraft.Random;
 
-@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class OrganicCompostBlock extends Block {
 	public static IntegerProperty COMPOSTING = IntegerProperty.create("composting", 0, 7);

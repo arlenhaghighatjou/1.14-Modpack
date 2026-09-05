@@ -351,7 +351,7 @@ public class BoatEntity extends Entity {
       }
    }
 
-   private void tickLerp() {
+   protected void tickLerp() {
       if (this.lerpSteps > 0 && !this.canPassengerSteer()) {
          double d0 = this.posX + (this.lerpX - this.posX) / (double)this.lerpSteps;
          double d1 = this.posY + (this.lerpY - this.posY) / (double)this.lerpSteps;

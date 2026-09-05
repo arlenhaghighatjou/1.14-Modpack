@@ -1,6 +1,5 @@
 package vectorwing.farmersdelight.tile.dispenser;
 
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,7 +21,6 @@ import java.util.HashMap;
 /**
  * Uses the given item as a tool when facing a Cutting Board.
  */
-@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class CuttingBoardDispenseBehavior extends OptionalDispenseBehavior {
 	private static final DispenserLookup BEHAVIOUR_LOOKUP = new DispenserLookup();
@@ -63,7 +61,6 @@ public class CuttingBoardDispenseBehavior extends OptionalDispenseBehavior {
 	}
 
 	@ParametersAreNonnullByDefault
-	@MethodsReturnNonnullByDefault
 	private static class DispenserLookup extends DispenserBlock {
 		protected DispenserLookup() {
 			super(Block.Properties.from(Blocks.DISPENSER));

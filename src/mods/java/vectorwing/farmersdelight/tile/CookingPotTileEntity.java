@@ -1,6 +1,5 @@
 package vectorwing.farmersdelight.tile;
 
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,7 +39,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import net.lax1dude.eaglercraft.Random;
 
-@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class CookingPotTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity, INameable
 {

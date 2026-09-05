@@ -23,6 +23,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.client.CSteerBoatPacket;
+import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
@@ -37,8 +38,6 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -82,10 +81,6 @@ public class BoatEntityBOP extends BoatEntity {
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
-    }
-
-    public BoatEntityBOP(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-        this(BOPEntities.boat_bop, world);
     }
 
     @Override
@@ -383,7 +378,7 @@ public class BoatEntityBOP extends BoatEntity {
                         blockpos$pooledmutableblockpos.setPos(l1, k1, i2);
                         IFluidState ifluidstate = this.world.getFluidState(blockpos$pooledmutableblockpos);
                         if (ifluidstate.isTagged(FluidTags.WATER)) {
-                            f = Math.max(f, ifluidstate.getActualHeight(this.world, blockpos$pooledmutableblockpos));
+                            f = Math.max(f, ifluidstate.func_215679_a(this.world, blockpos$pooledmutableblockpos));
                         }
 
                         if (f >= 1.0F) {
@@ -430,7 +425,7 @@ public class BoatEntityBOP extends BoatEntity {
                                 blockpos$pooledmutableblockpos.setPos(l1, k2, i2);
                                 BlockState blockstate = this.world.getBlockState(blockpos$pooledmutableblockpos);
                                 if (!(blockstate.getBlock() instanceof LilyPadBlock) && VoxelShapes.compare(blockstate.getCollisionShape(this.world, blockpos$pooledmutableblockpos).withOffset((double) l1, (double) k2, (double) i2), voxelshape, IBooleanFunction.AND)) {
-                                    f += blockstate.getSlipperiness(this.world, blockpos$pooledmutableblockpos, this);
+                                    f += blockstate.getBlock().getSlipperiness();
                                     ++k1;
                                 }
                             }
@@ -461,7 +456,7 @@ public class BoatEntityBOP extends BoatEntity {
                         blockpos$pooledmutableblockpos.setPos(k1, l1, i2);
                         IFluidState ifluidstate = this.world.getFluidState(blockpos$pooledmutableblockpos);
                         if (ifluidstate.isTagged(FluidTags.WATER)) {
-                            float f = (float) l1 + ifluidstate.getActualHeight(this.world, blockpos$pooledmutableblockpos);
+                            float f = (float) l1 + ifluidstate.func_215679_a(this.world, blockpos$pooledmutableblockpos);
                             this.waterLevel = Math.max((double) f, this.waterLevel);
                             flag |= axisalignedbb.minY < (double) f;
                         }
@@ -494,7 +489,7 @@ public class BoatEntityBOP extends BoatEntity {
                     for (int i2 = i1; i2 < j1; ++i2) {
                         blockpos$pooledmutableblockpos.setPos(k1, l1, i2);
                         IFluidState ifluidstate = this.world.getFluidState(blockpos$pooledmutableblockpos);
-                        if (ifluidstate.isTagged(FluidTags.WATER) && d0 < (double) ((float) blockpos$pooledmutableblockpos.getY() + ifluidstate.getActualHeight(this.world, blockpos$pooledmutableblockpos))) {
+                        if (ifluidstate.isTagged(FluidTags.WATER) && d0 < (double) ((float) blockpos$pooledmutableblockpos.getY() + ifluidstate.func_215679_a(this.world, blockpos$pooledmutableblockpos))) {
                             if (!ifluidstate.isSource()) {
                                 return Status.UNDER_FLOWING_WATER;
                             }
@@ -768,7 +763,7 @@ public class BoatEntityBOP extends BoatEntity {
 
     @Override
     public IPacket<?> createSpawnPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        return new SSpawnObjectPacket(this);
     }
 
     public enum Type {
