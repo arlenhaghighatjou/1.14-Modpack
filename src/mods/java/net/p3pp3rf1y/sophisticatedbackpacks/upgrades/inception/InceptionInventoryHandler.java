@@ -1,8 +1,8 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.inception;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.CombinedInvWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.IItemHandlerSimpleInserter;
 
 import java.util.ArrayList;

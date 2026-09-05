@@ -14,8 +14,8 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.StonecuttingRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemStackHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.RecipeWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

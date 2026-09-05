@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.common.gui;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
 
 import java.util.function.Supplier;
 

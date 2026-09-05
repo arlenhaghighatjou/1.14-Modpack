@@ -1,8 +1,8 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.common.gui;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.SlotItemHandler;
 
 import java.util.function.Supplier;
 
