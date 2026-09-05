@@ -22,6 +22,10 @@ import java.util.Map;
 
 public class MusicDiscItem extends Item {
     private static final Map<SoundEvent, MusicDiscItem> RECORDS = Maps.newHashMap();
+
+    public static Map<SoundEvent, MusicDiscItem> getRecords() {
+        return RECORDS;
+    }
     private final int comparatorValue;
     private final SoundEvent sound;
 

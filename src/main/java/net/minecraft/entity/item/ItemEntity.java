@@ -34,6 +34,10 @@ public class ItemEntity extends Entity {
    private static final DataParameter<ItemStack> ITEM = EntityDataManager.createKey(ItemEntity.class, DataSerializers.ITEMSTACK);
    private int age;
    private int pickupDelay;
+
+   public int getPickupDelay() {
+      return this.pickupDelay;
+   }
    private int health = 5;
    private EaglercraftUUID thrower;
    private EaglercraftUUID owner;

@@ -34,7 +34,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
@@ -155,7 +154,7 @@ public class BackpackItem extends ItemBase {
     }
 
     private int getPickupDelay(ItemEntity itemEntity) {
-        Integer result = ObfuscationReflectionHelper.getPrivateValue(ItemEntity.class, itemEntity, "field_145804_b");
+        Integer result = itemEntity.getPickupDelay();
         if (result == null) {
             SophisticatedBackpacks.LOGGER.error("Reflection get of pickupDelay (pickupDelay) from ItemEntity returned null");
             return 20;

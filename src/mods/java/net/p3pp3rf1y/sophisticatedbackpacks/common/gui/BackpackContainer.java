@@ -20,7 +20,6 @@ import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.SlotItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
@@ -116,7 +115,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	private UpgradeSlotChangeResult errorUpgradeSlotChangeResult;
 
 	public BackpackContainer(int windowId, PlayerEntity player, BackpackContext backpackContext) {
-		super(BACKPACK_CONTAINER_TYPE.get(), windowId);
+		super(BACKPACK_CONTAINER_TYPE, windowId);
 		this.player = player;
 		this.backpackContext = backpackContext;
 		parentBackpackWrapper = backpackContext.getParentBackpackWrapper(player).orElse(NoopBackpackWrapper.INSTANCE);
@@ -217,8 +216,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	@Override
 	protected Slot addSlot(Slot slot) {
 		slot.slotNumber = getInventorySlotsSize();
-		slots.add(slot);
-		lastSlots.add(ItemStack.EMPTY);
+		inventorySlots.add(slot);
+		inventoryItemStacks.add(ItemStack.EMPTY);
 		realInventorySlots.add(slot);
 		realInventoryItemStacks.add(ItemStack.EMPTY);
 		return slot;
@@ -417,11 +416,11 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	private boolean mergeStackToOpenUpgradeTab(ItemStack slotStack, boolean transferMaxStackSizeFromSource) {
 		return getOpenContainer().map(c -> {
 			List<Slot> slots = c.getSlots();
-			if (slots.isEmpty()) {
+			if (inventorySlots.isEmpty()) {
 				return false;
 			}
-			int firstSlotIndex = slots.get(0).slotNumber;
-			int lastSlotIndex = slots.get(slots.size() - 1).slotNumber;
+			int firstSlotIndex = inventorySlots.get(0).slotNumber;
+			int lastSlotIndex = inventorySlots.get(inventorySlots.size() - 1).slotNumber;
 			return mergeItemStack(slotStack, firstSlotIndex, lastSlotIndex + 1, false, transferMaxStackSizeFromSource);
 		}).orElse(false);
 	}
@@ -947,11 +946,11 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	private void refreshInventorySlotsIfNeeded() {
 		Set<Integer> noSortSlotIndexes = getNoSortSlotIndexes();
 		boolean needRefresh = false;
-		if (realInventorySlots.size() - slots.size() != noSortSlotIndexes.size()) {
+		if (realInventorySlots.size() - inventorySlots.size() != noSortSlotIndexes.size()) {
 			needRefresh = true;
 		} else {
 			for (Slot slot : realInventorySlots) {
-				if (!slots.contains(slot) && !noSortSlotIndexes.contains(slot.slotNumber)) {
+				if (!inventorySlots.contains(slot) && !noSortSlotIndexes.contains(slot.slotNumber)) {
 					needRefresh = true;
 					break;
 				}
@@ -962,8 +961,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			return;
 		}
 
-		slots.clear();
-		lastSlots.clear();
+		inventorySlots.clear();
+		inventoryItemStacks.clear();
 		realInventorySlots.clear();
 		realInventoryItemStacks.clear();
 		int yPosition = addBackpackInventorySlots();
@@ -971,8 +970,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	private void refreshAllSlots() {
-		slots.clear();
-		lastSlots.clear();
+		inventorySlots.clear();
+		inventoryItemStacks.clear();
 		realInventorySlots.clear();
 		realInventoryItemStacks.clear();
 		upgradeSlots.clear();

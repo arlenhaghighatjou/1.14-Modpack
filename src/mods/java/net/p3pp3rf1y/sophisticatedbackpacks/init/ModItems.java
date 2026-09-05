@@ -301,8 +301,8 @@ public class ModItems {
 		UpgradeContainerRegistry.register(Registry.ITEM.getKey(XP_PUMP_UPGRADE), XP_PUMP_TYPE);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			ScreenManager.register(BACKPACK_CONTAINER_TYPE.get(), BackpackScreen::constructScreen);
-			ScreenManager.register(SETTINGS_CONTAINER_TYPE.get(), SettingsScreen::constructScreen);
+			ScreenManager.register(BACKPACK_CONTAINER_TYPE, BackpackScreen::constructScreen);
+			ScreenManager.register(SETTINGS_CONTAINER_TYPE, SettingsScreen::constructScreen);
 
 			UpgradeGuiManager.registerTab(PICKUP_BASIC_TYPE, PickupUpgradeTab.Basic::new);
 			UpgradeGuiManager.registerTab(PICKUP_ADVANCED_TYPE, PickupUpgradeTab.Advanced::new);

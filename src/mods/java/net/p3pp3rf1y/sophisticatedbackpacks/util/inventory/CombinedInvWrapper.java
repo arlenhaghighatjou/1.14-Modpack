@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nonnull;
 
 /**
- * Treats several item handlers as one continuous run of slots.
+ * Treats several item handlers as one continuous run of inventorySlots.
  */
 public class CombinedInvWrapper implements IItemHandlerModifiable {
 	protected final IItemHandlerModifiable[] handlers;

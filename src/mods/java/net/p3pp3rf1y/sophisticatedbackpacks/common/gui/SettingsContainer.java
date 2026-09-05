@@ -64,7 +64,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	private CompoundNBT lastSettingsNbt = null;
 
 	protected SettingsContainer(int windowId, PlayerEntity player, BackpackContext backpackContext) {
-		super(SETTINGS_CONTAINER_TYPE.get(), windowId);
+		super(SETTINGS_CONTAINER_TYPE, windowId);
 		this.player = player;
 		this.backpackContext = backpackContext;
 

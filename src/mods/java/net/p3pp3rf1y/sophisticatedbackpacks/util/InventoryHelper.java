@@ -52,7 +52,7 @@ public class InventoryHelper {
 		Set<Integer> slots = new HashSet<>();
 		iterate(inventory, (slot, stack) -> {
 			if (!stack.isEmpty() && matches.test(stack)) {
-				slots.add(slot);
+				inventorySlots.add(slot);
 			}
 		});
 		return slots;

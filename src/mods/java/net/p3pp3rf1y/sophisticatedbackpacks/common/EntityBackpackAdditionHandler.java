@@ -29,7 +29,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
@@ -170,7 +169,7 @@ public class EntityBackpackAdditionHandler {
 
 	private static List<MusicDiscItem> getMusicDiscs() {
 		if (musicDiscs == null) {
-			Map<SoundEvent, MusicDiscItem> records = ObfuscationReflectionHelper.getPrivateValue(MusicDiscItem.class, null, "field_150928_b");
+			Map<SoundEvent, MusicDiscItem> records = MusicDiscItem.getRecords();
 			if (records == null) {
 				musicDiscs = new ArrayList<>();
 			} else {

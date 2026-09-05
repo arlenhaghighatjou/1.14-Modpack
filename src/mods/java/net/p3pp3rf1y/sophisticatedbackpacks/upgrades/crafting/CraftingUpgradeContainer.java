@@ -37,7 +37,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 
 		int slot;
 		for (slot = 0; slot < upgradeWrapper.getInventory().getSlots(); slot++) {
-			slots.add(new SlotSuppliedHandler(upgradeWrapper::getInventory, slot, -100, -100) {
+			inventorySlots.add(new SlotSuppliedHandler(upgradeWrapper::getInventory, slot, -100, -100) {
 				@Override
 				public void markDirty() {
 					super.markDirty();
@@ -78,7 +78,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 						}
 					}
 					if (thePlayer.openContainer instanceof BackpackContainer) {
-						Slot slot = slots.get(i);
+						Slot slot = inventorySlots.get(i);
 						((BackpackContainer) thePlayer.openContainer).setSlotStackToUpdate(slot.slotNumber, slot.getStack());
 					}
 				}
@@ -90,7 +90,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 				return stack;
 			}
 		};
-		slots.add(craftingResultSlot);
+		inventorySlots.add(craftingResultSlot);
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 
 	@Override
 	public List<Slot> getRecipeSlots() {
-		return slots.subList(0, 9);
+		return inventorySlots.subList(0, 9);
 	}
 
 	@Override
