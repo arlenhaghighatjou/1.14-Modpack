@@ -43,13 +43,13 @@ public class ContextButton extends ButtonBase {
 
 	private void renderBackground(Minecraft minecraft, TextureBlitData leftButtonHoveredBackground, TextureBlitData middleButtonHoveredBackground, TextureBlitData rightButtonHoveredBackground) {
 		int left = x;
-		GuiHelper.blit(minecraft, matrixStack, left, y, leftButtonHoveredBackground);
+		GuiHelper.blit(minecraft, left, y, leftButtonHoveredBackground);
 		left += leftButtonHoveredBackground.getWidth();
-		GuiHelper.blit(minecraft, matrixStack, left, y, middleButtonHoveredBackground);
+		GuiHelper.blit(minecraft, left, y, middleButtonHoveredBackground);
 		left += middleButtonHoveredBackground.getWidth();
-		GuiHelper.blit(minecraft, matrixStack, left, y, middleButtonHoveredBackground);
+		GuiHelper.blit(minecraft, left, y, middleButtonHoveredBackground);
 		left += middleButtonHoveredBackground.getWidth();
-		GuiHelper.blit(minecraft, matrixStack, left, y, rightButtonHoveredBackground);
+		GuiHelper.blit(minecraft, left, y, rightButtonHoveredBackground);
 	}
 
 	@Override

@@ -330,9 +330,9 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 	@Override
 	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (container.getPrimaryMatch() != PrimaryMatch.TAGS) {
-			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x, y + slotsTopYOffset, slotsPerRow, fullSlotRows, slotsInExtraRow);
+			GuiHelper.renderSlotsBackground(minecraft, x, y + slotsTopYOffset, slotsPerRow, fullSlotRows, slotsInExtraRow);
 		} else {
-			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x, y + tagButtonsYOffset, 1, 1, 0);
+			GuiHelper.renderSlotsBackground(minecraft, x, y + tagButtonsYOffset, 1, 1, 0);
 			GuiHelper.renderControlBackground(minecraft, x, y + slotsTopYOffset, getTagListWidth(), getTagListHeight());
 		}
 	}

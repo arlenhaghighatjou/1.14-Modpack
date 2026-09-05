@@ -60,9 +60,9 @@ public class ColorToggleButton extends ButtonBase {
 	@Override
 	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
-			GuiHelper.blit(minecraft, matrixStack, x, y, DEFAULT_BUTTON_HOVERED_BACKGROUND);
+			GuiHelper.blit(minecraft, x, y, DEFAULT_BUTTON_HOVERED_BACKGROUND);
 		} else {
-			GuiHelper.blit(minecraft, matrixStack, x, y, DEFAULT_BUTTON_BACKGROUND);
+			GuiHelper.blit(minecraft, x, y, DEFAULT_BUTTON_BACKGROUND);
 		}
 	}
 

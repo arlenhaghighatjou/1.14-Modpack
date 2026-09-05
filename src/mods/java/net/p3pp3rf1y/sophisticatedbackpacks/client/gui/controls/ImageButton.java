@@ -23,6 +23,6 @@ public class ImageButton extends ButtonBase {
 
 	@Override
 	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
-		GuiHelper.blit(minecraft, matrixStack, x, y, texture);
+		GuiHelper.blit(minecraft, x, y, texture);
 	}
 }

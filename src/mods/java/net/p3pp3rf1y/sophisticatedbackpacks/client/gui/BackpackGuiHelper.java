@@ -24,6 +24,6 @@ public class BackpackGuiHelper {
 		int playerInventoryHeight = 97;
 		AbstractGui.blit(x, y + BackpackScreen.SLOTS_Y_OFFSET + halfSlotHeight, 0, (float) 256 - (playerInventoryHeight + halfSlotHeight), xSize, playerInventoryHeight + halfSlotHeight, 256, 256);
 
-		GuiHelper.renderSlotsBackground(minecraft, matrixStack, x + BackpackScreen.SLOTS_X_OFFSET, y + BackpackScreen.SLOTS_Y_OFFSET, slotsOnLine, slotRows, remainingSlots);
+		GuiHelper.renderSlotsBackground(minecraft, x + BackpackScreen.SLOTS_X_OFFSET, y + BackpackScreen.SLOTS_Y_OFFSET, slotsOnLine, slotRows, remainingSlots);
 	}
 }

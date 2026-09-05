@@ -83,8 +83,18 @@ public class AtlasTexture extends Texture implements ITickableTextureObject {
 
    }
 
+   private static final Set<ResourceLocation> EXTRA_SPRITES = Sets.newHashSet();
+
+   public static void addExtraSprite(ResourceLocation sprite) {
+      EXTRA_SPRITES.add(sprite);
+   }
+
    public AtlasTexture.SheetData stitch(IResourceManager p_215254_1_, Iterable<ResourceLocation> p_215254_2_, IProfiler p_215254_3_) {
       Set<ResourceLocation> set = Sets.newHashSet();
+      if ("textures".equals(this.basePath)) {
+         set.addAll(EXTRA_SPRITES);
+      }
+
       p_215254_3_.startSection("preparing");
       p_215254_2_.forEach((p_215253_1_) -> {
          if (p_215253_1_ == null) {

@@ -27,7 +27,7 @@ public class ToggleButton<T extends Comparable<T>> extends Button {
 	@Override
 	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		StateData data = stateData.get(getState.get());
-		GuiHelper.blit(minecraft, matrixStack, x, y, data.getTexture());
+		GuiHelper.blit(minecraft, x, y, data.getTexture());
 		if (isMouseOver(mouseX, mouseY)) {
 			GuiHelper.setTooltipToRender(data.getTooltip());
 		}

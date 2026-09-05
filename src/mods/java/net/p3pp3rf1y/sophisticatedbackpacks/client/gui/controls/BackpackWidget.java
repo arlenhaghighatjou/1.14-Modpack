@@ -36,14 +36,14 @@ public abstract class BackpackWidget extends AbstractGui implements IRenderable,
 		}
 
 		if (zOffset != 0) {
-			matrixStack.pushPose();
+			GlStateManager.pushMatrix();
 			GlStateManager.translated(0, 0, zOffset);
 		}
 		GlStateManager.enableDepthTest();
 		renderBg(minecraft, mouseX, mouseY);
 		renderWidget(mouseX, mouseY, partialTicks);
 		if (zOffset != 0) {
-			matrixStack.popPose();
+			GlStateManager.popMatrix();
 		}
 	}
 

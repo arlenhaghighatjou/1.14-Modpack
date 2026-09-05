@@ -244,15 +244,15 @@ public class BackpackTooltipRenderer {
 		@Override
 		public void render(int leftX, int topY, FontRenderer font) {
 			if (!upgrades.isEmpty()) {
-				topY = renderTooltipLine(leftX, topY, matrixStack, font, "upgrades");
+				topY = renderTooltipLine(leftX, topY, font, "upgrades");
 				topY = renderUpgrades(leftX, topY);
 			}
 			if (!backpackContents.isEmpty()) {
-				topY = renderTooltipLine(leftX, topY, matrixStack, font, "inventory");
+				topY = renderTooltipLine(leftX, topY, font, "inventory");
 				renderContents(leftX, topY);
 			}
 			if (upgrades.isEmpty() && backpackContents.isEmpty()) {
-				renderTooltipLine(leftX, topY, matrixStack, font, "empty");
+				renderTooltipLine(leftX, topY, font, "empty");
 			}
 		}
 
@@ -268,7 +268,7 @@ public class BackpackTooltipRenderer {
 			int x = leftX;
 			for (IUpgradeWrapper upgradeWrapper : upgrades.values()) {
 				if (upgradeWrapper.canBeDisabled()) {
-					GuiHelper.blit(minecraft, matrixStack, x, topY + 3, upgradeWrapper.isEnabled() ? UPGRADE_ON : UPGRADE_OFF);
+					GuiHelper.blit(minecraft, x, topY + 3, upgradeWrapper.isEnabled() ? UPGRADE_ON : UPGRADE_OFF);
 					x += 4;
 				}
 				GuiHelper.renderItemInGUI(minecraft, upgradeWrapper.getUpgradeStack(), x, topY, true);

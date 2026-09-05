@@ -28,10 +28,10 @@ public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
 		boolean showRightTank = state.get(BackpackBlock.RIGHT_TANK);
 		boolean showBattery = state.get(BackpackBlock.BATTERY);
 		BackpackRenderInfo renderInfo = tileEntityIn.getBackpackWrapper().getRenderInfo();
-		matrixStack.pushPose();
+		GlStateManager.pushMatrix();
 		GlStateManager.translated(0.5, 0, 0.5);
 		matrixStack.mulPose(Vector3f.YN.rotationDegrees(facing.toYRot()));
-		matrixStack.pushPose();
+		GlStateManager.pushMatrix();
 		GlStateManager.scalef(6 / 10f, 6 / 10f, 6 / 10f);
 		if (showLeftTank) {
 			IRenderedTankUpgrade.TankRenderInfo tankRenderInfo = renderInfo.getTankRenderInfos().get(TankPosition.LEFT);
@@ -45,29 +45,29 @@ public class BackpackTESR extends TileEntityRenderer<BackpackTileEntity> {
 				tankRenderInfo.getFluid().ifPresent(fluid -> RenderHelper.renderFluid(buffer, combinedLight, fluid, tankRenderInfo.getFillRatio(), 8.7F, 2.5F, 0, -2F));
 			}
 		}
-		matrixStack.popPose();
+		GlStateManager.popMatrix();
 		if (showBattery) {
 			renderInfo.getBatteryRenderInfo().ifPresent(batteryRenderInfo -> {
 				if (batteryRenderInfo.getChargeRatio() > 0.1f) {
-					matrixStack.pushPose();
+					GlStateManager.pushMatrix();
 					matrixStack.mulPose(Vector3f.XN.rotationDegrees(180));
 					RenderHelper.renderBatteryCharge(buffer, combinedLight, batteryRenderInfo.getChargeRatio());
-					matrixStack.popPose();
+					GlStateManager.popMatrix();
 				}
 			});
 		}
 		renderItemDisplay(buffer, combinedLight, combinedOverlay, renderInfo);
-		matrixStack.popPose();
+		GlStateManager.popMatrix();
 	}
 
 	private void renderItemDisplay(IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay, BackpackRenderInfo renderInfo) {
 		BackpackRenderInfo.ItemDisplayRenderInfo itemDisplayRenderInfo = renderInfo.getItemDisplayRenderInfo();
-		matrixStack.pushPose();
+		GlStateManager.pushMatrix();
 		GlStateManager.translated(0, 0.6, 0.25);
 		GlStateManager.scalef(0.5f, 0.5f, 0.5f);
 		matrixStack.mulPose(Vector3f.XN.rotationDegrees(180));
 		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f + itemDisplayRenderInfo.getRotation()));
-		Minecraft.getInstance().getItemRenderer().renderStatic(itemDisplayRenderInfo.getItem(), ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);
-		matrixStack.popPose();
+		Minecraft.getInstance().getItemRenderer().renderStatic(itemDisplayRenderInfo.getItem(), ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, buffer);
+		GlStateManager.popMatrix();
 	}
 }

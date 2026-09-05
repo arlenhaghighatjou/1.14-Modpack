@@ -1,5 +1,9 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.client;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.everlasting.EverlastingBackpackItemEntity;
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackTileEntity;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.GameSettings;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.collect.ImmutableMap;
@@ -10,8 +14,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -28,23 +30,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.settings.IKeyConflictContext;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.client.settings.KeyModifier;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
@@ -92,25 +77,16 @@ public class ClientProxy extends CommonProxy {
 
 	private static final String KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY = "keybind.sophisticatedbackpacks.category";
 
-	public static final KeyBinding BACKPACK_OPEN_KEYBIND = new KeyBinding(translKeybind("open_backpack"),
-			BackpackKeyConflictContext.INSTANCE, InputMappings.Type.KEYSYM.getOrCreate(KEY_B), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding INVENTORY_INTERACTION_KEYBIND = new KeyBinding(translKeybind("inventory_interaction"),
-			KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM.getOrCreate(KEY_C), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding TOOL_SWAP_KEYBIND = new KeyBinding(translKeybind("tool_swap"),
-			KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM.getOrCreate(KEY_UNKNOWN), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding SORT_KEYBIND = new KeyBinding(translKeybind("sort"),
-			BackpackGuiKeyConflictContext.INSTANCE, InputMappings.Type.MOUSE.getOrCreate(MIDDLE_BUTTON), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding BACKPACK_OPEN_KEYBIND = new KeyBinding(translKeybind("open_backpack"), InputMappings.Type.KEYSYM, KEY_B, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding INVENTORY_INTERACTION_KEYBIND = new KeyBinding(translKeybind("inventory_interaction"), InputMappings.Type.KEYSYM, KEY_C, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding TOOL_SWAP_KEYBIND = new KeyBinding(translKeybind("tool_swap"), InputMappings.Type.KEYSYM, KEY_UNKNOWN, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding SORT_KEYBIND = new KeyBinding(translKeybind("sort"), InputMappings.Type.MOUSE, MIDDLE_BUTTON, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
 
-	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_1 = new KeyBinding(translKeybind("toggle_upgrade_1"),
-			KeyConflictContext.UNIVERSAL, KeyModifier.ALT, InputMappings.Type.KEYSYM.getOrCreate(KEY_Z), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_2 = new KeyBinding(translKeybind("toggle_upgrade_2"),
-			KeyConflictContext.UNIVERSAL, KeyModifier.ALT, InputMappings.Type.KEYSYM.getOrCreate(KEY_X), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_3 = new KeyBinding(translKeybind("toggle_upgrade_3"),
-			KeyConflictContext.UNIVERSAL, InputMappings.Type.KEYSYM.getOrCreate(KEY_UNKNOWN), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_4 = new KeyBinding(translKeybind("toggle_upgrade_4"),
-			KeyConflictContext.UNIVERSAL, InputMappings.Type.KEYSYM.getOrCreate(KEY_UNKNOWN), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
-	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_5 = new KeyBinding(translKeybind("toggle_upgrade_5"),
-			KeyConflictContext.UNIVERSAL, InputMappings.Type.KEYSYM.getOrCreate(KEY_UNKNOWN), KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_1 = new KeyBinding(translKeybind("toggle_upgrade_1"), InputMappings.Type.KEYSYM, KEY_Z, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_2 = new KeyBinding(translKeybind("toggle_upgrade_2"), InputMappings.Type.KEYSYM, KEY_X, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_3 = new KeyBinding(translKeybind("toggle_upgrade_3"), InputMappings.Type.KEYSYM, KEY_UNKNOWN, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_4 = new KeyBinding(translKeybind("toggle_upgrade_4"), InputMappings.Type.KEYSYM, KEY_UNKNOWN, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
+	public static final KeyBinding BACKPACK_TOGGLE_UPGRADE_5 = new KeyBinding(translKeybind("toggle_upgrade_5"), InputMappings.Type.KEYSYM, KEY_UNKNOWN, KEYBIND_SOPHISTICATEDBACKPACKS_CATEGORY);
 
 	private static final Map<Integer, KeyBinding> UPGRADE_SLOT_TOGGLE_KEYBINDS = ImmutableMap.of(
 			0, BACKPACK_TOGGLE_UPGRADE_1,
@@ -138,14 +114,14 @@ public class ClientProxy extends CommonProxy {
 		return false;
 	}
 
-	public static void handleGuiKeyPress(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
+	public static boolean handleGuiKeyPress(Screen gui, int keyCode, int scanCode) {
 		if (SORT_KEYBIND.isActiveAndMatches(InputMappings.getKey(event.getKeyCode(), event.getScanCode())) && tryCallSort(event.getGui())) {
 			event.setCanceled(true);
 		}
 	}
 
-	public static void handleGuiMouseKeyPress(GuiScreenEvent.MouseClickedEvent.Pre event) {
-		InputMappings.Input input = InputMappings.Type.MOUSE.getOrCreate(event.getButton());
+	public static boolean handleGuiMouseKeyPress(Screen gui, int button) {
+		InputMappings.Input input = InputMappings.Type.MOUSE.getOrMakeInput(event.getButton());
 		if (SORT_KEYBIND.isActiveAndMatches(input) && tryCallSort(event.getGui())) {
 			event.setCanceled(true);
 		} else if (BACKPACK_OPEN_KEYBIND.isActiveAndMatches(input)) {
@@ -153,7 +129,7 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	public static void handleKeyInputEvent(TickEvent.ClientTickEvent event) {
+	public static void handleKeyInputEvent() {
 		if (BACKPACK_OPEN_KEYBIND.isPressed()) {
 			sendBackpackOpenOrCloseMessage();
 		} else if (INVENTORY_INTERACTION_KEYBIND.isPressed()) {
@@ -241,34 +217,20 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerHandlers() {
 		super.registerHandlers();
-		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modBus.addListener(this::loadComplete);
-		modBus.addListener(this::clientSetup);
-		modBus.addListener(this::stitchTextures);
-		modBus.addListener(this::onModelRegistry);
-		modBus.addListener(ModParticles::registerFactories);
-		IEventBus eventBus = MinecraftForge.EVENT_BUS;
-		eventBus.addListener(ClientProxy::onDrawScreen);
-		eventBus.addListener(EventPriority.HIGH, ClientProxy::onRightClick);
-		eventBus.addListener(ClientProxy::handleKeyInputEvent);
-		eventBus.addListener(EventPriority.HIGH, ClientProxy::handleGuiMouseKeyPress);
-		eventBus.addListener(EventPriority.HIGH, ClientProxy::handleGuiKeyPress);
-		eventBus.addListener(ClientProxy::onPlayerJoinServer);
-		eventBus.addListener(BackpackTooltipRenderer::handleBackpackTooltipRender);
-		eventBus.addListener(BackpackTooltipRenderer::onWorldLoad);
-		eventBus.addListener(BackpackSoundHandler::tick);
-		eventBus.addListener(BackpackSoundHandler::onWorldUnload);
 	}
 
-	private void loadComplete(FMLLoadCompleteEvent event) {
-		event.enqueueWork(() -> {
-			ModItemColors.init();
-			ModBlockColors.init();
-			registerBackpackLayer();
-		});
+	public void clientSetupAll() {
+		clientSetup();
+		stitchTextures();
+		onModelRegistry();
+		ModParticles.registerFactories();
+		ModItemColors.init();
+		ModBlockColors.init();
+		registerBackpackLayer();
 	}
 
-	private static void onDrawScreen(GuiScreenEvent.DrawScreenEvent.Post event) {
+
+	public static void onDrawScreen(int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
 		Screen gui = mc.screen;
 		if (!(gui instanceof ContainerScreen<?>) || gui instanceof CreativeScreen || mc.player == null) {
@@ -281,8 +243,7 @@ public class ClientProxy extends CommonProxy {
 		ItemStack held = player.inventory.getItemStack();
 		if (!held.isEmpty() && !(held.getItem() instanceof BackpackItem)) {
 			Slot under = containerGui.getSlotUnderMouse();
-			MatrixStack poseStack = event.getMatrixStack();
-
+			
 			for (Slot s : menu.slots) {
 				ItemStack stack = s.getStack();
 				if (!s.canTakeStack(player) || stack.getCount() != 1) {
@@ -313,7 +274,7 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	private static void onRightClick(GuiScreenEvent.MouseReleasedEvent.Pre event) {
+	public static boolean onRightClick(double mouseX, double mouseY, int button) {
 		Minecraft mc = Minecraft.getInstance();
 		Screen screen = mc.screen;
 		if (screen instanceof ContainerScreen<?> && !(screen instanceof CreativeScreen) && event.getButton() == 1 && mc.player != null) {
@@ -332,25 +293,21 @@ public class ClientProxy extends CommonProxy {
 		}
 	}
 
-	private void onModelRegistry(ModelRegistryEvent event) {
-		ModelLoaderRegistry.registerLoader(RegistryHelper.getRL("backpack"), BackpackDynamicModel.Loader.INSTANCE);
+	private void onModelRegistry() {
+		BackpackDynamicModel.Loader.INSTANCE.register();
 	}
 
-	private void clientSetup(FMLClientSetupEvent event) {
-		event.enqueueWork(() -> {
-			ClientRegistry.registerKeyBinding(BACKPACK_OPEN_KEYBIND);
-			ClientRegistry.registerKeyBinding(INVENTORY_INTERACTION_KEYBIND);
-			ClientRegistry.registerKeyBinding(TOOL_SWAP_KEYBIND);
-			ClientRegistry.registerKeyBinding(SORT_KEYBIND);
-			UPGRADE_SLOT_TOGGLE_KEYBINDS.forEach((slot, keybind) -> ClientRegistry.registerKeyBinding(keybind));
-		});
-		RenderTypeLookup.setRenderLayer(ModBlocks.BACKPACK, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.IRON_BACKPACK, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.GOLD_BACKPACK, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.DIAMOND_BACKPACK, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(ModBlocks.NETHERITE_BACKPACK, RenderType.cutout());
-		RenderingRegistry.registerEntityRenderingHandler(EVERLASTING_BACKPACK_ITEM_ENTITY.get(), renderManager -> new ItemRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
-		ClientRegistry.bindTileEntityRenderer(ModBlocks.BACKPACK_TILE_TYPE, BackpackTESR::new);
+	private void clientSetup() {
+		GameSettings.registerKeyBinding(BACKPACK_OPEN_KEYBIND);
+		GameSettings.registerKeyBinding(INVENTORY_INTERACTION_KEYBIND);
+		GameSettings.registerKeyBinding(TOOL_SWAP_KEYBIND);
+		GameSettings.registerKeyBinding(SORT_KEYBIND);
+		UPGRADE_SLOT_TOGGLE_KEYBINDS.forEach((slot, keybind) -> GameSettings.registerKeyBinding(keybind));
+		Minecraft.getInstance().gameSettings.addModKeyBindings();
+
+		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+		renderManager.register(EverlastingBackpackItemEntity.class, new net.minecraft.client.renderer.entity.ItemRenderer(renderManager));
+		TileEntityRendererDispatcher.instance.register(BackpackTileEntity.class, new BackpackTESR());
 	}
 
 	@SuppressWarnings("java:S3740") //explanation below
@@ -369,53 +326,20 @@ public class ClientProxy extends CommonProxy {
 		});
 	}
 
-	public void stitchTextures(TextureStitchEvent.Pre evt) {
-		if (evt.getMap().location() == AtlasTexture.LOCATION_BLOCKS_TEXTURE) {
-			evt.addSprite(BackpackContainer.EMPTY_UPGRADE_SLOT_BACKGROUND);
-			evt.addSprite(ToolSwapperFilterContainer.EMPTY_WEAPON_SLOT_BACKGROUND);
-			ToolSwapperFilterContainer.EMPTY_TOOL_SLOT_BACKGROUNDS.values().forEach(evt::addSprite);
-			evt.addSprite(TankUpgradeContainer.EMPTY_TANK_INPUT_SLOT_BACKGROUND);
-			evt.addSprite(TankUpgradeContainer.EMPTY_TANK_OUTPUT_SLOT_BACKGROUND);
-			evt.addSprite(BatteryUpgradeContainer.EMPTY_BATTERY_INPUT_SLOT_BACKGROUND);
-			evt.addSprite(BatteryUpgradeContainer.EMPTY_BATTERY_OUTPUT_SLOT_BACKGROUND);
-		}
+	public void stitchTextures() {
+		AtlasTexture.addExtraSprite(BackpackContainer.EMPTY_UPGRADE_SLOT_BACKGROUND);
+		AtlasTexture.addExtraSprite(ToolSwapperFilterContainer.EMPTY_WEAPON_SLOT_BACKGROUND);
+		ToolSwapperFilterContainer.EMPTY_TOOL_SLOT_BACKGROUNDS.values().forEach(AtlasTexture::addExtraSprite);
+		AtlasTexture.addExtraSprite(TankUpgradeContainer.EMPTY_TANK_INPUT_SLOT_BACKGROUND);
+		AtlasTexture.addExtraSprite(TankUpgradeContainer.EMPTY_TANK_OUTPUT_SLOT_BACKGROUND);
+		AtlasTexture.addExtraSprite(BatteryUpgradeContainer.EMPTY_BATTERY_INPUT_SLOT_BACKGROUND);
+		AtlasTexture.addExtraSprite(BatteryUpgradeContainer.EMPTY_BATTERY_OUTPUT_SLOT_BACKGROUND);
 	}
 
-	private static void onPlayerJoinServer(ClientPlayerNetworkEvent.LoggedInEvent evt) {
+	public static void onPlayerJoinServer() {
 		//noinspection ConstantConditions - by the time player is joining the world is not null
 		RecipeHelper.setWorld(Minecraft.getInstance().world);
 	}
 
-	private static class BackpackKeyConflictContext implements IKeyConflictContext {
-		public static final BackpackKeyConflictContext INSTANCE = new BackpackKeyConflictContext();
 
-		@Override
-		public boolean isEnabled() {
-			if (!GUI.isActive()) {
-				return true;
-			}
-			Screen screen = Minecraft.getInstance().screen;
-			return screen instanceof BackpackScreen || screen instanceof InventoryScreen;
-		}
-
-		@Override
-		public boolean conflicts(IKeyConflictContext other) {
-			return this == other;
-		}
-
-	}
-
-	private static class BackpackGuiKeyConflictContext implements IKeyConflictContext {
-		public static final BackpackGuiKeyConflictContext INSTANCE = new BackpackGuiKeyConflictContext();
-
-		@Override
-		public boolean isEnabled() {
-			return GUI.isActive() && Minecraft.getInstance().screen instanceof BackpackScreen;
-		}
-
-		@Override
-		public boolean conflicts(IKeyConflictContext other) {
-			return this == other;
-		}
-	}
 }

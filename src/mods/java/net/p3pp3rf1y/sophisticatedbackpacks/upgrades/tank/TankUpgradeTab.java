@@ -23,8 +23,8 @@ public class TankUpgradeTab extends UpgradeSettingsTab<TankUpgradeContainer> {
 	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		super.renderBg(minecraft, mouseX, mouseY);
 		if (getContainer().isOpen()) {
-			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x + 3, y + 24, 1, 1);
-			GuiHelper.renderSlotsBackground(minecraft, matrixStack, x + 24, y + 24, 1, 1);
+			GuiHelper.renderSlotsBackground(minecraft, x + 3, y + 24, 1, 1);
+			GuiHelper.renderSlotsBackground(minecraft, x + 24, y + 24, 1, 1);
 		}
 	}
 

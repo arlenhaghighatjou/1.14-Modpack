@@ -40,7 +40,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	@Override
 	protected void renderBg(float partialTicks, int x, int y) {
 		BackpackBackgroundProperties backpackBackgroundProperties = getContainer().getBackpackBackgroundProperties();
-		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), matrixStack, getContainer().getBackpackInventorySlots().size(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());
+		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), getContainer().getBackpackInventorySlots().size(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());
 	}
 
 	@Override
@@ -94,14 +94,14 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	private void drawMemorizedStackOverlay(int x, int y) {
-		matrixStack.pushPose();
+		GlStateManager.pushMatrix();
 		GlStateManager._enableBlend();
 		GlStateManager._disableDepthTest();
 		mc.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 		blit(x, y, 77, 0, 16, 16);
 		GlStateManager._enableDepthTest();
 		GlStateManager._disableBlend();
-		matrixStack.popPose();
+		GlStateManager.popMatrix();
 	}
 
 	@SuppressWarnings("java:S2589") // slot can actually be null despite being marked non null
@@ -168,7 +168,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	@Override
 	protected void renderTooltip(int x, int y) {
 		super.renderTooltip(x, y);
-		GuiHelper.renderTooltip(mc, matrixStack, x, y);
+		GuiHelper.renderTooltip(mc, x, y);
 	}
 
 	public static SettingsScreen constructScreen(SettingsContainer settingsContainer, PlayerInventory playerInventory, ITextComponent title) {

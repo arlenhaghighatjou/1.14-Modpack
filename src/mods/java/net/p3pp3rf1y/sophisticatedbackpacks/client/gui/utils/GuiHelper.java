@@ -71,7 +71,7 @@ public class GuiHelper {
 
 	public static void renderSlotsBackground(Minecraft minecraft, int x, int y, int slotWidth, int slotHeight) {
 		int key = getSlotsBackgroundKey(slotWidth, slotHeight);
-		blit(minecraft, matrixStack, x, y, SLOTS_BACKGROUNDS.computeIfAbsent(key, k ->
+		blit(minecraft, x, y, SLOTS_BACKGROUNDS.computeIfAbsent(key, k ->
 				new TextureBlitData(SLOTS_BACKGROUND, Dimension.SQUARE_256, new UV(0, 0), new Dimension(slotWidth * 18, slotHeight * 18))
 		));
 	}
@@ -97,8 +97,7 @@ public class GuiHelper {
 	}
 
 	private static int getZOffset() {
-		Float zOffset = ObfuscationReflectionHelper.getPrivateValue(Matrix4f.class, matrixStack.last().pose(), "field_226586_l_");
-		return zOffset == null ? 0 : zOffset.intValue();
+		return 0;
 	}
 
 	public static void blit(Minecraft minecraft, int x, int y, TextureBlitData texData) {
@@ -106,7 +105,7 @@ public class GuiHelper {
 		AbstractGui.blit(x + texData.getXOffset(), y + texData.getYOffset(), texData.getU(), texData.getV(), texData.getWidth(), texData.getHeight(), texData.getTextureWidth(), texData.getTextureHeight());
 	}
 
-	public static void coloredBlit(Matrix4f matrix, int x, int y, TextureBlitData texData, int color) {
+	public static void coloredBlit(int x, int y, TextureBlitData texData, int color) {
 		float red = (color >> 16 & 255) / 255F;
 		float green = (color >> 8 & 255) / 255F;
 		float blue = (color & 255) / 255F;
@@ -143,13 +142,13 @@ public class GuiHelper {
 			return;
 		}
 
-		renderTooltip(minecraft, matrixStack, tooltipToRender, mouseX, mouseY, ITooltipRenderPart.EMPTY, null, ItemStack.EMPTY, 200);
+		renderTooltip(minecraft, tooltipToRender, mouseX, mouseY, ITooltipRenderPart.EMPTY, null, ItemStack.EMPTY, 200);
 		tooltipToRender = Collections.emptyList();
 	}
 
 	public static void renderTooltip(Minecraft minecraft, List<? extends ITextComponent> textLines, int mouseX, int mouseY,
 			ITooltipRenderPart additionalRender, @Nullable FontRenderer tooltipRenderFont, ItemStack stack) {
-		renderTooltip(minecraft, matrixStack, textLines, mouseX, mouseY, additionalRender, tooltipRenderFont, stack, 0);
+		renderTooltip(minecraft, textLines, mouseX, mouseY, additionalRender, tooltipRenderFont, stack, 0);
 	}
 
 	public static void renderTooltip(Minecraft minecraft, List<? extends ITextComponent> textLines, int mouseX, int mouseY,
@@ -201,17 +200,17 @@ public class GuiHelper {
 		int backgroundColor = GuiUtils.DEFAULT_BACKGROUND_COLOR;
 		int borderColorStart = GuiUtils.DEFAULT_BORDER_COLOR_START;
 		int borderColorEnd = GuiUtils.DEFAULT_BORDER_COLOR_END;
-		RenderTooltipEvent.Color colorEvent = new RenderTooltipEvent.Color(stack, textLines, matrixStack, leftX, topY, font, backgroundColor, borderColorStart, borderColorEnd);
+		RenderTooltipEvent.Color colorEvent = new RenderTooltipEvent.Color(stack, textLines, leftX, topY, font, backgroundColor, borderColorStart, borderColorEnd);
 		MinecraftForge.EVENT_BUS.post(colorEvent);
 		backgroundColor = colorEvent.getBackground();
 		borderColorStart = colorEvent.getBorderStart();
 		borderColorEnd = colorEvent.getBorderEnd();
 
-		matrixStack.pushPose();
+		GlStateManager.pushMatrix();
 		Matrix4f matrix4f = matrixStack.last().pose();
 		renderTooltipBackground(matrix4f, tooltipWidth, leftX, topY, tooltipHeight, backgroundColor, borderColorStart, borderColorEnd);
 
-		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostBackground(stack, textLines, matrixStack, leftX, topY, font, tooltipWidth, tooltipHeight));
+		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostBackground(stack, textLines, leftX, topY, font, tooltipWidth, tooltipHeight));
 
 		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 		GlStateManager.translated(0.0D, 0.0D, 400.0D);
@@ -220,12 +219,12 @@ public class GuiHelper {
 
 		renderTypeBuffer.endBatch();
 		additionalRender.render(leftX, topY, font);
-		matrixStack.popPose();
+		GlStateManager.popMatrix();
 
-		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostText(stack, textLines, matrixStack, leftX, topY, font, tooltipWidth, tooltipHeight));
+		MinecraftForge.EVENT_BUS.post(new RenderTooltipEvent.PostText(stack, textLines, leftX, topY, font, tooltipWidth, tooltipHeight));
 	}
 
-	public static void renderTooltipBackground(Matrix4f matrix4f, int tooltipWidth, int leftX, int topY, int tooltipHeight, int backgroundColor, int borderColorStart, int borderColorEnd) {
+	public static void renderTooltipBackground(int tooltipWidth, int leftX, int topY, int tooltipHeight, int backgroundColor, int borderColorStart, int borderColorEnd) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -312,9 +311,9 @@ public class GuiHelper {
 	}
 
 	public static void renderSlotsBackground(Minecraft minecraft, int x, int y, int slotsInRow, int fullSlotRows, int extraRowSlots) {
-		renderSlotsBackground(minecraft, matrixStack, x, y, slotsInRow, fullSlotRows);
+		renderSlotsBackground(minecraft, x, y, slotsInRow, fullSlotRows);
 		if (extraRowSlots > 0) {
-			renderSlotsBackground(minecraft, matrixStack, x, y + fullSlotRows * 18, extraRowSlots, 1);
+			renderSlotsBackground(minecraft, x, y + fullSlotRows * 18, extraRowSlots, 1);
 		}
 	}
 

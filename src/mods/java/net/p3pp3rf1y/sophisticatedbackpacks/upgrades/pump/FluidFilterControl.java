@@ -22,7 +22,7 @@ public class FluidFilterControl extends BackpackWidget {
 
 	@Override
 	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
-		GuiHelper.renderSlotsBackground(minecraft, matrixStack, x, y, container.getNumberOfFluidFilters(), 1);
+		GuiHelper.renderSlotsBackground(minecraft, x, y, container.getNumberOfFluidFilters(), 1);
 	}
 
 	@Override

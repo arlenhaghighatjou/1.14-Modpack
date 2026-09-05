@@ -382,14 +382,14 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void drawMemorizedStackOverlay(int x, int y) {
-		matrixStack.pushPose();
+		GlStateManager.pushMatrix();
 		GlStateManager._enableBlend();
 		GlStateManager._disableDepthTest();
 		mc.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 		blit(x, y, 77, 0, 16, 16);
 		GlStateManager._enableDepthTest();
 		GlStateManager._disableBlend();
-		matrixStack.popPose();
+		GlStateManager.popMatrix();
 	}
 
 	private boolean shouldUseSpecialCountRender(ItemStack itemstack) {
@@ -429,7 +429,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 				}
 			}
 		}
-		GuiHelper.renderTooltip(mc, matrixStack, x, y);
+		GuiHelper.renderTooltip(mc, x, y);
 	}
 
 	@Override
@@ -446,7 +446,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	private void drawInventoryBackground() {
 		BackpackBackgroundProperties backpackBackgroundProperties = getContainer().getBackpackBackgroundProperties();
-		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), matrixStack, getContainer().getNumberOfSlots(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());
+		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), getContainer().getNumberOfSlots(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translatef(getGuiLeft(), (float) getGuiTop(), 0.0F);
@@ -618,18 +618,14 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void renderStackCount(String count, int x, int y) {
-		MatrixStack matrixStack = new MatrixStack();
-		GlStateManager.translated(0.0D, 0.0D, itemRenderer.zLevel + 200.0F);
-		IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
-
 		GlStateManager.pushMatrix();
+		GlStateManager.translated(0.0D, 0.0D, itemRenderer.zLevel + 200.0F);
 		float scale = Math.min(1f, (float) 16 / font.getStringWidth(count));
 		if (scale < 1f) {
 			GlStateManager.scalef(scale, scale, 1.0F);
 		}
-		font.drawInBatch(count, (x + 19 - 2 - (font.getStringWidth(count) * scale)) / scale,
-				(y + 6 + 3 + (1 / (scale * scale) - 1)) / scale, 16777215, true, matrixStack.last().pose(), renderBuffer, false, 0, 15728880);
-		renderBuffer.endBatch();
+		font.drawStringWithShadow(count, (x + 19 - 2 - (font.getStringWidth(count) * scale)) / scale,
+				(y + 6 + 3 + (1 / (scale * scale) - 1)) / scale, 16777215);
 		GlStateManager.popMatrix();
 	}
 
@@ -713,10 +709,9 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			tooltipHeight += 2 + (wrappedTextLines.size() - 1) * 10;
 		}
 
-		Matrix4f matrix4f = matrixStack.last().pose();
 		float leftX = (float) -tooltipWidth / 2;
 
-		GuiHelper.renderTooltipBackground(matrix4f, tooltipWidth, (int) leftX, 0, tooltipHeight, ERROR_BACKGROUND_COLOR, ERROR_BORDER_COLOR, ERROR_BORDER_COLOR);
+		GuiHelper.renderTooltipBackground(tooltipWidth, (int) leftX, 0, tooltipHeight, ERROR_BACKGROUND_COLOR, ERROR_BORDER_COLOR, ERROR_BORDER_COLOR);
 		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 		GlStateManager.translated(0.0D, 0.0D, 400.0D);
 		GuiHelper.writeTooltipLines(wrappedTextLines, fontrenderer, leftX, 0, matrix4f, renderTypeBuffer, DyeColor.RED.getColorValue());

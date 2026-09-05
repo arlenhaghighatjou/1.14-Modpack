@@ -24,8 +24,8 @@ public class BackpackISTER extends ItemStackTileEntityRenderer {
 	public void renderByItem(ItemStack stack, ItemCameraTransforms.TransformType transformType, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
 		//ItemRenderer.render does transformations that would need to be transformed against in complicated way so rather pop the pose here and push the new one with the same transforms
 		// applied in the correct order with the getModel
-		matrixStack.popPose();
-		matrixStack.pushPose();
+		GlStateManager.popMatrix();
+		GlStateManager.pushMatrix();
 		ItemRenderer itemRenderer = minecraft.getItemRenderer();
 		IBakedModel model = itemRenderer.getModel(stack, null, minecraft.player);
 
@@ -34,7 +34,7 @@ public class BackpackISTER extends ItemStackTileEntityRenderer {
 		GlStateManager.translated(-0.5D, -0.5D, -0.5D);
 		RenderType rendertype = RenderTypeLookup.getRenderType(stack, true);
 		IVertexBuilder ivertexbuilder = ItemRenderer.getFoilBufferDirect(buffer, rendertype, true, stack.hasFoil());
-		itemRenderer.renderModelLists(model, stack, combinedLight, combinedOverlay, matrixStack, ivertexbuilder);
+		itemRenderer.renderModelLists(model, stack, combinedLight, combinedOverlay, ivertexbuilder);
 		BackpackWrapperLookup.get(stack).ifPresent(backpackWrapper -> {
 			BackpackRenderInfo.ItemDisplayRenderInfo itemDisplayRenderInfo = backpackWrapper.getRenderInfo().getItemDisplayRenderInfo();
 			ItemStack displayItem = itemDisplayRenderInfo.getItem();
@@ -42,7 +42,7 @@ public class BackpackISTER extends ItemStackTileEntityRenderer {
 				GlStateManager.translated(0.5, 0.6, 0.25);
 				GlStateManager.scalef(0.5f, 0.5f, 0.5f);
 				matrixStack.mulPose(Vector3f.ZP.rotationDegrees(itemDisplayRenderInfo.getRotation()));
-				itemRenderer.renderStatic(displayItem, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);
+				itemRenderer.renderStatic(displayItem, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, buffer);
 			}
 		});
 	}

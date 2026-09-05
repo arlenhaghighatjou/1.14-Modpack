@@ -30,17 +30,17 @@ public class Button extends ButtonBase {
 	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
 			if (hoveredBackgroundTexture != null) {
-				GuiHelper.blit(minecraft, matrixStack, x, y, hoveredBackgroundTexture);
+				GuiHelper.blit(minecraft, x, y, hoveredBackgroundTexture);
 			}
 		} else {
-			GuiHelper.blit(minecraft, matrixStack, x, y, backgroundTexture);
+			GuiHelper.blit(minecraft, x, y, backgroundTexture);
 		}
 	}
 
 	@Override
 	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
 		if (foregroundTexture != null) {
-			GuiHelper.blit(minecraft, matrixStack, x, y, foregroundTexture);
+			GuiHelper.blit(minecraft, x, y, foregroundTexture);
 		}
 		if (isMouseOver(mouseX, mouseY)) {
 			GuiHelper.setTooltipToRender(getTooltip());

@@ -143,7 +143,21 @@ public class GameSettings {
    public final KeyBinding keyBindLoadToolbar = new KeyBinding("key.loadToolbarActivator", 88, "key.categories.creative");
     public final KeyBinding keyBindZoom = new KeyBinding("Zoom", KeyboardConstants.KEY_C, "key.categories.misc");
     public final KeyBinding keyBindClose = new KeyBinding("key.close", 96, "key.categories.misc");
-    public final KeyBinding[] keyBindings = ArrayUtils.addAll(new KeyBinding[]{this.keyBindAttack, this.keyBindUseItem, this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight, this.keyBindJump, this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory, this.keyBindChat, this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand, this.keyBindScreenshot, this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindFullscreen, this.keyBindSpectatorOutlines, this.keyBindSwapHands, this.keyBindSaveToolbar, this.keyBindLoadToolbar, this.keyBindAdvancements, this.keyBindZoom, this.keyBindClose}, this.keyBindsHotbar);
+    public KeyBinding[] keyBindings = ArrayUtils.addAll(new KeyBinding[]{this.keyBindAttack, this.keyBindUseItem, this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight, this.keyBindJump, this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory, this.keyBindChat, this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand, this.keyBindScreenshot, this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindFullscreen, this.keyBindSpectatorOutlines, this.keyBindSwapHands, this.keyBindSaveToolbar, this.keyBindLoadToolbar, this.keyBindAdvancements, this.keyBindZoom, this.keyBindClose}, this.keyBindsHotbar);
+
+
+    private static final java.util.List<KeyBinding> MOD_KEY_BINDINGS = com.google.common.collect.Lists.newArrayList();
+
+    public static void registerKeyBinding(KeyBinding binding) {
+        MOD_KEY_BINDINGS.add(binding);
+    }
+
+    public void addModKeyBindings() {
+        if (!MOD_KEY_BINDINGS.isEmpty()) {
+            this.keyBindings = ArrayUtils.addAll(this.keyBindings, MOD_KEY_BINDINGS.toArray(new KeyBinding[0]));
+            MOD_KEY_BINDINGS.clear();
+        }
+    }
    protected Minecraft mc;
    public final VFile2 optionsFile;
    public Difficulty difficulty = Difficulty.NORMAL;
