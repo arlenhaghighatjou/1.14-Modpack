@@ -1,5 +1,7 @@
 package biomesoplenty.common.world.gen.feature;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+
 import biomesoplenty.api.block.BOPBlocks;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
@@ -43,30 +45,30 @@ public class MangroveFeature extends Feature<NoFeatureConfig> {
 				BlockPos leaves5 = leaves1.west();
 				BlockPos leaves6 = leaves1.up();
 
-				if (p_212245_1_.getBlockState(leaves1).canBeReplacedByLeaves(p_212245_1_, leaves1))
+				if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, leaves1))
 				{
 					p_212245_1_.setBlockState(leaves1, Blocks.OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 2);
 				}
 
 				if (p_212245_3_.nextInt(2) == 0)
 				{
-					if (p_212245_1_.getBlockState(leaves2).canBeReplacedByLeaves(p_212245_1_, leaves2))
+					if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, leaves2))
 					{
 						p_212245_1_.setBlockState(leaves2, Blocks.OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 2);
 					}
-					if (p_212245_1_.getBlockState(leaves3).canBeReplacedByLeaves(p_212245_1_, leaves3))
+					if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, leaves3))
 					{
 						p_212245_1_.setBlockState(leaves3, Blocks.OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 2);
 					}
-					if (p_212245_1_.getBlockState(leaves4).canBeReplacedByLeaves(p_212245_1_, leaves4))
+					if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, leaves4))
 					{
 						p_212245_1_.setBlockState(leaves4, Blocks.OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 2);
 					}
-					if (p_212245_1_.getBlockState(leaves5).canBeReplacedByLeaves(p_212245_1_, leaves5))
+					if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, leaves5))
 					{
 						p_212245_1_.setBlockState(leaves5, Blocks.OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 2);
 					}
-					if (p_212245_1_.getBlockState(leaves6).canBeReplacedByLeaves(p_212245_1_, leaves6))
+					if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, leaves6))
 					{
 						p_212245_1_.setBlockState(leaves6, Blocks.OAK_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true), 2);
 					}

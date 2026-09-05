@@ -61,7 +61,7 @@ public abstract class AbstractTreeFeature<T extends IFeatureConfig> extends Feat
         });
     }
 
-    protected static boolean isAirOrLeaves(IWorldGenerationBaseReader worldIn, BlockPos pos) {
+    public static boolean isAirOrLeaves(IWorldGenerationBaseReader worldIn, BlockPos pos) {
         return worldIn.hasBlockState(pos, (p_214581_0_) -> {
             return p_214581_0_.isAir() || p_214581_0_.isIn(BlockTags.LEAVES);
         });

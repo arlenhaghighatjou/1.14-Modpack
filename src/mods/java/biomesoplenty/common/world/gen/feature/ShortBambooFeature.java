@@ -1,5 +1,7 @@
 package biomesoplenty.common.world.gen.feature;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+
 import biomesoplenty.common.util.block.IBlockPosQuery;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BambooBlock;
@@ -20,7 +22,7 @@ import java.util.function.Function;
 public class ShortBambooFeature extends Feature<NoFeatureConfig>
 {
     protected IBlockPosQuery placeOn = (world, pos) -> world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK;
-    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).canBeReplacedByLeaves(world, pos);
+    protected IBlockPosQuery replace = (world, pos) -> AbstractTreeFeature.isAirOrLeaves(world, pos);
     private static final BlockState field_214566_a = Blocks.BAMBOO.getDefaultState().with(BambooBlock.PROPERTY_AGE, Integer.valueOf(1)).with(BambooBlock.PROPERTY_BAMBOO_LEAVES, BambooLeaves.NONE).with(BambooBlock.PROPERTY_STAGE, Integer.valueOf(1));
     private static final BlockState field_214567_aS = field_214566_a.with(BambooBlock.PROPERTY_BAMBOO_LEAVES, BambooLeaves.LARGE).with(BambooBlock.PROPERTY_STAGE, Integer.valueOf(1));
     private static final BlockState field_214568_aT = field_214566_a.with(BambooBlock.PROPERTY_BAMBOO_LEAVES, BambooLeaves.LARGE).with(BambooBlock.PROPERTY_STAGE, Integer.valueOf(1));

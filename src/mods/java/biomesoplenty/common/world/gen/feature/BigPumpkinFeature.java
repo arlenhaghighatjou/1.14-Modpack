@@ -1,5 +1,7 @@
 package biomesoplenty.common.world.gen.feature;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+
 import biomesoplenty.common.util.block.IBlockPosQuery;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
@@ -18,7 +20,7 @@ import java.util.function.Function;
 public class BigPumpkinFeature extends Feature<NoFeatureConfig>
 {
     protected IBlockPosQuery placeOn = (world, pos) -> world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK;
-    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).canBeReplacedByLeaves(world, pos);
+    protected IBlockPosQuery replace = (world, pos) -> AbstractTreeFeature.isAirOrLeaves(world, pos);
 
     public BigPumpkinFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> deserializer)
     {

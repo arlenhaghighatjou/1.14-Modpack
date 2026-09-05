@@ -1,5 +1,7 @@
 package biomesoplenty.common.world.gen.feature;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +29,7 @@ public class ScatteredRocksFeature extends Feature<NoFeatureConfig>
       for(int j = 0; j < 32; ++j)
       {
          BlockPos blockpos = p_212245_4_.add(p_212245_3_.nextInt(8) - p_212245_3_.nextInt(8), p_212245_3_.nextInt(4) - p_212245_3_.nextInt(4), p_212245_3_.nextInt(8) - p_212245_3_.nextInt(8));
-         if (p_212245_1_.getBlockState(blockpos).canBeReplacedByLeaves(p_212245_1_, blockpos) && p_212245_1_.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS_BLOCK)
+         if (AbstractTreeFeature.isAirOrLeaves(p_212245_1_, blockpos) && p_212245_1_.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS_BLOCK)
          {
 
             if (p_212245_3_.nextInt(3) == 0)

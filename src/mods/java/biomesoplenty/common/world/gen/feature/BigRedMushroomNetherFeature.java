@@ -1,5 +1,7 @@
 package biomesoplenty.common.world.gen.feature;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -70,7 +72,7 @@ public class BigRedMushroomNetherFeature extends Feature<BigMushroomFeatureConfi
                      boolean flag5 = flag2 || flag3;
                      if (l1 >= i || flag4 != flag5) {
                         blockpos$mutableblockpos.setPos(pos).move(l2, l1, k1);
-                        if (worldIn.getBlockState(blockpos$mutableblockpos).canBeReplacedByLeaves(worldIn, blockpos$mutableblockpos)) {
+                        if (AbstractTreeFeature.isAirOrLeaves(worldIn, blockpos$mutableblockpos)) {
                            this.setBlockState(worldIn, blockpos$mutableblockpos, blockstate1.with(HugeMushroomBlock.UP, Boolean.valueOf(l1 >= i - 1)).with(HugeMushroomBlock.WEST, Boolean.valueOf(l2 < 0)).with(HugeMushroomBlock.EAST, Boolean.valueOf(l2 > 0)).with(HugeMushroomBlock.NORTH, Boolean.valueOf(k1 < 0)).with(HugeMushroomBlock.SOUTH, Boolean.valueOf(k1 > 0)));
                         }
                      }
@@ -82,7 +84,7 @@ public class BigRedMushroomNetherFeature extends Feature<BigMushroomFeatureConfi
 
             for(int j2 = 0; j2 < i; ++j2) {
                blockpos$mutableblockpos.setPos(pos).move(Direction.UP, j2);
-               if (worldIn.getBlockState(blockpos$mutableblockpos).canBeReplacedByLeaves(worldIn, blockpos$mutableblockpos)) {
+               if (AbstractTreeFeature.isAirOrLeaves(worldIn, blockpos$mutableblockpos)) {
                   if (config.planted) {
                      worldIn.setBlockState(blockpos$mutableblockpos, blockstate2, 3);
                   } else {

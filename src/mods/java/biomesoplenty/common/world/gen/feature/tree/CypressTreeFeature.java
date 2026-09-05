@@ -7,6 +7,8 @@
  ******************************************************************************/
 package biomesoplenty.common.world.gen.feature.tree;
 
+import net.minecraft.world.gen.feature.AbstractTreeFeature;
+
 import biomesoplenty.api.block.BOPBlocks;
 import biomesoplenty.common.util.biome.GeneratorUtil;
 import biomesoplenty.common.util.block.IBlockPosQuery;
@@ -38,7 +40,7 @@ public class CypressTreeFeature extends TreeFeatureBase
             this.minHeight = 6;
             this.maxHeight = 15;
             this.placeOn = (world, pos) -> world.getBlockState(pos).canSustainPlant(world, pos, Direction.UP, (SaplingBlock)Blocks.OAK_SAPLING);
-            this.replace = (world, pos) -> world.getBlockState(pos).canBeReplacedByLeaves(world, pos) || world.getBlockState(pos).getMaterial() == Material.WATER || world.getBlockState(pos).getBlock().isIn(BlockTags.SAPLINGS) || world.getBlockState(pos).getBlock() == Blocks.VINE || world.getBlockState(pos).getBlock() == BOPBlocks.willow_vine || world.getBlockState(pos).getBlock() instanceof BushBlock;
+            this.replace = (world, pos) -> AbstractTreeFeature.isAirOrLeaves(world, pos) || world.getBlockState(pos).getMaterial() == Material.WATER || world.getBlockState(pos).getBlock().isIn(BlockTags.SAPLINGS) || world.getBlockState(pos).getBlock() == Blocks.VINE || world.getBlockState(pos).getBlock() == BOPBlocks.willow_vine || world.getBlockState(pos).getBlock() instanceof BushBlock;
             this.log = BOPBlocks.willow_log.getDefaultState();
             this.leaves = BOPBlocks.willow_leaves.getDefaultState();
             this.vine = BOPBlocks.willow_vine.getDefaultState();
@@ -88,7 +90,7 @@ public class CypressTreeFeature extends TreeFeatureBase
         }
 
         BlockPos pos2 = pos.add(0, height - 2,0);
-        if (!world.getBlockState(pos2).canBeReplacedByLeaves(world, pos2))
+        if (!AbstractTreeFeature.isAirOrLeaves(world, pos2))
         {
             return false;
         }
@@ -243,7 +245,7 @@ public class CypressTreeFeature extends TreeFeatureBase
     @Override
     public boolean setLeaves(IWorld world, BlockPos pos)
     {
-        if (world.getBlockState(pos).canBeReplacedByLeaves(world, pos))
+        if (AbstractTreeFeature.isAirOrLeaves(world, pos))
         {
             this.setBlockState(world, pos, this.leaves);
             return true;
