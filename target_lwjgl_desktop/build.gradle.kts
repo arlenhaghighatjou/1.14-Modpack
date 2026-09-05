@@ -13,6 +13,7 @@ sourceSets {
 	named("main") {
 		java.srcDirs(
 			"../src/lwjgl/java",
+			"../src/mods/java",
 			"../src/main/java"
 		)
 	}

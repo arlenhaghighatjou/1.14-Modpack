@@ -19,6 +19,7 @@ sourceSets {
 	named("main") {
 		java.srcDirs(
 			"../src/main/java",
+			"../src/mods/java",
 			"../src/wasm-gc-teavm/java",
 		)
 		resources.srcDirs(
