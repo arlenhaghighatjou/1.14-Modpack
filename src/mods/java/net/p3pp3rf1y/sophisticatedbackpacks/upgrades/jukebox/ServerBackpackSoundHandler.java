@@ -26,7 +26,7 @@ public class ServerBackpackSoundHandler {
 	}
 
 	public static void tick(TickEvent.WorldTickEvent event) {
-		if (event.phase != TickEvent.Phase.END || event.world.isClientSide()) {
+		if (event.phase != TickEvent.Phase.END || event.world.isRemote()) {
 			return;
 		}
 		ServerWorld world = (ServerWorld) event.world;

@@ -404,7 +404,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean isShearableEntity(Entity entity, ItemStack stack) {
-		return entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(stack, entity.level, entity.blockPosition());
+		return entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(stack, entity.level, entity.getPosition());
 	}
 
 	@Override

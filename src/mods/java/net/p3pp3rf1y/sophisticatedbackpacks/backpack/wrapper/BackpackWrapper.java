@@ -406,7 +406,7 @@ public class BackpackWrapper implements IBackpackWrapper {
 
 	@Override
 	public void fillWithLoot(PlayerEntity playerEntity) {
-		if (playerEntity.level.isClientSide) {
+		if (playerEntity.level.isRemote) {
 			return;
 		}
 		NBTHelper.getString(backpack, LOOT_TABLE_NAME_TAG).ifPresent(ltName -> fillWithLootFromTable(playerEntity, ltName));

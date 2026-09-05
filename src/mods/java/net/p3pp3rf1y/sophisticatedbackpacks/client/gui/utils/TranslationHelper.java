@@ -57,7 +57,7 @@ public class TranslationHelper {
 	}
 
 	public static ITextComponent translColoredButton(String buttonName, TextFormatting color) {
-		return new TranslationTextComponent(translButton(buttonName)).withStyle(color);
+		return new TranslationTextComponent(translButton(buttonName)).applyTextStyle(color);
 	}
 
 	public static String translButton(String buttonName) {
@@ -82,7 +82,7 @@ public class TranslationHelper {
 
 	public static List<StringTextComponent> getTranslatedLines(String translateKey, @Nullable Object parameters, TextFormatting... textFormattings) {
 		List<StringTextComponent> ret = getTranslatedLines(translateKey, parameters);
-		ret.forEach(l -> l.withStyle(textFormattings));
+		ret.forEach(l -> l.applyTextStyle(textFormattings));
 		return ret;
 	}
 

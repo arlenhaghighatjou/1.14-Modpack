@@ -38,7 +38,7 @@ public class BackpackSettingsTabControl extends SettingsTabControl<SettingsScree
 	public BackpackSettingsTabControl(SettingsScreen screen, Position position) {
 		super(position);
 		addChild(new BackToBackpackTab(new Position(x, getTopY())));
-		screen.getMenu().forEachSettingsContainer((categoryName, settingsContainer) -> settingsTabs.add(addSettingsTab(() -> {}, () -> {},
+		screen.getContainer().forEachSettingsContainer((categoryName, settingsContainer) -> settingsTabs.add(addSettingsTab(() -> {}, () -> {},
 				instantiateContainer(categoryName, settingsContainer, new Position(x, getTopY()), screen))));
 	}
 

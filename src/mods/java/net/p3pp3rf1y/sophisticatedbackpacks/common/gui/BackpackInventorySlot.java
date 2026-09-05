@@ -22,7 +22,7 @@ public class BackpackInventorySlot extends Slot {
 
 	public BackpackInventorySlot(boolean isClientSide, IBackpackWrapper backpackWrapper, BackpackInventoryHandler inventoryHandler, int slotIndex, int lineIndex, int yPosition) {
 		super(EMPTY_INVENTORY, slotIndex, 8 + lineIndex * 18, yPosition);
-		this.isClientSide = isClientSide;
+		this.isRemote = isClientSide;
 		this.backpackWrapper = backpackWrapper;
 		this.inventoryHandler = inventoryHandler;
 		this.slotIndex = slotIndex;
@@ -30,7 +30,7 @@ public class BackpackInventorySlot extends Slot {
 
 	@Override
 	public void setChanged() {
-		super.setChanged();
+		super.markDirty();
 		// saving here as well because there are many cases where vanilla modifies stack directly without and inventory handler isn't aware of it
 		// however it does notify the slot of change
 		backpackWrapper.getInventoryHandler().onContentsChanged(slotIndex);

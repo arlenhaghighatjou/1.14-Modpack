@@ -38,18 +38,18 @@ public class ListCommand {
 		allLogs.forEach(alr -> {
 			IFormattableTextComponent message = new StringTextComponent("");
 			message.append(new StringTextComponent(alr.getBackpackName())
-					.withStyle(s ->
+					.applyTextStyle(s ->
 							s.withColor(TextFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/sophisticatedbackpacks give @p " + alr.getBackpackUuid()))
 									.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("chat.sophisticatedbackpacks.backpack_uuid.tooltip", alr.getBackpackUuid())))
 					)
 			);
 			message.append(new StringTextComponent(", "));
 			TranslationTextComponent clothColor = new TranslationTextComponent("commands.sophisticatedbackpacks.list.cloth_color");
-			clothColor.withStyle(clothColor.getStyle().withColor(Color.fromRgb(alr.getClothColor())));
+			clothColor.applyTextStyle(clothColor.getStyle().withColor(Color.fromRgb(alr.getClothColor())));
 			message.append(clothColor);
 			message.append(new StringTextComponent(" "));
 			TranslationTextComponent trimColor = new TranslationTextComponent("commands.sophisticatedbackpacks.list.trim_color");
-			trimColor.withStyle(trimColor.getStyle().withColor(Color.fromRgb(alr.getTrimColor())));
+			trimColor.applyTextStyle(trimColor.getStyle().withColor(Color.fromRgb(alr.getTrimColor())));
 			message.append(trimColor);
 			message.append(new StringTextComponent(", "));
 			message.append(new StringTextComponent(alr.getPlayerName()));

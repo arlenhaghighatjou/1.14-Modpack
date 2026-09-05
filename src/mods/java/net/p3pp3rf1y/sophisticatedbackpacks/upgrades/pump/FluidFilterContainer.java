@@ -63,7 +63,7 @@ public class FluidFilterContainer {
 	}
 
 	public void slotClick(int index) {
-		ItemStack carried = player.inventory.getCarried();
+		ItemStack carried = player.inventory.getItemStack();
 		if (carried.isEmpty()) {
 			setFluid(index, Fluids.EMPTY);
 			return;

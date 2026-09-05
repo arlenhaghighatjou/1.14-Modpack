@@ -99,15 +99,15 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 
 	private void setStoreTooltip() {
 		storeButton.setTooltip(ImmutableList.of(
-				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels"), new StringTextComponent(String.valueOf(getContainer().getLevelsToStore())).withStyle(TextFormatting.RED)),
-				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels.controls")).withStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
+				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels"), new StringTextComponent(String.valueOf(getContainer().getLevelsToStore())).applyTextStyle(TextFormatting.RED)),
+				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
 		);
 	}
 
 	private void setTakeTooltip() {
 		takeButton.setTooltip(ImmutableList.of(
-				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels"), new StringTextComponent(String.valueOf(getContainer().getLevelsToTake())).withStyle(TextFormatting.GREEN)),
-				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels.controls")).withStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
+				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels"), new StringTextComponent(String.valueOf(getContainer().getLevelsToTake())).applyTextStyle(TextFormatting.GREEN)),
+				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
 		);
 	}
 
@@ -122,7 +122,7 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 
 		private static final List<ITextComponent> TOOLTIP = ImmutableList.of(
 				new TranslationTextComponent(translUpgradeControl("xp_level_select.tooltip")),
-				new TranslationTextComponent(translUpgradeControl("xp_level_select.tooltip.controls")).withStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
+				new TranslationTextComponent(translUpgradeControl("xp_level_select.tooltip.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
 
 		protected LevelSelector(Position position, Supplier<String> getText, DoubleConsumer onScroll) {
 			super(position);
@@ -138,7 +138,7 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 		@Override
 		protected void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 			String text = getText.get();
-			ITextComponent fullText = new TranslationTextComponent(translUpgradeControl("xp_level_select"), new StringTextComponent(text).withStyle(TextFormatting.WHITE)).withStyle(TextFormatting.GRAY);
+			ITextComponent fullText = new TranslationTextComponent(translUpgradeControl("xp_level_select"), new StringTextComponent(text).applyTextStyle(TextFormatting.WHITE)).applyTextStyle(TextFormatting.GRAY);
 			int xOffset = (getWidth() - minecraft.font.width(fullText)) / 2;
 			int yOffset = (int) Math.ceil((getHeight() - minecraft.font.lineHeight) / 2d);
 			minecraft.font.draw(matrixStack, fullText, (float) x + xOffset, (float) y + yOffset, DyeColor.BLACK.getTextColor());

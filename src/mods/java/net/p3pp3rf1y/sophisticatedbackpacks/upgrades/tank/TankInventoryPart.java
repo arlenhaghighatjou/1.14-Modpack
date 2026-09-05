@@ -72,7 +72,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		}
 
 		ClientPlayerEntity player = screen.getMinecraft().player;
-		ItemStack cursorStack = player.inventory.getCarried();
+		ItemStack cursorStack = player.inventory.getItemStack();
 		if (cursorStack.getCount() > 1 || !cursorStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
 			return false;
 		}

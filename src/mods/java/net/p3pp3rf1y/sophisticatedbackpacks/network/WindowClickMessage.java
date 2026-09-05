@@ -69,7 +69,7 @@ public class WindowClickMessage {
 				player.connection.send(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
 				player.containerMenu.setSynched(player, false);
 				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.containerMenu.containerId, player.containerMenu.getItems()));
-				player.connection.send(new SSetSlotPacket(-1, -1, player.inventory.getCarried()));
+				player.connection.send(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}
 		}
 	}

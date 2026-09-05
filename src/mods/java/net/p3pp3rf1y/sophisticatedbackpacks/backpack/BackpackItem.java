@@ -113,13 +113,13 @@ public class BackpackItem extends ItemBase {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         if (flagIn == ITooltipFlag.TooltipFlags.ADVANCED) {
             BackpackWrapperLookup.get(stack)
-                    .ifPresent(w -> w.getContentsUuid().ifPresent(uuid -> tooltip.add(new StringTextComponent("UUID: " + uuid).withStyle(TextFormatting.DARK_GRAY))));
+                    .ifPresent(w -> w.getContentsUuid().ifPresent(uuid -> tooltip.add(new StringTextComponent("UUID: " + uuid).applyTextStyle(TextFormatting.DARK_GRAY))));
         }
         if (!Screen.hasShiftDown()) {
             tooltip.add(new TranslationTextComponent(
                     BACKPACK_TOOLTIP + "press_for_contents",
-                    new TranslationTextComponent(BACKPACK_TOOLTIP + "shift").withStyle(TextFormatting.AQUA)
-            ).withStyle(TextFormatting.GRAY));
+                    new TranslationTextComponent(BACKPACK_TOOLTIP + "shift").applyTextStyle(TextFormatting.AQUA)
+            ).applyTextStyle(TextFormatting.GRAY));
         }
     }
 
@@ -202,7 +202,7 @@ public class BackpackItem extends ItemBase {
                 te.refreshRenderState();
             });
 
-            if (!world.isClientSide) {
+            if (!world.isRemote) {
                 stopBackpackSounds(backpack, world, pos);
             }
 
@@ -241,11 +241,11 @@ public class BackpackItem extends ItemBase {
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (!world.isClientSide && player instanceof ServerPlayerEntity) {
+        if (!world.isRemote && player instanceof ServerPlayerEntity) {
             String handlerName = hand == Hand.MAIN_HAND ? PlayerInventoryProvider.MAIN_INVENTORY : PlayerInventoryProvider.OFFHAND_INVENTORY;
             int slot = hand == Hand.MAIN_HAND ? player.inventory.selected : 0;
             BackpackContext.Item context = new BackpackContext.Item(handlerName, slot);
-            NetworkHooks.openGui((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getHoverName()),
+            NetworkHooks.openGui((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getDisplayName()),
                     context::toBuffer);
         }
         return ActionResult.success(stack);
@@ -281,13 +281,13 @@ public class BackpackItem extends ItemBase {
 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (worldIn.isClientSide || !(entityIn instanceof PlayerEntity)) {
+        if (worldIn.isRemote || !(entityIn instanceof PlayerEntity)) {
             return;
         }
         PlayerEntity player = (PlayerEntity) entityIn;
         BackpackWrapperLookup.get(stack).ifPresent(
                 wrapper -> wrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class)
-                        .forEach(upgrade -> upgrade.tick(player, player.level, player.blockPosition()))
+                        .forEach(upgrade -> upgrade.tick(player, player.level, player.getPosition()))
         );
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
     }

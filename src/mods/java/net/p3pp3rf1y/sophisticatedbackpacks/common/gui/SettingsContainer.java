@@ -131,7 +131,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	public void detectSettingsChangeAndReload() {
-		if (player.level.isClientSide) {
+		if (player.level.isRemote) {
 			backpackWrapper.getContentsUuid().ifPresent(uuid -> {
 				BackpackStorage storage = BackpackStorage.get();
 				if (storage.removeUpdatedBackpackSettingsFlag(uuid)) {
@@ -142,7 +142,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	private void sendBackpackSettingsToClient() {
-		if (player.level.isClientSide) {
+		if (player.level.isRemote) {
 			return;
 		}
 

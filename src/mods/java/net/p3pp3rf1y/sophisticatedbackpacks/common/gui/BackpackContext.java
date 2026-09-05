@@ -49,11 +49,11 @@ public abstract class BackpackContext {
 	public abstract boolean canInteractWith(PlayerEntity player);
 
 	public BlockPos getBackpackPosition(PlayerEntity playerEntity) {
-		return playerEntity.blockPosition();
+		return playerEntity.getPosition();
 	}
 
 	public ITextComponent getDisplayName(PlayerEntity player) {
-		return getBackpackWrapper(player).getBackpack().getHoverName();
+		return getBackpackWrapper(player).getBackpack().getDisplayName();
 	}
 
 	public abstract void onUpgradeChanged(PlayerEntity player);
@@ -166,7 +166,7 @@ public abstract class BackpackContext {
 
 		@Override
 		public void onUpgradeChanged(PlayerEntity player) {
-			if (!player.level.isClientSide && handlerName.equals(PlayerInventoryProvider.MAIN_INVENTORY)) {
+			if (!player.level.isRemote && handlerName.equals(PlayerInventoryProvider.MAIN_INVENTORY)) {
 				IBackpackWrapper backpackWrapper = getBackpackWrapper(player);
 				PacketHandler.sendToClient((ServerPlayerEntity) player, new SyncClientInfoMessage(backpackSlotIndex, backpackWrapper.getRenderInfo().getNbt(), backpackWrapper.getColumnsTaken()));
 			}
@@ -279,7 +279,7 @@ public abstract class BackpackContext {
 
 		@Override
 		public void onUpgradeChanged(PlayerEntity player) {
-			if (!player.level.isClientSide) {
+			if (!player.level.isRemote) {
 				WorldHelper.getTile(player.level, pos, BackpackTileEntity.class).ifPresent(BackpackTileEntity::refreshRenderState);
 			}
 		}

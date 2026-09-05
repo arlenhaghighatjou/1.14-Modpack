@@ -91,7 +91,7 @@ public class CommonProxy {
 	private long nextBackpackCountCheck = 0;
 
 	private void onWorldTick(TickEvent.WorldTickEvent event) {
-		if (event.world.isClientSide || event.phase != TickEvent.Phase.END || Boolean.FALSE.equals(Config.COMMON.nerfsConfig.tooManyBackpacksSlowness) || nextBackpackCountCheck > event.world.getGameTime()) {
+		if (event.world.isRemote || event.phase != TickEvent.Phase.END || Boolean.FALSE.equals(Config.COMMON.nerfsConfig.tooManyBackpacksSlowness) || nextBackpackCountCheck > event.world.getGameTime()) {
 			return;
 		}
 		nextBackpackCountCheck = event.world.getGameTime() + BACKPACK_COUNT_CHECK_COOLDOWN;
@@ -148,7 +148,7 @@ public class CommonProxy {
 			return;
 		}
 
-		if (!world.isClientSide) {
+		if (!world.isRemote) {
 			backpackWrapperCapability.ifPresent(w -> {
 				w.setColors(BackpackWrapper.DEFAULT_CLOTH_COLOR, BackpackWrapper.DEFAULT_BORDER_COLOR);
 				((CauldronBlock) block).setWaterLevel(world, pos, state, level - 1);
@@ -164,7 +164,7 @@ public class CommonProxy {
 	}
 
 	private void onBlockClick(PlayerInteractEvent.LeftClickBlock event) {
-		if (event.getWorld().isClientSide) {
+		if (event.getWorld().isRemote) {
 			return;
 		}
 		PlayerEntity player = event.getPlayer();
@@ -182,7 +182,7 @@ public class CommonProxy {
 
 	private void onAttackEntity(AttackEntityEvent event) {
 		PlayerEntity player = event.getPlayer();
-		if (player.level.isClientSide) {
+		if (player.level.isRemote) {
 			return;
 		}
 		playerInventoryProvider.runOnBackpacks(player, (backpack, inventoryHandlerName, identifier, slot) -> BackpackWrapperLookup.get(backpack)

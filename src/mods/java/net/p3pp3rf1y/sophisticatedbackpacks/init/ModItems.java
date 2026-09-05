@@ -374,7 +374,7 @@ public class ModItems {
 			setSuccess(false);
 			Item item = stack.getItem();
 			if (item instanceof BackpackItem) {
-				Direction dispenserDirection = source.getBlockState().getValue(DispenserBlock.FACING);
+				Direction dispenserDirection = source.getBlockState().get(DispenserBlock.FACING);
 				BlockPos blockpos = source.getPos().relative(dispenserDirection);
 				Direction against = source.getLevel().isEmptyBlock(blockpos.below()) ? dispenserDirection.getOpposite() : Direction.UP;
 

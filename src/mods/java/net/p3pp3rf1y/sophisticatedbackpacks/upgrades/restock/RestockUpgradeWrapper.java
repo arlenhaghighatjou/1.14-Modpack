@@ -41,6 +41,6 @@ public class RestockUpgradeWrapper extends UpgradeWrapperBase<RestockUpgradeWrap
 
 		int stacksRestocked = stacksAdded.get();
 		String translKey = stacksRestocked > 0 ? "gui.sophisticatedbackpacks.status.stacks_restocked" : "gui.sophisticatedbackpacks.status.nothing_to_restock";
-		player.displayClientMessage(new TranslationTextComponent(translKey, stacksRestocked), true);
+		player.sendStatusMessage(new TranslationTextComponent(translKey, stacksRestocked), true);
 	}
 }

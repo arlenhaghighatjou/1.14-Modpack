@@ -176,7 +176,7 @@ public class ClientProxy extends CommonProxy {
 			return;
 		}
 		if (player.getMainHandItem().getItem() instanceof BackpackItem) {
-			player.displayClientMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.unable_to_swap_tool_for_backpack"), true);
+			player.sendStatusMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.unable_to_swap_tool_for_backpack"), true);
 			return;
 		}
 		RayTraceResult rayTrace = mc.hitResult;
@@ -276,16 +276,16 @@ public class ClientProxy extends CommonProxy {
 		}
 
 		ContainerScreen<?> containerGui = (ContainerScreen<?>) gui;
-		Container menu = containerGui.getMenu();
+		Container menu = containerGui.getContainer();
 		ClientPlayerEntity player = mc.player;
-		ItemStack held = player.inventory.getCarried();
+		ItemStack held = player.inventory.getItemStack();
 		if (!held.isEmpty() && !(held.getItem() instanceof BackpackItem)) {
 			Slot under = containerGui.getSlotUnderMouse();
 			MatrixStack poseStack = event.getMatrixStack();
 
 			for (Slot s : menu.slots) {
 				ItemStack stack = s.getItem();
-				if (!s.mayPickup(player) || stack.getCount() != 1) {
+				if (!s.canTakeStack(player) || stack.getCount() != 1) {
 					continue;
 				}
 
@@ -319,9 +319,9 @@ public class ClientProxy extends CommonProxy {
 		if (screen instanceof ContainerScreen<?> && !(screen instanceof CreativeScreen) && event.getButton() == 1 && mc.player != null) {
 			ContainerScreen<?> container = (ContainerScreen<?>) screen;
 			Slot under = container.getSlotUnderMouse();
-			ItemStack held = mc.player.inventory.getCarried();
+			ItemStack held = mc.player.inventory.getItemStack();
 
-			if (under != null && !held.isEmpty() && under.mayPickup(mc.player)) {
+			if (under != null && !held.isEmpty() && under.canTakeStack(mc.player)) {
 				ItemStack stack = under.getItem();
 				if (stack.getItem() instanceof BackpackItem && stack.getCount() == 1) {
 					PacketHandler.sendToServer(new BackpackInsertMessage(under.index));

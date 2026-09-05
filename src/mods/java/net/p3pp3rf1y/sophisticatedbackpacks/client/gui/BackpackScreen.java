@@ -188,7 +188,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		sortButton = new Button(new Position(pos.getX(), pos.getY()), ButtonDefinitions.SORT, button -> {
 			if (button == 0) {
 				getMenu().sort();
-				Minecraft.getInstance().player.displayClientMessage(new StringTextComponent("Sorted"), true);
+				Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("Sorted"), true);
 			}
 		});
 		addWidget(sortButton);
@@ -311,7 +311,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		boolean flag = false;
 		boolean rightClickDragging = slot == clickedSlot && !draggingItem.isEmpty() && !isSplittingStack;
 		//noinspection ConstantConditions - player is not null at this point for sure
-		ItemStack itemstack1 = minecraft.player.inventory.getCarried();
+		ItemStack itemstack1 = minecraft.player.inventory.getItemStack();
 		String stackCountText = null;
 		if (slot == clickedSlot && !draggingItem.isEmpty() && isSplittingStack && !itemstack.isEmpty()) {
 			itemstack = itemstack.copy();
@@ -420,7 +420,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	@Override
 	protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
-		if (minecraft.player.inventory.getCarried().isEmpty() && hoveredSlot != null) {
+		if (minecraft.player.inventory.getItemStack().isEmpty() && hoveredSlot != null) {
 			if (hoveredSlot.hasItem()) {
 				renderTooltip(matrixStack, hoveredSlot.getItem(), x, y);
 			} else if (hoveredSlot instanceof INameableEmptySlot) {
@@ -438,8 +438,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		List<ITextComponent> ret = super.getTooltipFromItem(itemStack);
 		if (itemStack.getCount() > 999) {
 			ret.add(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.stack_count",
-					new StringTextComponent(NumberFormat.getNumberInstance().format(itemStack.getCount())).withStyle(TextFormatting.DARK_AQUA))
-					.withStyle(TextFormatting.GRAY)
+					new StringTextComponent(NumberFormat.getNumberInstance().format(itemStack.getCount())).applyTextStyle(TextFormatting.DARK_AQUA))
+					.applyTextStyle(TextFormatting.GRAY)
 			);
 		}
 		return ret;
@@ -534,7 +534,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	private void handleQuickMoveAll(double mouseX, double mouseY, int button) {
 		Slot slot = findSlot(mouseX, mouseY);
-		if (doubleclick && !minecraft.player.inventory.getCarried().isEmpty() && slot != null && button == 0 && menu.canTakeItemForPickAll(ItemStack.EMPTY, slot) && hasShiftDown() && !lastQuickMoved.isEmpty()) {
+		if (doubleclick && !minecraft.player.inventory.getItemStack().isEmpty() && slot != null && button == 0 && menu.canTakeItemForPickAll(ItemStack.EMPTY, slot) && hasShiftDown() && !lastQuickMoved.isEmpty()) {
 			for (Slot slot2 : menu.realInventorySlots) {
 				tryQuickMoveSlot(button, slot, slot2);
 			}
@@ -542,7 +542,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void tryQuickMoveSlot(int button, Slot slot, Slot slot2) {
-		if (slot2.mayPickup(minecraft.player) && slot2.hasItem() && slot2.isSameInventory(slot)) {
+		if (slot2.canTakeStack(minecraft.player) && slot2.hasItem() && slot2.isSameInventory(slot)) {
 			ItemStack slotItem = slot2.getItem();
 			if (slotItem.sameItem(lastQuickMoved) && ItemStack.tagMatches(lastQuickMoved, slotItem)) {
 				if (slotItem.getCount() > slotItem.getMaxStackSize()) {
@@ -588,10 +588,10 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			}
 		}
 		Slot slot = findSlot(mouseX, mouseY);
-		ItemStack itemstack = minecraft.player.inventory.getCarried();
+		ItemStack itemstack = minecraft.player.inventory.getItemStack();
 		if (isQuickCrafting && slot != null && !itemstack.isEmpty()
 				&& (itemstack.getCount() > quickCraftSlots.size() || quickCraftingType == 2)
-				&& BackpackContainer.canMergeItemToSlot(slot, itemstack) && slot.mayPlace(itemstack)
+				&& BackpackContainer.canMergeItemToSlot(slot, itemstack) && slot.isItemValid(itemstack)
 				&& menu.canDragTo(slot)) {
 			quickCraftSlots.add(slot);
 			recalculateQuickCraftRemaining();
@@ -637,7 +637,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	@Override
 	protected void recalculateQuickCraftRemaining() {
 		//noinspection ConstantConditions - can't happen here as player is definitely known
-		ItemStack cursorStack = minecraft.player.inventory.getCarried();
+		ItemStack cursorStack = minecraft.player.inventory.getItemStack();
 		if (!cursorStack.isEmpty() && isQuickCrafting) {
 			if (quickCraftingType == 2) {
 				quickCraftingRemainder = cursorStack.getMaxStackSize();

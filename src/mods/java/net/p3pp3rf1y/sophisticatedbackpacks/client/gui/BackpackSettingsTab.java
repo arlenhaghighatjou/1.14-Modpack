@@ -20,6 +20,6 @@ public class BackpackSettingsTab extends Tab {
 
 	@Override
 	protected void onTabIconClicked(int button) {
-		screen.getMenu().openSettings();
+		screen.getContainer().openSettings();
 	}
 }

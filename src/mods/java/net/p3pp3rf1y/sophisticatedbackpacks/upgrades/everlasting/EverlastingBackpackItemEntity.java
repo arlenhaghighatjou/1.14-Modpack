@@ -21,7 +21,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 
 	@Override
 	public void tick() {
-		if (!level.isClientSide) {
+		if (!level.isRemote) {
 			double d0 = getX() + 0.5F - random.nextFloat();
 			double d1 = getY() + random.nextFloat() * 0.5F;
 			double d2 = getZ() + 0.5F - random.nextFloat();

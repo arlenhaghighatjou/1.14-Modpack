@@ -29,7 +29,7 @@ public class InventoryInteractionHelper {
 	public static boolean tryInventoryInteraction(BlockPos pos, World world, ItemStack backpack, Direction face, PlayerEntity player) {
 		return WorldHelper.getTile(world, pos)
 				.map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face)
-						.map(itemHandler -> player.level.isClientSide || BackpackWrapperLookup.get(backpack)
+						.map(itemHandler -> player.level.isRemote || BackpackWrapperLookup.get(backpack)
 								.map(wrapper -> tryRunningInteractionWrappers(itemHandler, wrapper, player))
 								.orElse(false)).orElse(false)
 				).orElse(false);

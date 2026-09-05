@@ -47,7 +47,7 @@ public class UpgradeToggleMessage {
 					if (upgradeWrapper.canBeDisabled()) {
 						upgradeWrapper.setEnabled(!upgradeWrapper.isEnabled());
 						String translKey = upgradeWrapper.isEnabled() ? "gui.sophisticatedbackpacks.status.upgrade_switched_on" : "gui.sophisticatedbackpacks.status.upgrade_switched_off";
-						player.displayClientMessage(new TranslationTextComponent(translKey, upgradeWrapper.getUpgradeStack().getHoverName()), true);
+						player.sendStatusMessage(new TranslationTextComponent(translKey, upgradeWrapper.getUpgradeStack().getDisplayName()), true);
 					}
 				}
 			});

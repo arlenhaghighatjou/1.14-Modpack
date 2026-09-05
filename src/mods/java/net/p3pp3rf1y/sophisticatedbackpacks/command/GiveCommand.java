@@ -38,7 +38,7 @@ public class GiveCommand {
 		BackpackAccessLogger.getBackpackLog(backpackUuid).ifPresent(alr -> {
 			Item item = Registry.ITEM.getOrDefault(alr.getBackpackItemRegistryName());
 			ItemStack backpack = new ItemStack(item);
-			if (!backpack.getHoverName().getString().equals(alr.getBackpackName())) {
+			if (!backpack.getDisplayName().getString().equals(alr.getBackpackName())) {
 				backpack.setHoverName(new StringTextComponent(alr.getBackpackName()));
 			}
 			BackpackWrapperLookup.get(backpack).ifPresent(backpackWrapper -> {
@@ -68,7 +68,7 @@ public class GiveCommand {
 			}
 
 			p.level.playSound(null, p.getX(), p.getY(), p.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(p.getRandom()) * 0.7F + 1.0F) * 2.0F);
-			p.inventoryMenu.broadcastChanges();
+			p.container.broadcastChanges();
 		} else {
 			ItemEntity itementity = p.drop(backpack, false);
 			if (itementity != null) {

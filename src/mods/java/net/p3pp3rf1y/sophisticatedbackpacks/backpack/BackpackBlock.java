@@ -157,7 +157,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-		if (world.isClientSide) {
+		if (world.isRemote) {
 			return ActionResultType.SUCCESS;
 		}
 
@@ -191,8 +191,8 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	private ITextComponent getBackpackDisplayName(World world, BlockPos pos) {
-		ITextComponent defaultDisplayName = new ItemStack(ModItems.BACKPACK.get()).getHoverName();
-		return WorldHelper.getTile(world, pos, BackpackTileEntity.class).map(te -> te.getBackpackWrapper().getBackpack().getHoverName()).orElse(defaultDisplayName);
+		ITextComponent defaultDisplayName = new ItemStack(ModItems.BACKPACK.get()).getDisplayName();
+		return WorldHelper.getTile(world, pos, BackpackTileEntity.class).map(te -> te.getBackpackWrapper().getBackpack().getDisplayName()).orElse(defaultDisplayName);
 	}
 
 	private static void putInPlayersHandAndRemove(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
@@ -222,7 +222,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 			return;
 		}
 
-		if (world.isClientSide) {
+		if (world.isRemote) {
 			event.setCanceled(true);
 			event.setCancellationResult(ActionResultType.SUCCESS);
 			return;
@@ -250,7 +250,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	@Override
 	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.entityInside(state, world, pos, entity);
-		if (!world.isClientSide && entity instanceof ItemEntity) {
+		if (!world.isRemote && entity instanceof ItemEntity) {
 			ItemEntity itemEntity = (ItemEntity) entity;
 			WorldHelper.getTile(world, pos, BackpackTileEntity.class).ifPresent(te -> tryToPickup(world, itemEntity, te.getBackpackWrapper()));
 		}

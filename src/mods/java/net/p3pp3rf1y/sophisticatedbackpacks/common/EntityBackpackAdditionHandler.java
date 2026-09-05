@@ -106,7 +106,7 @@ public class EntityBackpackAdditionHandler {
 			return;
 		}
 
-		float localDifficulty = monster.level.getCurrentDifficultyAt(monster.blockPosition()).getEffectiveDifficulty();
+		float localDifficulty = monster.level.getCurrentDifficultyAt(monster.getPosition()).getEffectiveDifficulty();
 		int index = Ints.constrainToRange((int) Math.floor(DIFFICULTY_BACKPACK_CHANCES.size() / MAX_LOCAL_DIFFICULTY * localDifficulty - 0.1f), 0, DIFFICULTY_BACKPACK_CHANCES.size());
 
 		RandHelper.getRandomWeightedElement(rnd, DIFFICULTY_BACKPACK_CHANCES.get(index)).ifPresent(backpackAddition -> {
@@ -130,7 +130,7 @@ public class EntityBackpackAdditionHandler {
 			if (armorPiece != Items.AIR) {
 				ItemStack armorStack = new ItemStack(armorPiece);
 				if (rnd.nextInt(6 - minDifficulty) == 0) {
-					float additionalDifficulty = monster.level.getCurrentDifficultyAt(monster.blockPosition()).getSpecialMultiplier();
+					float additionalDifficulty = monster.level.getCurrentDifficultyAt(monster.getPosition()).getSpecialMultiplier();
 					int level = (int) (5F + additionalDifficulty * 18F + minDifficulty * 6);
 					EnchantmentHelper.enchantItem(rnd, armorStack, level, true);
 				}
@@ -300,7 +300,7 @@ public class EntityBackpackAdditionHandler {
 		BackpackWrapperLookup.get(entity.getItemBySlot(EquipmentSlotType.CHEST))
 				.ifPresent(backpackWrapper -> backpackWrapper.getUpgradeHandler().getTypeWrappers(JukeboxUpgradeItem.TYPE).forEach(wrapper -> {
 					if (wrapper.isPlaying()) {
-						wrapper.tick(entity, entity.level, entity.blockPosition());
+						wrapper.tick(entity, entity.level, entity.getPosition());
 					} else {
 						wrapper.play(entity);
 					}

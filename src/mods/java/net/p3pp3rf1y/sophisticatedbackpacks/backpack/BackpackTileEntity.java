@@ -101,7 +101,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	@Override
 	public void tick() {
 		//noinspection ConstantConditions - world is always non null at this point
-		if (level.isClientSide) {
+		if (level.isRemote) {
 			return;
 		}
 		backpackWrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class).forEach(upgrade -> upgrade.tick(null, level, getBlockPos()));

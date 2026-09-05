@@ -43,7 +43,7 @@ public class TankClickMessage {
 			return;
 		}
 		TankUpgradeContainer tankContainer = (TankUpgradeContainer) upgradeContainer;
-		ItemStack cursorStack = sender.inventory.getCarried();
+		ItemStack cursorStack = sender.inventory.getItemStack();
 		cursorStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(fluidHandler -> {
 			TankUpgradeWrapper tankWrapper = tankContainer.getUpgradeWrapper();
 			FluidStack tankContents = tankWrapper.getContents();
@@ -52,7 +52,7 @@ public class TankClickMessage {
 			} else {
 				if (!tankWrapper.fillHandler(fluidHandler, itemStackIn -> {
 					sender.inventory.setCarried(itemStackIn);
-					sender.connection.send(new SSetSlotPacket(-1, -1, sender.inventory.getCarried()));
+					sender.connection.send(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
 				})) {
 					drainHandler(sender, fluidHandler, tankWrapper);
 				}
@@ -63,7 +63,7 @@ public class TankClickMessage {
 	private static void drainHandler(ServerPlayerEntity sender, net.minecraftforge.fluids.capability.IFluidHandlerItem fluidHandler, TankUpgradeWrapper tankWrapper) {
 		tankWrapper.drainHandler(fluidHandler, itemStackIn -> {
 			sender.inventory.setCarried(itemStackIn);
-			sender.connection.send(new SSetSlotPacket(-1, -1, sender.inventory.getCarried()));
+			sender.connection.send(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
 		});
 	}
 }

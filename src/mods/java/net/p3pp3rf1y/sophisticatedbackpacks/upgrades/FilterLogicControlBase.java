@@ -182,15 +182,15 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 
 	private void updateTagListTooltip() {
 		tagListTooltip.clear();
-		tagListTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.title")).withStyle());
+		tagListTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.title")).applyTextStyle());
 		Set<ResourceLocation> tagNames = container.getTagNames();
 		if (tagNames.isEmpty()) {
-			tagListTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.empty")).withStyle(TextFormatting.DARK_GRAY));
+			tagListTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.empty")).applyTextStyle(TextFormatting.DARK_GRAY));
 			return;
 		}
 
 		for (ResourceLocation tagName : tagNames) {
-			tagListTooltip.add(new StringTextComponent("> " + tagName.toString()).withStyle(TextFormatting.GRAY));
+			tagListTooltip.add(new StringTextComponent("> " + tagName.toString()).applyTextStyle(TextFormatting.GRAY));
 		}
 	}
 
@@ -199,43 +199,43 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 		removeTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("remove_tag")));
 		Set<ResourceLocation> tagNames = container.getTagNames();
 		if (tagNames.isEmpty()) {
-			removeTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("remove_tag.empty")).withStyle(TextFormatting.RED));
+			removeTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("remove_tag.empty")).applyTextStyle(TextFormatting.RED));
 			return;
 		}
 
 		int curIndex = 0;
 		for (ResourceLocation tagName : tagNames) {
 			if (curIndex == container.getSelectedTagToRemove()) {
-				removeTagTooltip.add(new StringTextComponent("-> " + tagName.toString()).withStyle(TextFormatting.RED));
+				removeTagTooltip.add(new StringTextComponent("-> " + tagName.toString()).applyTextStyle(TextFormatting.RED));
 			} else {
-				removeTagTooltip.add(new StringTextComponent("> " + tagName.toString()).withStyle(TextFormatting.GRAY));
+				removeTagTooltip.add(new StringTextComponent("> " + tagName.toString()).applyTextStyle(TextFormatting.GRAY));
 			}
 			curIndex++;
 		}
-		removeTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("remove_tag.controls")).withStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
+		removeTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("remove_tag.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
 	}
 
 	private void updateAddTooltip() {
 		addTagTooltip.clear();
 		addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag")));
 		if (container.getTagSelectionSlot().getItem().isEmpty()) {
-			addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag.no_item")).withStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
+			addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag.no_item")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
 			return;
 		}
 		Set<ResourceLocation> tagsToAdd = container.getTagsToAdd();
 		int curIndex = 0;
 		for (ResourceLocation tagName : tagsToAdd) {
 			if (curIndex == container.getSelectedTagToAdd()) {
-				addTagTooltip.add(new StringTextComponent("-> " + tagName.toString()).withStyle(TextFormatting.GREEN));
+				addTagTooltip.add(new StringTextComponent("-> " + tagName.toString()).applyTextStyle(TextFormatting.GREEN));
 			} else {
-				addTagTooltip.add(new StringTextComponent("> " + tagName.toString()).withStyle(TextFormatting.GRAY));
+				addTagTooltip.add(new StringTextComponent("> " + tagName.toString()).applyTextStyle(TextFormatting.GRAY));
 			}
 			curIndex++;
 		}
 		if (tagsToAdd.isEmpty()) {
-			addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag.no_additional_tags")).withStyle(TextFormatting.ITALIC, TextFormatting.YELLOW));
+			addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag.no_additional_tags")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.YELLOW));
 		} else {
-			addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag.controls")).withStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
+			addTagTooltip.add(new TranslationTextComponent(TranslationHelper.translUpgradeButton("add_tag.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
 		}
 	}
 

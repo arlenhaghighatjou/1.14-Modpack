@@ -45,7 +45,7 @@ public class StonecutterRecipeContainer {
 		inputSlot = new SlotSuppliedHandler(upgradeContainer.getUpgradeWrapper()::getInputInventory, 0, -1, -1) {
 			@Override
 			public void setChanged() {
-				super.setChanged();
+				super.markDirty();
 				onCraftMatrixChanged(inputInventory);
 			}
 

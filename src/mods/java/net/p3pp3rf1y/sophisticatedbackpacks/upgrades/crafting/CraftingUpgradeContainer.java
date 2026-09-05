@@ -40,7 +40,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 			slots.add(new SlotSuppliedHandler(upgradeWrapper::getInventory, slot, -100, -100) {
 				@Override
 				public void setChanged() {
-					super.setChanged();
+					super.markDirty();
 					updateCraftingResult(player.level, player, craftMatrix, craftResult, craftingResultSlot);
 				}
 			});
@@ -104,7 +104,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 	}
 
 	private void updateCraftingResult(World world, PlayerEntity player, CraftingInventory inventory, CraftResultInventory inventoryResult, CraftingResultSlot craftingResultSlot) {
-		if (!world.isClientSide) {
+		if (!world.isRemote) {
 			ServerPlayerEntity serverplayerentity = (ServerPlayerEntity) player;
 			ItemStack itemstack = ItemStack.EMPTY;
 			if (lastRecipe != null && lastRecipe.matches(inventory, world)) {

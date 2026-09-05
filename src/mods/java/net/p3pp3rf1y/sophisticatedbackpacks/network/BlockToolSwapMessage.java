@@ -58,11 +58,11 @@ public class BlockToolSwapMessage {
 		);
 
 		if (!anyUpgradeCanInteract.get()) {
-			sender.displayClientMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.no_tool_swap_upgrade_present"), true);
+			sender.sendStatusMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.no_tool_swap_upgrade_present"), true);
 			return;
 		}
 		if (!result.get()) {
-			sender.displayClientMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.no_tool_found_for_block"), true);
+			sender.sendStatusMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.no_tool_found_for_block"), true);
 		}
 	}
 }

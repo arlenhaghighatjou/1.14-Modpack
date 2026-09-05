@@ -27,7 +27,7 @@ public class MagnetUpgradeTab extends UpgradeSettingsTab<MagnetUpgradeContainer>
 
 	private static final ButtonDefinition.Toggle<Boolean> PICKUP_XP = createToggleButtonDefinition(
 			getBooleanStateData(
-					GuiHelper.getButtonStateData(new UV(96, 48), Dimension.SQUARE_16, new Position(1, 1), new TranslationTextComponent(translUpgradeButton("pickup_xp")), new TranslationTextComponent(translUpgradeButton("pickup_xp.detail")).withStyle(TextFormatting.DARK_GRAY).withStyle(TextFormatting.ITALIC)),
+					GuiHelper.getButtonStateData(new UV(96, 48), Dimension.SQUARE_16, new Position(1, 1), new TranslationTextComponent(translUpgradeButton("pickup_xp")), new TranslationTextComponent(translUpgradeButton("pickup_xp.detail")).applyTextStyle(TextFormatting.DARK_GRAY).applyTextStyle(TextFormatting.ITALIC)),
 					GuiHelper.getButtonStateData(new UV(112, 48), translUpgradeButton("do_not_pickup_xp"), Dimension.SQUARE_16, new Position(1, 1))
 			));
 

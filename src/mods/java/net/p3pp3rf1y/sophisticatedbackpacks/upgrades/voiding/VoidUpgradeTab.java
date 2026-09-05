@@ -24,7 +24,7 @@ public class VoidUpgradeTab extends UpgradeSettingsTab<VoidUpgradeContainer> {
 	private static final ButtonDefinition.Toggle<Boolean> VOID_OVERFLOW = ButtonDefinitions.createToggleButtonDefinition(
 			ImmutableMap.of(
 					true, getButtonStateData(new UV(224, 16), Dimension.SQUARE_16, new Position(1, 1), new TranslationTextComponent(translUpgradeButton("void_overflow"))
-							, new TranslationTextComponent(translUpgradeButton("void_overflow.detail")).withStyle(TextFormatting.GRAY)),
+							, new TranslationTextComponent(translUpgradeButton("void_overflow.detail")).applyTextStyle(TextFormatting.GRAY)),
 					false, getButtonStateData(new UV(208, 16), translUpgradeButton("void_any"), Dimension.SQUARE_16, new Position(1, 1))
 			));
 

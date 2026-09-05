@@ -77,7 +77,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 		}
 
 		ClientPlayerEntity player = screen.getMinecraft().player;
-		ItemStack cursorStack = player.inventory.getCarried();
+		ItemStack cursorStack = player.inventory.getItemStack();
 		if (!cursorStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
 			return false;
 		}

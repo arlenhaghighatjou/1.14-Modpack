@@ -80,8 +80,8 @@ public class BackpackTooltipRenderer {
 				int multiplier = wrapper.getInventoryHandler().getStackSizeMultiplier();
 				if (multiplier > 1) {
 					lines.add(new TranslationTextComponent("item.sophisticatedbackpacks.backpack.tooltip.stack_multiplier",
-							new StringTextComponent(Integer.toString(multiplier)).withStyle(TextFormatting.WHITE)
-					).withStyle(TextFormatting.GREEN));
+							new StringTextComponent(Integer.toString(multiplier)).applyTextStyle(TextFormatting.WHITE)
+					).applyTextStyle(TextFormatting.GREEN));
 				}
 				addEnergytooltip(wrapper, lines);
 				addFluidTooltip(wrapper, lines);
@@ -118,7 +118,7 @@ public class BackpackTooltipRenderer {
 
 	private static void addEnergytooltip(IBackpackWrapper wrapper, List<ITextComponent> lines) {
 		wrapper.getEnergyStorage().ifPresent(energyStorage -> lines.add(new TranslationTextComponent(TranslationHelper.translItemTooltip(BACKPACK_ITEM_NAME) + ".energy",
-				new StringTextComponent(CountAbbreviator.abbreviate(energyStorage.getEnergyStored())).withStyle(TextFormatting.WHITE)).withStyle(TextFormatting.RED)
+				new StringTextComponent(CountAbbreviator.abbreviate(energyStorage.getEnergyStored())).applyTextStyle(TextFormatting.WHITE)).applyTextStyle(TextFormatting.RED)
 		));
 	}
 
@@ -127,11 +127,11 @@ public class BackpackTooltipRenderer {
 			for (int tank = 0; tank < fluidHandler.getTanks(); tank++) {
 				FluidStack fluid = fluidHandler.getFluidInTank(tank);
 				if (fluid.isEmpty()) {
-					lines.add(new TranslationTextComponent(TranslationHelper.translItemTooltip(BACKPACK_ITEM_NAME) + ".fluid_empty").withStyle(TextFormatting.BLUE));
+					lines.add(new TranslationTextComponent(TranslationHelper.translItemTooltip(BACKPACK_ITEM_NAME) + ".fluid_empty").applyTextStyle(TextFormatting.BLUE));
 				} else {
 					lines.add(new TranslationTextComponent(TranslationHelper.translItemTooltip(BACKPACK_ITEM_NAME) + ".fluid",
-							new StringTextComponent(CountAbbreviator.abbreviate(fluid.getAmount())).withStyle(TextFormatting.WHITE),
-							new TranslationTextComponent(fluid.getTranslationKey()).withStyle(TextFormatting.BLUE)
+							new StringTextComponent(CountAbbreviator.abbreviate(fluid.getAmount())).applyTextStyle(TextFormatting.WHITE),
+							new TranslationTextComponent(fluid.getTranslationKey()).applyTextStyle(TextFormatting.BLUE)
 
 					));
 				}
@@ -259,7 +259,7 @@ public class BackpackTooltipRenderer {
 
 		private int renderTooltipLine(int leftX, int topY, MatrixStack matrixStack, FontRenderer font, String tooltip) {
 			IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
-			topY = GuiHelper.writeTooltipLines(Collections.singletonList(new TranslationTextComponent(BackpackItem.BACKPACK_TOOLTIP + tooltip).withStyle(TextFormatting.YELLOW)),
+			topY = GuiHelper.writeTooltipLines(Collections.singletonList(new TranslationTextComponent(BackpackItem.BACKPACK_TOOLTIP + tooltip).applyTextStyle(TextFormatting.YELLOW)),
 					font, leftX, topY, matrixStack.last().pose(), renderTypeBuffer, -1);
 			renderTypeBuffer.endBatch();
 			return topY;

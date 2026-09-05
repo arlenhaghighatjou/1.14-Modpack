@@ -23,19 +23,19 @@ public class ToolSwapperUpgradeTab extends UpgradeSettingsTab<ToolSwapperUpgrade
 	public static final ButtonDefinition.Toggle<Boolean> SWAP_WEAPON = ButtonDefinitions.createToggleButtonDefinition(
 			ImmutableMap.of(
 					false, GuiHelper.getButtonStateData(new UV(48, 64), Dimension.SQUARE_16, new Position(1, 1),
-							new TranslationTextComponent(translUpgradeButton("do_not_swap_weapon")), new TranslationTextComponent(translUpgradeButton("do_not_swap_weapon.detail")).withStyle(TextFormatting.GRAY)),
+							new TranslationTextComponent(translUpgradeButton("do_not_swap_weapon")), new TranslationTextComponent(translUpgradeButton("do_not_swap_weapon.detail")).applyTextStyle(TextFormatting.GRAY)),
 					true, GuiHelper.getButtonStateData(new UV(32, 64), Dimension.SQUARE_16, new Position(1, 1),
-							new TranslationTextComponent(translUpgradeButton("swap_weapon")), new TranslationTextComponent(translUpgradeButton("swap_weapon.detail")).withStyle(TextFormatting.GRAY))
+							new TranslationTextComponent(translUpgradeButton("swap_weapon")), new TranslationTextComponent(translUpgradeButton("swap_weapon.detail")).applyTextStyle(TextFormatting.GRAY))
 			));
 
 	public static final ButtonDefinition.Toggle<ToolSwapMode> SWAP_TOOLS = ButtonDefinitions.createToggleButtonDefinition(
 			ImmutableMap.of(
 					ToolSwapMode.NO_SWAP, GuiHelper.getButtonStateData(new UV(96, 64), Dimension.SQUARE_16, new Position(1, 1),
-							new TranslationTextComponent(translUpgradeButton("do_not_swap_tools")), new TranslationTextComponent(translUpgradeButton("do_not_swap_tools.detail")).withStyle(TextFormatting.GRAY)),
+							new TranslationTextComponent(translUpgradeButton("do_not_swap_tools")), new TranslationTextComponent(translUpgradeButton("do_not_swap_tools.detail")).applyTextStyle(TextFormatting.GRAY)),
 					ToolSwapMode.ONLY_TOOLS, GuiHelper.getButtonStateData(new UV(80, 64), Dimension.SQUARE_16, new Position(1, 1),
-							new TranslationTextComponent(translUpgradeButton("only_swap_for_tools")), new TranslationTextComponent(translUpgradeButton("only_swap_for_tools.detail")).withStyle(TextFormatting.GRAY)),
+							new TranslationTextComponent(translUpgradeButton("only_swap_for_tools")), new TranslationTextComponent(translUpgradeButton("only_swap_for_tools.detail")).applyTextStyle(TextFormatting.GRAY)),
 					ToolSwapMode.ANY, GuiHelper.getButtonStateData(new UV(64, 64), Dimension.SQUARE_16, new Position(1, 1),
-							new TranslationTextComponent(translUpgradeButton("swap_tools")), new TranslationTextComponent(translUpgradeButton("swap_tools.detail")).withStyle(TextFormatting.GRAY))
+							new TranslationTextComponent(translUpgradeButton("swap_tools")), new TranslationTextComponent(translUpgradeButton("swap_tools.detail")).applyTextStyle(TextFormatting.GRAY))
 			));
 
 	protected ToolSwapperFilterControl filterLogicControl;
