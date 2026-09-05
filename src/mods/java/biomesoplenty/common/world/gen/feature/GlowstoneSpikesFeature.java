@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class GlowstoneSpikesFeature extends Feature<NoFeatureConfig>
 {
     protected IBlockPosQuery placeOn = (world, pos) -> world.getBlockState(pos).getBlock() == Blocks.NETHERRACK;
-    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).isAir(world, pos);
+    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).isAir();
     int minRadius = 2;
     int maxRadius = 3;
     int minHeight = 4;

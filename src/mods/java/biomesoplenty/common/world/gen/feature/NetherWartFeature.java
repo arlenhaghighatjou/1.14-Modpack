@@ -28,7 +28,7 @@ public class NetherWartFeature extends Feature<NoFeatureConfig>
       for(int j = 0; j < 64; ++j)
       {
          BlockPos blockpos = p_212245_4_.add(p_212245_3_.nextInt(4) - p_212245_3_.nextInt(4), p_212245_3_.nextInt(4) - p_212245_3_.nextInt(4), p_212245_3_.nextInt(4) - p_212245_3_.nextInt(4));
-         if (p_212245_1_.getBlockState(blockpos).isAir(p_212245_1_, blockpos) && p_212245_1_.getBlockState(blockpos.down()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().east()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().west()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().north()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().south()).getBlock() == Blocks.NETHERRACK)
+         if (p_212245_1_.getBlockState(blockpos).isAir() && p_212245_1_.getBlockState(blockpos.down()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().east()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().west()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().north()).getBlock() == Blocks.NETHERRACK && p_212245_1_.getBlockState(blockpos.down().south()).getBlock() == Blocks.NETHERRACK)
          {
             p_212245_1_.setBlockState(blockpos.down(), Blocks.SOUL_SAND.getDefaultState(), 2);
         	p_212245_1_.setBlockState(blockpos, Blocks.NETHER_WART.getDefaultState().with(NetherWartBlock.AGE, p_212245_3_.nextInt(4)), 2);

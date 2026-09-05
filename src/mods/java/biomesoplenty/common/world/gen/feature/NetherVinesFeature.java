@@ -21,7 +21,7 @@ import java.util.function.Function;
 public class NetherVinesFeature extends Feature<NoFeatureConfig>
 {
     protected IBlockPosQuery placeOn = (world, pos) -> world.getBlockState(pos).getBlock() == Blocks.NETHERRACK;
-    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).isAir(world, pos);
+    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).isAir();
     int minHeight = 8;
     int maxHeight = 20;
 

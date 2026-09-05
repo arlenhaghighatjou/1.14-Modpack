@@ -39,7 +39,7 @@ public class AshSplatterFeature extends Feature<NoFeatureConfig> {
                   BlockState blockstate = worldIn.getBlockState(blockpos);
                   BlockState blockstate1 = worldIn.getBlockState(blockpos.up());
 
-                  if (blockstate.getBlock() == Blocks.NETHERRACK && blockstate1.isAir(worldIn, blockpos.up()))
+                  if (blockstate.getBlock() == Blocks.NETHERRACK && blockstate1.isAir())
                   {
                      worldIn.setBlockState(blockpos, BOPBlocks.ash_block.getDefaultState(), 2);
                      ++i;

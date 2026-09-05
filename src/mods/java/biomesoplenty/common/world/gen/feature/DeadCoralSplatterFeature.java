@@ -28,7 +28,7 @@ public class DeadCoralSplatterFeature extends Feature<NoFeatureConfig>
       for(int j = 0; j < 64; ++j)
       {
          BlockPos blockpos = p_212245_4_.add(p_212245_3_.nextInt(8) - p_212245_3_.nextInt(8), p_212245_3_.nextInt(4) - p_212245_3_.nextInt(4), p_212245_3_.nextInt(8) - p_212245_3_.nextInt(8));
-         if (p_212245_1_.getBlockState(blockpos).isAir(p_212245_1_, p_212245_4_) && p_212245_1_.getBlockState(blockpos.down()).getBlock() == Blocks.END_STONE)
+         if (p_212245_1_.getBlockState(blockpos).isAir() && p_212245_1_.getBlockState(blockpos.down()).getBlock() == Blocks.END_STONE)
          {
             BlockState state;
             int rand = p_212245_3_.nextInt(5);

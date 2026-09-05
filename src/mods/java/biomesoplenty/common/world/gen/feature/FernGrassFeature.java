@@ -38,7 +38,7 @@ public class FernGrassFeature extends Feature<NoFeatureConfig>
 	{
 		BlockState BlockState = this.chooseGrassState(rand);
 
-		for (BlockState BlockState1 = world.getBlockState(pos); (BlockState1.isAir(world, pos) || BlockState1.isIn(BlockTags.LEAVES)) && pos.getY() > 0; BlockState1 = world.getBlockState(pos))
+		for (BlockState BlockState1 = world.getBlockState(pos); (BlockState1.isAir() || BlockState1.isIn(BlockTags.LEAVES)) && pos.getY() > 0; BlockState1 = world.getBlockState(pos))
 		{
 			pos = pos.down();
 		}

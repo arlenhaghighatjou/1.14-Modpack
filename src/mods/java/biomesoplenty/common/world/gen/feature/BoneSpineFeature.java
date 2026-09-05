@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class BoneSpineFeature extends Feature<NoFeatureConfig>
 {
     protected IBlockPosQuery placeOn = (world, pos) -> world.getBlockState(pos).getBlock() == BOPBlocks.flesh;
-    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).isAir(world, pos);
+    protected IBlockPosQuery replace = (world, pos) -> world.getBlockState(pos).isAir();
     private int maxHeight = 8;
 
     public BoneSpineFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> deserializer)

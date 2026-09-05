@@ -151,7 +151,7 @@ public abstract class TreeFeatureBase extends AbstractTreeFeature<NoFeatureConfi
     {
         BlockState vineState = this.vine.getBlock() instanceof VineBlock ? this.vine.with(VineBlock.NORTH, Boolean.valueOf(side == Direction.NORTH)).with(VineBlock.EAST, Boolean.valueOf(side == Direction.EAST)).with(VineBlock.SOUTH, Boolean.valueOf(side == Direction.SOUTH)).with(VineBlock.WEST, Boolean.valueOf(side == Direction.WEST)) : this.vine;
         boolean setOne = false;
-        while (world.getBlockState(pos).getBlock().isAir(world.getBlockState(pos), world, pos) && length > 0 && rand.nextInt(12) > 0)
+        while (world.getBlockState(pos).isAir() && length > 0 && rand.nextInt(12) > 0)
         {
             this.setBlockState(world, pos, vineState);
             setOne = true;
