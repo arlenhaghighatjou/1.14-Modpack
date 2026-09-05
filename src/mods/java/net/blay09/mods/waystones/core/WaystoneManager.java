@@ -15,7 +15,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -113,7 +112,7 @@ public class WaystoneManager extends WorldSavedData {
     }
 
     public static WaystoneManager get() {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        MinecraftServer server = MinecraftServer.getCurrentServer();
         if (server != null) {
             ServerWorld overworld = server.getWorld(DimensionType.OVERWORLD);
             DimensionSavedDataManager storage = overworld.getSavedData();

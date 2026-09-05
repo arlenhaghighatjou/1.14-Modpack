@@ -22,7 +22,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -291,7 +290,7 @@ public class PlayerWaystoneManager {
     }
 
     public static void makeWaystoneGlobal(IWaystone waystone) {
-        List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
+        List<ServerPlayerEntity> players = MinecraftServer.getCurrentServer().getPlayerList().getPlayers();
         for (ServerPlayerEntity player : players) {
             if (!isWaystoneActivated(player, waystone)) {
                 activateWaystone(player, waystone);
@@ -300,7 +299,7 @@ public class PlayerWaystoneManager {
     }
 
     public static void removeKnownWaystone(IWaystone waystone) {
-        List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
+        List<ServerPlayerEntity> players = MinecraftServer.getCurrentServer().getPlayerList().getPlayers();
         for (ServerPlayerEntity player : players) {
             deactivateWaystone(player, waystone);
             WaystoneSyncManager.sendKnownWaystones(player);

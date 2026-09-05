@@ -53,6 +53,7 @@ public class InventoryScreen extends DisplayEffectsScreen<PlayerContainer> imple
             this.guiLeft = this.recipeBookGui.updateScreenPosition(this.widthTooNarrow, this.width, this.xSize);
             this.children.add(this.recipeBookGui);
             this.func_212928_a(this.recipeBookGui);
+            net.blay09.mods.waystones.client.InventoryButtonGuiHandler.onInitGui(this);
             this.addButton(new ImageButton(this.guiLeft + 104, this.height / 2 - 22, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE, (p_214086_1_) -> {
                 this.recipeBookGui.func_201518_a(this.widthTooNarrow);
                 this.recipeBookGui.toggleVisibility();
@@ -65,6 +66,10 @@ public class InventoryScreen extends DisplayEffectsScreen<PlayerContainer> imple
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         this.font.drawString(this.title.getFormattedText(), 97.0F, 8.0F, 4210752);
+    }
+
+    public void addInventoryButton(net.minecraft.client.gui.widget.Widget widget) {
+        this.addButton(widget);
     }
 
     public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
@@ -81,6 +86,7 @@ public class InventoryScreen extends DisplayEffectsScreen<PlayerContainer> imple
 
         this.renderHoveredToolTip(p_render_1_, p_render_2_);
         this.recipeBookGui.renderTooltip(this.guiLeft, this.guiTop, p_render_1_, p_render_2_);
+        net.blay09.mods.waystones.client.InventoryButtonGuiHandler.onDrawScreen(this, p_render_1_, p_render_2_);
         this.oldMouseX = (float) p_render_1_;
         this.oldMouseY = (float) p_render_2_;
         this.func_212932_b(this.recipeBookGui);

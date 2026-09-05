@@ -162,8 +162,15 @@ public abstract class MinecraftServer extends RecursiveEventLoop<TickDelayedTask
 
     private String serverId;
 
+    private static MinecraftServer currentServer;
+
+    public static MinecraftServer getCurrentServer() {
+        return currentServer;
+    }
+
     public MinecraftServer(VFile2 p_i50590_1_, DataFixer dataFixerIn, Commands p_i50590_4_, YggdrasilAuthenticationService p_i50590_5_, MinecraftSessionService p_i50590_6_, GameProfileRepository p_i50590_7_, PlayerProfileCache p_i50590_8_, IChunkStatusListenerFactory p_i50590_9_, String p_i50590_10_) {
         super("Server");
+        currentServer = this;
         this.commandManager = p_i50590_4_;
         this.authService = p_i50590_5_;
         this.sessionService = p_i50590_6_;

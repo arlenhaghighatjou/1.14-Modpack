@@ -2,10 +2,10 @@ package net.blay09.mods.waystones.client;
 
 import net.blay09.mods.waystones.client.render.WaystoneRenderer;
 import net.blay09.mods.waystones.tileentity.WaystoneTileEntity;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
 public class ModRenderers {
     public static void registerRenderers() {
-        ClientRegistry.bindTileEntitySpecialRenderer(WaystoneTileEntity.class, new WaystoneRenderer());
+        TileEntityRendererDispatcher.instance.register(WaystoneTileEntity.class, new WaystoneRenderer());
     }
 }
