@@ -33,6 +33,14 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
    protected final PlayerInventory playerInventory;
    protected int guiLeft;
    protected int guiTop;
+
+   public int getGuiLeft() {
+      return this.guiLeft;
+   }
+
+   public int getGuiTop() {
+      return this.guiTop;
+   }
    protected Slot hoveredSlot;
    private Slot clickedSlot;
    private boolean isRightMouseClick;

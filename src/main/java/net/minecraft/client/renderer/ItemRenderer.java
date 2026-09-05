@@ -334,7 +334,7 @@ public class ItemRenderer implements IResourceManagerReloadListener {
                 GlStateManager.enableDepthTest();
             }
 
-            if (stack.isDamaged()) {
+            if (stack.getItem().showDurabilityBar(stack)) {
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepthTest();
                 GlStateManager.disableTexture();
@@ -342,10 +342,9 @@ public class ItemRenderer implements IResourceManagerReloadListener {
                 GlStateManager.disableBlend();
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferbuilder = tessellator.getBuffer();
-                float f = (float) stack.getDamage();
-                float f1 = (float) stack.getMaxDamage();
-                float f2 = Math.max(0.0F, (f1 - f) / f1);
-                int i = Math.round(13.0F - f * 13.0F / f1);
+                double d0 = stack.getItem().getDurabilityForDisplay(stack);
+                float f2 = Math.max(0.0F, (float) (1.0D - d0));
+                int i = Math.round(13.0F - (float) d0 * 13.0F);
                 int j = MathHelper.hsvToRGB(f2 / 3.0F, 1.0F, 1.0F);
                 this.draw(bufferbuilder, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
                 this.draw(bufferbuilder, xPosition + 2, yPosition + 13, i, 1, j >> 16 & 255, j >> 8 & 255, j & 255, 255);

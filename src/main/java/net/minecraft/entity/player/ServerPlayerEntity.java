@@ -959,6 +959,10 @@ public class ServerPlayerEntity extends PlayerEntity implements IContainerListen
         this.enteredNetherPosition = that.enteredNetherPosition;
         this.setLeftShoulderEntity(that.getLeftShoulderEntity());
         this.setRightShoulderEntity(that.getRightShoulderEntity());
+        CompoundNBT persisted = that.getPersistentData().getCompound(PERSISTED_NBT_TAG);
+        if (!persisted.isEmpty()) {
+            this.getPersistentData().put(PERSISTED_NBT_TAG, persisted);
+        }
     }
 
     protected void onNewPotionEffect(EffectInstance id) {

@@ -262,6 +262,14 @@ public class PlayerController {
             this.connection.sendPacket(new CPlayerTryUseItemOnBlockPacket(p_217292_3_, p_217292_4_));
             return ActionResultType.SUCCESS;
          } else {
+            if (!itemstack.isEmpty()) {
+               ActionResultType actionresulttype1 = itemstack.getItem().onItemUseFirst(itemstack, new ItemUseContext(p_217292_1_, p_217292_3_, p_217292_4_));
+               if (actionresulttype1 != ActionResultType.PASS) {
+                  this.connection.sendPacket(new CPlayerTryUseItemOnBlockPacket(p_217292_3_, p_217292_4_));
+                  return actionresulttype1;
+               }
+            }
+
             boolean flag = !p_217292_1_.getHeldItemMainhand().isEmpty() || !p_217292_1_.getHeldItemOffhand().isEmpty();
             boolean flag1 = p_217292_1_.isSneaking() && flag;
             if (flag1 && p_217292_2_.getBlockState(blockpos).onSneakBlockActivated(p_217292_2_, p_217292_1_, p_217292_3_, p_217292_4_)) {

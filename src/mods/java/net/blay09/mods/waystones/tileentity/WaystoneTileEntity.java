@@ -18,7 +18,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -43,7 +42,7 @@ public class WaystoneTileEntity extends TileEntity {
 
         IWaystone waystone = getWaystone();
         if (waystone.isValid()) {
-            tagCompound.put("UUID", NBTUtil.writeUniqueId(waystone.getWaystoneUid()));
+            tagCompound.put("EaglercraftUUID", NBTUtil.writeUniqueId(waystone.getWaystoneUid()));
         }
 
         return tagCompound;
@@ -52,14 +51,12 @@ public class WaystoneTileEntity extends TileEntity {
     @Override
     public void read(CompoundNBT tagCompound) {
         super.read(tagCompound);
-        if (tagCompound.contains("UUID")) {
-            waystone = new WaystoneProxy(NBTUtil.readUniqueId(tagCompound.getCompound("UUID")));
+        if (tagCompound.contains("EaglercraftUUID")) {
+            waystone = new WaystoneProxy(NBTUtil.readUniqueId(tagCompound.getCompound("EaglercraftUUID")));
         }
     }
 
-    @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        super.onDataPacket(net, pkt);
         read(pkt.getNbtCompound());
     }
 
@@ -72,11 +69,6 @@ public class WaystoneTileEntity extends TileEntity {
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
         return new SUpdateTileEntityPacket(pos, 0, getUpdateTag());
-    }
-
-    @Override
-    public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
     }
 
     public IWaystone getWaystone() {

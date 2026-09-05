@@ -1,5 +1,6 @@
 package net.blay09.mods.waystones.core;
 
+import net.lax1dude.eaglercraft.EaglercraftUUID;
 import net.blay09.mods.waystones.api.IWaystone;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -7,7 +8,7 @@ import java.util.*;
 
 public class InMemoryPlayerWaystoneData implements IPlayerWaystoneData {
     private final List<IWaystone> sortedWaystones = new ArrayList<>();
-    private final Map<UUID, IWaystone> waystones = new HashMap<>();
+    private final Map<EaglercraftUUID, IWaystone> waystones = new HashMap<>();
     private long warpStoneCooldownUntil;
     private long inventoryButtonCooldownUntil;
 

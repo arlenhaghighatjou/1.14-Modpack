@@ -44,7 +44,7 @@ public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsCont
         textField.setText(oldText);
         textField.changeFocus(true);
         addButton(textField);
-        setFocusedDefault(textField);
+        setFocused(textField);
 
         btnDone = new Button(width / 2, height / 2 + 10, 100, 20, I18n.format("gui.done"), button -> {
             if (textField.getText().isEmpty()) {
@@ -64,13 +64,13 @@ public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsCont
 
         addButton(chkGlobal);
 
-        getMinecraft().keyboardListener.enableRepeatEvents(true);
+        this.mc.keyboardListener.enableRepeatEvents(true);
     }
 
     @Override
     public void removed() {
         super.removed();
-        getMinecraft().keyboardListener.enableRepeatEvents(false);
+        this.mc.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsCont
 
         if (textField.keyPressed(keyCode, scanCode, modifiers) || textField.isFocused()) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-                getMinecraft().player.closeScreen();
+                this.mc.player.closeScreen();
             }
 
             return true;

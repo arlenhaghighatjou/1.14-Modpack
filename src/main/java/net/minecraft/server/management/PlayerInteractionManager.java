@@ -281,6 +281,13 @@ public class PlayerInteractionManager {
                 return ActionResultType.PASS;
             }
         } else {
+            if (!p_219441_3_.isEmpty()) {
+                ActionResultType actionresulttype1 = p_219441_3_.getItem().onItemUseFirst(p_219441_3_, new ItemUseContext(p_219441_1_, p_219441_4_, p_219441_5_));
+                if (actionresulttype1 != ActionResultType.PASS) {
+                    return actionresulttype1;
+                }
+            }
+
             boolean flag = !p_219441_1_.getHeldItemMainhand().isEmpty() || !p_219441_1_.getHeldItemOffhand().isEmpty();
             boolean flag1 = p_219441_1_.isSneaking() && flag;
             if (flag1 && blockstate.onSneakBlockActivated(p_219441_2_, p_219441_1_, p_219441_4_, p_219441_5_)) {

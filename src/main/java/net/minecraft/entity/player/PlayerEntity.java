@@ -657,9 +657,23 @@ public abstract class PlayerEntity extends LivingEntity {
         return state.getMaterial().isToolNotRequired() || this.inventory.canHarvestBlock(state);
     }
 
+    public static final String PERSISTED_NBT_TAG = "PlayerPersisted";
+    private final CompoundNBT persistentData = new CompoundNBT();
+
+    public CompoundNBT getPersistentData() {
+        return this.persistentData;
+    }
+
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         this.setUniqueId(getUUID(this.gameProfile));
+        if (compound.contains("ModData", 10)) {
+            CompoundNBT modData = compound.getCompound("ModData");
+            for (String key : modData.keySet()) {
+                this.persistentData.put(key, modData.get(key));
+            }
+        }
+
         ListNBT listnbt = compound.getList("Inventory", 10);
         this.inventory.read(listnbt);
         this.inventory.currentItem = compound.getInt("SelectedItemSlot");
@@ -696,6 +710,10 @@ public abstract class PlayerEntity extends LivingEntity {
 
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
+        if (!this.persistentData.isEmpty()) {
+            compound.put("ModData", this.persistentData);
+        }
+
         compound.putInt("DataVersion", SharedConstants.getVersion().getWorldVersion());
         compound.put("Inventory", this.inventory.write(new ListNBT()));
         compound.putInt("SelectedItemSlot", this.inventory.currentItem);

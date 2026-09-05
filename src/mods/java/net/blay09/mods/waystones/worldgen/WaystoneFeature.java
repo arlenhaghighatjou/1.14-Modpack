@@ -32,7 +32,7 @@ public class WaystoneFeature extends Feature<NoFeatureConfig> {
         BlockState state = world.getBlockState(pos);
         BlockPos posAbove = pos.up();
         BlockState stateAbove = world.getBlockState(posAbove);
-        if (state.isAir(world, pos) && stateAbove.isAir(world, posAbove)) {
+        if (state.isAir() && stateAbove.isAir()) {
             world.setBlockState(pos, waystoneState
                     .with(WaystoneBlock.HALF, DoubleBlockHalf.LOWER)
                     .with(WaystoneBlock.FACING, facing), 2);

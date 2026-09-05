@@ -206,6 +206,18 @@ public class Item implements IItemProvider {
         return true;
     }
 
+    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+        return ActionResultType.PASS;
+    }
+
+    public boolean showDurabilityBar(ItemStack stack) {
+        return stack.isDamaged();
+    }
+
+    public double getDurabilityForDisplay(ItemStack stack) {
+        return (double) stack.getDamage() / (double) stack.getMaxDamage();
+    }
+
     public final Item getContainerItem() {
         return this.containerItem;
     }

@@ -1,5 +1,7 @@
 package net.blay09.mods.waystones.block;
 
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.BlockRenderType;
 import net.blay09.mods.waystones.core.WarpMode;
 import net.blay09.mods.waystones.Waystones;
 import net.blay09.mods.waystones.api.IWaystone;
@@ -45,7 +47,7 @@ import net.blay09.mods.waystones.network.NetworkHandler;
 import javax.annotation.Nullable;
 import net.lax1dude.eaglercraft.Random;
 
-public class WaystoneBlock extends Block {
+public class WaystoneBlock extends ContainerBlock {
 
     /**
      * We provide a slightly smaller render shape to prevent neighbour blocks from being culled.
@@ -70,15 +72,15 @@ public class WaystoneBlock extends Block {
         builder.add(HALF);
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+    public TileEntity createNewTileEntity(IBlockReader world) {
         return new WaystoneTileEntity();
+    }
+
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class WaystoneBlock extends Block {
         // Do not allow placing a waystone directly below of another
         Block blockTwoAbove = world.getBlockState(pos.up(2)).getBlock();
         BlockState stateAbove = world.getBlockState(pos.up());
-        return blockTwoAbove != this && stateAbove.isAir(world, pos.up());
+        return blockTwoAbove != this && stateAbove.isAir();
     }
 
     @Nullable
