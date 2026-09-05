@@ -25,7 +25,7 @@ public class StonecutterUpgradeWrapper extends UpgradeWrapperBase<StonecutterUpg
 			protected void onContentsChanged(int slot) {
 				super.onContentsChanged(slot);
 				if (slot == 0) {
-					upgrade.addTagElement("input", getStackInSlot(0).serializeNBT());
+					upgrade.setTagInfo("input", getStackInSlot(0).serializeNBT());
 				}
 				save();
 			}
@@ -42,7 +42,7 @@ public class StonecutterUpgradeWrapper extends UpgradeWrapperBase<StonecutterUpg
 			NBTHelper.removeTag(upgrade, RECIPE_ID_TAG);
 			return;
 		}
-		upgrade.addTagElement(RECIPE_ID_TAG, StringNBT.valueOf(recipeId.toString()));
+		upgrade.setTagInfo(RECIPE_ID_TAG, StringNBT.valueOf(recipeId.toString()));
 		save();
 	}
 

@@ -42,7 +42,7 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 				@Override
 				protected void onContentsChanged(int slot) {
 					super.onContentsChanged(slot);
-					upgrade.addTagElement("discInventory", serializeNBT());
+					upgrade.setTagInfo("discInventory", serializeNBT());
 					save();
 				}
 

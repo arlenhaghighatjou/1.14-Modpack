@@ -4,6 +4,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.tags.ITag;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
 
 public interface IBackpackFluidHandler extends IFluidHandlerItem {
 	default int fill(ITag<Fluid> fluidTag, int maxFill, Fluid fallbackFluid, FluidAction action) {

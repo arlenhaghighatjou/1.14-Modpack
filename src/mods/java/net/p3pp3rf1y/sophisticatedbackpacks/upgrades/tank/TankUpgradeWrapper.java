@@ -10,7 +10,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
-import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemStackHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
@@ -43,7 +43,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 			@Override
 			protected void onContentsChanged(int slot) {
 				super.onContentsChanged(slot);
-				upgrade.addTagElement("inventory", serializeNBT());
+				upgrade.setTagInfo("inventory", serializeNBT());
 				save();
 			}
 
@@ -164,7 +164,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 	}
 
 	private void serializeContents() {
-		upgrade.addTagElement(CONTENTS_TAG, contents.writeToNBT(new CompoundNBT()));
+		upgrade.setTagInfo(CONTENTS_TAG, contents.writeToNBT(new CompoundNBT()));
 		save();
 		forceUpdateTankRenderInfo();
 	}

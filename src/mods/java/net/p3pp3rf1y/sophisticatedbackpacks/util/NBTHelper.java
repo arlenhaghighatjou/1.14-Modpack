@@ -116,7 +116,7 @@ public class NBTHelper {
 			stack.getOrCreateTag().put(key, tag);
 			return;
 		}
-		stack.getOrCreateTagElement(parentKey).put(key, tag);
+		stack.getOrCreateChildTag(parentKey).put(key, tag);
 	}
 
 	public static void setBoolean(ItemStack stack, String parentKey, String key, boolean value) {
@@ -124,7 +124,7 @@ public class NBTHelper {
 			setBoolean(stack, key, value);
 			return;
 		}
-		putBoolean(stack.getOrCreateTagElement(parentKey), key, value);
+		putBoolean(stack.getOrCreateChildTag(parentKey), key, value);
 	}
 
 	public static void setBoolean(ItemStack stack, String key, boolean value) {
@@ -136,7 +136,7 @@ public class NBTHelper {
 			setEnumConstant(stack, key, enumConstant);
 			return;
 		}
-		putEnumConstant(stack.getOrCreateTagElement(parentKey), key, enumConstant);
+		putEnumConstant(stack.getOrCreateChildTag(parentKey), key, enumConstant);
 	}
 
 	public static <T extends Enum<T> & IStringSerializable> void setEnumConstant(ItemStack stack, String key, T enumConstant) {
@@ -232,7 +232,7 @@ public class NBTHelper {
 		if (parentKey.isEmpty()) {
 			stack.getOrCreateTag().put(key, list);
 		} else {
-			stack.getOrCreateTagElement(parentKey).put(key, list);
+			stack.getOrCreateChildTag(parentKey).put(key, list);
 		}
 	}
 }

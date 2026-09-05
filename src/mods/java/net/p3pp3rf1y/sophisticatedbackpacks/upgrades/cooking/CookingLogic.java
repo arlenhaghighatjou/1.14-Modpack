@@ -282,7 +282,7 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 				@Override
 				protected void onContentsChanged(int slot) {
 					super.onContentsChanged(slot);
-					upgrade.addTagElement("cookingInventory", serializeNBT());
+					upgrade.setTagInfo("cookingInventory", serializeNBT());
 					save();
 					if (slot == COOK_INPUT_SLOT) {
 						cookingRecipeInitialized = false;

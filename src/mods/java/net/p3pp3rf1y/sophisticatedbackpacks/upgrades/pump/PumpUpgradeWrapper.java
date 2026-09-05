@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
-import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
 import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;

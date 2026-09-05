@@ -105,7 +105,7 @@ public class BackpackRenderInfo {
 
 	public void deserializeFrom(CompoundNBT renderInfoNbt) {
 		resetUpgradeInfo();
-		backpack.addTagElement(RENDER_INFO_TAG, renderInfoNbt);
+		backpack.setTagInfo(RENDER_INFO_TAG, renderInfoNbt);
 		deserialize();
 	}
 

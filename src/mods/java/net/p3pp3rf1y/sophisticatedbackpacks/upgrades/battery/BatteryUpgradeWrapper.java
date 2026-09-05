@@ -34,7 +34,7 @@ public class BatteryUpgradeWrapper extends UpgradeWrapperBase<BatteryUpgradeWrap
 			@Override
 			protected void onContentsChanged(int slot) {
 				super.onContentsChanged(slot);
-				upgrade.addTagElement("inventory", serializeNBT());
+				upgrade.setTagInfo("inventory", serializeNBT());
 				save();
 			}
 
