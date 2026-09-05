@@ -18,7 +18,7 @@ public class MealItem extends Item
 
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
 		PlayerEntity playerentity = entityLiving instanceof PlayerEntity ? (PlayerEntity)entityLiving : null;
-		ItemStack container = stack.getContainerItem();
+		ItemStack container = stack.getItem().hasContainerItem() ? new ItemStack(stack.getItem().getContainerItem()) : ItemStack.EMPTY;
 
 		ItemStack itemstack = super.onItemUseFinish(stack, worldIn, entityLiving);
 		if (entityLiving instanceof PlayerEntity && ((PlayerEntity)entityLiving).abilities.isCreativeMode) {

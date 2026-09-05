@@ -1,12 +1,12 @@
 package vectorwing.farmersdelight.tile.container;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Slot;
 
-public class CookingPotResultSlot extends SlotItemHandler
+public class CookingPotResultSlot extends Slot
 {
-	public CookingPotResultSlot(IItemHandler inventoryIn, int index, int xPosition, int yPosition)
+	public CookingPotResultSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
 	{
 		super(inventoryIn, index, xPosition, yPosition);
 	}

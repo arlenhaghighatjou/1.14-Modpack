@@ -68,8 +68,8 @@ public class HorseFeedItem extends MealItem
 						horse.world.addParticle(ModParticleTypes.STAR_PARTICLE, horse.getPosXRandom(1.0D), horse.getPosYRandom() + 0.5D, horse.getPosZRandom(1.0D), d0, d1, d2);
 					}
 
-					if (itemStack.getContainerItem() != ItemStack.EMPTY && !player.isCreative()) {
-						player.addItemStackToInventory(itemStack.getContainerItem());
+					if (itemStack.getItem().hasContainerItem() && !player.isCreative()) {
+						player.addItemStackToInventory(new ItemStack(itemStack.getItem().getContainerItem()));
 						itemStack.shrink(1);
 					}
 

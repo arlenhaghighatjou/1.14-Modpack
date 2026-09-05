@@ -14,28 +14,21 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.registry.Registry;
 import vectorwing.farmersdelight.blocks.CuttingBoardBlock;
 import vectorwing.farmersdelight.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.items.KnifeItem;
 import vectorwing.farmersdelight.registry.ModAdvancements;
 import vectorwing.farmersdelight.registry.ModSounds;
 import vectorwing.farmersdelight.registry.ModTileEntityTypes;
+import vectorwing.farmersdelight.tile.inventory.ItemStackInventory;
 
 import javax.annotation.Nullable;
 
 public class CuttingBoardTileEntity extends TileEntity
 {
 	private boolean isItemCarvingBoard;
-	private ItemStackHandler itemHandler = createHandler();
-	private LazyOptional<IItemHandler> handlerBoard = LazyOptional.of(() -> itemHandler);
+	private final ItemStackInventory itemHandler = createHandler();
 	protected final IRecipeType<? extends CuttingBoardRecipe> recipeType;
 
 	public CuttingBoardTileEntity(TileEntityType<?> tileEntityTypeIn, IRecipeType<? extends CuttingBoardRecipe> recipeTypeIn) {
@@ -70,19 +63,17 @@ public class CuttingBoardTileEntity extends TileEntity
 		return this.write(new CompoundNBT());
 	}
 
-	@Override
 	public void handleUpdateTag(CompoundNBT tag) {
 		this.read(tag);
 	}
 
-	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		this.read(pkt.getNbtCompound());
 	}
 
 	private void inventoryChanged() {
 		super.markDirty();
-		this.world.notifyBlockUpdate(this.getPos(), this.getBlockState(), this.getBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+		this.world.notifyBlockUpdate(this.getPos(), this.getBlockState(), this.getBlockState(), 3);
 	}
 
 	// ======== RECIPE PROCESSING ========
@@ -94,7 +85,7 @@ public class CuttingBoardTileEntity extends TileEntity
 	 */
 	public boolean processItemUsingTool(ItemStack tool, @Nullable PlayerEntity player) {
 		CuttingBoardRecipe irecipe = this.world.getRecipeManager()
-				.getRecipe(this.recipeType, new RecipeWrapper(itemHandler), this.world).orElse(null);
+				.getRecipe(this.recipeType, itemHandler, this.world).orElse(null);
 
 		if (irecipe != null && irecipe.getTool().test(tool)) {
 			NonNullList<ItemStack> results = this.getResults();
@@ -126,11 +117,11 @@ public class CuttingBoardTileEntity extends TileEntity
 	}
 
 	protected NonNullList<ItemStack> getResults() {
-		return this.world.getRecipeManager().getRecipe(this.recipeType, new RecipeWrapper(itemHandler), this.world).map(CuttingBoardRecipe::getResults).orElse(NonNullList.withSize(1, ItemStack.EMPTY));
+		return this.world.getRecipeManager().getRecipe(this.recipeType, itemHandler, this.world).map(CuttingBoardRecipe::getResults).orElse(NonNullList.withSize(1, ItemStack.EMPTY));
 	}
 
 	public void playProcessingSound(String soundEventID, Item tool, Item boardItem) {
-		SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(soundEventID));
+		SoundEvent sound = Registry.SOUND_EVENT.getOrDefault(new ResourceLocation(soundEventID));
 
 		if (sound != null) {
 			this.playSound(sound, 1.0F, 1.0F);
@@ -170,7 +161,7 @@ public class CuttingBoardTileEntity extends TileEntity
 		return this.isItemCarvingBoard;
 	}
 
-	public IItemHandler getInventory() {
+	public ItemStackInventory getInventory() {
 		return this.itemHandler;
 	}
 
@@ -202,8 +193,8 @@ public class CuttingBoardTileEntity extends TileEntity
 		return ItemStack.EMPTY;
 	}
 
-	private ItemStackHandler createHandler() {
-		return new ItemStackHandler() {
+	private ItemStackInventory createHandler() {
+		return new ItemStackInventory(1) {
 			@Override
 			public int getSlotLimit(int slot)
 			{
@@ -217,17 +208,4 @@ public class CuttingBoardTileEntity extends TileEntity
 		};
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-		if (cap.equals(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)) {
-			return handlerBoard.cast();
-		}
-		return super.getCapability(cap, side);
-	}
-
-	@Override
-	public void remove() {
-		super.remove();
-		handlerBoard.invalidate();
-	}
 }

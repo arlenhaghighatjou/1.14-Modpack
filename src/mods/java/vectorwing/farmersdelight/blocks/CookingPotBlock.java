@@ -34,8 +34,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.ItemStackHandler;
+import vectorwing.farmersdelight.tile.inventory.ItemStackInventory;
 import vectorwing.farmersdelight.registry.ModSounds;
 import vectorwing.farmersdelight.registry.ModTileEntityTypes;
 import vectorwing.farmersdelight.tile.CookingPotTileEntity;
@@ -106,7 +105,7 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 					player.inventory.addItemStackToInventory(serving);
 					worldIn.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				} else {
-					NetworkHooks.openGui((ServerPlayerEntity) player, (CookingPotTileEntity) tile, pos);
+					((ServerPlayerEntity) player).openContainer((CookingPotTileEntity) tile);
 				}
 			}
 			return true;
@@ -147,7 +146,7 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 		if (compoundnbt != null) {
 			CompoundNBT inventoryTag = compoundnbt.getCompound("Inventory");
 			if (inventoryTag.contains("Items", 9)) {
-				ItemStackHandler handler = new ItemStackHandler();
+				ItemStackInventory handler = new ItemStackInventory(CookingPotTileEntity.INVENTORY_SIZE);
 				handler.deserializeNBT(inventoryTag);
 				ItemStack meal = handler.getStackInSlot(6);
 				if (!meal.isEmpty()) {
@@ -198,7 +197,7 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 
 	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
 		if (worldIn.getTileEntity(pos) instanceof CookingPotTileEntity) {
-			ItemStackHandler inventory = ((CookingPotTileEntity) worldIn.getTileEntity(pos)).getInventory();
+			ItemStackInventory inventory = ((CookingPotTileEntity) worldIn.getTileEntity(pos)).getInventory();
 			return MathUtils.calcRedstoneFromItemHandler(inventory);
 		}
 		return 0;

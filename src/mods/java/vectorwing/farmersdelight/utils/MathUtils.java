@@ -1,7 +1,7 @@
 package vectorwing.farmersdelight.utils;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import vectorwing.farmersdelight.tile.inventory.ItemStackInventory;
 
 import javax.annotation.Nullable;
 import net.lax1dude.eaglercraft.Random;
@@ -13,12 +13,11 @@ public class MathUtils {
 	public static final Random RAND = new Random();
 
 	/**
-	 * Calculates a comparator signal using an ItemHandler inventory, instead of IInventory.
-	 * Employing a RecipeWrapper would have caused a divide-by-zero, hence why this method was made.
+	 * Calculates a comparator signal from an inventory, respecting per slot limits.
 	 * @param handler The inventory to compare.
 	 * @return The redstone signal strength.
 	 */
-	public static int calcRedstoneFromItemHandler(@Nullable IItemHandlerModifiable handler) {
+	public static int calcRedstoneFromItemHandler(@Nullable ItemStackInventory handler) {
 		if (handler == null) {
 			return 0;
 		} else {

@@ -11,12 +11,12 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.minecraft.inventory.IInventory;
 import vectorwing.farmersdelight.FarmersDelight;
 
 import javax.annotation.Nullable;
 
-public class CuttingBoardRecipe implements IRecipe<RecipeWrapper>
+public class CuttingBoardRecipe implements IRecipe<IInventory>
 {
 	public static IRecipeType<CuttingBoardRecipe> TYPE = IRecipeType.register(FarmersDelight.MODID + ":cutting");
 	public static final CuttingBoardRecipe.Serializer SERIALIZER = new CuttingBoardRecipe.Serializer();
@@ -67,7 +67,7 @@ public class CuttingBoardRecipe implements IRecipe<RecipeWrapper>
 	}
 
 	@Override
-	public ItemStack getCraftingResult(RecipeWrapper inv)
+	public ItemStack getCraftingResult(IInventory inv)
 	{
 		return this.results.get(0).copy();
 	}
@@ -89,7 +89,7 @@ public class CuttingBoardRecipe implements IRecipe<RecipeWrapper>
 	}
 
 	@Override
-	public boolean matches(RecipeWrapper inv, World worldIn) {
+	public boolean matches(IInventory inv, World worldIn) {
 		if (inv.isEmpty())
 			return false;
 		return input.test(inv.getStackInSlot(0));

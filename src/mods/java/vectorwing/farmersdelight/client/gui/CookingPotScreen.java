@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import vectorwing.farmersdelight.FarmersDelight;
+import vectorwing.farmersdelight.tile.CookingPotTileEntity;
 import vectorwing.farmersdelight.tile.container.CookingPotContainer;
 import vectorwing.farmersdelight.utils.TextUtils;
 
@@ -42,7 +43,8 @@ public class CookingPotScreen extends ContainerScreen<CookingPotContainer>
 				ItemStack meal = this.hoveredSlot.getStack();
 				tooltip.add(meal.getItem().getName().applyTextStyle(meal.getRarity().color).getFormattedText());
 
-				ItemStack containerItem = this.container.tileEntity.getContainer();
+				CookingPotTileEntity tileEntity = this.container.getTileEntity();
+				ItemStack containerItem = tileEntity != null ? tileEntity.getContainer() : new ItemStack(meal.getItem().getContainerItem());
 				String container = !containerItem.isEmpty() ? containerItem.getItem().getName().getFormattedText() : "";
 
 				if (!container.equals("")) {

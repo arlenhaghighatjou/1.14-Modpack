@@ -67,8 +67,8 @@ public class DogFoodItem extends MealItem
 						wolf.world.addParticle(ModParticleTypes.STAR_PARTICLE, wolf.getPosXRandom(1.0D), wolf.getPosYRandom() + 0.5D, wolf.getPosZRandom(1.0D), d0, d1, d2);
 					}
 
-					if (itemStack.getContainerItem() != ItemStack.EMPTY && !player.isCreative()) {
-						player.addItemStackToInventory(itemStack.getContainerItem());
+					if (itemStack.getItem().hasContainerItem() && !player.isCreative()) {
+						player.addItemStackToInventory(new ItemStack(itemStack.getItem().getContainerItem()));
 						itemStack.shrink(1);
 					}
 

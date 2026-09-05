@@ -45,8 +45,8 @@ public class CookingPotRecipe implements IRecipe<IInventory>
 
 		if (!container.isEmpty()) {
 			this.container = container;
-		} else if (!output.getContainerItem().isEmpty()) {
-			this.container = output.getContainerItem();
+		} else if (output.getItem().hasContainerItem()) {
+			this.container = new ItemStack(output.getItem().getContainerItem());
 		} else {
 			this.container = ItemStack.EMPTY;
 		}
