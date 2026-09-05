@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import net.lax1dude.eaglercraft.Random;
 
-public class CookingPotBlock extends Block implements IWaterLoggable {
+public class CookingPotBlock extends ContainerBlock implements IWaterLoggable {
 	protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 10.0D, 14.0D);
 	protected static final VoxelShape SHAPE_SUPPORTED = VoxelShapes.or(SHAPE, Block.makeCuboidShape(0.0D, -1.0D, 0.0D, 16.0D, 0.0D, 16.0D));
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -205,13 +205,15 @@ public class CookingPotBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
+	public TileEntity createNewTileEntity(IBlockReader world)
+	{
+		return ModTileEntityTypes.COOKING_POT_TILE.create();
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return ModTileEntityTypes.COOKING_POT_TILE.create();
+	public BlockRenderType getRenderType(BlockState state)
+	{
+		return BlockRenderType.MODEL;
 	}
 
 	public IFluidState getFluidState(BlockState state) {

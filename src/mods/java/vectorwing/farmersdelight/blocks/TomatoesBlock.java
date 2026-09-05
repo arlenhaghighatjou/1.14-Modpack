@@ -1,6 +1,7 @@
 package vectorwing.farmersdelight.blocks;
 
 
+import net.minecraft.world.GameRules;
 import net.minecraft.block.BushBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.Entity;
@@ -131,8 +132,8 @@ public class TomatoesBlock extends BushBlock implements IGrowable
 	}
 
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		if (entityIn instanceof RavagerEntity && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(worldIn, entityIn)) {
-			worldIn.destroyBlock(pos, true, entityIn);
+		if (entityIn instanceof RavagerEntity && worldIn.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+			worldIn.destroyBlock(pos, true);
 		}
 
 		super.onEntityCollision(state, worldIn, pos, entityIn);
@@ -150,9 +151,9 @@ public class TomatoesBlock extends BushBlock implements IGrowable
 			for(int j = -1; j <= 1; ++j) {
 				float f1 = 0.0F;
 				BlockState blockstate = worldIn.getBlockState(blockpos.add(i, 0, j));
-				if (blockstate.canSustainPlant(worldIn, blockpos.add(i, 0, j), net.minecraft.util.Direction.UP, (net.minecraftforge.common.IPlantable)blockIn)) {
+				if (blockstate.getBlock() instanceof FarmlandBlock) {
 					f1 = 1.0F;
-					if (blockstate.isFertile(worldIn, blockpos.add(i, 0, j))) {
+					if (blockstate.get(FarmlandBlock.MOISTURE) > 0) {
 						f1 = 3.0F;
 					}
 				}

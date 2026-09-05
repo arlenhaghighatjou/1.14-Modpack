@@ -36,7 +36,7 @@ import vectorwing.farmersdelight.tile.CuttingBoardTileEntity;
 
 import javax.annotation.Nullable;
 
-public class CuttingBoardBlock extends Block implements IWaterLoggable
+public class CuttingBoardBlock extends ContainerBlock implements IWaterLoggable
 {
 	protected static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 1.0D, 15.0D);
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -167,16 +167,17 @@ public class CuttingBoardBlock extends Block implements IWaterLoggable
 		return 0;
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createNewTileEntity(IBlockReader world)
 	{
 		return ModTileEntityTypes.CUTTING_BOARD_TILE.create();
+	}
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state)
+	{
+		return BlockRenderType.MODEL;
 	}
 
 	@Override

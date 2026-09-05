@@ -4,12 +4,10 @@ import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.utils.MathUtils;
 
@@ -54,13 +52,6 @@ public class RichSoilFarmlandBlock extends FarmlandBlock
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		BlockState blockstate = worldIn.getBlockState(pos.up());
 		return !blockstate.getMaterial().isSolid() || blockstate.getBlock() instanceof FenceGateBlock || blockstate.getBlock() instanceof MovingPistonBlock || blockstate.getBlock() instanceof StemGrownBlock;
-	}
-
-	public boolean isFertile(BlockState state, IBlockReader world, BlockPos pos) {
-		if (this.getBlock() == this)
-			return state.get(RichSoilFarmlandBlock.MOISTURE) > 0;
-
-		return false;
 	}
 
 

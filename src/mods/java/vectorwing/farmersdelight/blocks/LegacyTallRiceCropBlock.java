@@ -205,11 +205,6 @@ public class LegacyTallRiceCropBlock extends BushBlock implements IWaterLoggable
 	}
 
 	@Override
-	public BlockState getPlant(IBlockReader world, BlockPos pos) {
-		return ModBlocks.TALL_RICE_CROP.getDefaultState();
-	}
-
-	@Override
 	public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn)	{
 		return state.get(HALF) == DoubleBlockHalf.LOWER;
 	}

@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import net.lax1dude.eaglercraft.Random;
 
-public class StoveBlock extends Block
+public class StoveBlock extends ContainerBlock
 {
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -152,15 +152,16 @@ public class StoveBlock extends Block
 		}
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createNewTileEntity(IBlockReader world)
 	{
 		return ModTileEntityTypes.STOVE_TILE.create();
+	}
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state)
+	{
+		return BlockRenderType.MODEL;
 	}
 }
