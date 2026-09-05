@@ -12,11 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.registry.ModEnchantments;
 
@@ -61,23 +59,21 @@ public class BackstabbingEnchantment extends Enchantment
 		return amount * multiplier;
 	}
 
-	@Mod.EventBusSubscriber(modid = FarmersDelight.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-	public static class BackstabbingEvent {
-		@SubscribeEvent
-		public static void onKnifeBackstab(LivingHurtEvent event) {
-			Entity attacker = event.getSource().getTrueSource();
-			if (attacker instanceof PlayerEntity) {
-				ItemStack weapon = ((PlayerEntity) attacker).getHeldItemMainhand();
-				int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BACKSTABBING, weapon);
-				if (level > 0 && isLookingBehindTarget(event.getEntityLiving(), event.getSource().getDamageLocation())) {
-					World world = event.getEntityLiving().getEntityWorld();
-					if (!world.isRemote) {
-						event.setAmount(getBackstabbingDamagePerLevel(event.getAmount(), level));
-						world.playSound(null, attacker.getPosX(), attacker.getPosY(), attacker.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
-					}
+	public static float onLivingHurt(LivingEntity target, DamageSource source, float amount) {
+		Entity attacker = source.getTrueSource();
+		if (attacker instanceof PlayerEntity) {
+			ItemStack weapon = ((PlayerEntity) attacker).getHeldItemMainhand();
+			int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BACKSTABBING, weapon);
+			if (level > 0 && isLookingBehindTarget(target, source.getDamageLocation())) {
+				World world = target.getEntityWorld();
+				if (!world.isRemote) {
+					world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					return getBackstabbingDamagePerLevel(amount, level);
 				}
 			}
 		}
+
+		return amount;
 	}
 
 }

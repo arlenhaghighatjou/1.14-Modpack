@@ -712,6 +712,10 @@ public abstract class LivingEntity extends Entity {
     }
 
     public boolean isPotionApplicable(EffectInstance potioneffectIn) {
+        if (!vectorwing.farmersdelight.effects.ComfortEffect.isPotionApplicable(this, potioneffectIn)) {
+            return false;
+        }
+
         if (this.getCreatureAttribute() == CreatureAttribute.UNDEAD) {
             Effect effect = potioneffectIn.getPotion();
             if (effect == Effects.REGENERATION || effect == Effects.POISON) {
@@ -741,6 +745,7 @@ public abstract class LivingEntity extends Entity {
     }
 
     protected void onNewPotionEffect(EffectInstance id) {
+        vectorwing.farmersdelight.effects.ComfortEffect.onNewPotionEffect(this, id);
         this.potionsNeedUpdate = true;
         if (!this.world.isRemote) {
             id.getPotion().applyAttributesModifiersToEntity(this, this.getAttributes(), id.getAmplifier());
@@ -1261,6 +1266,7 @@ public abstract class LivingEntity extends Entity {
 
     protected void damageEntity(DamageSource damageSrc, float damageAmount) {
         if (!this.isInvulnerableTo(damageSrc)) {
+            damageAmount = vectorwing.farmersdelight.enchantments.BackstabbingEnchantment.onLivingHurt(this, damageSrc, damageAmount);
             damageAmount = this.applyArmorCalculations(damageSrc, damageAmount);
             damageAmount = this.applyPotionDamageCalculations(damageSrc, damageAmount);
             float f = damageAmount;

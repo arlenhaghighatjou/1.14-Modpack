@@ -6,11 +6,6 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.potion.Effects;
-import net.minecraftforge.event.entity.living.PotionEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.registry.ModEffects;
 
 import java.util.Set;
@@ -27,25 +22,14 @@ public class ComfortEffect extends Effect {
 		super(EffectType.BENEFICIAL, 0);
 	}
 
-	@Mod.EventBusSubscriber(modid = FarmersDelight.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-	public static class ComfortEvent {
-		@SubscribeEvent
-		public static void onComfortDuration(PotionEvent.PotionApplicableEvent event) {
-			EffectInstance effect = event.getPotionEffect();
-			LivingEntity entity = event.getEntityLiving();
-			if (entity.getActivePotionEffect(ModEffects.COMFORT) != null && COMFORT_IMMUNITIES.contains(effect.getPotion())) {
-				event.setResult(Event.Result.DENY);
-			}
-		}
+	public static boolean isPotionApplicable(LivingEntity entity, EffectInstance effect) {
+		return entity.getActivePotionEffect(ModEffects.COMFORT) == null || !COMFORT_IMMUNITIES.contains(effect.getPotion());
+	}
 
-		@SubscribeEvent
-		public static void onComfortApplied(PotionEvent.PotionAddedEvent event) {
-			EffectInstance addedEffect = event.getPotionEffect();
-			LivingEntity entity = event.getEntityLiving();
-			if (addedEffect.getPotion().equals(ModEffects.COMFORT)) {
-				for (Effect effect : COMFORT_IMMUNITIES) {
-					entity.removePotionEffect(effect);
-				}
+	public static void onNewPotionEffect(LivingEntity entity, EffectInstance addedEffect) {
+		if (addedEffect.getPotion().equals(ModEffects.COMFORT)) {
+			for (Effect effect : COMFORT_IMMUNITIES) {
+				entity.removePotionEffect(effect);
 			}
 		}
 	}
