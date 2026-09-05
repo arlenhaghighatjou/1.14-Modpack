@@ -124,10 +124,10 @@ public class GuiHelper {
 
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-		bufferbuilder.pos(xMin, yMax, 0).color(red, green, blue, alpha).uv(minU, maxV).endVertex();
-		bufferbuilder.pos(xMax, yMax, 0).color(red, green, blue, alpha).uv(maxU, maxV).endVertex();
-		bufferbuilder.pos(xMax, yMin, 0).color(red, green, blue, alpha).uv(maxU, minV).endVertex();
-		bufferbuilder.pos(xMin, yMin, 0).color(red, green, blue, alpha).uv(minU, minV).endVertex();
+		bufferbuilder.pos(xMin, yMax, 0).color(red, green, blue, alpha).tex(minU, maxV).endVertex();
+		bufferbuilder.pos(xMax, yMax, 0).color(red, green, blue, alpha).tex(maxU, maxV).endVertex();
+		bufferbuilder.pos(xMax, yMin, 0).color(red, green, blue, alpha).tex(maxU, minV).endVertex();
+		bufferbuilder.pos(xMin, yMin, 0).color(red, green, blue, alpha).tex(minU, minV).endVertex();
 		bufferbuilder.end();
 		WorldVertexBufferUploader.end(bufferbuilder);
 	}
@@ -339,10 +339,10 @@ public class GuiHelper {
 			// we need to draw the quads per width too
 			Matrix4f matrix = matrixStack.last().pose();
 			float u2 = sprite.getInterpolatedU((16f * 16) / spriteWidth);
-			builder.pos(x, (float) startY + renderHeight, 100).color(red, green, blue, 1).uv(u1, v2).endVertex();
-			builder.pos((float) x + 16, (float) startY + renderHeight, 100).color(red, green, blue, 1).uv(u2, v2).endVertex();
-			builder.pos((float) x + 16, startY, 100).color(red, green, blue, 1).uv(u2, v1).endVertex();
-			builder.pos(x, startY, 100).color(red, green, blue, 1).uv(u1, v1).endVertex();
+			builder.pos(x, (float) startY + renderHeight, 100).color(red, green, blue, 1).tex(u1, v2).endVertex();
+			builder.pos((float) x + 16, (float) startY + renderHeight, 100).color(red, green, blue, 1).tex(u2, v2).endVertex();
+			builder.pos((float) x + 16, startY, 100).color(red, green, blue, 1).tex(u2, v1).endVertex();
+			builder.pos(x, startY, 100).color(red, green, blue, 1).tex(u1, v1).endVertex();
 
 			startY += renderHeight;
 		} while (height > 0);

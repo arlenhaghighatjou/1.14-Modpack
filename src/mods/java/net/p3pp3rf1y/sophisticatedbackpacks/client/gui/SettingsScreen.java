@@ -23,29 +23,29 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 	public SettingsScreen(SettingsContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
-		imageHeight = 114 + getMenu().getNumberOfRows() * 18;
-		imageWidth = getMenu().getBackpackBackgroundProperties().getSlotsOnLine() * 18 + 14;
-		inventoryLabelY = imageHeight - 94;
-		inventoryLabelX = 8 + getMenu().getBackpackBackgroundProperties().getPlayerInventoryXOffset();
+		ySize = 114 + getContainer().getNumberOfRows() * 18;
+		xSize = getContainer().getBackpackBackgroundProperties().getSlotsOnLine() * 18 + 14;
+		inventoryLabelY = ySize - 94;
+		inventoryLabelX = 8 + getContainer().getBackpackBackgroundProperties().getPlayerInventoryXOffset();
 	}
 
 	@Override
 	protected void init() {
 		super.init();
 
-		settingsTabControl = new BackpackSettingsTabControl(this, new Position(guiLeft + imageWidth, guiTop + 4));
+		settingsTabControl = new BackpackSettingsTabControl(this, new Position(guiLeft + xSize, guiTop + 4));
 		children.add(settingsTabControl);
 	}
 
 	@Override
 	protected void renderBg(float partialTicks, int x, int y) {
-		BackpackBackgroundProperties backpackBackgroundProperties = getMenu().getBackpackBackgroundProperties();
-		BackpackGuiHelper.renderBackpackBackground(new Position((width - imageWidth) / 2, (height - imageHeight) / 2), matrixStack, getMenu().getBackpackInventorySlots().size(), getMenu().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), imageWidth, minecraft, menu.getNumberOfRows());
+		BackpackBackgroundProperties backpackBackgroundProperties = getContainer().getBackpackBackgroundProperties();
+		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), matrixStack, getContainer().getBackpackInventorySlots().size(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		menu.detectSettingsChangeAndReload();
+		container.detectSettingsChangeAndReload();
 		renderBackground();
 		settingsTabControl.render(mouseX, mouseY, partialTicks);
 		GlStateManager.translated(0, 0, 200);
@@ -72,7 +72,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 	@Override
 	protected void renderSlot(Slot slot) {
-		Optional<ItemStack> memorizedStack = getMenu().getMemorizedStackInSlot(slot.getSlotIndex());
+		Optional<ItemStack> memorizedStack = getContainer().getMemorizedStackInSlot(slot.getSlotIndex());
 		ItemStack itemstack = slot.getStack();
 		if (memorizedStack.isPresent()) {
 			itemstack = memorizedStack.get();
@@ -97,7 +97,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		matrixStack.pushPose();
 		GlStateManager._enableBlend();
 		GlStateManager._disableDepthTest();
-		minecraft.getTextureManager().bind(GuiHelper.GUI_CONTROLS);
+		mc.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 		blit(x, y, 77, 0, 16, 16);
 		GlStateManager._enableDepthTest();
 		GlStateManager._disableBlend();
@@ -168,7 +168,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	@Override
 	protected void renderTooltip(int x, int y) {
 		super.renderTooltip(x, y);
-		GuiHelper.renderTooltip(minecraft, matrixStack, x, y);
+		GuiHelper.renderTooltip(mc, matrixStack, x, y);
 	}
 
 	public static SettingsScreen constructScreen(SettingsContainer settingsContainer, PlayerInventory playerInventory, ITextComponent title) {

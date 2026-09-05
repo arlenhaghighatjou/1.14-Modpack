@@ -290,7 +290,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 		int maxTagNameLines = getTagListHeight() / 10;
 		for (ResourceLocation tagName : tagNames) {
 			if (tagNames.size() > maxTagNameLines && count == maxTagNameLines - 1) {
-				font.draw(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.tag_overflow"), String.valueOf(tagNames.size() - (maxTagNameLines - 1))), (float) x + 2, (float) y + 23 + count * 10, MORE_TAGS_FONT_COLOR);
+				font.drawString(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.tag_overflow"), String.valueOf(tagNames.size() - (maxTagNameLines - 1))), (float) x + 2, (float) y + 23 + count * 10, MORE_TAGS_FONT_COLOR);
 				break;
 			}
 			String name = tagName.toString();
@@ -301,7 +301,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 					shortened = "..." + shortened;
 				}
 			}
-			font.draw(shortened, (float) x + 2, (float) y + 23 + count * 10, TAG_FONT_COLOR);
+			font.drawString(shortened, (float) x + 2, (float) y + 23 + count * 10, TAG_FONT_COLOR);
 			count++;
 		}
 		if (isMouseOverTagList(mouseX, mouseY)) {

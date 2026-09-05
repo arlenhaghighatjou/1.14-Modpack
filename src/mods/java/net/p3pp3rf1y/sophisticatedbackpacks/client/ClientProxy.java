@@ -304,7 +304,7 @@ public class ClientProxy extends CommonProxy {
 						poseStack.pushPose();
 						GlStateManager.translated(0, 0, 499);
 
-						mc.fontRenderer.drawShadow("+", (float) x + 10, (float) y + 8, 0xFFFF00);
+						mc.fontRenderer.drawStringWithShadow("+", (float) x + 10, (float) y + 8, 0xFFFF00);
 						poseStack.popPose();
 					}
 				});

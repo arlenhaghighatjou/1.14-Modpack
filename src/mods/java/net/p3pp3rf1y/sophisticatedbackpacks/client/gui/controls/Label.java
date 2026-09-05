@@ -26,7 +26,7 @@ public class Label extends BackpackWidget {
 
 	@Override
 	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
-		minecraft.fontRenderer.draw(labelText, x, y, color);
+		minecraft.fontRenderer.drawString(labelText, x, y, color);
 	}
 
 	@Override

@@ -101,10 +101,10 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	@Override
 	public void tick() {
 		//noinspection ConstantConditions - world is always non null at this point
-		if (level.isRemote) {
+		if (world.isRemote) {
 			return;
 		}
-		backpackWrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class).forEach(upgrade -> upgrade.tick(null, level, getBlockPos()));
+		backpackWrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class).forEach(upgrade -> upgrade.tick(null, world, getBlockPos()));
 	}
 
 	@Override
@@ -132,8 +132,8 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 			}
 		}
 		state = state.with(BATTERY, renderInfo.getBatteryRenderInfo().isPresent());
-		level.setBlockAndUpdate(worldPosition, state);
-		level.updateNeighborsAt(worldPosition, state.getBlock());
+		world.setBlockAndUpdate(worldPosition, state);
+		world.updateNeighborsAt(worldPosition, state.getBlock());
 		WorldHelper.notifyBlockUpdate(this);
 	}
 }
