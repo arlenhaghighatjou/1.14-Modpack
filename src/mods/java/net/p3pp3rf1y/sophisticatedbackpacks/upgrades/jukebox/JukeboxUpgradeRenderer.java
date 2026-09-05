@@ -10,7 +10,7 @@ import java.util.function.UnaryOperator;
 
 public class JukeboxUpgradeRenderer implements IUpgradeRenderer<JukeboxUpgradeRenderData> {
 	@Override
-	public void render(World world, Random rand, UnaryOperator<Vector3d> getPositionFromOffset, JukeboxUpgradeRenderData upgradeRenderData) {
+	public void render(World world, Random rand, UnaryOperator<Vec3d> getPositionFromOffset, JukeboxUpgradeRenderData upgradeRenderData) {
 		if (!upgradeRenderData.isPlaying() || rand.nextInt(3) != 0) {
 			return;
 		}
@@ -18,7 +18,7 @@ public class JukeboxUpgradeRenderer implements IUpgradeRenderer<JukeboxUpgradeRe
 		double xOffset = world.rand.nextDouble() * 0.6D - 0.3D;
 		double yOffset = 0.5 + world.rand.nextDouble() * 6.0D / 16.0D;
 		double zOffset = world.rand.nextDouble() * 0.6D - 0.1D;
-		Vector3d randomAtTheBack = getPositionFromOffset.apply(new Vector3d(xOffset, yOffset, zOffset));
+		Vec3d randomAtTheBack = getPositionFromOffset.apply(new Vec3d(xOffset, yOffset, zOffset));
 
 		world.addParticle(ModParticles.JUKEBOX_NOTE.get(), randomAtTheBack.x, randomAtTheBack.y, randomAtTheBack.z, rand.nextFloat(), 0.0D, 0.0D);
 	}

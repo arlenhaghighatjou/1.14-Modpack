@@ -70,7 +70,7 @@ public class FluidFilterContainer {
 		}
 
 		carried.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(itemFluidHandler -> {
-			FluidStack containedFluid = itemFluidHandler.drain(FluidAttributes.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
+			FluidStack containedFluid = itemFluidHandler.drain(FluidAttributes.BUCKET, IFluidHandler.FluidAction.SIMULATE);
 			if (!containedFluid.isEmpty()) {
 				setFluid(index, containedFluid.getRawFluid());
 			}

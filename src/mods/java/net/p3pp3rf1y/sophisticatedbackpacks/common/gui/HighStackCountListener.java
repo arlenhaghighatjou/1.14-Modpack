@@ -20,14 +20,14 @@ public class HighStackCountListener implements IContainerListener {
 
 	@Override
 	public void refreshContainer(Container containerToSend, NonNullList<ItemStack> itemsList) {
-		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(containerToSend.containerId, itemsList));
+		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(containerToSend.windowId, itemsList));
 		player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 	}
 
 	@Override
 	public void slotChanged(Container containerToSend, int slotInd, ItemStack stack) {
 		if (!(containerToSend.getSlot(slotInd) instanceof CraftingResultSlot) && !player.ignoreSlotUpdateHack) {
-			PacketHandler.sendToClient(player, new SyncSlotStackMessage(containerToSend.containerId, slotInd, stack));
+			PacketHandler.sendToClient(player, new SyncSlotStackMessage(containerToSend.windowId, slotInd, stack));
 		}
 	}
 

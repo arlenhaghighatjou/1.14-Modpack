@@ -127,7 +127,7 @@ public class InceptionFluidHandler implements IBackpackFluidHandler {
 	}
 
 	@Override
-	public FluidStack drain(ITag<Fluid> resourceTag, int maxDrain, FluidAction action, boolean ignoreInOutLimit) {
+	public FluidStack drain(Tag<Fluid> resourceTag, int maxDrain, FluidAction action, boolean ignoreInOutLimit) {
 		FluidStack drainedStack = FluidStack.EMPTY;
 		FluidStack stackToDrain = FluidStack.EMPTY;
 		for (IBackpackFluidHandler fluidHandler : fluidHandlers) {

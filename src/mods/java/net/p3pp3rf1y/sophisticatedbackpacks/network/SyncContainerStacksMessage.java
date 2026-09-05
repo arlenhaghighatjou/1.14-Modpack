@@ -46,7 +46,7 @@ public class SyncContainerStacksMessage {
 
 	private static void handleMessage(SyncContainerStacksMessage msg) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
-		if (player == null || !(player.openContainer instanceof BackpackContainer) || player.openContainer.containerId != msg.windowId) {
+		if (player == null || !(player.openContainer instanceof BackpackContainer) || player.openContainer.windowId != msg.windowId) {
 			return;
 		}
 		player.openContainer.setAll(msg.itemStacks);

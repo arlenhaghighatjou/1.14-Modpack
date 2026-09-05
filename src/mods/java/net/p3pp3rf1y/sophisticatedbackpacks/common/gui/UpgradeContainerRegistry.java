@@ -19,13 +19,13 @@ public class UpgradeContainerRegistry {
 		UPGRADE_CONTAINERS.put(upgradeName, containerFactory);
 	}
 
-	public static <W extends IUpgradeWrapper, C extends UpgradeContainerBase<W, C>> Optional<UpgradeContainerBase<W, C>> instantiateContainer(PlayerEntity player, int containerId, W wrapper) {
+	public static <W extends IUpgradeWrapper, C extends UpgradeContainerBase<W, C>> Optional<UpgradeContainerBase<W, C>> instantiateContainer(PlayerEntity player, int windowId, W wrapper) {
 		ResourceLocation upgradeName = Registry.ITEM.getKey(wrapper.getUpgradeStack().getItem());
 		if (!(wrapper.getUpgradeStack().getItem() instanceof IBackpackUpgradeItem<?>) || wrapper.hideSettingsTab() || !UPGRADE_CONTAINERS.containsKey(upgradeName)) {
 			return Optional.empty();
 		}
 		//noinspection unchecked,ConstantConditions
-		return Optional.of((UpgradeContainerBase<W, C>) getContainerType(upgradeName).create(player, containerId, wrapper));
+		return Optional.of((UpgradeContainerBase<W, C>) getContainerType(upgradeName).create(player, windowId, wrapper));
 	}
 
 	private static <W extends IUpgradeWrapper, C extends UpgradeContainerBase<W, C>> UpgradeContainerType<W, C> getContainerType(ResourceLocation upgradeName) {

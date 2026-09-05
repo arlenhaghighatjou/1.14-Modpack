@@ -171,11 +171,11 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 			WorldHelper.getTile(world, pos, BackpackTileEntity.class)
 					.flatMap(te -> te.getBackpackWrapper().getFluidHandler()).ifPresent(backpackFluidHandler ->
 							player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(playerInventory -> {
-								FluidActionResult resultOfEmptying = FluidUtil.tryEmptyContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET_VOLUME, player, true);
+								FluidActionResult resultOfEmptying = FluidUtil.tryEmptyContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET, player, true);
 								if (resultOfEmptying.isSuccess()) {
 									player.setItemInHand(hand, resultOfEmptying.getResult());
 								} else {
-									FluidActionResult resultOfFilling = FluidUtil.tryFillContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET_VOLUME, player, true);
+									FluidActionResult resultOfFilling = FluidUtil.tryFillContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET, player, true);
 									if (resultOfFilling.isSuccess()) {
 										player.setItemInHand(hand, resultOfFilling.getResult());
 									}
@@ -209,7 +209,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	private static void stopBackpackSounds(ItemStack backpack, World world, BlockPos pos) {
 		BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
-				ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vector3d.atCenterOf(pos), uuid))
+				ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vec3d.atCenterOf(pos), uuid))
 		);
 	}
 
@@ -288,7 +288,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 		renderInfo.getUpgradeRenderData().forEach((type, data) -> UpgradeRenderRegistry.getUpgradeRenderer(type).ifPresent(renderer -> renderUpgrade(renderer, world, rand, pos, facing, type, data)));
 	}
 
-	private static Vector3d getBackpackMiddleFacePoint(BlockPos pos, Direction facing, Vector3d vector3d) {
+	private static Vec3d getBackpackMiddleFacePoint(BlockPos pos, Direction facing, Vec3d vector3d) {
 		return vector3d.add(0, 0, 0.41).yRot((float) (-facing.toYRot() * (Math.PI / 180F))).add(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 	}
 

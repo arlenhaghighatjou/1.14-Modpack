@@ -36,7 +36,7 @@ public class SyncSlotStackMessage {
 
 	private static void handleMessage(SyncSlotStackMessage msg) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
-		if (player == null || !(player.openContainer instanceof BackpackContainer || player.openContainer instanceof SettingsContainer) || player.openContainer.containerId != msg.windowId) {
+		if (player == null || !(player.openContainer instanceof BackpackContainer || player.openContainer instanceof SettingsContainer) || player.openContainer.windowId != msg.windowId) {
 			return;
 		}
 		player.openContainer.setItem(msg.slotNumber, msg.stack);

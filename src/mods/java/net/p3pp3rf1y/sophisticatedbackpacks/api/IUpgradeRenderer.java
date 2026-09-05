@@ -7,5 +7,5 @@ import net.lax1dude.eaglercraft.Random;
 import java.util.function.UnaryOperator;
 
 public interface IUpgradeRenderer<T extends IUpgradeRenderData> {
-	void render(World world, Random rand, UnaryOperator<Vector3d> getPositionFromOffset, T upgradeRenderData);
+	void render(World world, Random rand, UnaryOperator<Vec3d> getPositionFromOffset, T upgradeRenderData);
 }

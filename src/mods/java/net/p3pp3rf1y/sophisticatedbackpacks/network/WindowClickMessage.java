@@ -46,7 +46,7 @@ public class WindowClickMessage {
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity player, WindowClickMessage msg) {
-		if (player == null || player.openContainer.containerId != msg.windowId || !(player.openContainer instanceof BackpackContainer)) {
+		if (player == null || player.openContainer.windowId != msg.windowId || !(player.openContainer instanceof BackpackContainer)) {
 			return;
 		}
 
@@ -64,13 +64,13 @@ public class WindowClickMessage {
 			} else {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
 				player.openContainer.setSynched(player, false);
-				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
+				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getItems()));
 				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}
 		}
 	}
 
 	private static void syncSlotsForSpectator(ServerPlayerEntity player) {
-		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.containerId, player.openContainer.getItems()));
+		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getItems()));
 	}
 }

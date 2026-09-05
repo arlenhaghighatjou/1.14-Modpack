@@ -219,7 +219,7 @@ public class BackpackItem extends ItemBase {
 
     private static void stopBackpackSounds(ItemStack backpack, World world, BlockPos pos) {
         BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
-                ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vector3d.atCenterOf(pos), uuid))
+                ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vec3d.atCenterOf(pos), uuid))
         );
     }
 

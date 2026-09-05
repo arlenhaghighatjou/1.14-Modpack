@@ -136,7 +136,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 	}
 
 	private int getMaxInOut() {
-		return Math.max(FluidAttributes.BUCKET_VOLUME, Config.COMMON.tankUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
+		return Math.max(FluidAttributes.BUCKET, Config.COMMON.tankUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
 	}
 
 	public int fill(FluidStack resource, IFluidHandler.FluidAction action, boolean ignoreInOutLimit) {
@@ -214,7 +214,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 	public boolean fillHandler(IFluidHandlerItem fluidHandler, Consumer<ItemStack> updateContainerStack) {
 		if (!contents.isEmpty() && isValidFluidHandler(fluidHandler, true)) {
 			Fluid fluid = contents.getFluid();
-			int filled = fluidHandler.fill(new FluidStack(fluid, Math.min(FluidAttributes.BUCKET_VOLUME, contents.getAmount())), IFluidHandler.FluidAction.SIMULATE);
+			int filled = fluidHandler.fill(new FluidStack(fluid, Math.min(FluidAttributes.BUCKET, contents.getAmount())), IFluidHandler.FluidAction.SIMULATE);
 			if (filled == 0) {
 				return false;
 			}
@@ -230,8 +230,8 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 		if (isValidFluidHandler(fluidHandler, false)) {
 			Fluid fluid = contents.getFluid();
 			FluidStack extracted = contents.isEmpty() ?
-					fluidHandler.drain(FluidAttributes.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE) :
-					fluidHandler.drain(new FluidStack(fluid, Math.min(FluidAttributes.BUCKET_VOLUME, getTankCapacity() - contents.getAmount())), IFluidHandler.FluidAction.SIMULATE);
+					fluidHandler.drain(FluidAttributes.BUCKET, IFluidHandler.FluidAction.SIMULATE) :
+					fluidHandler.drain(new FluidStack(fluid, Math.min(FluidAttributes.BUCKET, getTankCapacity() - contents.getAmount())), IFluidHandler.FluidAction.SIMULATE);
 			if (extracted.isEmpty()) {
 				return false;
 			}

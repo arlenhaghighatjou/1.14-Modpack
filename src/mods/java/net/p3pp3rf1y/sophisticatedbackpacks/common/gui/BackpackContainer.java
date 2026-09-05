@@ -641,10 +641,10 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 
 	@Override
 	public void handleMessage(CompoundNBT data) {
-		if (data.contains("containerId")) {
-			int containerId = data.getInt("containerId");
-			if (upgradeContainers.containsKey(containerId)) {
-				upgradeContainers.get(containerId).handleMessage(data);
+		if (data.contains("windowId")) {
+			int windowId = data.getInt("windowId");
+			if (upgradeContainers.containsKey(windowId)) {
+				upgradeContainers.get(windowId).handleMessage(data);
 			}
 		} else if (data.contains(OPEN_TAB_ID_TAG)) {
 			setOpenTabId(data.getInt(OPEN_TAB_ID_TAG));
@@ -879,7 +879,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		@Nullable
 		@Override
 		public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-			return new Pair<>(PlayerContainer.BLOCK_ATLAS, EMPTY_UPGRADE_SLOT_BACKGROUND);
+			return new Pair<>(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_UPGRADE_SLOT_BACKGROUND);
 		}
 	}
 
@@ -1028,30 +1028,30 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		ItemStack ret = ItemStack.EMPTY;
 		PlayerInventory playerinventory = player.inventory;
 		if (clickType == ClickType.QUICK_CRAFT) {
-			int prevDragEvent = quickcraftStatus;
-			quickcraftStatus = getQuickcraftHeader(dragType);
-			if ((prevDragEvent != 1 || quickcraftStatus != 2) && prevDragEvent != quickcraftStatus) {
+			int prevDragEvent = dragEvent;
+			dragEvent = getQuickcraftHeader(dragType);
+			if ((prevDragEvent != 1 || dragEvent != 2) && prevDragEvent != dragEvent) {
 				resetQuickCraft();
 			} else if (playerinventory.getItemStack().isEmpty()) {
 				resetQuickCraft();
-			} else if (quickcraftStatus == 0) {
+			} else if (dragEvent == 0) {
 				quickcraftType = getQuickcraftType(dragType);
 				if (isValidQuickcraftType(quickcraftType, player)) {
-					quickcraftStatus = 1;
-					quickcraftSlots.clear();
+					dragEvent = 1;
+					dragSlots.clear();
 				} else {
 					resetQuickCraft();
 				}
-			} else if (quickcraftStatus == 1) {
+			} else if (dragEvent == 1) {
 				Slot slot7 = getSlot(slotId);
 				ItemStack itemstack12 = playerinventory.getItemStack();
-				if (canMergeItemToSlot(slot7, itemstack12) && slot7.isItemValid(itemstack12) && (quickcraftType == 2 || itemstack12.getCount() > quickcraftSlots.size()) && canDragTo(slot7)) {
-					quickcraftSlots.add(slot7);
+				if (canMergeItemToSlot(slot7, itemstack12) && slot7.isItemValid(itemstack12) && (quickcraftType == 2 || itemstack12.getCount() > dragSlots.size()) && canDragTo(slot7)) {
+					dragSlots.add(slot7);
 				}
-			} else if (quickcraftStatus == 2) {
-				if (!quickcraftSlots.isEmpty()) {
-					if (quickcraftSlots.size() == 1) {
-						int l = (quickcraftSlots.iterator().next()).index;
+			} else if (dragEvent == 2) {
+				if (!dragSlots.isEmpty()) {
+					if (dragSlots.size() == 1) {
+						int l = (dragSlots.iterator().next()).index;
 						resetQuickCraft();
 						return clicked(l, quickcraftType, ClickType.PICKUP, player);
 					}
@@ -1059,12 +1059,12 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 					ItemStack cursorStack = playerinventory.getItemStack().copy();
 					int k1 = playerinventory.getItemStack().getCount();
 
-					for (Slot slot8 : quickcraftSlots) {
+					for (Slot slot8 : dragSlots) {
 						ItemStack itemstack13 = playerinventory.getItemStack();
-						if (slot8 != null && canMergeItemToSlot(slot8, itemstack13) && slot8.isItemValid(itemstack13) && (quickcraftType == 2 || itemstack13.getCount() >= quickcraftSlots.size()) && canDragTo(slot8)) {
+						if (slot8 != null && canMergeItemToSlot(slot8, itemstack13) && slot8.isItemValid(itemstack13) && (quickcraftType == 2 || itemstack13.getCount() >= dragSlots.size()) && canDragTo(slot8)) {
 							ItemStack itemstack14 = cursorStack.copy();
 							int j3 = slot8.getHasStack() ? slot8.getStack().getCount() : 0;
-							getQuickCraftSlotCount(quickcraftSlots, quickcraftType, itemstack14, j3);
+							getQuickCraftSlotCount(dragSlots, quickcraftType, itemstack14, j3);
 							int slotStackLimit = slot8.getSlotStackLimit(itemstack14);
 							if (!(slot8 instanceof BackpackInventorySlot) && slotStackLimit > cursorStack.getMaxStackSize()) {
 								slotStackLimit = cursorStack.getMaxStackSize();
@@ -1085,7 +1085,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			} else {
 				resetQuickCraft();
 			}
-		} else if (quickcraftStatus != 0) {
+		} else if (dragEvent != 0) {
 			resetQuickCraft();
 		} else if ((clickType == ClickType.PICKUP || clickType == ClickType.QUICK_MOVE) && (dragType == 0 || dragType == 1)) {
 			if (slotId == -999) {
@@ -1301,7 +1301,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	public void sendSlotUpdates() {
 		if (!player.world.isRemote) {
 			ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-			slotStacksToUpdate.forEach((slot, stack) -> serverPlayer.connection.sendPacket(new SSetSlotPacket(serverPlayer.openContainer.containerId, slot, stack)));
+			slotStacksToUpdate.forEach((slot, stack) -> serverPlayer.connection.sendPacket(new SSetSlotPacket(serverPlayer.openContainer.windowId, slot, stack)));
 			slotStacksToUpdate.clear();
 		}
 	}

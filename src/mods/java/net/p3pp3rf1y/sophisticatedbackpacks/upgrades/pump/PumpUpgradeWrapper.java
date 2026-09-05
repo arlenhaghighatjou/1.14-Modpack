@@ -111,7 +111,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	}
 
 	private int getMaxInOut() {
-		return Math.max(FluidAttributes.BUCKET_VOLUME, Config.COMMON.pumpUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
+		return Math.max(FluidAttributes.BUCKET, Config.COMMON.pumpUpgrade.maxInputOutput * backpackWrapper.getNumberOfSlotRows() * getAdjustedStackMultiplier(backpackWrapper));
 	}
 
 	public static int getAdjustedStackMultiplier(IBackpackWrapper backpackWrapper) {
@@ -230,7 +230,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	}
 
 	private boolean fillFluidHandler(IFluidHandler fluidHandler, IFluidHandler backpackFluidHandler) {
-		return fillFluidHandler(fluidHandler, backpackFluidHandler, FluidAttributes.BUCKET_VOLUME);
+		return fillFluidHandler(fluidHandler, backpackFluidHandler, FluidAttributes.BUCKET);
 	}
 
 	private boolean fillFluidHandler(IFluidHandler fluidHandler, IFluidHandler backpackFluidHandler, int maxFill) {
@@ -255,7 +255,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	}
 
 	private boolean fillFromFluidHandler(IFluidHandler fluidHandler, IFluidHandler backpackFluidHandler) {
-		return fillFromFluidHandler(fluidHandler, backpackFluidHandler, FluidAttributes.BUCKET_VOLUME);
+		return fillFromFluidHandler(fluidHandler, backpackFluidHandler, FluidAttributes.BUCKET);
 	}
 
 	private boolean fillFromFluidHandler(IFluidHandler fluidHandler, IFluidHandler backpackFluidHandler, int maxDrain) {

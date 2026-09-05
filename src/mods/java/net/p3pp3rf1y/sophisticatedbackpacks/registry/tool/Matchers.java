@@ -36,7 +36,7 @@ public class Matchers {
 			@Override
 			protected Optional<CacheableStackPredicate> getPredicateFromObject(JsonObject jsonObject) {
 				String tagName = JSONUtils.getString(jsonObject, "tag");
-				ITag<Item> tag = TagCollectionManager.getInstance().getItems().getTag(new ResourceLocation(tagName));
+				Tag<Item> tag = TagCollectionManager.getInstance().getItems().getTag(new ResourceLocation(tagName));
 				return tag == null ? Optional.empty() : Optional.of(new ItemTagMatcher(tag));
 			}
 		});

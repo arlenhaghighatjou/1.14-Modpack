@@ -36,7 +36,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 				wasFloatingUp = true;
 			} else if (wasFloatingUp) {
 				setNoGravity(true);
-				setDeltaMovement(Vector3d.ZERO);
+				setDeltaMovement(Vec3d.ZERO);
 			}
 		}
 		super.tick();

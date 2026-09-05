@@ -15,8 +15,8 @@ public class AutoCookingUpgradeContainer<R extends AbstractCookingRecipe, W exte
 	private final FilterLogicContainer<FilterLogic> fuelFilterLogicContainer;
 	private final CookingLogicContainer<R> cookingLogicContainer;
 
-	public AutoCookingUpgradeContainer(PlayerEntity player, int containerId, W wrapper, UpgradeContainerType<W, AutoCookingUpgradeContainer<R, W>> type) {
-		super(player, containerId, wrapper, type);
+	public AutoCookingUpgradeContainer(PlayerEntity player, int windowId, W wrapper, UpgradeContainerType<W, AutoCookingUpgradeContainer<R, W>> type) {
+		super(player, windowId, wrapper, type);
 		inputFilterLogicContainer = new FilterLogicContainer<>(() -> upgradeWrapper.getInputFilterLogic(), this, slots::add);
 		fuelFilterLogicContainer = new FilterLogicContainer<>(() -> upgradeWrapper.getFuelFilterLogic(), this, slots::add);
 		cookingLogicContainer = new CookingLogicContainer<>(() -> upgradeWrapper.getCookingLogic(), slots::add);

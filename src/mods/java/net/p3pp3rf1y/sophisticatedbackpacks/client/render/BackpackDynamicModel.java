@@ -198,7 +198,7 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 			float maxX = minX + pixels / 16f;
 			float maxY = minY + 1 / 16f;
 			float[] cols = new float[] {1f, 1f, 1f, 1f};
-			TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(PlayerContainer.BLOCK_ATLAS).apply(BACKPACK_MODULES_TEXTURE);
+			TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(BACKPACK_MODULES_TEXTURE);
 			ret.add(createQuad(ImmutableList.of(getVector(maxX, maxY, minZ), getVector(maxX, minY, minZ), getVector(minX, minY, minZ), getVector(minX, maxY, minZ)), cols, sprite, Direction.NORTH, 14, 14 + (pixels / 2f), 6, 6.5f));
 		}
 
@@ -238,7 +238,7 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 			ResourceLocation texture = fluid.getAttributes().getStillTexture();
 			int color = fluid.getAttributes().getColor();
 			float[] cols = new float[] {(color >> 24 & 0xFF) / 255F, (color >> 16 & 0xFF) / 255F, (color >> 8 & 0xFF) / 255F, (color & 0xFF) / 255F};
-			TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(PlayerContainer.BLOCK_ATLAS).apply(texture);
+			TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
 			float bx1 = 0;
 			float bx2 = 5;
 			float by1 = 0;
@@ -406,7 +406,7 @@ public class BackpackDynamicModel implements IModelGeometry<BackpackDynamicModel
 			if (modelContents.has("clipsTexture")) {
 				ResourceLocation clipsTexture = ResourceLocation.tryParse(modelContents.get("clipsTexture").getAsString());
 				if (clipsTexture != null) {
-					texturesBuilder.put("clips", Either.left(new RenderMaterial(PlayerContainer.BLOCK_ATLAS, clipsTexture)));
+					texturesBuilder.put("clips", Either.left(new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, clipsTexture)));
 				}
 			}
 			ImmutableMap<String, Either<RenderMaterial, String>> textures = texturesBuilder.build();

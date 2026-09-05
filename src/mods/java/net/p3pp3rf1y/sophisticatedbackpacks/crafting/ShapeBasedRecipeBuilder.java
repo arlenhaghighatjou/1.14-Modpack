@@ -48,7 +48,7 @@ public class ShapeBasedRecipeBuilder {
 		return new ShapeBasedRecipeBuilder(itemResult, serializer);
 	}
 
-	public ShapeBasedRecipeBuilder key(Character symbol, ITag<Item> tagIn) {
+	public ShapeBasedRecipeBuilder key(Character symbol, Tag<Item> tagIn) {
 		return key(symbol, Ingredient.of(tagIn));
 	}
 

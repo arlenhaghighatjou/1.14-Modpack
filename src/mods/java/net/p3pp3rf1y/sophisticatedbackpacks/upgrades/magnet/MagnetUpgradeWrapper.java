@@ -110,7 +110,7 @@ public class MagnetUpgradeWrapper extends UpgradeWrapperBase<MagnetUpgradeWrappe
 			int amountAdded = fluidHandler.fill(ModFluids.EXPERIENCE_TAG, amountToTransfer, ModFluids.XP_STILL, IFluidHandler.FluidAction.EXECUTE);
 
 			if (amountAdded > 0) {
-				Vector3d pos = xpOrb.position();
+				Vec3d pos = xpOrb.position();
 				xpOrb.value = 0;
 				xpOrb.remove();
 

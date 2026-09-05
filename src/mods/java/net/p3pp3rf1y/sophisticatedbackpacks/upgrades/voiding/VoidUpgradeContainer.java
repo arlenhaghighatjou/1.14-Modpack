@@ -13,8 +13,8 @@ public class VoidUpgradeContainer extends UpgradeContainerBase<VoidUpgradeWrappe
 	private static final String DATA_SHOULD_VOID_OVERFLOW = "shouldVoidOverflow";
 	private final FilterLogicContainer<FilterLogic> filterLogicContainer;
 
-	public VoidUpgradeContainer(PlayerEntity player, int containerId, VoidUpgradeWrapper wrapper, UpgradeContainerType<VoidUpgradeWrapper, VoidUpgradeContainer> type) {
-		super(player, containerId, wrapper, type);
+	public VoidUpgradeContainer(PlayerEntity player, int windowId, VoidUpgradeWrapper wrapper, UpgradeContainerType<VoidUpgradeWrapper, VoidUpgradeContainer> type) {
+		super(player, windowId, wrapper, type);
 		filterLogicContainer = new FilterLogicContainer<>(upgradeWrapper::getFilterLogic, this, slots::add);
 	}
 

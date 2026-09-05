@@ -8,8 +8,8 @@ import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.UpgradeContainerType;
 public class DepositUpgradeContainer extends UpgradeContainerBase<DepositUpgradeWrapper, DepositUpgradeContainer> {
 	private final DepositFilterLogicContainer filterLogicContainer;
 
-	public DepositUpgradeContainer(PlayerEntity player, int containerId, DepositUpgradeWrapper wrapper, UpgradeContainerType<DepositUpgradeWrapper, DepositUpgradeContainer> type) {
-		super(player, containerId, wrapper, type);
+	public DepositUpgradeContainer(PlayerEntity player, int windowId, DepositUpgradeWrapper wrapper, UpgradeContainerType<DepositUpgradeWrapper, DepositUpgradeContainer> type) {
+		super(player, windowId, wrapper, type);
 
 		filterLogicContainer = new DepositFilterLogicContainer(() -> upgradeWrapper.getFilterLogic(), this, slots::add);
 	}

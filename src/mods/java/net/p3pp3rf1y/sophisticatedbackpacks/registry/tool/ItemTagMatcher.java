@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
 
 class ItemTagMatcher implements CacheableStackPredicate {
-	private final ITag<Item> itemTag;
+	private final Tag<Item> itemTag;
 
-	public ItemTagMatcher(ITag<Item> itemTag) {
+	public ItemTagMatcher(Tag<Item> itemTag) {
 		this.itemTag = itemTag;
 	}
 

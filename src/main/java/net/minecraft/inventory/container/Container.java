@@ -30,8 +30,8 @@ public abstract class Container {
    @OnlyIn(Dist.CLIENT)
    private short transactionID;
    private int dragMode = -1;
-   private int dragEvent;
-   private final Set<Slot> dragSlots = Sets.newHashSet();
+   protected int dragEvent;
+   protected final Set<Slot> dragSlots = Sets.newHashSet();
    private final List<IContainerListener> listeners = Lists.newArrayList();
    private final Set<PlayerEntity> playerList = Sets.newHashSet();
 

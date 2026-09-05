@@ -370,7 +370,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void stitchTextures(TextureStitchEvent.Pre evt) {
-		if (evt.getMap().location() == PlayerContainer.BLOCK_ATLAS) {
+		if (evt.getMap().location() == AtlasTexture.LOCATION_BLOCKS_TEXTURE) {
 			evt.addSprite(BackpackContainer.EMPTY_UPGRADE_SLOT_BACKGROUND);
 			evt.addSprite(ToolSwapperFilterContainer.EMPTY_WEAPON_SLOT_BACKGROUND);
 			ToolSwapperFilterContainer.EMPTY_TOOL_SLOT_BACKGROUNDS.values().forEach(evt::addSprite);

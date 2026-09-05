@@ -13,8 +13,8 @@ public class FilterUpgradeContainer extends UpgradeContainerBase<FilterUpgradeWr
 	private static final String DATA_DIRECTION = "direction";
 	private final ContentsFilterLogicContainer filterLogicContainer;
 
-	private FilterUpgradeContainer(PlayerEntity player, int containerId, FilterUpgradeWrapper wrapper, UpgradeContainerType<FilterUpgradeWrapper, FilterUpgradeContainer> type) {
-		super(player, containerId, wrapper, type);
+	private FilterUpgradeContainer(PlayerEntity player, int windowId, FilterUpgradeWrapper wrapper, UpgradeContainerType<FilterUpgradeWrapper, FilterUpgradeContainer> type) {
+		super(player, windowId, wrapper, type);
 		filterLogicContainer = new ContentsFilterLogicContainer(() -> upgradeWrapper.getFilterLogic(), this, slots::add);
 	}
 

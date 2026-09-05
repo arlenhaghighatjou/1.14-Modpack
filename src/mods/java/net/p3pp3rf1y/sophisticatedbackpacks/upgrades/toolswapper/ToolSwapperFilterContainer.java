@@ -36,13 +36,13 @@ public class ToolSwapperFilterContainer extends FilterLogicContainerBase<ToolSwa
 	public ToolSwapperFilterContainer(IServerUpdater serverUpdater, Supplier<ToolSwapperFilterLogic> filterLogic, Consumer<Slot> addSlot) {
 		super(serverUpdater, filterLogic, addSlot);
 		ToolFilterSlot weaponFilterSlot = new ToolFilterSlot(() -> filterLogic.get().getWeaponFilter(), stack -> filterLogic.get().setWeaponFilter(stack), s -> true);
-		weaponFilterSlot.setBackground(PlayerContainer.BLOCK_ATLAS, EMPTY_WEAPON_SLOT_BACKGROUND);
+		weaponFilterSlot.setBackground(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_WEAPON_SLOT_BACKGROUND);
 		filterSlots.add(weaponFilterSlot);
 		filterLogic.get().getToolFilterTypes().forEach(toolType ->
 				{
 					ToolFilterSlot toolFilterSlot = new ToolFilterSlot(() -> filterLogic.get().getToolFilter(toolType), stack -> filterLogic.get().setToolFilter(toolType, stack), s -> s.getToolTypes().contains(toolType));
 					if (EMPTY_TOOL_SLOT_BACKGROUNDS.containsKey(toolType)) {
-						toolFilterSlot.setBackground(PlayerContainer.BLOCK_ATLAS, EMPTY_TOOL_SLOT_BACKGROUNDS.get(toolType));
+						toolFilterSlot.setBackground(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_TOOL_SLOT_BACKGROUNDS.get(toolType));
 					}
 					toolFilterSlot.setEmptyTooltip(StringUtils.capitalize(toolType.getName()));
 

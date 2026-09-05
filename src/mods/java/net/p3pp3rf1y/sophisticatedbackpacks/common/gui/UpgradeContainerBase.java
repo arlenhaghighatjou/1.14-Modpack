@@ -61,7 +61,7 @@ public abstract class UpgradeContainerBase<W extends IUpgradeWrapper, C extends 
 			return;
 		}
 		CompoundNBT data = supplyData.get();
-		data.putInt("containerId", upgradeContainerId);
+		data.putInt("windowId", upgradeContainerId);
 		PacketHandler.sendToServer(new SyncContainerClientDataMessage(data));
 	}
 

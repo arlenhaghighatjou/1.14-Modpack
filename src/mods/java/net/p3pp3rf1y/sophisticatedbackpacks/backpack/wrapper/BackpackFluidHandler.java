@@ -71,7 +71,7 @@ public class BackpackFluidHandler implements IBackpackFluidHandler {
 	}
 
 	@Override
-	public FluidStack drain(ITag<Fluid> resourceTag, int maxDrain, FluidAction action, boolean ignoreInOutLimit) {
+	public FluidStack drain(Tag<Fluid> resourceTag, int maxDrain, FluidAction action, boolean ignoreInOutLimit) {
 		FluidStack drained = FluidStack.EMPTY;
 		int toDrain = maxDrain;
 		for (TankUpgradeWrapper tank : getAllTanks()) {

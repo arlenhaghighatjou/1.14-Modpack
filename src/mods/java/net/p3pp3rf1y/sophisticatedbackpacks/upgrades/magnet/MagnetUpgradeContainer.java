@@ -12,8 +12,8 @@ public class MagnetUpgradeContainer extends UpgradeContainerBase<MagnetUpgradeWr
 
 	private final ContentsFilterLogicContainer filterLogicContainer;
 
-	public MagnetUpgradeContainer(PlayerEntity player, int containerId, MagnetUpgradeWrapper wrapper, UpgradeContainerType<MagnetUpgradeWrapper, MagnetUpgradeContainer> type) {
-		super(player, containerId, wrapper, type);
+	public MagnetUpgradeContainer(PlayerEntity player, int windowId, MagnetUpgradeWrapper wrapper, UpgradeContainerType<MagnetUpgradeWrapper, MagnetUpgradeContainer> type) {
+		super(player, windowId, wrapper, type);
 
 		filterLogicContainer = new ContentsFilterLogicContainer(() -> upgradeWrapper.getFilterLogic(), this, slots::add);
 	}

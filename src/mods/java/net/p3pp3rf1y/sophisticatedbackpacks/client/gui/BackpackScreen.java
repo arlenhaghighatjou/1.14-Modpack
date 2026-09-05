@@ -164,11 +164,11 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	private void addUpgradeSwitches() {
 		upgradeSwitches.clear();
-		int switchTop = topPos + getUpgradeTop() + 10;
+		int switchTop = guiTop + getUpgradeTop() + 10;
 		for (int slot = 0; slot < numberOfUpgradeSlots; slot++) {
 			if (menu.canDisableUpgrade(slot)) {
 				int finalSlot = slot;
-				ToggleButton<Boolean> upgradeSwitch = new ToggleButton<>(new Position(leftPos - 22, switchTop), ButtonDefinitions.UPGRADE_SWITCH,
+				ToggleButton<Boolean> upgradeSwitch = new ToggleButton<>(new Position(guiLeft - 22, switchTop), ButtonDefinitions.UPGRADE_SWITCH,
 						button -> getMenu().setUpgradeEnabled(finalSlot, !getMenu().getUpgradeEnabled(finalSlot)), () -> getMenu().getUpgradeEnabled(finalSlot));
 				addWidget(upgradeSwitch);
 				upgradeSwitches.add(upgradeSwitch);
@@ -224,14 +224,14 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	private Position getSortButtonsPosition(SortButtonsPosition sortButtonsPosition) {
 		switch (sortButtonsPosition) {
 			case ABOVE_UPGRADES:
-				return new Position(leftPos - UPGRADE_INVENTORY_OFFSET - 2, topPos + getUpgradeTop() - 14);
+				return new Position(guiLeft - UPGRADE_INVENTORY_OFFSET - 2, guiTop + getUpgradeTop() - 14);
 			case BELOW_UPGRADES:
-				return new Position(leftPos - UPGRADE_INVENTORY_OFFSET - 2, topPos + getUpgradeTop() + getUpgradeHeightWithoutBottom() + UPGRADE_BOTTOM_HEIGHT + 2);
+				return new Position(guiLeft - UPGRADE_INVENTORY_OFFSET - 2, guiTop + getUpgradeTop() + getUpgradeHeightWithoutBottom() + UPGRADE_BOTTOM_HEIGHT + 2);
 			case BELOW_UPGRADE_TABS:
 				return settingsTabControl == null ? new Position(0, 0) : new Position(settingsTabControl.getX() + 2, settingsTabControl.getY() + Math.max(0, settingsTabControl.getHeight() + 2));
 			case TITLE_LINE_RIGHT:
 			default:
-				return new Position(leftPos + imageWidth - 34, topPos + 4);
+				return new Position(guiLeft + imageWidth - 34, guiTop + 4);
 		}
 	}
 
@@ -241,7 +241,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void initUpgradeSettingsControl() {
-		settingsTabControl = new UpgradeSettingsTabControl(new Position(leftPos + imageWidth, topPos + 4), this);
+		settingsTabControl = new UpgradeSettingsTabControl(new Position(guiLeft + imageWidth, guiTop + 4), this);
 		addWidget(settingsTabControl);
 	}
 
@@ -316,35 +316,35 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		if (slot == clickedSlot && !draggingItem.isEmpty() && isSplittingStack && !itemstack.isEmpty()) {
 			itemstack = itemstack.copy();
 			itemstack.setCount(itemstack.getCount() / 2);
-		} else if (isQuickCrafting && quickCraftSlots.contains(slot) && !itemstack1.isEmpty()) {
-			if (quickCraftSlots.size() == 1) {
+		} else if (isQuickCrafting && dragSlots.contains(slot) && !itemstack1.isEmpty()) {
+			if (dragSlots.size() == 1) {
 				return;
 			}
 
 			if (BackpackContainer.canMergeItemToSlot(slot, itemstack1) && menu.canDragTo(slot)) {
 				itemstack = itemstack1.copy();
 				flag = true;
-				Container.getQuickCraftSlotCount(quickCraftSlots, quickCraftingType, itemstack, slot.getStack().isEmpty() ? 0 : slot.getStack().getCount());
+				Container.getQuickCraftSlotCount(dragSlots, quickCraftingType, itemstack, slot.getStack().isEmpty() ? 0 : slot.getStack().getCount());
 				int slotLimit = slot.getSlotStackLimit(itemstack);
 				if (itemstack.getCount() > slotLimit) {
 					stackCountText = TextFormatting.YELLOW + CountAbbreviator.abbreviate(slotLimit);
 					itemstack.setCount(slotLimit);
 				}
 			} else {
-				quickCraftSlots.remove(slot);
+				dragSlots.remove(slot);
 				recalculateQuickCraftRemaining();
 			}
 		}
 
 		setBlitOffset(100);
-		itemRenderer.blitOffset = 100.0F;
+		itemRenderer.zLevel = 100.0F;
 		if (itemstack.isEmpty() && slot.isEnabled()) {
 			renderSlotBackground(matrixStack, slot, i, j);
 		} else if (!rightClickDragging) {
 			renderStack(matrixStack, i, j, itemstack, flag, stackCountText);
 		}
 
-		itemRenderer.blitOffset = 0.0F;
+		itemRenderer.zLevel = 0.0F;
 		setBlitOffset(0);
 	}
 
@@ -476,8 +476,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 		int firstHalfHeight = getUpgradeHeightWithoutBottom();
 
-		blit(matrixStack, leftPos - UPGRADE_INVENTORY_OFFSET, topPos + getUpgradeTop(), 0, 0, 29, firstHalfHeight, 256, 256);
-		blit(matrixStack, leftPos - UPGRADE_INVENTORY_OFFSET, topPos + getUpgradeTop() + firstHalfHeight, 0, (float) TOTAL_UPGRADE_GUI_HEIGHT - UPGRADE_BOTTOM_HEIGHT, 29, UPGRADE_BOTTOM_HEIGHT, 256, 256);
+		blit(matrixStack, guiLeft - UPGRADE_INVENTORY_OFFSET, guiTop + getUpgradeTop(), 0, 0, 29, firstHalfHeight, 256, 256);
+		blit(matrixStack, guiLeft - UPGRADE_INVENTORY_OFFSET, guiTop + getUpgradeTop() + firstHalfHeight, 0, (float) TOTAL_UPGRADE_GUI_HEIGHT - UPGRADE_BOTTOM_HEIGHT, 29, UPGRADE_BOTTOM_HEIGHT, 256, 256);
 	}
 
 	public int getUpgradeTop() {
@@ -494,7 +494,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	public UpgradeSettingsTabControl getUpgradeSettingsControl() {
 		if (settingsTabControl == null) {
-			settingsTabControl = new UpgradeSettingsTabControl(new Position(leftPos + imageWidth, topPos + 4), this);
+			settingsTabControl = new UpgradeSettingsTabControl(new Position(guiLeft + imageWidth, guiTop + 4), this);
 		}
 		return settingsTabControl;
 	}
@@ -566,7 +566,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 		short nextTransId = player.openContainer.backup(player.inventory);
 		ItemStack itemstack = player.openContainer.clicked(slotNumber, mouseButton, type, player);
-		PacketHandler.sendToServer(new WindowClickMessage(menu.containerId, slotNumber, mouseButton, type, itemstack, nextTransId));
+		PacketHandler.sendToServer(new WindowClickMessage(menu.windowId, slotNumber, mouseButton, type, itemstack, nextTransId));
 	}
 
 	@Override
@@ -590,10 +590,10 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		Slot slot = findSlot(mouseX, mouseY);
 		ItemStack itemstack = minecraft.player.inventory.getItemStack();
 		if (isQuickCrafting && slot != null && !itemstack.isEmpty()
-				&& (itemstack.getCount() > quickCraftSlots.size() || quickCraftingType == 2)
+				&& (itemstack.getCount() > dragSlots.size() || quickCraftingType == 2)
 				&& BackpackContainer.canMergeItemToSlot(slot, itemstack) && slot.isItemValid(itemstack)
 				&& menu.canDragTo(slot)) {
-			quickCraftSlots.add(slot);
+			dragSlots.add(slot);
 			recalculateQuickCraftRemaining();
 		}
 
@@ -615,12 +615,12 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	public Optional<Rectangle2d> getUpgradeSlotsRectangle() {
-		return numberOfUpgradeSlots == 0 ? Optional.empty() : Optional.of(new Rectangle2d(leftPos - BackpackScreen.UPGRADE_INVENTORY_OFFSET, topPos + getUpgradeTop(), 32, getUpgradeHeight()));
+		return numberOfUpgradeSlots == 0 ? Optional.empty() : Optional.of(new Rectangle2d(guiLeft - BackpackScreen.UPGRADE_INVENTORY_OFFSET, guiTop + getUpgradeTop(), 32, getUpgradeHeight()));
 	}
 
 	private void renderStackCount(String count, int x, int y) {
 		MatrixStack matrixStack = new MatrixStack();
-		matrixStack.translate(0.0D, 0.0D, itemRenderer.blitOffset + 200.0F);
+		matrixStack.translate(0.0D, 0.0D, itemRenderer.zLevel + 200.0F);
 		IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 
 		RenderSystem.pushMatrix();
@@ -644,11 +644,11 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			} else {
 				quickCraftingRemainder = cursorStack.getCount();
 
-				for (Slot slot : quickCraftSlots) {
+				for (Slot slot : dragSlots) {
 					ItemStack itemstack1 = cursorStack.copy();
 					ItemStack slotStack = slot.getStack();
 					int slotStackCount = slotStack.isEmpty() ? 0 : slotStack.getCount();
-					Container.getQuickCraftSlotCount(quickCraftSlots, quickCraftingType, itemstack1, slotStackCount);
+					Container.getQuickCraftSlotCount(dragSlots, quickCraftingType, itemstack1, slotStackCount);
 					int j = slot.getSlotStackLimit(itemstack1);
 					if (itemstack1.getCount() > j) {
 						itemstack1.setCount(j);
@@ -688,7 +688,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	private void renderErrorMessage(MatrixStack matrixStack, ITextComponent overlayErrorMessage) {
 		RenderSystem.pushMatrix();
 		RenderSystem.disableDepthTest();
-		RenderSystem.translatef((float) width / 2, topPos + inventoryLabelY + 4, 300F);
+		RenderSystem.translatef((float) width / 2, guiTop + inventoryLabelY + 4, 300F);
 		FontRenderer fontrenderer = Minecraft.getInstance().fontRenderer;
 
 		int tooltipWidth = font.getStringWidth(overlayErrorMessage);

@@ -45,11 +45,11 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 	private static final BackpackModel MODEL = new BackpackModel();
 	private static final TankGlassModel TANK_GLASS_MODEL = new TankGlassModel();
 
-	private static final Map<EntityType<?>, Vector3d> entityTranslations;
+	private static final Map<EntityType<?>, Vec3d> entityTranslations;
 
 	static {
 		entityTranslations = new HashMap<>();
-		entityTranslations.put(EntityType.ENDERMAN, new Vector3d(0, -0.8, 0));
+		entityTranslations.put(EntityType.ENDERMAN, new Vec3d(0, -0.8, 0));
 	}
 
 	public BackpackLayerRenderer(IEntityRenderer<T, M> entityRendererIn) {
@@ -97,7 +97,7 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 		}
 
 		if (entityTranslations.containsKey(livingEntity.getType())) {
-			Vector3d translVector = entityTranslations.get(livingEntity.getType());
+			Vec3d translVector = entityTranslations.get(livingEntity.getType());
 			matrixStack.translate(translVector.x(), translVector.y(), translVector.z());
 		}
 
@@ -141,7 +141,7 @@ public class BackpackLayerRenderer<T extends LivingEntity, M extends BipedModel<
 		renderInfo.getUpgradeRenderData().forEach((type, data) -> UpgradeRenderRegistry.getUpgradeRenderer(type).ifPresent(renderer -> renderUpgrade(renderer, livingEntity, type, data)));
 	}
 
-	private static Vector3d getBackpackMiddleFacePoint(LivingEntity livingEntity, Vector3d vector3d) {
+	private static Vec3d getBackpackMiddleFacePoint(LivingEntity livingEntity, Vec3d vector3d) {
 		return vector3d.xRot(livingEntity.isCrouching() ? 25 * ((float) Math.PI / 180F) : 0).add(0, 0.8, livingEntity.isCrouching() ? 0.9 : 0.7).yRot((float) (-livingEntity.yBodyRot * (Math.PI / 180F) - Math.PI)).add(livingEntity.getPositionVec());
 	}
 

@@ -34,7 +34,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	protected void init() {
 		super.init();
 
-		settingsTabControl = new BackpackSettingsTabControl(this, new Position(leftPos + imageWidth, topPos + 4));
+		settingsTabControl = new BackpackSettingsTabControl(this, new Position(guiLeft + imageWidth, guiTop + 4));
 		children.add(settingsTabControl);
 	}
 
@@ -80,13 +80,13 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		}
 
 		setBlitOffset(100);
-		itemRenderer.blitOffset = 100.0F;
+		itemRenderer.zLevel = 100.0F;
 
 		RenderSystem.enableDepthTest();
 		RenderSystem.pushMatrix();
 		settingsTabControl.renderGuiItem(itemRenderer, itemstack, slot);
 		RenderSystem.popMatrix();
-		itemRenderer.blitOffset = 0.0F;
+		itemRenderer.zLevel = 0.0F;
 		setBlitOffset(0);
 
 		if (memorizedStack.isPresent()) {

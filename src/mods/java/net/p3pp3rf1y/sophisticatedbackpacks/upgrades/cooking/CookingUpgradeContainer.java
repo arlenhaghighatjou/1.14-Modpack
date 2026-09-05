@@ -10,8 +10,8 @@ public class CookingUpgradeContainer<R extends AbstractCookingRecipe, W extends 
 		extends UpgradeContainerBase<W, CookingUpgradeContainer<R, W>> {
 	private final CookingLogicContainer<R> cookingLogicContainer;
 
-	public CookingUpgradeContainer(PlayerEntity player, int containerId, W wrapper, UpgradeContainerType<W, CookingUpgradeContainer<R, W>> type) {
-		super(player, containerId, wrapper, type);
+	public CookingUpgradeContainer(PlayerEntity player, int windowId, W wrapper, UpgradeContainerType<W, CookingUpgradeContainer<R, W>> type) {
+		super(player, windowId, wrapper, type);
 		cookingLogicContainer = new CookingLogicContainer<>(() -> upgradeWrapper.getCookingLogic(), slots::add);
 	}
 

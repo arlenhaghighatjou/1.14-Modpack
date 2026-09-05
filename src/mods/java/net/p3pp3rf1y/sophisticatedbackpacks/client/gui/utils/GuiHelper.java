@@ -89,13 +89,13 @@ public class GuiHelper {
 	public static void renderItemInGUI(MatrixStack matrixStack, Minecraft minecraft, ItemStack stack, int xPosition, int yPosition, boolean renderOverlay,
 			@Nullable String countText) {
 		ItemRenderer itemRenderer = minecraft.getItemRenderer();
-		float originalZLevel = itemRenderer.blitOffset;
-		itemRenderer.blitOffset += getZOffset(matrixStack);
+		float originalZLevel = itemRenderer.zLevel;
+		itemRenderer.zLevel += getZOffset(matrixStack);
 		itemRenderer.renderItemAndEffectIntoGUI(stack, xPosition, yPosition);
 		if (renderOverlay) {
 			itemRenderer.renderItemOverlayIntoGUI(minecraft.fontRenderer, stack, xPosition, yPosition, countText);
 		}
-		itemRenderer.blitOffset = originalZLevel;
+		itemRenderer.zLevel = originalZLevel;
 	}
 
 	private static int getZOffset(MatrixStack matrixStack) {
@@ -398,7 +398,7 @@ public class GuiHelper {
 	public static void tryRenderGuiItem(ItemRenderer itemRenderer, TextureManager textureManager,
 			@Nullable LivingEntity livingEntity, ItemStack stack, int x, int y, int rotation) {
 		if (!stack.isEmpty()) {
-			itemRenderer.blitOffset += 50.0F;
+			itemRenderer.zLevel += 50.0F;
 
 			try {
 				renderGuiItem(itemRenderer, textureManager, stack, x, y, itemRenderer.getModel(stack, null, livingEntity), rotation);
@@ -414,7 +414,7 @@ public class GuiHelper {
 				throw new ReportedException(crashreport);
 			}
 
-			itemRenderer.blitOffset -= 50.0F;
+			itemRenderer.zLevel -= 50.0F;
 		}
 	}
 
@@ -428,7 +428,7 @@ public class GuiHelper {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.translatef((float) pX, (float) pY, 100.0F + itemRenderer.blitOffset);
+		RenderSystem.translatef((float) pX, (float) pY, 100.0F + itemRenderer.zLevel);
 		RenderSystem.translatef(8.0F, 8.0F, 0.0F);
 		if (rotation != 0) {
 			RenderSystem.rotatef(rotation, 0, 0, 1);

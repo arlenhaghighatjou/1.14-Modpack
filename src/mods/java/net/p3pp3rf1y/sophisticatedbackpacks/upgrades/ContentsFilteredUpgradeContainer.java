@@ -10,8 +10,8 @@ public class ContentsFilteredUpgradeContainer<W extends IUpgradeWrapper & IConte
 		extends UpgradeContainerBase<W, ContentsFilteredUpgradeContainer<W>> {
 	private final ContentsFilterLogicContainer filterLogicContainer;
 
-	public ContentsFilteredUpgradeContainer(PlayerEntity player, int containerId, W wrapper, UpgradeContainerType<W, ContentsFilteredUpgradeContainer<W>> type) {
-		super(player, containerId, wrapper, type);
+	public ContentsFilteredUpgradeContainer(PlayerEntity player, int windowId, W wrapper, UpgradeContainerType<W, ContentsFilteredUpgradeContainer<W>> type) {
+		super(player, windowId, wrapper, type);
 
 		filterLogicContainer = new ContentsFilterLogicContainer(() -> upgradeWrapper.getFilterLogic(), this, slots::add);
 	}

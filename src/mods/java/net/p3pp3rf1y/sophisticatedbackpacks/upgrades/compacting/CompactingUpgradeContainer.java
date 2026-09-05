@@ -13,8 +13,8 @@ public class CompactingUpgradeContainer extends UpgradeContainerBase<CompactingU
 	private final FilterLogicContainer<FilterLogic> filterLogicContainer;
 	private static final String DATA_SHOULD_COMPACT_NON_UNCRAFTABLE = "shouldCompactNonUncraftable";
 
-	public CompactingUpgradeContainer(PlayerEntity player, int containerId, CompactingUpgradeWrapper wrapper, UpgradeContainerType<CompactingUpgradeWrapper, CompactingUpgradeContainer> type) {
-		super(player, containerId, wrapper, type);
+	public CompactingUpgradeContainer(PlayerEntity player, int windowId, CompactingUpgradeWrapper wrapper, UpgradeContainerType<CompactingUpgradeWrapper, CompactingUpgradeContainer> type) {
+		super(player, windowId, wrapper, type);
 		filterLogicContainer = new FilterLogicContainer<>(upgradeWrapper::getFilterLogic, this, slots::add);
 	}
 

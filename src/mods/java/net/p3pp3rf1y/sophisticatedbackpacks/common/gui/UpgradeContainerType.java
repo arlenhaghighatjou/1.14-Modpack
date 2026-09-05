@@ -10,11 +10,11 @@ public class UpgradeContainerType<W extends IUpgradeWrapper, C extends UpgradeCo
 		this.factory = factory;
 	}
 
-	public C create(PlayerEntity player, int containerId, W wrapper) {
-		return factory.create(player, containerId, wrapper, this);
+	public C create(PlayerEntity player, int windowId, W wrapper) {
+		return factory.create(player, windowId, wrapper, this);
 	}
 
 	public interface IFactory<W extends IUpgradeWrapper, C extends UpgradeContainerBase<W, C>> {
-		C create(PlayerEntity player, int containerId, W upgrade, UpgradeContainerType<W, C> type);
+		C create(PlayerEntity player, int windowId, W upgrade, UpgradeContainerType<W, C> type);
 	}
 }
