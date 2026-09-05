@@ -7,7 +7,7 @@
  ******************************************************************************/
 package biomesoplenty.common.util.biome;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class GeneratorUtil
 {

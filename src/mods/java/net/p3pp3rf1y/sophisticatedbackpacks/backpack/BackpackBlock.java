@@ -61,7 +61,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.util.InventoryHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.WorldHelper;
 
 import javax.annotation.Nullable;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;

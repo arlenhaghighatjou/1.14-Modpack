@@ -21,7 +21,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class SaplingBlockBOP extends SaplingBlock implements IGrowable
 {

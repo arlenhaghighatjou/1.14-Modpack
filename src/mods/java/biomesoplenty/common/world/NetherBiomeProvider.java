@@ -22,7 +22,7 @@ import net.minecraft.world.storage.WorldInfo;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
 public class NetherBiomeProvider extends BiomeProvider

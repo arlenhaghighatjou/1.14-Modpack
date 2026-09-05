@@ -16,7 +16,7 @@ import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.utils.tags.ModTags;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault

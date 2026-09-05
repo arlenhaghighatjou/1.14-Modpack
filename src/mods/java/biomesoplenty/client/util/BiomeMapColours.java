@@ -26,7 +26,7 @@ import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 // Adapted from TTFTCUTS' work here
 // https://github.com/TTFTCUTS/Pioneer/blob/master/src/main/java/ttftcuts/pioneer/map/MapColours.java

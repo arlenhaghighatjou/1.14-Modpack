@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class AshBlock extends Block
 {

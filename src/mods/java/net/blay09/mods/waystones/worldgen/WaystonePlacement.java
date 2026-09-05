@@ -9,7 +9,7 @@ import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.TopSolidOnce;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 import java.util.stream.Stream;
 

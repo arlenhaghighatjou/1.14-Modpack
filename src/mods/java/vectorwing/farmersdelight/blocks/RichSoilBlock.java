@@ -9,7 +9,7 @@ import net.minecraftforge.common.PlantType;
 import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.utils.MathUtils;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class RichSoilBlock extends Block
 {

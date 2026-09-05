@@ -40,7 +40,7 @@ import vectorwing.farmersdelight.world.VillageStructures;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = FarmersDelight.MODID)

@@ -6,7 +6,7 @@ import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import javax.annotation.Nullable;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class YellowAutumnTree extends Tree
 {

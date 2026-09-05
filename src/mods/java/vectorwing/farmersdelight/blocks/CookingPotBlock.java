@@ -45,7 +45,7 @@ import vectorwing.farmersdelight.utils.tags.ModTags;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class CookingPotBlock extends Block implements IWaterLoggable {
 	protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 10.0D, 14.0D);

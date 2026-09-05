@@ -15,7 +15,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.List;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
 public class NetherVinesFeature extends Feature<NoFeatureConfig>

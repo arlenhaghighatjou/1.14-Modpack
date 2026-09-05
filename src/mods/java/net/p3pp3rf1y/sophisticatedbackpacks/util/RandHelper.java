@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class RandHelper {
 	private RandHelper() {}

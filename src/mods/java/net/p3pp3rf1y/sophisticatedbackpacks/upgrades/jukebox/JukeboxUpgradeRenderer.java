@@ -5,7 +5,7 @@ import net.minecraft.world.World;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IUpgradeRenderer;
 import net.p3pp3rf1y.sophisticatedbackpacks.init.ModParticles;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.UnaryOperator;
 
 public class JukeboxUpgradeRenderer implements IUpgradeRenderer<JukeboxUpgradeRenderData> {

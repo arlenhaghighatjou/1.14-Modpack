@@ -14,7 +14,7 @@ import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.BigMushroomFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
 public class BigBrownMushroomNetherFeature extends Feature<BigMushroomFeatureConfig> {

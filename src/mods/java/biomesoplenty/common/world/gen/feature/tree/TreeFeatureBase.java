@@ -21,7 +21,7 @@ import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
 public abstract class TreeFeatureBase extends AbstractTreeFeature<NoFeatureConfig>

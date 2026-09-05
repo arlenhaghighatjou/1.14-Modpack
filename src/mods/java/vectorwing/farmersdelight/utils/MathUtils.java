@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 /**
  * Util for providing and calculating math-related objects across the mod.

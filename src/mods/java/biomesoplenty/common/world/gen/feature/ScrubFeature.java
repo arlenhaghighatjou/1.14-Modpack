@@ -10,7 +10,7 @@ import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
 public class ScrubFeature extends Feature<NoFeatureConfig>

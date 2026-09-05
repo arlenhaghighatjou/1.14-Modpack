@@ -20,7 +20,7 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
 public class NameGenerator extends WorldSavedData {

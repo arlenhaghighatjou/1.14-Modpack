@@ -27,7 +27,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault

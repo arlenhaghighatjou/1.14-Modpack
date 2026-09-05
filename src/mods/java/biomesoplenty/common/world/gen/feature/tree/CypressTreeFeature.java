@@ -22,7 +22,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
 public class CypressTreeFeature extends TreeFeatureBase

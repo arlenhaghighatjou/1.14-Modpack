@@ -15,7 +15,7 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
 public class MarshSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>

@@ -26,7 +26,7 @@ import vectorwing.farmersdelight.registry.ModBlocks;
 import vectorwing.farmersdelight.registry.ModItems;
 
 import javax.annotation.Nullable;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class RiceCropBlock extends BushBlock implements IGrowable, ILiquidContainer
 {

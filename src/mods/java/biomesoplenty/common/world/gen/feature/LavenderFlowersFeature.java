@@ -17,7 +17,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.FlowersFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
 public class LavenderFlowersFeature extends FlowersFeature

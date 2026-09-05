@@ -14,7 +14,7 @@ import net.minecraft.world.gen.feature.Feature;
 import vectorwing.farmersdelight.blocks.WildRiceBlock;
 import vectorwing.farmersdelight.registry.ModBlocks;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Function;
 
 public class RiceCropFeature extends Feature<BlockClusterFeatureConfig> {

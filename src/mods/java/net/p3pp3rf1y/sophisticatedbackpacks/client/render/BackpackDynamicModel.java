@@ -58,7 +58,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 import java.util.function.Function;
 

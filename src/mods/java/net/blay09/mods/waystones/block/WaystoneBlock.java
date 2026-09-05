@@ -42,7 +42,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 
 public class WaystoneBlock extends Block {
 

@@ -3,7 +3,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.api;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.UnaryOperator;
 
 public interface IUpgradeRenderer<T extends IUpgradeRenderData> {

@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import vectorwing.farmersdelight.registry.ModBlocks;
 
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.function.Supplier;
 
 public class MushroomColonyBlock extends BushBlock implements IGrowable

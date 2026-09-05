@@ -19,7 +19,7 @@ import net.minecraft.world.IWorld;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
+import net.lax1dude.eaglercraft.Random;
 import java.util.Set;
 
 /*This class is heavily based on https://gist.github.com/grum/62cfdec0537e8db24eb3#file-bigtreefeature-java
