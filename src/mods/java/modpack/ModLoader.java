@@ -11,10 +11,23 @@ import vectorwing.farmersdelight.FarmersDelight;
  * that reads it back.
  */
 public class ModLoader {
+	/**
+	 * The namespaces the pack ships assets and data under. The game only reads resources from
+	 * namespaces it has been told about, so every mod has to appear here to be seen.
+	 */
+	private static final String[] NAMESPACES = {"appleskin", "biomesoplenty", "farmersdelight", "sophisticatedbackpacks", "waystones", "forge"};
+
 	private static boolean registered;
 	private static boolean clientRegistered;
 
 	private ModLoader() {}
+
+	public static String[] resourceNamespaces(String... vanilla) {
+		String[] all = new String[vanilla.length + NAMESPACES.length];
+		System.arraycopy(vanilla, 0, all, 0, vanilla.length);
+		System.arraycopy(NAMESPACES, 0, all, vanilla.length, NAMESPACES.length);
+		return all;
+	}
 
 	public static void registerContent() {
 		if (registered) {

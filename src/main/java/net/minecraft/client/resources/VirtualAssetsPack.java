@@ -18,7 +18,7 @@ public class VirtualAssetsPack extends VanillaPack {
    private final ResourceIndex field_195785_b;
 
    public VirtualAssetsPack(ResourceIndex p_i48115_1_) {
-      super("minecraft", "realms", "eagler");
+      super(modpack.ModLoader.resourceNamespaces("minecraft", "realms", "eagler"));
       this.field_195785_b = p_i48115_1_;
    }
 
