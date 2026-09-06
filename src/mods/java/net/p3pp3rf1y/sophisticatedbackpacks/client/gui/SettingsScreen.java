@@ -51,7 +51,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		GlStateManager.translated(0, 0, 200);
 		super.render(mouseX, mouseY, partialTicks);
 		settingsTabControl.afterScreenRender(mouseX, mouseY, partialTicks);
-		renderTooltip(mouseX, mouseY);
+		renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override

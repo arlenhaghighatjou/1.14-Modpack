@@ -233,7 +233,7 @@ public class EntityBackpackAdditionHandler {
 			RandHelper.getNRandomElements(APPLICABLE_EFFECTS, difficulty + 2)
 					.forEach(applicableEffect -> {
 						int amplifier = Math.min(Math.max(minDifficulty, monster.world.rand.nextInt(difficulty + 1)), applicableEffect.getMaxAmplifier());
-						monster.addEffect(new EffectInstance(applicableEffect.getEffect(), 30 * 60 * 20, amplifier));
+						monster.addPotionEffect(new EffectInstance(applicableEffect.getEffect(), 30 * 60 * 20, amplifier));
 					});
 		}
 	}
@@ -264,7 +264,7 @@ public class EntityBackpackAdditionHandler {
 
 	public static void removeBeneficialEffects(CreeperEntity creeper) {
 		if (creeper.getTags().contains(SPAWNED_WITH_BACKPACK)) {
-			creeper.getActivePotionEffects().removeIf(e -> e.getEffect().isBeneficial());
+			creeper.getActivePotionEffects().removeIf(e -> e.getPotion().isBeneficial());
 		}
 	}
 

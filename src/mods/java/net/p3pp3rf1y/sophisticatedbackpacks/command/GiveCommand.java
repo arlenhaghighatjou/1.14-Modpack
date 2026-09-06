@@ -38,7 +38,7 @@ public class GiveCommand {
 			Item item = Registry.ITEM.getOrDefault(alr.getBackpackItemRegistryName());
 			ItemStack backpack = new ItemStack(item);
 			if (!backpack.getDisplayName().getString().equals(alr.getBackpackName())) {
-				backpack.setHoverName(new StringTextComponent(alr.getBackpackName()));
+				backpack.setDisplayName(new StringTextComponent(alr.getBackpackName()));
 			}
 			BackpackWrapperLookup.get(backpack).ifPresent(backpackWrapper -> {
 				backpackWrapper.setColors(alr.getClothColor(), alr.getTrimColor());
@@ -58,7 +58,7 @@ public class GiveCommand {
 	}
 
 	private static void giveBackpackToPlayer(ItemStack backpack, ServerPlayerEntity p) {
-		boolean flag = p.inventory.add(backpack);
+		boolean flag = p.inventory.addItemStackToInventory(backpack);
 		if (flag && backpack.isEmpty()) {
 			backpack.setCount(1);
 			ItemEntity itemEntity = p.dropItem(backpack, false);
@@ -66,13 +66,13 @@ public class GiveCommand {
 				itemEntity.makeFakeItem();
 			}
 
-			p.world.playSound(null, p.posX, p.posY, p.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(p.getRandom()) * 0.7F + 1.0F) * 2.0F);
-			p.container.broadcastChanges();
+			p.world.playSound(null, p.posX, p.posY, p.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(p.world.rand) * 0.7F + 1.0F) * 2.0F);
+			p.container.detectAndSendChanges();
 		} else {
 			ItemEntity itementity = p.dropItem(backpack, false);
 			if (itementity != null) {
 				itementity.setNoPickupDelay();
-				itementity.setOwner(p.getUniqueId());
+				itementity.setOwnerId(p.getUniqueID());
 			}
 		}
 

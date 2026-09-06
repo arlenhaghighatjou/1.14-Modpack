@@ -47,7 +47,7 @@ public abstract class CompositeBackpackWidget<T extends BackpackWidget> extends 
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		return getChildAt(mouseX, mouseY).map(l -> {
+		return func_212930_a(mouseX, mouseY).map(l -> {
 			if (l.mouseClicked(mouseX, mouseY, button)) {
 				setFocused(l);
 				if (button == 0) {

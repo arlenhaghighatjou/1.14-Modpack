@@ -121,7 +121,7 @@ public class BackpackTooltipRenderer {
 				} else {
 					lines.add(new TranslationTextComponent(TranslationHelper.translItemTooltip(BACKPACK_ITEM_NAME) + ".fluid",
 							new StringTextComponent(CountAbbreviator.abbreviate(fluid.getAmount())).applyTextStyle(TextFormatting.WHITE),
-							new TranslationTextComponent(fluid.getTranslationKey()).applyTextStyle(TextFormatting.BLUE)
+							new TranslationTextComponent(fluid.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()).applyTextStyle(TextFormatting.BLUE)
 
 					));
 				}
