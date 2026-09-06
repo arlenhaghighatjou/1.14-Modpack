@@ -84,7 +84,7 @@ public class EntityBackpackAdditionHandler {
 			new WeightedElement<>(125, new BackpackAddition(ModItems.IRON_BACKPACK, 1,
 					HELMET_CHANCES.subList(2, 4), LEGGINGS_CHANCES.subList(2, 4), BOOTS_CHANCES.subList(2, 4))),
 			new WeightedElement<>(625, new BackpackAddition(ModItems.BACKPACK, 0,
-					HELMET_CHANCES.subList(3, 5), LEGGINGS_CHANCES.subList(3, 5), BOOTS_CHANCES.subList(3, 5)))
+					HELMET_CHANCES.subList(3, 4), LEGGINGS_CHANCES.subList(3, 4), BOOTS_CHANCES.subList(3, 4)))
 	);
 
 	private static final Map<Integer, List<WeightedElement<BackpackAddition>>> DIFFICULTY_BACKPACK_CHANCES = ImmutableMap.of(
