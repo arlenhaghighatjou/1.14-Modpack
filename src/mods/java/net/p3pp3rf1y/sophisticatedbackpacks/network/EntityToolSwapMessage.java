@@ -37,7 +37,7 @@ public class EntityToolSwapMessage {
 		}
 
 		World world = sender.world;
-		Entity entity = world.getEntity(msg.entityId);
+		Entity entity = world.getEntityByID(msg.entityId);
 
 		if (entity == null) {
 			return;

@@ -19,7 +19,7 @@ public class UpgradeClearRecipe extends SpecialRecipe {
 	@Override
 	public boolean matches(CraftingInventory inventory, World pLevel) {
 		boolean upgradePresent = false;
-		for (ItemStack stack : inventory.items) {
+		for (ItemStack stack : inventory.getStacks()) {
 			if (!stack.isEmpty()) {
 				if (stack.getItem() instanceof UpgradeItemBase && stack.hasTag() && !upgradePresent) {
 					upgradePresent = true;
@@ -35,7 +35,7 @@ public class UpgradeClearRecipe extends SpecialRecipe {
 	@Override
 	public ItemStack getCraftingResult(CraftingInventory inventory) {
 		ItemStack upgrade = ItemStack.EMPTY;
-		for (ItemStack stack : inventory.items) {
+		for (ItemStack stack : inventory.getStacks()) {
 			if (!stack.isEmpty() && stack.getItem() instanceof UpgradeItemBase) {
 				upgrade = stack;
 			}

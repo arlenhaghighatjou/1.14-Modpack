@@ -131,7 +131,7 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 		}
 
 		for (DyeColor dye : dyes) {
-			float[] dyeRgb = dye.getTextureDiffuseColors();
+			float[] dyeRgb = dye.getColorComponentValues();
 			int dyeRed = (int) (dyeRgb[0] * 255.0F);
 			int dyeGreen = (int) (dyeRgb[1] * 255.0F);
 			int dyeBlue = (int) (dyeRgb[2] * 255.0F);

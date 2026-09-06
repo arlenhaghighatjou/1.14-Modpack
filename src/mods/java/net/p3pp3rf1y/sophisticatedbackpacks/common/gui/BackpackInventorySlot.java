@@ -22,7 +22,7 @@ public class BackpackInventorySlot extends Slot {
 
 	public BackpackInventorySlot(boolean isClientSide, IBackpackWrapper backpackWrapper, BackpackInventoryHandler inventoryHandler, int slotIndex, int lineIndex, int yPosition) {
 		super(EMPTY_INVENTORY, slotIndex, 8 + lineIndex * 18, yPosition);
-		this.isRemote = isClientSide;
+		this.isClientSide = isClientSide;
 		this.backpackWrapper = backpackWrapper;
 		this.inventoryHandler = inventoryHandler;
 		this.slotIndex = slotIndex;

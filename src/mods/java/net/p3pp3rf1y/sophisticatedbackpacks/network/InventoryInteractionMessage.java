@@ -21,11 +21,11 @@ public class InventoryInteractionMessage {
 
 	public static void encode(InventoryInteractionMessage msg, PacketBuffer packetBuffer) {
 		packetBuffer.writeLong(msg.pos.toLong());
-		packetBuffer.writeEnum(msg.face);
+		packetBuffer.writeEnumValue(msg.face);
 	}
 
 	public static InventoryInteractionMessage decode(PacketBuffer packetBuffer) {
-		return new InventoryInteractionMessage(BlockPos.fromLong(packetBuffer.readLong()), packetBuffer.readEnum(Direction.class));
+		return new InventoryInteractionMessage(BlockPos.fromLong(packetBuffer.readLong()), packetBuffer.readEnumValue(Direction.class));
 	}
 
 	static void onMessage(InventoryInteractionMessage msg, ServerPlayerEntity player) {
@@ -38,7 +38,7 @@ public class InventoryInteractionMessage {
 		}
 		SophisticatedBackpacks.PROXY.getPlayerInventoryProvider().runOnBackpacks(sender, (backpack, inventoryName, identifier, slot) -> {
 			InventoryInteractionHelper.tryInventoryInteraction(msg.pos, sender.world, backpack, msg.face, sender);
-			sender.swing(Hand.MAIN_HAND, true);
+			sender.swingArm(Hand.MAIN_HAND);
 			return true;
 		});
 	}

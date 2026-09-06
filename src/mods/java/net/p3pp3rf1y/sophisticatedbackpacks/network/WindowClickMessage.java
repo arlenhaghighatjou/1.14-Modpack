@@ -31,13 +31,13 @@ public class WindowClickMessage {
 		packetBuffer.writeByte(msg.windowId);
 		packetBuffer.writeShort(msg.slotNumber);
 		packetBuffer.writeByte(msg.mouseButton);
-		packetBuffer.writeEnum(msg.clickType);
+		packetBuffer.writeEnumValue(msg.clickType);
 		PacketHelper.writeItemStack(msg.clickedItem, packetBuffer);
 		packetBuffer.writeShort(msg.actionNumber);
 	}
 
 	public static WindowClickMessage decode(PacketBuffer packetBuffer) {
-		return new WindowClickMessage(packetBuffer.readByte(), packetBuffer.readShort(), packetBuffer.readByte(), packetBuffer.readEnum(ClickType.class),
+		return new WindowClickMessage(packetBuffer.readByte(), packetBuffer.readShort(), packetBuffer.readByte(), packetBuffer.readEnumValue(ClickType.class),
 				PacketHelper.readItemStack(packetBuffer), packetBuffer.readShort());
 	}
 
@@ -59,7 +59,7 @@ public class WindowClickMessage {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
 				player.ignoreSlotUpdateHack = true;
 				player.openContainer.detectAndSendChanges();
-				player.detectAndSendChanges();
+				player.openContainer.detectAndSendChanges();
 				player.ignoreSlotUpdateHack = false;
 			} else {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));

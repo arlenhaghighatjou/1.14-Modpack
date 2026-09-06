@@ -31,6 +31,6 @@ public class ContainerOpenDataMessage {
 
 	/** The context sent alongside the last container the server opened. */
 	public static PacketBuffer getPending() {
-		return pending == null ? new PacketBuffer(Unpooled.buffer()) : pending.duplicate();
+		return pending == null ? new PacketBuffer(Unpooled.buffer()) : new PacketBuffer(pending.duplicate());
 	}
 }
