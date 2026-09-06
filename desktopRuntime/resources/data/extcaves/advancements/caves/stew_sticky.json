@@ -1,0 +1,35 @@
+{
+	"parent": "extcaves:caves/mushroom_shinyshroom",
+	"display": {
+		"icon": {
+			"item": "extcaves:stew_sticky"
+		},
+		"title": {
+			"translate": "advancements.caves.stew_sticky.title"
+		},
+		"description": {
+			"translate": "advancements.caves.stew_sticky.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"get_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "extcaves:stew_sticky"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_item"
+		]
+	]
+}

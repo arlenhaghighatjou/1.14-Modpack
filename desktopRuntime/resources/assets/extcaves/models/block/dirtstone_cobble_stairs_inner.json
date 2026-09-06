@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/inner_stairs",
+	"textures": {
+		"bottom": "extcaves:block/dirtstone_cobble",
+		"top": "extcaves:block/dirtstone_cobble",
+		"side": "extcaves:block/dirtstone_cobble"
+	}
+}

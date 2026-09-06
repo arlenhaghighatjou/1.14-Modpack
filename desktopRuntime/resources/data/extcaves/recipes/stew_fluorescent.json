@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bowl"
+        },
+        {
+            "item": "extcaves:mushroom_lumishroom"
+        },
+        {
+            "item": "extcaves:mushroom_fluoshroom"
+        }
+    ],
+    "result": {
+        "item": "extcaves:stew_fluorescent",
+        "count": 1
+    }
+}

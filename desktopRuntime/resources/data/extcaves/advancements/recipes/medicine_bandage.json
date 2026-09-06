@@ -1,0 +1,41 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards":
+	{
+		"recipes":
+		[
+			"extcaves:medicine_bandage"
+		]
+	},
+	"criteria":
+	{
+		"has_item":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{
+						"item": "extcaves:plant_fiber"
+					}
+				]
+			}
+		},
+		"has_the_recipe":
+		{
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions":
+			{
+				"recipe": "extcaves:medicine_bandage"
+			}
+		}
+	},
+	"requirements": 
+	[
+		[
+			"has_item",
+			"has_the_recipe"
+		]
+	]
+}

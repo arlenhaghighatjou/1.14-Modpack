@@ -1,0 +1,35 @@
+{
+	"parent": "extcaves:caves/kill_a_skeleton",
+	"display": {
+		"icon": {
+			"item": "extcaves:iron_dagger"
+		},
+		"title": {
+			"translate": "advancements.caves.skeleton_bandit.title"
+		},
+		"description": {
+			"translate": "advancements.caves.skeleton_bandit.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
+	},
+	"criteria": {
+		"get_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "extcaves:iron_dagger"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_item"
+		]
+	]
+}

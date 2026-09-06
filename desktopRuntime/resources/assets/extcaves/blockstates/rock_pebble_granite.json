@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rock_pebble_granite"
+      },
+      {
+        "model": "extcaves:block/rock_pebble_granite",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_pebble_granite",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_pebble_granite",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bowl"
+        },
+        {
+            "item": "extcaves:mushroom_goldishroom"
+        },
+        {
+            "item": "extcaves:mushroom_shinyshroom"
+        }
+    ],
+    "result": {
+        "item": "extcaves:stew_sticky",
+        "count": 1
+    }
+}

@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": {
+		"item": "extcaves:lavastone"
+	},
+	"result": "extcaves:lavastone_slab",
+	"count": 2
+}

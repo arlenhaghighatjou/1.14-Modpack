@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"#  ",
+		"## ",
+		"###"
+	],
+	"key": {
+		"#": {
+			"item": "extcaves:polished_lavastone"
+		}
+	},
+	"result": {
+		"item": "extcaves:polished_lavastone_stairs",
+		"count": 4
+	}
+}

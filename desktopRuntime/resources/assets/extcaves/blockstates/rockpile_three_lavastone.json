@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rockpile_three_lavastone"
+      },
+      {
+        "model": "extcaves:block/rockpile_three_lavastone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rockpile_three_lavastone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rockpile_three_lavastone",
+        "y": 270
+      }
+    ]
+  }
+}

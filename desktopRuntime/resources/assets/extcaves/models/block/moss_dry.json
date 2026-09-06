@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cross",
+	"textures":
+	{
+		"cross": "extcaves:block/moss_dry"
+	}
+}

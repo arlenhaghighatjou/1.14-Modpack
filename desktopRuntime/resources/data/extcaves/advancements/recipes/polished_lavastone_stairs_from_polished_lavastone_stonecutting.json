@@ -1,0 +1,41 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards":
+	{
+		"recipes":
+		[
+			"extcaves:polished_lavastone_stairs_from_polished_lavastone_stonecutting"
+		]
+	},
+	"criteria":
+	{
+		"has_item":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{
+						"item": "extcaves:polished_lavastone"
+					}
+				]
+			}
+		},
+		"has_the_recipe":
+		{
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions":
+			{
+				"recipe": "extcaves:polished_lavastone_stairs_from_polished_lavastone_stonecutting"
+			}
+		}
+	},
+	"requirements": 
+	[
+		[
+			"has_item",
+			"has_the_recipe"
+		]
+	]
+}

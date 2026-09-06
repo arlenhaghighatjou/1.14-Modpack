@@ -1,0 +1,35 @@
+{
+	"parent": "extcaves:caves/kill_a_zombie",
+	"display": {
+		"icon": {
+			"item": "extcaves:chef_knife"
+		},
+		"title": {
+			"translate": "advancements.caves.zombie_chef.title"
+		},
+		"description": {
+			"translate": "advancements.caves.zombie_chef.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
+	},
+	"criteria": {
+		"get_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "extcaves:chef_knife"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_item"
+		]
+	]
+}

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rock_stalactite_packed_ice"
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_packed_ice",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_packed_ice",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_packed_ice",
+        "y": 270
+      }
+    ]
+  }
+}

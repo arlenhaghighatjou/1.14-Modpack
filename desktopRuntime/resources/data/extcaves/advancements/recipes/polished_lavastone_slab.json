@@ -1,0 +1,41 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards":
+	{
+		"recipes":
+		[
+			"extcaves:polished_lavastone_slab"
+		]
+	},
+	"criteria":
+	{
+		"has_item":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{
+						"item": "extcaves:polished_lavastone"
+					}
+				]
+			}
+		},
+		"has_the_recipe":
+		{
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions":
+			{
+				"recipe": "extcaves:polished_lavastone_slab"
+			}
+		}
+	},
+	"requirements": 
+	[
+		[
+			"has_item",
+			"has_the_recipe"
+		]
+	]
+}

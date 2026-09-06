@@ -1,0 +1,23 @@
+{
+	"variants": {
+		"facing=north": 
+		{
+		  "model": "extcaves:block/treasure_pot_quartz_short"
+		},
+		"facing=east": 
+		{
+		  "model": "extcaves:block/treasure_pot_quartz_short",
+		  "y": 90
+		},
+		"facing=south": 
+		{
+		  "model": "extcaves:block/treasure_pot_quartz_short",
+		  "y": 180
+		},
+		"facing=west": 
+		{
+		  "model": "extcaves:block/treasure_pot_quartz_short",
+		  "y": 270
+		}
+	}
+}

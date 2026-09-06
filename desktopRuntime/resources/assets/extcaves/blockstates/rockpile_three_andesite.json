@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rockpile_three_andesite"
+      },
+      {
+        "model": "extcaves:block/rockpile_three_andesite",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rockpile_three_andesite",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rockpile_three_andesite",
+        "y": 270
+      }
+    ]
+  }
+}

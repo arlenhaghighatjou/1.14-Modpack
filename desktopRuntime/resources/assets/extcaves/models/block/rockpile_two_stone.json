@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "extcaves:block/rockpile_two",
+	"textures": {
+		"0": "minecraft:block/stone",
+		"particle": "minecraft:block/stone"
+	}
+}

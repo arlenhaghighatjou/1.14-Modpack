@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "half=lower": [
+      {
+        "model": "extcaves:block/rock_stalactite_tall_lower_sedimentstone"
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_tall_lower_sedimentstone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_tall_lower_sedimentstone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_tall_lower_sedimentstone",
+        "y": 270
+      }
+    ],
+	"half=upper": [
+      {
+        "model": "extcaves:block/rock_stalactite_tall_upper_sedimentstone"
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_tall_upper_sedimentstone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_tall_upper_sedimentstone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_stalactite_tall_upper_sedimentstone",
+        "y": 270
+      }
+    ]
+  }
+}

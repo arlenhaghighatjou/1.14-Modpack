@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "extcaves:block/block_small",
+	"textures": {
+		"0": "minecraft:block/stone",
+		"particle": "minecraft:block/stone"
+	},
+	"elements": [
+		{
+			"from": [6, 7, 6],
+			"to": [10, 9, 10],
+			"faces": {
+				"north": {"uv": [6, 7, 10, 9], "texture": "#0"},
+				"east": {"uv": [10, 7, 6, 9], "texture": "#0"},
+				"south": {"uv": [6, 7, 10, 9], "texture": "#0"},
+				"west": {"uv": [10, 7, 6, 9], "texture": "#0"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#0"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#0"}
+			}
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"type=bottom":
+		{
+			"model": "extcaves:block/dirtstone_cobble_slab"
+		},
+		"type=double":
+		{
+			"model": "extcaves:block/dirtstone_cobble"
+		},
+		"type=top":
+		{
+			"model": "extcaves:block/dirtstone_cobble_slab_top"
+		}
+	}
+}

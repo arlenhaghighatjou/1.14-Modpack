@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rock_stalagmite_stone"
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_stone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_stone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_stone",
+        "y": 270
+      }
+    ]
+  }
+}

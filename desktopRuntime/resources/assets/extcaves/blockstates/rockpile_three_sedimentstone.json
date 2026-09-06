@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rockpile_three_sedimentstone"
+      },
+      {
+        "model": "extcaves:block/rockpile_three_sedimentstone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rockpile_three_sedimentstone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rockpile_three_sedimentstone",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards":
+	{
+		"recipes":
+		[
+			"extcaves:mushroom_sweetshroom"
+		]
+	},
+	"criteria":
+	{
+		"has_item":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{
+						"item": "extcaves:mushroom_sweetshroom"
+					}
+				]
+			}
+		},
+		"has_the_recipe":
+		{
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions":
+			{
+				"recipe": "extcaves:mushroom_sweetshroom"
+			}
+		}
+	},
+	"requirements": 
+	[
+		[
+			"has_item",
+			"has_the_recipe"
+		]
+	]
+}

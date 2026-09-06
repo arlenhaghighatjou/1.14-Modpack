@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "extcaves:block/rock_pebble",
+	"textures": {
+		"0": "minecraft:block/diorite",
+		"particle": "minecraft:block/diorite"
+	}
+}

@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:quartz"
+        }
+    },
+    "result": {
+        "item": "extcaves:decoration_pot_quartz_short",
+        "count": 1
+    }
+}

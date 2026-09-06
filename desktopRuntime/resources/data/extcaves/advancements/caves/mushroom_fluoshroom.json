@@ -1,0 +1,35 @@
+{
+	"parent": "extcaves:caves/mushroom_lumishroom",
+	"display": {
+		"icon": {
+			"item": "extcaves:mushroom_fluoshroom"
+		},
+		"title": {
+			"translate": "advancements.caves.mushroom_fluoshroom.title"
+		},
+		"description": {
+			"translate": "advancements.caves.mushroom_fluoshroom.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": false,
+		"hidden": false
+	},
+	"criteria": {
+		"get_mushroom": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "extcaves:mushroom_fluoshroom"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_mushroom"
+		]
+	]
+}

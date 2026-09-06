@@ -1,0 +1,10 @@
+{
+	"variants": 
+	{
+		"": 
+		{
+			"model": "extcaves:block/oldstone",
+			"y": 90
+		}
+	}
+}

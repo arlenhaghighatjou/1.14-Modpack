@@ -1,0 +1,10 @@
+{
+	"variants": 
+	{
+		"": 
+		{
+			"model": "extcaves:block/brokenstone",
+			"y": 90
+		}
+	}
+}

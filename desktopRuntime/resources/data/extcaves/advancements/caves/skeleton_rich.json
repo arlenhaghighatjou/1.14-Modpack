@@ -1,0 +1,35 @@
+{
+	"parent": "extcaves:caves/kill_a_skeleton",
+	"display": {
+		"icon": {
+			"item": "extcaves:wooden_cane"
+		},
+		"title": {
+			"translate": "advancements.caves.skeleton_rich.title"
+		},
+		"description": {
+			"translate": "advancements.caves.skeleton_rich.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
+	},
+	"criteria": {
+		"get_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "extcaves:wooden_cane"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_item"
+		]
+	]
+}

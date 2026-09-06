@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "extcaves:block/rock_pebble_item",
+	"textures": {
+		"0": "minecraft:block/granite",
+		"particle": "minecraft:block/granite"
+	}
+}

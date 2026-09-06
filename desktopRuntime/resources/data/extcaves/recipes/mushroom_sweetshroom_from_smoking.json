@@ -1,0 +1,10 @@
+{
+	"type": "minecraft:smoking",
+	"ingredient":
+	{
+		"item": "extcaves:mushroom_sweetshroom"
+	},
+	"result": "extcaves:mushroom_sweetshroom_cooked",
+	"experience": 0.2,
+	"cookingtime": 100
+}

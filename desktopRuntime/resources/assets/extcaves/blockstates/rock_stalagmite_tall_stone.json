@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "half=lower": [
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_lower_stone"
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_lower_stone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_lower_stone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_lower_stone",
+        "y": 270
+      }
+    ],
+	"half=upper": [
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_upper_stone"
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_upper_stone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_upper_stone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rock_stalagmite_tall_upper_stone",
+        "y": 270
+      }
+    ]
+  }
+}

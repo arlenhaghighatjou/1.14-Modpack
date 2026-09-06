@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/stairs",
+	"textures": {
+		"bottom": "extcaves:block/bricks_snow",
+		"top": "extcaves:block/bricks_snow",
+		"side": "extcaves:block/bricks_snow"
+	}
+}

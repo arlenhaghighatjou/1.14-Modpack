@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "extcaves:pebble_stone"
+        }
+    },
+    "result": {
+        "item": "minecraft:stone",
+        "count": 1
+    }
+}

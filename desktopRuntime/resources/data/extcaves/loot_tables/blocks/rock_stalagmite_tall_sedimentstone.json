@@ -1,0 +1,72 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                },
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "extcaves:rock_stalagmite_tall_sedimentstone",
+					"properties":
+					{
+						"half": "lower"
+					}
+				}
+              ],
+              "name": "extcaves:rock_stalagmite_tall_sedimentstone"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                },
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "extcaves:rock_stalagmite_tall_sedimentstone",
+					"properties":
+					{
+						"half": "lower"
+					}
+				}
+              ],
+			  "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "min": 5.0,
+                    "max": 5.0,
+                    "type": "minecraft:uniform"
+                  }
+                },
+                {
+                  "function": "minecraft:explosion_decay"
+                }
+              ],
+              "name": "extcaves:pebble_sedimentstone"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

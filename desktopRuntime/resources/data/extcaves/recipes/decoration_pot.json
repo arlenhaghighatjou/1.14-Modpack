@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "# #",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "item": "extcaves:brick_half"
+        }
+    },
+    "result": {
+        "item": "extcaves:decoration_pot",
+        "count": 1
+    }
+}

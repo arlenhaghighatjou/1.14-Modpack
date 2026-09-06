@@ -1,11 +1,7 @@
 {
   "replace": false,
   "entries": [
-    "farmersdelight:cake",
-    "farmersdelight:straw_from_grass",
-    "farmersdelight:straw_from_tall_grass",
-    "farmersdelight:straw_from_mature_wheat",
-    "farmersdelight:straw_from_mature_rice",
-    "farmersdelight:straw_from_legacy_tall_rice"
+    "alexsmobs:banana_drop",
+    "alexsmobs:blossom_drop"
   ]
 }

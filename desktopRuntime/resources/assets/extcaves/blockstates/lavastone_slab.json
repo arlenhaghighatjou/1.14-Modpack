@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"type=bottom":
+		{
+			"model": "extcaves:block/lavastone_slab"
+		},
+		"type=double":
+		{
+			"model": "extcaves:block/lavastone"
+		},
+		"type=top":
+		{
+			"model": "extcaves:block/lavastone_slab_top"
+		}
+	}
+}

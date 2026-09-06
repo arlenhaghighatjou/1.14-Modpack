@@ -1,0 +1,41 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards":
+	{
+		"recipes":
+		[
+			"extcaves:decoration_pot_long"
+		]
+	},
+	"criteria":
+	{
+		"has_item":
+		{
+			"trigger": "minecraft:inventory_changed",
+			"conditions":
+			{
+				"items":
+				[
+					{
+						"item": "extcaves:brick_half"
+					}
+				]
+			}
+		},
+		"has_the_recipe":
+		{
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions":
+			{
+				"recipe": "extcaves:decoration_pot_long"
+			}
+		}
+	},
+	"requirements": 
+	[
+		[
+			"has_item",
+			"has_the_recipe"
+		]
+	]
+}

@@ -1,0 +1,35 @@
+{
+	"parent": "extcaves:caves/mushroom_sweetshroom",
+	"display": {
+		"icon": {
+			"item": "extcaves:mushroom_rockshroom"
+		},
+		"title": {
+			"translate": "advancements.caves.mushroom_rockshroom.title"
+		},
+		"description": {
+			"translate": "advancements.caves.mushroom_rockshroom.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": false,
+		"hidden": false
+	},
+	"criteria": {
+		"get_mushroom": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "extcaves:mushroom_rockshroom"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_mushroom"
+		]
+	]
+}

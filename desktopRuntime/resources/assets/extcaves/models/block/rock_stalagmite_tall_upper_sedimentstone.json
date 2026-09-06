@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "extcaves:block/rock_stalagmite_tall_upper",
+	"textures": {
+		"0": "extcaves:block/sedimentstone",
+		"particle": "extcaves:block/sedimentstone"
+	}
+}

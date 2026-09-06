@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "extcaves:block/rockpile_two_stone"
+      },
+      {
+        "model": "extcaves:block/rockpile_two_stone",
+		"y": 90
+      },
+      {
+        "model": "extcaves:block/rockpile_two_stone",
+        "y": 180
+      },
+      {
+        "model": "extcaves:block/rockpile_two_stone",
+        "y": 270
+      }
+    ]
+  }
+}
