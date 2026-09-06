@@ -49,12 +49,12 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 			updateBlockRender = false;
 			WorldHelper.notifyBlockUpdate(this);
 		});
-		backpackWrapper.setInventorySlotChangeHandler(this::setChanged);
+		backpackWrapper.setInventorySlotChangeHandler(this::markDirty);
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.load(state, nbt);
+	public void read(CompoundNBT nbt) {
+		super.read(nbt);
 		setBackpackFromNbt(nbt);
 		WorldHelper.notifyBlockUpdate(this);
 	}
@@ -65,15 +65,15 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
-		CompoundNBT ret = super.save(compound);
+		CompoundNBT ret = super.write(compound);
 		writeBackpack(ret);
 		return ret;
 	}
 
 	private void writeBackpack(CompoundNBT ret) {
 		ItemStack backpackCopy = backpackWrapper.getBackpack().copy();
-		backpackCopy.setTag(backpackCopy.getItem().getShareTag(backpackCopy));
-		ret.put("backpackData", backpackCopy.save(new CompoundNBT()));
+		backpackCopy.setTag(backpackCopy.getTag());
+		ret.put("backpackData", backpackCopy.write(new CompoundNBT()));
 	}
 
 	@Override

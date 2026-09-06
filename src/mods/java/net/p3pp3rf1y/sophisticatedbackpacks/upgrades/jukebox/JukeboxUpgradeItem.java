@@ -111,7 +111,7 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 		public void tick(@Nullable LivingEntity entity, World world, BlockPos pos) {
 			if (isPlaying && lastKeepAliveSendTime < world.getGameTime() - KEEP_ALIVE_SEND_INTERVAL) {
 				backpackWrapper.getContentsUuid().ifPresent(backpackUuid ->
-						ServerBackpackSoundHandler.updateKeepAlive(backpackUuid, world, entity != null ? entity.getPositionVec() : Vec3d.atCenterOf(pos), () -> setIsPlaying(false))
+						ServerBackpackSoundHandler.updateKeepAlive(backpackUuid, world, entity != null ? entity.getPositionVec() : new Vec3d(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D), () -> setIsPlaying(false))
 				);
 				lastKeepAliveSendTime = world.getGameTime();
 			}

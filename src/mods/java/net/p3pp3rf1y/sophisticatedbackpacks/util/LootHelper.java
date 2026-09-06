@@ -21,10 +21,10 @@ public class LootHelper {
 	private LootHelper() {}
 
 	public static List<ItemStack> getLoot(ResourceLocation lootTableName, MinecraftServer server, ServerWorld world, Entity entity) {
-		LootTable lootTable = server.getLootTables().get(lootTableName);
-		LootContext.Builder lootBuilder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, Vec3d.atCenterOf(entity.getPosition())).withOptionalRandomSeed(world.rand.nextLong());
+		LootTable lootTable = server.getLootTableManager().get(lootTableName);
+		LootContext.Builder lootBuilder = (new LootContext.Builder(world)).withParameter(LootParameters.POSITION, Vec3d.atCenterOf(entity.getPosition())).withOptionalRandomSeed(world.rand.nextLong());
 		List<ItemStack> lootStacks = new ArrayList<>();
-		lootTable.getRandomItemsRaw(lootBuilder.create(LootParameterSets.CHEST), lootStacks::add);
+		lootTable.getRandomItemsRaw(lootBuilder.build(LootParameterSets.CHEST), lootStacks::add);
 		return lootStacks;
 	}
 

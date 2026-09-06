@@ -33,7 +33,7 @@ public class StonecutterRecipeContainer {
 	private final Slot outputSlot;
 	private final CraftResultInventory resultInventory = new CraftResultInventory();
 	private List<StonecuttingRecipe> recipes = Lists.newArrayList();
-	private final IntReferenceHolder selectedRecipe = IntReferenceHolder.standalone();
+	private final IntReferenceHolder selectedRecipe = IntReferenceHolder.single();
 	private Item inputItem = Items.AIR;
 	private final CraftingItemHandler inputInventory;
 	private Runnable inventoryUpdateListener = () -> {};
@@ -138,7 +138,7 @@ public class StonecutterRecipeContainer {
 		if (!recipes.isEmpty() && isIndexInRecipeBounds(selectedRecipe.get())) {
 			StonecuttingRecipe stonecuttingrecipe = recipes.get(selectedRecipe.get());
 			resultInventory.setRecipeUsed(stonecuttingrecipe);
-			outputSlot.set(stonecuttingrecipe.assemble(inputInventory));
+			outputSlot.set(stonecuttingrecipe.getCraftingResult(inputInventory));
 		} else {
 			outputSlot.putStack(ItemStack.EMPTY);
 		}
