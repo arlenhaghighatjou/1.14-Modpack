@@ -153,7 +153,7 @@ public class BackpackShapes {
 
 		private static VoxelShape rotateShapeOnce(VoxelShape shape) {
 			List<VoxelShape> shapes = new ArrayList<>();
-			shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> shapes.add(VoxelShapes.makeCuboidShape(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
+			shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> shapes.add(Block.makeCuboidShape(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
 			return or(shapes.stream());
 		}
 	}

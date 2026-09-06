@@ -28,7 +28,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 				serverWorld.spawnParticle(ParticleTypes.HAPPY_VILLAGER, d0, d1, d2, 0, 0, 0.1D, 0, 1f);
 			}
 		}
-		if (!isNoGravity()) {
+		if (!hasNoGravity()) {
 			if (isInWater() || isInLava()) {
 				setMotion(getMotion().x, 0.06D, getMotion().z);
 				wasFloatingUp = true;

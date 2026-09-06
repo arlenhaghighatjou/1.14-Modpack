@@ -70,7 +70,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 			if (stack.isFood() && filterLogic.matchesFilter(stack) && (isHungryEnoughForFood(hungerLevel, stack) || shouldFeedImmediatelyWhenHurt() && hungerLevel > 0 && isHurt)) {
 				ItemStack mainHandItem = player.getHeldItemMainhand();
 				player.inventory.mainInventory.set(player.inventory.currentItem, stack);
-				if (stack.use(world, player, Hand.MAIN_HAND).getResult() == ActionResultType.CONSUME) {
+				if (stack.getItem().onItemRightClick(world, player, Hand.MAIN_HAND).getResult() == ActionResultType.SUCCESS) {
 					player.inventory.mainInventory.set(player.inventory.currentItem, mainHandItem);
 					ItemStack containerItem = stack.getItem().onItemUseFinish(stack, world, player);
 					inventory.setStackInSlot(slot, stack);

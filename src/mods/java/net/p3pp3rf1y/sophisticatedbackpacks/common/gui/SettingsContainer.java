@@ -159,10 +159,10 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	@Override
 	public void addListener(IContainerListener listener) {
 		if (listener instanceof ServerPlayerEntity && backpackWrapper.getInventoryHandler().getStackSizeMultiplier() > 1) {
-			super.addSlotListener(new HighStackCountListener((ServerPlayerEntity) listener));
+			super.addListener(new HighStackCountListener((ServerPlayerEntity) listener));
 			return;
 		}
-		super.addSlotListener(listener);
+		super.addListener(listener);
 	}
 
 	@Override

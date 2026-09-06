@@ -1474,7 +1474,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			super.addListener(new HighStackCountListener((ServerPlayerEntity) listener));
 			return;
 		}
-		super.addSlotListener(listener);
+		super.addListener(listener);
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 
 		if (entity == null) {
 			AxisAlignedBB searchBox = new AxisAlignedBB(pos).grow(PLAYER_SEARCH_RANGE);
-			for (PlayerEntity player : world.players()) {
+			for (PlayerEntity player : world.getPlayers()) {
 				if (searchBox.contains(player.posX, player.posY, player.posZ)) {
 					interactWithPlayer(player);
 					mendItems(player);

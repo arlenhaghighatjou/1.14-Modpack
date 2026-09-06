@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.stonecutter;
 
+import net.minecraft.nbt.CompoundNBT;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;

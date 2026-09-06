@@ -83,7 +83,7 @@ public class CommonProxy {
 			int maxNumberOfBackpacks = Config.COMMON.nerfsConfig.maxNumberOfBackpacks;
 			if (numberOfBackpacks.get() > maxNumberOfBackpacks) {
 				int numberOfSlownessLevels = Math.min(10, (int) Math.ceil((numberOfBackpacks.get() - maxNumberOfBackpacks) * Config.COMMON.nerfsConfig.slownessLevelsPerAdditionalBackpack));
-				player.addPotionEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, BACKPACK_COUNT_CHECK_COOLDOWN * 2, numberOfSlownessLevels - 1, false, false));
+				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, BACKPACK_COUNT_CHECK_COOLDOWN * 2, numberOfSlownessLevels - 1, false, false));
 			}
 		});
 	}
