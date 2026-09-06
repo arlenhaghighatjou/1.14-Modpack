@@ -142,7 +142,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 			}
 		}
 		state = state.with(BATTERY, renderInfo.getBatteryRenderInfo().isPresent());
-		world.setBlockAndUpdate(pos, state);
+		world.setBlockState(pos, state);
 		world.updateNeighborsAt(pos, state.getBlock());
 		WorldHelper.notifyBlockUpdate(this);
 	}

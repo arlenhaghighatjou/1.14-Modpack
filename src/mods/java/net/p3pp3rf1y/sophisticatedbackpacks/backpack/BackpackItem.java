@@ -11,7 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -68,7 +68,7 @@ public class BackpackItem extends ItemBase {
     }
 
     public BackpackItem(IntSupplier numberOfSlots, IntSupplier numberOfUpgradeSlots, Supplier<BackpackBlock> blockSupplier, UnaryOperator<Properties> updateProperties) {
-        super(updateProperties.apply(new Properties().maxStackSize(1).setISTER(() -> BackpackISTER::new)));
+        super(updateProperties.apply(new Properties().maxStackSize(1)));
         this.numberOfSlots = numberOfSlots;
         this.numberOfUpgradeSlots = numberOfUpgradeSlots;
         this.blockSupplier = blockSupplier;
@@ -78,7 +78,7 @@ public class BackpackItem extends ItemBase {
     public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         super.fillItemCategory(group, items);
 
-        if (!allowdedIn(group) || this != ModItems.BACKPACK || !Config.COMMON.enabledItems.isItemEnabled(this)) {
+        if (!isInGroup(group) || this != ModItems.BACKPACK || !Config.COMMON.enabledItems.isItemEnabled(this)) {
             return;
         }
 
@@ -103,7 +103,7 @@ public class BackpackItem extends ItemBase {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.addInformation(stack, worldIn, tooltip, flagIn);
         if (flagIn == ITooltipFlag.TooltipFlags.ADVANCED) {
             BackpackWrapperLookup.get(stack)
                     .ifPresent(w -> w.getContentsUuid().ifPresent(uuid -> tooltip.add(new StringTextComponent("UUID: " + uuid).applyTextStyle(TextFormatting.DARK_GRAY))));
@@ -138,7 +138,7 @@ public class BackpackItem extends ItemBase {
     private EverlastingBackpackItemEntity createEverlastingBackpack(World world, ItemEntity itemEntity, ItemStack itemstack) {
         EverlastingBackpackItemEntity backpackItemEntity = ModItems.EVERLASTING_BACKPACK_ITEM_ENTITY.create(world);
         if (backpackItemEntity != null) {
-            backpackItemEntity.setPos(itemEntity.getPosX(), itemEntity.getPosY(), itemEntity.getPosZ());
+            backpackItemEntity.setPosition(itemEntity.posX, itemEntity.posY, itemEntity.posZ);
             backpackItemEntity.setItem(itemstack);
             backpackItemEntity.setPickupDelay(getPickupDelay(itemEntity));
             backpackItemEntity.setThrowerId(itemEntity.getThrowerId());
@@ -167,7 +167,7 @@ public class BackpackItem extends ItemBase {
             return ActionResultType.SUCCESS;
         }
 
-        Direction direction = player.getDirection().getOpposite();
+        Direction direction = player.getHorizontalFacing().getOpposite();
 
         BlockItemUseContext blockItemUseContext = new BlockItemUseContext(context);
         ActionResultType result = tryPlace(player, direction, blockItemUseContext);
@@ -181,15 +181,15 @@ public class BackpackItem extends ItemBase {
         World world = blockItemUseContext.getWorld();
         BlockPos pos = blockItemUseContext.getPos();
 
-        FluidState fluidstate = blockItemUseContext.getWorld().getFluidState(pos);
-        BlockState placementState = blockSupplier.get().defaultBlockState().setValue(BackpackBlock.FACING, direction)
-                .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        IFluidState fluidstate = blockItemUseContext.getWorld().getFluidState(pos);
+        BlockState placementState = blockSupplier.get().getDefaultState().with(BackpackBlock.FACING, direction)
+                .with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
         if (!canPlace(blockItemUseContext, placementState)) {
             return ActionResultType.FAIL;
         }
 
-        if (world.setBlockAndUpdate(pos, placementState)) {
-            ItemStack backpack = blockItemUseContext.getItemInHand();
+        if (world.setBlockState(pos, placementState)) {
+            ItemStack backpack = blockItemUseContext.getItem();
             WorldHelper.getTile(world, pos, BackpackTileEntity.class).ifPresent(te -> {
                 te.setBackpack(getBackpackCopy(player, backpack));
                 te.refreshRenderState();

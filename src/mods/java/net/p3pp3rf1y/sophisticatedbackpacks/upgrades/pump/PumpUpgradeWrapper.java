@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IBucketPickupHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -173,7 +173,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	}
 
 	private boolean fillFromBlock(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {
-		FluidState fluidState = world.getFluidState(pos);
+		IFluidState fluidState = world.getFluidState(pos);
 		if (!fluidState.isEmpty()) {
 			BlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();

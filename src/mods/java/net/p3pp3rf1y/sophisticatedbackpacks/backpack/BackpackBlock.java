@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
@@ -105,7 +105,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public FluidState getFluidState(BlockState state) {
+	public IFluidState getFluidState(BlockState state) {
 		return Boolean.TRUE.equals(state.get(WATERLOGGED)) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
