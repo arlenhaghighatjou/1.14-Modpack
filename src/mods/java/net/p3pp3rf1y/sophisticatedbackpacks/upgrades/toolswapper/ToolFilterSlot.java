@@ -59,9 +59,9 @@ public class ToolFilterSlot extends Slot implements IFilterSlot, INameableEmptyS
 	@Override
 	public ItemStack decrStackSize(int amount) {
 		if (amount > 0) {
-			set(ItemStack.EMPTY);
+			putStack(ItemStack.EMPTY);
 		}
-		return getItem();
+		return getStack();
 	}
 
 	@Override

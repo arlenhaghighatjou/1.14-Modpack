@@ -52,7 +52,7 @@ public class StonecutterRecipeContainer {
 			@Override
 			public ItemStack decrStackSize(int amount) {
 				ItemStack ret = super.decrStackSize(amount);
-				if (getItem().isEmpty()) {
+				if (getStack().isEmpty()) {
 					onSlotChanged();
 				}
 				return ret;
