@@ -218,12 +218,12 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 			setBurnTime(world, (int) (getBurnTime(fuel, recipeType, burnTimeModifier) * fuelEfficiencyMultiplier / cookingSpeedMultiplier));
 			if (isBurning(world)) {
 				if (fuel.getItem().hasContainerItem()) {
-					setFuel(fuel.getItem().getContainerItem(fuel));
+					setFuel(fuel.getItem().getContainerItem());
 				} else if (!fuel.isEmpty()) {
 					fuel.shrink(1);
 					setFuel(fuel);
 					if (fuel.isEmpty()) {
-						setFuel(fuel.getItem().getContainerItem(fuel));
+						setFuel(fuel.getItem().getContainerItem());
 					}
 				}
 			}

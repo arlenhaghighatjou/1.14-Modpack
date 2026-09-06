@@ -88,7 +88,7 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 		getTagAtIndex(getTagNames(), selectedTagToRemove).ifPresent(tagName -> {
 			removeSelectedTag(tagName);
 			serverUpdater.sendDataToServer(() -> NBTHelper.putString(new CompoundNBT(), DATA_REMOVE_TAG_NAME, tagName.toString()));
-			if (tagSelectionSlot.getStack().getStack().getTags().contains(tagName)) {
+			if (tagSelectionSlot.getStack().getTags().contains(tagName)) {
 				tagsToAdd.add(tagName);
 			}
 			selectedTagToRemove = Math.max(0, selectedTagToRemove - 1);

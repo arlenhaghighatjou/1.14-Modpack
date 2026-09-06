@@ -511,7 +511,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			}
 		}
 
-		return super.findSlot(mouseX, mouseY);
+		return super.getSelectedSlot(mouseX, mouseY);
 	}
 
 	@Override
@@ -537,7 +537,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void tryQuickMoveSlot(int button, Slot slot, Slot slot2) {
-		if (slot2.canTakeStack(mc.player) && slot2.getHasStack() && slot2.isSameInventory(slot)) {
+		if (slot2.canTakeStack(mc.player) && slot2.getHasStack() && slot2.inventory == slot.inventory) {
 			ItemStack slotItem = slot2.getStack();
 			if (slotItem.isItemEqual(shiftClickedSlot) && ItemStack.areItemStackTagsEqual(shiftClickedSlot, slotItem)) {
 				if (slotItem.getCount() > slotItem.getMaxStackSize()) {

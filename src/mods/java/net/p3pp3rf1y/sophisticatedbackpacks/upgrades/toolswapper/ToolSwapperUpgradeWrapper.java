@@ -320,10 +320,10 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		boolean itemInHandIsValid = isToolValid.test(mainHandStack);
 
 		IItemHandlerSimpleInserter backpackInventory = backpackWrapper.getInventoryForUpgradeProcessing();
-		if (itemInHandIsValid && toolCache.stream().noneMatch(st -> mainHandStack))) {
+		if (itemInHandIsValid && toolCache.stream().noneMatch(st -> stack.isItemEqualIgnoreDurability(mainHandStack))) {
 			toolCache.offer(mainHandStack);
 		}
-		ItemStack tool = findToolToSwap(backpackInventory.isItemEqualIgnoreDurability(isToolValid);
+		ItemStack tool = findToolToSwap(backpackInventory, isToolValid);
 
 		if (tool.isEmpty()) {
 			return false;
@@ -370,7 +370,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 
 	private boolean hasEquivalentItem(Collection<ItemStack> alreadyGivenBefore, ItemStack stack) {
 		for (ItemStack givenTool : alreadyGivenBefore) {
-			if (stack)) {
+			if (stack.isItemEqualIgnoreDurability(stack)) {
 				return true;
 			}
 		}
@@ -378,7 +378,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		return false;
 	}
 
-	private boolean itemWorksOnBlock(World world.isItemEqualIgnoreDurability(BlockPos pos, BlockState blockState, PlayerEntity player, ItemStack stack) {
+	private boolean itemWorksOnBlock(World world, BlockPos pos, BlockState blockState, PlayerEntity player, ItemStack stack) {
 		for (ToolType toolType : getToolTypes(stack)) {
 			if (blockState.getToolModifiedState(world, pos, player, stack, toolType) != null) {
 				return true;

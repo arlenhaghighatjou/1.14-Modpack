@@ -19,7 +19,7 @@ public class ToolSwapperFilterLogic extends FilterLogicBase {
 
 	public ToolSwapperFilterLogic(ItemStack upgrade, Consumer<ItemStack> saveHandler) {
 		super(upgrade, saveHandler, "");
-		weaponFilter = NBTHelper.getCompound(upgrade, "weaponFilter").map(ItemStack::of).orElse(ItemStack.EMPTY);
+		weaponFilter = NBTHelper.getCompound(upgrade, "weaponFilter").map(ItemStack::read).orElse(ItemStack.EMPTY);
 		ToolRegistry.getToolTypes().forEach((name, tt) -> toolFilters.put(tt, ItemStack.EMPTY));
 		loadToolFilters();
 	}

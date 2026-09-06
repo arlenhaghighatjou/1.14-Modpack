@@ -56,7 +56,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.renderLabels(mouseX, mouseY);
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		for (int slotId = 0; slotId < container.ghostSlots.size(); ++slotId) {
 			Slot slot = container.ghostSlots.get(slotId);
 			drawSlot(slot);
