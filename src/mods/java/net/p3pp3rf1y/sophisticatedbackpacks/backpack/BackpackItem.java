@@ -68,7 +68,7 @@ public class BackpackItem extends ItemBase {
     }
 
     public BackpackItem(IntSupplier numberOfSlots, IntSupplier numberOfUpgradeSlots, Supplier<BackpackBlock> blockSupplier, UnaryOperator<Properties> updateProperties) {
-        super(updateProperties.apply(new Properties().stacksTo(1).setISTER(() -> BackpackISTER::new)));
+        super(updateProperties.apply(new Properties().maxStackSize(1).setISTER(() -> BackpackISTER::new)));
         this.numberOfSlots = numberOfSlots;
         this.numberOfUpgradeSlots = numberOfUpgradeSlots;
         this.blockSupplier = blockSupplier;
@@ -138,11 +138,11 @@ public class BackpackItem extends ItemBase {
     private EverlastingBackpackItemEntity createEverlastingBackpack(World world, ItemEntity itemEntity, ItemStack itemstack) {
         EverlastingBackpackItemEntity backpackItemEntity = ModItems.EVERLASTING_BACKPACK_ITEM_ENTITY.create(world);
         if (backpackItemEntity != null) {
-            backpackItemEntity.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+            backpackItemEntity.setPos(itemEntity.getPosX(), itemEntity.getPosY(), itemEntity.getPosZ());
             backpackItemEntity.setItem(itemstack);
-            backpackItemEntity.setPickUpDelay(getPickupDelay(itemEntity));
-            backpackItemEntity.setThrower(itemEntity.getThrower());
-            backpackItemEntity.setDeltaMovement(itemEntity.getDeltaMovement());
+            backpackItemEntity.setPickupDelay(getPickupDelay(itemEntity));
+            backpackItemEntity.setThrowerId(itemEntity.getThrowerId());
+            backpackItemEntity.setMotion(itemEntity.getMotion());
         }
         return backpackItemEntity;
     }

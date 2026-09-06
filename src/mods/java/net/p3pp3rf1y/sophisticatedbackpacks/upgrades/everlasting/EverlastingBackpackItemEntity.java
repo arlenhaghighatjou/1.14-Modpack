@@ -21,9 +21,9 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 	@Override
 	public void tick() {
 		if (!world.isRemote) {
-			double d0 = getX() + 0.5F - rand.nextFloat();
-			double d1 = getY() + rand.nextFloat() * 0.5F;
-			double d2 = getZ() + 0.5F - rand.nextFloat();
+			double d0 = getPosX() + 0.5F - rand.nextFloat();
+			double d1 = getPosY() + rand.nextFloat() * 0.5F;
+			double d2 = getPosZ() + 0.5F - rand.nextFloat();
 			ServerWorld serverWorld = (ServerWorld) world;
 			if (rand.nextInt(20) == 0) {
 				serverWorld.sendParticles(ParticleTypes.HAPPY_VILLAGER, d0, d1, d2, 0, 0, 0.1D, 0, 1f);
@@ -35,7 +35,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 				wasFloatingUp = true;
 			} else if (wasFloatingUp) {
 				setNoGravity(true);
-				setDeltaMovement(Vec3d.ZERO);
+				setMotion(Vec3d.ZERO);
 			}
 		}
 		super.tick();
@@ -43,7 +43,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 
 	@Override
 	public boolean isInWater() {
-		return getY() < 1 || super.isInWater();
+		return getPosY() < 1 || super.isInWater();
 	}
 
 	@Override

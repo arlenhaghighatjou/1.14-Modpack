@@ -9,7 +9,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 
 public class ItemBase extends Item {
 	public ItemBase(Properties properties) {
-		super(properties.tab(SophisticatedBackpacks.ITEM_GROUP));
+		super(properties.group(SophisticatedBackpacks.ITEM_GROUP));
 	}
 
 	@Override

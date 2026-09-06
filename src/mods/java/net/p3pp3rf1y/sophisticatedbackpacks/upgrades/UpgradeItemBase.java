@@ -18,7 +18,7 @@ import static net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.TranslationH
 
 public abstract class UpgradeItemBase<T extends IUpgradeWrapper> extends ItemBase implements IBackpackUpgradeItem<T> {
 	protected UpgradeItemBase() {
-		super(new Properties().stacksTo(1));
+		super(new Properties().maxStackSize(1));
 	}
 
 	@Override
