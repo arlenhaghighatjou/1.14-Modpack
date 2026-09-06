@@ -69,7 +69,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending, itemStack.getDamage() / itemStack.getXpRepairRatio());
 				if (xpToTryDrain > 0) {
 					backpackWrapper.getFluidHandler().ifPresent(fluidHandler -> {
-						FluidStack drained = fluidHandler.drain(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(xpToTryDrain), IFluidHandler.FluidAction.EXECUTE, false);
+						FluidStack drained = fluidHandler.drain(ModFluids.getExperienceTag(), XpHelper.experienceToLiquid(xpToTryDrain), IFluidHandler.FluidAction.EXECUTE, false);
 						float xpDrained = XpHelper.liquidToExperience(drained.getAmount());
 						int durationToRepair = (int) (xpDrained * itemStack.getXpRepairRatio());
 						itemStack.setDamage(itemStack.getDamage() - durationToRepair);
@@ -103,7 +103,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 
 	private void tryGivePlayerExperienceFromTank(PlayerEntity player, IBackpackFluidHandler fluidHandler, int stopAtLevel, boolean ignoreInOutLimit) {
 		int maxXpPointsToGive = XpHelper.getExperienceForLevel(stopAtLevel) - XpHelper.getPlayerTotalExperience(player);
-		FluidStack drained = fluidHandler.drain(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(maxXpPointsToGive), IFluidHandler.FluidAction.EXECUTE, ignoreInOutLimit);
+		FluidStack drained = fluidHandler.drain(ModFluids.getExperienceTag(), XpHelper.experienceToLiquid(maxXpPointsToGive), IFluidHandler.FluidAction.EXECUTE, ignoreInOutLimit);
 
 		if (!drained.isEmpty()) {
 			player.giveExperiencePoints((int) XpHelper.liquidToExperience(drained.getAmount()));
@@ -116,7 +116,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 
 	private void tryFillTankWithPlayerExperience(PlayerEntity player, IBackpackFluidHandler fluidHandler, int stopAtLevel, boolean ignoreInOutLimit) {
 		int maxXpPointsToTake = XpHelper.getPlayerTotalExperience(player) - XpHelper.getExperienceForLevel(stopAtLevel);
-		int filled = fluidHandler.fill(ModFluids.EXPERIENCE_TAG, XpHelper.experienceToLiquid(maxXpPointsToTake), ModFluids.XP_STILL, IFluidHandler.FluidAction.EXECUTE, ignoreInOutLimit);
+		int filled = fluidHandler.fill(ModFluids.getExperienceTag(), XpHelper.experienceToLiquid(maxXpPointsToTake), ModFluids.XP_STILL.get(), IFluidHandler.FluidAction.EXECUTE, ignoreInOutLimit);
 
 		if (filled > 0) {
 			player.giveExperiencePoints((int) -XpHelper.liquidToExperience(filled));

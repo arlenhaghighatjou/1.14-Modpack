@@ -1,36 +1,32 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.init;
 
-import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeTagHandler;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.registry.Registry;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
+import net.p3pp3rf1y.sophisticatedbackpacks.fluid.XpFluid;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.registry.ModRegistry;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.registry.RegistryObject;
 
 public class ModFluids {
 	private ModFluids() {}
 
 	public static final ResourceLocation EXPERIENCE_TAG_NAME = new ResourceLocation("forge:experience");
 
-	public static final Tags.IOptionalNamedTag<Fluid> EXPERIENCE_TAG = ForgeTagHandler.createOptionalTag(ForgeRegistries.FLUIDS, EXPERIENCE_TAG_NAME);
+	public static final ModRegistry<Fluid> FLUIDS = new ModRegistry<>(Registry.FLUID, SophisticatedBackpacks.MOD_ID);
 
-	private static final ResourceLocation XP_STILL_TEXTURE = new ResourceLocation(SophisticatedBackpacks.MOD_ID, "fluids/xp_still");
-	private static final ResourceLocation XP_FLOWING_TEXTURE = new ResourceLocation(SophisticatedBackpacks.MOD_ID, "fluids/xp_flowing");
+	public static final RegistryObject<XpFluid> XP_STILL = FLUIDS.register("xp_still", () -> new XpFluid(true));
+	public static final RegistryObject<XpFluid> XP_FLOWING = FLUIDS.register("xp_flowing", () -> new XpFluid(false));
 
-	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, SophisticatedBackpacks.MOD_ID);
+	private static Tag<Fluid> experienceTag = new Tag<>(EXPERIENCE_TAG_NAME);
 
-	public static final RegistryObject<FlowingFluid> XP_STILL = FLUIDS.register("xp_still", () -> new ForgeFlowingFluid.Source(ModFluids.XP_PROPERTIES));
-	public static final RegistryObject<FlowingFluid> XP_FLOWING = FLUIDS.register("xp_flowing", () -> new ForgeFlowingFluid.Flowing(ModFluids.XP_PROPERTIES));
+	public static Tag<Fluid> getExperienceTag() {
+		return experienceTag;
+	}
 
-	public static final ForgeFlowingFluid.Properties XP_PROPERTIES = new ForgeFlowingFluid.Properties(XP_STILL, XP_FLOWING, FluidAttributes.builder(XP_STILL_TEXTURE, XP_FLOWING_TEXTURE).luminosity(10).density(800).viscosity(1500));
-
-	public static void registerHandlers(IEventBus modBus) {
-		FLUIDS.register(modBus);
+	public static void registerHandlers() {
+		FLUIDS.register();
+		experienceTag = Tag.Builder.<Fluid>create().add(XP_STILL.get(), XP_FLOWING.get()).build(EXPERIENCE_TAG_NAME);
 	}
 }
