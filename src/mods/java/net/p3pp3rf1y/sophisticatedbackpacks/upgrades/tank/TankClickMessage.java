@@ -48,7 +48,7 @@ public class TankClickMessage {
 				drainHandler(sender, fluidHandler, tankWrapper);
 			} else {
 				if (!tankWrapper.fillHandler(fluidHandler, itemStackIn -> {
-					sender.inventory.setCarried(itemStackIn);
+					sender.inventory.setItemStack(itemStackIn);
 					sender.connection.sendPacket(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));
 				})) {
 					drainHandler(sender, fluidHandler, tankWrapper);

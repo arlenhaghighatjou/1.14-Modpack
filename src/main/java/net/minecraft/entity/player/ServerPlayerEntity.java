@@ -820,6 +820,8 @@ public class ServerPlayerEntity extends PlayerEntity implements IContainerListen
         this.connection.sendPacket(new SWindowPropertyPacket(containerIn.windowId, varToUpdate, newValue));
     }
 
+    public boolean ignoreSlotUpdateHack = false;
+
     public void closeScreen() {
         this.connection.sendPacket(new SCloseWindowPacket(this.openContainer.windowId));
         this.closeContainer();

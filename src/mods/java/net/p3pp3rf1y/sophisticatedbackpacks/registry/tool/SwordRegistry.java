@@ -66,7 +66,7 @@ public class SwordRegistry {
 			JsonArray swords = json.getAsJsonArray("swords");
 			for (JsonElement jsonElement : swords) {
 				if (jsonElement.isJsonPrimitive()) {
-					parseSword(jsonElement.getString());
+					parseSword(jsonElement.getAsString());
 				} else {
 					parseSwordMatcher(modId, jsonElement);
 				}

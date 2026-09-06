@@ -216,7 +216,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	@Override
 	protected Slot addSlot(Slot slot) {
 		slot.slotNumber = getInventorySlotsSize();
-		slots.add(slot);
+		inventorySlots.add(slot);
 		inventoryItemStacks.add(ItemStack.EMPTY);
 		realInventorySlots.add(slot);
 		realInventoryItemStacks.add(ItemStack.EMPTY);
@@ -415,12 +415,12 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 
 	private boolean mergeStackToOpenUpgradeTab(ItemStack slotStack, boolean transferMaxStackSizeFromSource) {
 		return getOpenContainer().map(c -> {
-			List<Slot> slots = c.getSlots();
-			if (slots.isEmpty()) {
+			List<Slot> inventorySlots = c.getSlots();
+			if (inventorySlots.isEmpty()) {
 				return false;
 			}
-			int firstSlotIndex = slots.get(0).slotNumber;
-			int lastSlotIndex = slots.get(slots.size() - 1).slotNumber;
+			int firstSlotIndex = inventorySlots.get(0).slotNumber;
+			int lastSlotIndex = inventorySlots.get(inventorySlots.size() - 1).slotNumber;
 			return mergeItemStack(slotStack, firstSlotIndex, lastSlotIndex + 1, false, transferMaxStackSizeFromSource);
 		}).orElse(false);
 	}
@@ -604,8 +604,8 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 
 		BackpackInventoryHandler invHandler = backpackWrapper.getInventoryHandler();
 		Set<Integer> errorSlots = new HashSet<>();
-		int slots = getNumberOfSlots();
-		for (int slotIndex = slots - 1; slotIndex >= slots - slotsToCheck; slotIndex--) {
+		int inventorySlots = getNumberOfSlots();
+		for (int slotIndex = inventorySlots - 1; slotIndex >= inventorySlots - slotsToCheck; slotIndex--) {
 			if (!invHandler.getStackInSlot(slotIndex).isEmpty()) {
 				errorSlots.add(slotIndex);
 			}
@@ -945,11 +945,11 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	private void refreshInventorySlotsIfNeeded() {
 		Set<Integer> noSortSlotIndexes = getNoSortSlotIndexes();
 		boolean needRefresh = false;
-		if (realInventorySlots.size() - slots.size() != noSortSlotIndexes.size()) {
+		if (realInventorySlots.size() - inventorySlots.size() != noSortSlotIndexes.size()) {
 			needRefresh = true;
 		} else {
 			for (Slot slot : realInventorySlots) {
-				if (!slots.contains(slot) && !noSortSlotIndexes.contains(slot.slotNumber)) {
+				if (!inventorySlots.contains(slot) && !noSortSlotIndexes.contains(slot.slotNumber)) {
 					needRefresh = true;
 					break;
 				}
@@ -960,7 +960,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 			return;
 		}
 
-		slots.clear();
+		inventorySlots.clear();
 		inventoryItemStacks.clear();
 		realInventorySlots.clear();
 		realInventoryItemStacks.clear();
@@ -969,7 +969,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 	}
 
 	private void refreshAllSlots() {
-		slots.clear();
+		inventorySlots.clear();
 		inventoryItemStacks.clear();
 		realInventorySlots.clear();
 		realInventoryItemStacks.clear();
@@ -1011,7 +1011,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		slot.onSwapCraft(numItemsCrafted);
 	}
 
-	//copy of Container's doClick with the replacement of slots.get to getSlot, call to onswapcraft as that's protected in vanilla and an addition of upgradeSlots to pickup all
+	//copy of Container's doClick with the replacement of inventorySlots.get to getSlot, call to onswapcraft as that's protected in vanilla and an addition of upgradeSlots to pickup all
 	@SuppressWarnings("java:S3776")
 	//complexity here is brutal, but it's something that's in vanilla and need to keep this as close to it as possible for easier ports
 	protected ItemStack handleClick(int slotId, int dragType, ClickType clickType, PlayerEntity player) {
@@ -1318,7 +1318,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 		return mergeItemStack(sourceStack, startIndex, endIndex, reverseDirection, transferMaxStackSizeFromSource, false);
 	}
 
-	//copy of mergeItemStack from Container - just calling getSlot here to account for upgrade slots instead of direct slots.get
+	//copy of mergeItemStack from Container - just calling getSlot here to account for upgrade inventorySlots instead of direct inventorySlots.get
 	// and minor addition to be able to ignore magetslotx stack size
 	@SuppressWarnings({"java:S3776", "java:S135"})
 	//need to keep this very close to vanilla for easy port so not refactoring it to lower complexity or less exit points in loops
@@ -1341,7 +1341,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				}
 
 				Slot slot = getSlot(i);
-				if (slot.isItemValid(sourceStack)) { //Added to vanilla logic as some slots may not want anything to be added to them
+				if (slot.isItemValid(sourceStack)) { //Added to vanilla logic as some inventorySlots may not want anything to be added to them
 					ItemStack destStack = slot.getStack();
 					if (!destStack.isEmpty() && areItemsAndTagsEqual(sourceStack, destStack)) {
 						int j = destStack.getCount() + toTransfer;

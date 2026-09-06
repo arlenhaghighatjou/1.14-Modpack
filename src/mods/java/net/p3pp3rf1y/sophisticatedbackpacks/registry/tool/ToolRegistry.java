@@ -155,7 +155,7 @@ public class ToolRegistry {
 
 			for (JsonElement toolElement : tools) {
 				if (toolElement.isJsonPrimitive()) {
-					parseTool(toolElement.getString(), toolTypes);
+					parseTool(toolElement.getAsString(), toolTypes);
 				} else {
 					Matchers.getItemMatcher(toolElement)
 							.ifPresent(toolMatcher -> TOOL_TYPE_MAPPING.predicateToolTypes.computeIfAbsent(toolMatcher, p -> new HashSet<>()).addAll(toolTypes));
@@ -258,8 +258,8 @@ public class ToolRegistry {
 				return;
 			}
 			for (JsonElement jsonElement : blocksArray) {
-				if (jsonElement.isJsonPrimitive() && jsonElement.getString().contains(":")) {
-					parseObjectEntry(tools, jsonElement.getString());
+				if (jsonElement.isJsonPrimitive() && jsonElement.getAsString().contains(":")) {
+					parseObjectEntry(tools, jsonElement.getAsString());
 				} else {
 					parseObjectPredicateEntry(tools, jsonElement);
 				}
@@ -333,7 +333,7 @@ public class ToolRegistry {
 		Set<CacheableStackPredicate> itemPredicates = new HashSet<>();
 		for (JsonElement jsonElement : toolArray) {
 			if (jsonElement.isJsonPrimitive()) {
-				ResourceLocation itemName = new ResourceLocation(jsonElement.getString());
+				ResourceLocation itemName = new ResourceLocation(jsonElement.getAsString());
 				if (!Registry.ITEM.keySet().contains(itemName)) {
 					SophisticatedBackpacks.LOGGER.debug("{} isn't loaded in item registry, skipping ...", itemName);
 				}
