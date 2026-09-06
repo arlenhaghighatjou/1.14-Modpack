@@ -5,13 +5,11 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
 
-public class RecipeWrapperSerializer<T extends IRecipe<?>, R extends IRecipe<?> & IWrapperRecipe<T>> extends ForgeRegistryEntry<IRecipeSerializer<?>>
-		implements IRecipeSerializer<R> {
+public class RecipeWrapperSerializer<T extends IRecipe<?>, R extends IRecipe<?> & IWrapperRecipe<T>> extends IRecipeSerializer<R> {
 	private final Function<T, R> initialize;
 	private final IRecipeSerializer<T> recipeSerializer;
 
@@ -21,20 +19,20 @@ public class RecipeWrapperSerializer<T extends IRecipe<?>, R extends IRecipe<?> 
 	}
 
 	@Override
-	public R fromJson(ResourceLocation recipeId, JsonObject json) {
-		return initialize.apply(recipeSerializer.fromJson(recipeId, json));
+	public R read(ResourceLocation recipeId, JsonObject json) {
+		return initialize.apply(recipeSerializer.read(recipeId, json));
 	}
 
 	@Nullable
 	@Override
-	public R fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
-		T compose = recipeSerializer.fromNetwork(recipeId, buffer);
+	public R read(ResourceLocation recipeId, PacketBuffer buffer) {
+		T compose = recipeSerializer.read(recipeId, buffer);
 		return compose == null ? null : initialize.apply(compose);
 	}
 
 	@Override
-	public void toNetwork(PacketBuffer buffer, R recipe) {
-		recipeSerializer.toNetwork(buffer, recipe.getCompose());
+	public void write(PacketBuffer buffer, R recipe) {
+		recipeSerializer.write(buffer, recipe.getCompose());
 	}
 }
 
