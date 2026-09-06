@@ -136,7 +136,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 	public ItemStack getSlotStackToTransfer(Slot slot) {
 		if (slot == craftingResultSlot) {
 			ItemStack slotStack = slot.getStack();
-			slotStack.getItem().onCrafting(slotStack, player.world, player);
+			slotStack.getItem().onCrafting(player.world, player, 1);
 			return slotStack;
 		}
 		return super.getSlotStackToTransfer(slot);

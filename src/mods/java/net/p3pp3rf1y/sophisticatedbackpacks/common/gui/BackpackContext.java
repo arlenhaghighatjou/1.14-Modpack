@@ -325,7 +325,7 @@ public abstract class BackpackContext {
 		@Override
 		public boolean canInteractWith(PlayerEntity player) {
 			return player.world.getTileEntity(pos) instanceof BackpackTileEntity
-					&& (player.distanceToSqr(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D);
+					&& (player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D);
 		}
 
 		@Override

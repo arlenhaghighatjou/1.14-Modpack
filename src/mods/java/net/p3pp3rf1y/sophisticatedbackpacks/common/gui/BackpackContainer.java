@@ -1489,7 +1489,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 				}
 			}
 		}
-		super.removed(player);
+		super.onContainerClosed(player);
 		if (!player.world.isRemote) {
 			removeOpenTabIfKeepOff();
 		}

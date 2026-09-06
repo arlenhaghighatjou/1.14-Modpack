@@ -183,7 +183,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 
 		net.minecraft.entity.ai.attributes.IAttributeInstance attackDamage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		if (!stack.isEmpty() && hasSwordOrNoToolTypes(stack)) {
-			return attackDamage != null && attackDamage.getModifier(ItemBase.ATTACK_DAMAGE_MODIFIER_ID) != null;
+			return attackDamage != null && attackDamage.getModifier(net.p3pp3rf1y.sophisticatedbackpacks.util.ItemBase.ATTACK_DAMAGE_MODIFIER_ID) != null;
 		}
 		return false;
 	}
@@ -320,10 +320,10 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		boolean itemInHandIsValid = isToolValid.test(mainHandStack);
 
 		IItemHandlerSimpleInserter backpackInventory = backpackWrapper.getInventoryForUpgradeProcessing();
-		if (itemInHandIsValid && toolCache.stream().noneMatch(st -> ItemStack.isItemEqualIgnoreDurability(mainHandStack))) {
+		if (itemInHandIsValid && toolCache.stream().noneMatch(st -> mainHandStack))) {
 			toolCache.offer(mainHandStack);
 		}
-		ItemStack tool = findToolToSwap(backpackInventory, isToolValid);
+		ItemStack tool = findToolToSwap(backpackInventory.isItemEqualIgnoreDurability(isToolValid);
 
 		if (tool.isEmpty()) {
 			return false;
@@ -370,7 +370,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 
 	private boolean hasEquivalentItem(Collection<ItemStack> alreadyGivenBefore, ItemStack stack) {
 		for (ItemStack givenTool : alreadyGivenBefore) {
-			if (ItemStack.isItemEqualIgnoreDurability(stack)) {
+			if (stack)) {
 				return true;
 			}
 		}
@@ -378,7 +378,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		return false;
 	}
 
-	private boolean itemWorksOnBlock(World world, BlockPos pos, BlockState blockState, PlayerEntity player, ItemStack stack) {
+	private boolean itemWorksOnBlock(World world.isItemEqualIgnoreDurability(BlockPos pos, BlockState blockState, PlayerEntity player, ItemStack stack) {
 		for (ToolType toolType : getToolTypes(stack)) {
 			if (blockState.getToolModifiedState(world, pos, player, stack, toolType) != null) {
 				return true;

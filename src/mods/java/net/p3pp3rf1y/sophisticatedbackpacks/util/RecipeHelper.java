@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 import static net.p3pp3rf1y.sophisticatedbackpacks.util.RecipeHelper.CompactingShape.*;
 
 public class RecipeHelper {
-	private static final LoadingCache<Item, Set<CompactingShape>> ITEM_COMPACTING_SHAPES = CacheBuilder.newBuilder().expireAfterAccess(120L, TimeUnit.SECONDS).build(new CacheLoader<Item, Set<CompactingShape>>() {
+	private static final LoadingCache<Item, Set<CompactingShape>> ITEM_COMPACTING_SHAPES = com.google.common.cache.CacheBuilder.<Item, Set<CompactingShape>>newBuilder().expireAfterAccess(120L, TimeUnit.SECONDS).build(new CacheLoader<Item, Set<CompactingShape>>() {
 		@Override
 		public Set<CompactingShape> load(Item item) {
 			return getCompactingShapes(item);
@@ -169,7 +169,7 @@ public class RecipeHelper {
 		}, width, height);
 
 		for (int i = 0; i < craftinginventory.getSizeInventory(); i++) {
-			craftinginventory.setItem(i, new ItemStack(item));
+			craftinginventory.setInventorySlotContents(i, new ItemStack(item));
 		}
 		return craftinginventory;
 	}

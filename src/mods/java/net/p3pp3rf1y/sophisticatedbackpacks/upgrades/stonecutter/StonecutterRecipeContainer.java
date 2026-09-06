@@ -171,17 +171,11 @@ public class StonecutterRecipeContainer {
 
 		@Override
 		public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
-			stack.onCrafting(thePlayer.world, thePlayer, stack.getCount());
-			resultInventory.onCrafting(thePlayer);
-			ItemStack itemstack = inputSlot.decrStackSize(1);
-			if (!itemstack.isEmpty()) {
-				updateRecipeResultSlot();
-			}
-
-			worldPosCallable.execute((world, pos) -> {
+			stack.onCrafting(thePlayer, stack.getCount(, 1));
+			resultInventory.onCrafting(pos) -> {
 				long l = world.getGameTime();
 				if (lastOnTake != l) {
-					world.playSound(null, pos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					world.playSound(null, pos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1.0F, 1.0F, 1);
 					lastOnTake = l;
 				}
 			});
