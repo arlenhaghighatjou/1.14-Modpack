@@ -5,13 +5,13 @@ import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootFunction;
-import net.minecraft.world.storage.loot.LootFunctionType;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraft.world.storage.loot.functions.ILootFunction;
 import net.minecraft.tileentity.TileEntity;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackTileEntity;
-import net.p3pp3rf1y.sophisticatedbackpacks.init.ModLoot;
+import net.minecraft.util.ResourceLocation;
+import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 
 public class CopyBackpackDataFunction extends LootFunction {
 	protected CopyBackpackDataFunction(ILootCondition[] conditionsIn) {
@@ -19,8 +19,8 @@ public class CopyBackpackDataFunction extends LootFunction {
 	}
 
 	@Override
-	protected ItemStack run(ItemStack stack, LootContext context) {
-		TileEntity te = context.getParamOrNull(LootParameters.BLOCK_ENTITY);
+	protected ItemStack doApply(ItemStack stack, LootContext context) {
+		TileEntity te = context.get(LootParameters.BLOCK_ENTITY);
 		if (te instanceof BackpackTileEntity) {
 			return ((BackpackTileEntity) te).getBackpackWrapper().getBackpack();
 		}
@@ -28,16 +28,14 @@ public class CopyBackpackDataFunction extends LootFunction {
 		return stack;
 	}
 
-	@Override
-	public LootFunctionType getType() {
-		return ModLoot.COPY_BACKPACK_DATA;
-	}
-
 	public static CopyBackpackDataFunction.Builder builder() {
 		return new CopyBackpackDataFunction.Builder();
 	}
 
 	public static class Serializer extends LootFunction.Serializer<CopyBackpackDataFunction> {
+		public Serializer() {
+			super(new ResourceLocation(SophisticatedBackpacks.MOD_ID, "copy_backpack_data"), CopyBackpackDataFunction.class);
+		}
 
 		@Override
 		public CopyBackpackDataFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext, ILootCondition[] conditionsIn) {
