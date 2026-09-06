@@ -54,6 +54,10 @@ public class CommonProxy {
 	private final RegistryLoader registryLoader = new RegistryLoader();
 	private final PlayerInventoryProvider playerInventoryProvider = new PlayerInventoryProvider();
 
+	public void registerClientHandlers() {
+		//noop on the server side
+	}
+
 	public void registerHandlers() {
 		ModItems.registerHandlers();
 		ModBlocks.registerHandlers();

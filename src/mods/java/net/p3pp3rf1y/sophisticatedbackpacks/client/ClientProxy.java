@@ -15,7 +15,8 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerLookup;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.settings.KeyBinding;
@@ -61,7 +62,6 @@ import net.p3pp3rf1y.sophisticatedbackpacks.util.WorldHelper;
 import java.util.Collections;
 import java.util.Map;
 
-import static net.minecraftforge.client.settings.KeyConflictContext.GUI;
 import static net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.TranslationHelper.translKeybind;
 import static net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.EVERLASTING_BACKPACK_ITEM_ENTITY;
 
@@ -99,9 +99,9 @@ public class ClientProxy extends CommonProxy {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && mc.player.openContainer instanceof BackpackContainer && gui instanceof BackpackScreen) {
 			BackpackScreen screen = (BackpackScreen) gui;
-			MouseHelper mh = mc.mouseHandler;
-			double mouseX = mh.xpos() * mc.mainWindow.getGuiScaledWidth() / mc.mainWindow.getScreenWidth();
-			double mouseY = mh.ypos() * mc.mainWindow.getGuiScaledHeight() / mc.mainWindow.getScreenHeight();
+			MouseHelper mh = mc.mouseHelper;
+			double mouseX = mh.getMouseX() * mc.mainWindow.getScaledWidth() / mc.mainWindow.getWidth();
+			double mouseY = mh.getMouseY() * mc.mainWindow.getScaledHeight() / mc.mainWindow.getHeight();
 			BackpackContainer container = (BackpackContainer) mc.player.openContainer;
 			Slot selectedSlot = screen.findSlot(mouseX, mouseY);
 			if (selectedSlot != null && !container.isPlayersInventorySlot(selectedSlot.slotNumber)) {
@@ -113,18 +113,19 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public static boolean handleGuiKeyPress(Screen gui, int keyCode, int scanCode) {
-		if (SORT_KEYBIND.isActiveAndMatches(InputMappings.getKey(event.getKeyCode(), event.getScanCode())) && tryCallSort(event.getGui())) {
-			event.setCanceled(true);
-		}
+		return SORT_KEYBIND.isActiveAndMatches(InputMappings.getInputByCode(keyCode, scanCode)) && tryCallSort(gui);
 	}
 
 	public static boolean handleGuiMouseKeyPress(Screen gui, int button) {
-		InputMappings.Input input = InputMappings.Type.MOUSE.getOrMakeInput(event.getButton());
-		if (SORT_KEYBIND.isActiveAndMatches(input) && tryCallSort(event.getGui())) {
-			event.setCanceled(true);
-		} else if (BACKPACK_OPEN_KEYBIND.isActiveAndMatches(input)) {
-			sendBackpackOpenOrCloseMessage();
+		InputMappings.Input input = InputMappings.Type.MOUSE.getOrMakeInput(button);
+		if (SORT_KEYBIND.isActiveAndMatches(input) && tryCallSort(gui)) {
+			return true;
 		}
+		if (BACKPACK_OPEN_KEYBIND.isActiveAndMatches(input)) {
+			sendBackpackOpenOrCloseMessage();
+			return true;
+		}
+		return false;
 	}
 
 	public static void handleKeyInputEvent() {
@@ -146,48 +147,48 @@ public class ClientProxy extends CommonProxy {
 	private static void sendToolSwapMessage() {
 		Minecraft mc = Minecraft.getInstance();
 		ClientPlayerEntity player = mc.player;
-		if (player == null || mc.hitResult == null) {
+		if (player == null || mc.objectMouseOver == null) {
 			return;
 		}
-		if (player.getMainHandItem().getItem() instanceof BackpackItem) {
+		if (player.getHeldItemMainhand().getItem() instanceof BackpackItem) {
 			player.sendStatusMessage(new TranslationTextComponent("gui.sophisticatedbackpacks.status.unable_to_swap_tool_for_backpack"), true);
 			return;
 		}
-		RayTraceResult rayTrace = mc.hitResult;
+		RayTraceResult rayTrace = mc.objectMouseOver;
 		if (rayTrace.getType() == RayTraceResult.Type.BLOCK) {
 			BlockRayTraceResult blockRayTraceResult = (BlockRayTraceResult) rayTrace;
-			BlockPos pos = blockRayTraceResult.getBlockPos();
+			BlockPos pos = blockRayTraceResult.getPos();
 			PacketHandler.sendToServer(new BlockToolSwapMessage(pos));
 		} else if (rayTrace.getType() == RayTraceResult.Type.ENTITY) {
 			EntityRayTraceResult entityRayTraceResult = (EntityRayTraceResult) rayTrace;
-			PacketHandler.sendToServer(new EntityToolSwapMessage(entityRayTraceResult.getEntity().getId()));
+			PacketHandler.sendToServer(new EntityToolSwapMessage(entityRayTraceResult.getEntity().getEntityId()));
 		}
 	}
 
 	private static void sendInteractWithInventoryMessage() {
 		Minecraft mc = Minecraft.getInstance();
-		RayTraceResult rayTrace = mc.hitResult;
+		RayTraceResult rayTrace = mc.objectMouseOver;
 		if (rayTrace == null || rayTrace.getType() != RayTraceResult.Type.BLOCK) {
 			return;
 		}
 		BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) rayTrace;
-		BlockPos pos = blockraytraceresult.getBlockPos();
+		BlockPos pos = blockraytraceresult.getPos();
 
 		if (!WorldHelper.getTile(mc.world, pos, TileEntity.class).map(te -> ItemHandlerLookup.get(te, null).isPresent()).orElse(false)) {
 			return;
 		}
 
-		PacketHandler.sendToServer(new InventoryInteractionMessage(pos, blockraytraceresult.getDirection()));
+		PacketHandler.sendToServer(new InventoryInteractionMessage(pos, blockraytraceresult.getFace()));
 	}
 
 	@SuppressWarnings({"java:S2440", "InstantiationOfUtilityClass"})
 	private static void sendBackpackOpenOrCloseMessage() {
-		if (!GUI.isActive()) {
+		Screen screen = Minecraft.getInstance().currentScreen;
+		if (screen == null) {
 			PacketHandler.sendToServer(new BackpackOpenMessage());
 			return;
 		}
 
-		Screen screen = Minecraft.getInstance().screen;
 		if (screen instanceof BackpackScreen) {
 			BackpackScreen backpackScreen = (BackpackScreen) screen;
 
@@ -213,14 +214,9 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void registerHandlers() {
-		super.registerHandlers();
-	}
-
-	public void clientSetupAll() {
+	public void registerClientHandlers() {
 		clientSetup();
 		stitchTextures();
-		onModelRegistry();
 		ModParticles.registerFactories();
 		ModItemColors.init();
 		ModBlockColors.init();
@@ -230,7 +226,7 @@ public class ClientProxy extends CommonProxy {
 
 	public static void onDrawScreen(int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
-		Screen gui = mc.screen;
+		Screen gui = mc.currentScreen;
 		if (!(gui instanceof ContainerScreen<?>) || gui instanceof CreativeScreen || mc.player == null) {
 			return;
 		}
@@ -242,7 +238,7 @@ public class ClientProxy extends CommonProxy {
 		if (!held.isEmpty() && !(held.getItem() instanceof BackpackItem)) {
 			Slot under = containerGui.getSlotUnderMouse();
 			
-			for (Slot s : menu.slots) {
+			for (Slot s : menu.inventorySlots) {
 				ItemStack stack = s.getStack();
 				if (!s.canTakeStack(player) || stack.getCount() != 1) {
 					continue;
@@ -250,21 +246,18 @@ public class ClientProxy extends CommonProxy {
 
 				BackpackWrapperLookup.get(stack).ifPresent(backpackWrapper -> {
 					if (s == under) {
-						int x = event.getMouseX();
-						int y = event.getMouseY();
-						poseStack.pushPose();
+						GlStateManager.pushMatrix();
 						GlStateManager.translated(0, 0, 100);
-						BackpackTooltipRenderer.renderTooltipWithContents(stack, mc, poseStack, x, y, mc.fontRenderer, Collections.singletonList(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.right_click_to_add_to_backpack")));
-						poseStack.popPose();
+						BackpackTooltipRenderer.renderTooltipWithContents(stack, mc, mouseX, mouseY, mc.fontRenderer, Collections.singletonList(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.right_click_to_add_to_backpack")));
+						GlStateManager.popMatrix();
 					} else {
 						int x = containerGui.getGuiLeft() + s.xPos;
 						int y = containerGui.getGuiTop() + s.yPos;
 
-						poseStack.pushPose();
+						GlStateManager.pushMatrix();
 						GlStateManager.translated(0, 0, 499);
-
 						mc.fontRenderer.drawStringWithShadow("+", (float) x + 10, (float) y + 8, 0xFFFF00);
-						poseStack.popPose();
+						GlStateManager.popMatrix();
 					}
 				});
 			}
@@ -274,8 +267,8 @@ public class ClientProxy extends CommonProxy {
 
 	public static boolean onRightClick(double mouseX, double mouseY, int button) {
 		Minecraft mc = Minecraft.getInstance();
-		Screen screen = mc.screen;
-		if (screen instanceof ContainerScreen<?> && !(screen instanceof CreativeScreen) && event.getButton() == 1 && mc.player != null) {
+		Screen screen = mc.currentScreen;
+		if (screen instanceof ContainerScreen<?> && !(screen instanceof CreativeScreen) && button == 1 && mc.player != null) {
 			ContainerScreen<?> container = (ContainerScreen<?>) screen;
 			Slot under = container.getSlotUnderMouse();
 			ItemStack held = mc.player.inventory.getItemStack();
@@ -285,14 +278,11 @@ public class ClientProxy extends CommonProxy {
 				if (stack.getItem() instanceof BackpackItem && stack.getCount() == 1) {
 					PacketHandler.sendToServer(new BackpackInsertMessage(under.slotNumber));
 					screen.mouseReleased(0, 0, -1);
-					event.setCanceled(true);
+					return true;
 				}
 			}
 		}
-	}
-
-	private void onModelRegistry() {
-		BackpackDynamicModel.Loader.INSTANCE.register();
+		return false;
 	}
 
 	private void clientSetup() {
@@ -303,14 +293,12 @@ public class ClientProxy extends CommonProxy {
 		UPGRADE_SLOT_TOGGLE_KEYBINDS.forEach((slot, keybind) -> GameSettings.registerKeyBinding(keybind));
 		Minecraft.getInstance().gameSettings.addModKeyBindings();
 
-		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
-		renderManager.register(EverlastingBackpackItemEntity.class, new net.minecraft.client.renderer.entity.ItemRenderer(renderManager));
 		TileEntityRendererDispatcher.instance.register(BackpackTileEntity.class, new BackpackTESR());
 	}
 
 	@SuppressWarnings("java:S3740") //explanation below
 	private void registerBackpackLayer() {
-		EntityRendererManager renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
 		Map<String, PlayerRenderer> skinMap = renderManager.getSkinMap();
 		PlayerRenderer render = skinMap.get("default");
 		render.addLayer(new BackpackLayerRenderer<>(render));
@@ -319,7 +307,7 @@ public class ClientProxy extends CommonProxy {
 		renderManager.renderers.forEach((e, r) -> {
 			if (r instanceof LivingRenderer<?, ?>) {
 				//noinspection rawtypes ,unchecked - this is not going to fail as the LivingRenderer makes sure the types are right, but there doesn't seem to be a way to us inference here
-				((LivingRenderer<?, ?>) r).addLayer(new BackpackLayerRenderer((LivingRenderer<?, ?>) r));
+				((LivingRenderer) r).addLayer(new BackpackLayerRenderer((LivingRenderer) r));
 			}
 		});
 	}
