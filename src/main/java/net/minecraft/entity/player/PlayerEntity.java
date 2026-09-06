@@ -662,10 +662,10 @@ public abstract class PlayerEntity extends LivingEntity {
     }
 
     public static final String PERSISTED_NBT_TAG = "PlayerPersisted";
-    private final CompoundNBT persistentData = new CompoundNBT();
+    private final CompoundNBT playerPersistentData = new CompoundNBT();
 
     public CompoundNBT getPersistentData() {
-        return this.persistentData;
+        return this.playerPersistentData;
     }
 
     public void readAdditional(CompoundNBT compound) {
@@ -674,7 +674,7 @@ public abstract class PlayerEntity extends LivingEntity {
         if (compound.contains("ModData", 10)) {
             CompoundNBT modData = compound.getCompound("ModData");
             for (String key : modData.keySet()) {
-                this.persistentData.put(key, modData.get(key));
+                this.playerPersistentData.put(key, modData.get(key));
             }
         }
 
@@ -714,8 +714,8 @@ public abstract class PlayerEntity extends LivingEntity {
 
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        if (!this.persistentData.isEmpty()) {
-            compound.put("ModData", this.persistentData);
+        if (!this.playerPersistentData.isEmpty()) {
+            compound.put("ModData", this.playerPersistentData);
         }
 
         compound.putInt("DataVersion", SharedConstants.getVersion().getWorldVersion());

@@ -33,7 +33,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 
 	public FeedingUpgradeWrapper(IBackpackWrapper backpackWrapper, ItemStack upgrade, Consumer<ItemStack> upgradeSaveHandler) {
 		super(backpackWrapper, upgrade, upgradeSaveHandler);
-		filterLogic = new FilterLogic(upgrade, upgradeSaveHandler, upgradeItem.getFilterSlotCount(), ItemStack::isEdible);
+		filterLogic = new FilterLogic(upgrade, upgradeSaveHandler, upgradeItem.getFilterSlotCount(), ItemStack::isFood);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		}
 
 		if (entity == null) {
-			world.getEntitiesWithinAABB(EntityType.PLAYER, new AxisAlignedBB(pos).grow(FEEDING_RANGE), p -> true).forEach(p -> feedPlayerAndGetHungry(p, world));
+			world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(pos).grow(FEEDING_RANGE)).forEach(p -> feedPlayerAndGetHungry(p, world));
 		} else {
 			if (feedPlayerAndGetHungry((PlayerEntity) entity, world)) {
 				setCooldown(world, STILL_HUNGRY_COOLDOWN);

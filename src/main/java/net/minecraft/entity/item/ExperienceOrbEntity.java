@@ -202,6 +202,10 @@ public class ExperienceOrbEntity extends Entity {
         return xp * 2;
     }
 
+    public void setXpValue(int value) {
+        this.xpValue = value;
+    }
+
     public int getXpValue() {
         return this.xpValue;
     }

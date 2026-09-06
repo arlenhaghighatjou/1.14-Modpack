@@ -45,13 +45,13 @@ public class RegistryLoader extends JsonReloadListener {
 	private final List<DependentFile> loadLater = new ArrayList<>();
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> registries, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+	protected void apply(Map<ResourceLocation, JsonObject> registries, IResourceManager resourceManagerIn, IProfiler profilerIn) {
 		loaders.values().forEach(IRegistryDataLoader::clear);
 		registries.forEach(this::loadRegistry);
 		loadDependents(registries);
 	}
 
-	private void loadDependents(Map<ResourceLocation, JsonElement> registries) {
+	private void loadDependents(Map<ResourceLocation, JsonObject> registries) {
 		int lastCountLoadLater = loadLater.size();
 		while (!loadLater.isEmpty()) {
 			Iterator<DependentFile> iterator = loadLater.iterator();
@@ -72,11 +72,11 @@ public class RegistryLoader extends JsonReloadListener {
 
 	private void logIncorrectDependencies() {
 		for (DependentFile dependentFile : loadLater) {
-			SophisticatedBackpacks.LOGGER.error("Non existent or circular load after dependencies in {} - {}", dependentFile::getName, () -> String.join(",", dependentFile.getDependencies()));
+			SophisticatedBackpacks.LOGGER.error("Non existent or circular load after dependencies in {} - {}", dependentFile.getName(), String.join(",", dependentFile.getDependencies()));
 		}
 	}
 
-	private void loadRegistry(ResourceLocation name, JsonElement fullJson) {
+	private void loadRegistry(ResourceLocation name, JsonObject fullJson) {
 		SophisticatedBackpacks.LOGGER.debug("Started loading registry data from {} ", name);
 		String path = name.getPath();
 		String shortName = path.substring(path.lastIndexOf('/') + 1);
@@ -95,7 +95,7 @@ public class RegistryLoader extends JsonReloadListener {
 		}
 
 		if (json.has("load_after")) {
-			Set<String> dependencies = JsonHelper.setFromJson(json.get("load_after"), e -> JSONUtils.convertToString(e, ""));
+			Set<String> dependencies = JsonHelper.setFromJson(json.get("load_after"), e -> JSONUtils.getString(e, ""));
 			if (!areDependenciesLoaded(dependencies)) {
 				loadLater.add(new DependentFile(name, dependencies));
 				SophisticatedBackpacks.LOGGER.debug("Registry data at {} depend on {} which are not all loaded, skipping for now.", name, dependencies);

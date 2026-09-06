@@ -421,6 +421,15 @@ public abstract class Entity implements INameable, ICommandSource {
         this.fire = 0;
     }
 
+    private CompoundNBT persistentData;
+
+    public CompoundNBT getPersistentData() {
+        if (this.persistentData == null) {
+            this.persistentData = new CompoundNBT();
+        }
+        return this.persistentData;
+    }
+
     protected void outOfWorld() {
         this.remove();
     }
