@@ -76,7 +76,7 @@ public class BackpackItem extends ItemBase {
 
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        super.fillItemCategory(group, items);
+        super.fillItemGroup(group, items);
 
         if (!isInGroup(group) || this != ModItems.BACKPACK || !Config.COMMON.enabledItems.isItemEnabled(this)) {
             return;
@@ -116,7 +116,6 @@ public class BackpackItem extends ItemBase {
         }
     }
 
-    @Override
     public boolean hasCustomEntity(ItemStack stack) {
         return hasEverlastingUpgrade(stack);
     }
@@ -126,7 +125,6 @@ public class BackpackItem extends ItemBase {
     }
 
     @Nullable
-    @Override
     public Entity createEntity(World world, Entity entity, ItemStack itemstack) {
         if (!(entity instanceof ItemEntity)) {
             return null;
@@ -171,7 +169,7 @@ public class BackpackItem extends ItemBase {
 
         BlockItemUseContext blockItemUseContext = new BlockItemUseContext(context);
         ActionResultType result = tryPlace(player, direction, blockItemUseContext);
-        return result == ActionResultType.PASS ? super.useOn(context) : result;
+        return result == ActionResultType.PASS ? super.onItemUse(context) : result;
     }
 
     public ActionResultType tryPlace(@Nullable PlayerEntity player, Direction direction, BlockItemUseContext blockItemUseContext) {
@@ -199,7 +197,7 @@ public class BackpackItem extends ItemBase {
                 stopBackpackSounds(backpack, world, pos);
             }
 
-            SoundType soundtype = placementState.getSoundType(world, pos, player);
+            SoundType soundtype = placementState.getBlock().getSoundType(placementState);
             world.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
             if (player == null || !player.isCreative()) {
                 backpack.shrink(1);
@@ -212,7 +210,7 @@ public class BackpackItem extends ItemBase {
 
     private static void stopBackpackSounds(ItemStack backpack, World world, BlockPos pos) {
         BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
-                ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vec3d.atCenterOf(pos), uuid))
+                ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, new Vec3d(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D), uuid))
         );
     }
 
@@ -226,8 +224,8 @@ public class BackpackItem extends ItemBase {
 
     protected boolean canPlace(BlockItemUseContext context, BlockState state) {
         PlayerEntity playerentity = context.getPlayer();
-        ISelectionContext iselectioncontext = playerentity == null ? ISelectionContext.empty() : ISelectionContext.of(playerentity);
-        return (state.canSurvive(context.getWorld(), context.getPos())) && context.getWorld().isUnobstructed(state, context.getPos(), iselectioncontext);
+        ISelectionContext iselectioncontext = playerentity == null ? ISelectionContext.dummy() : ISelectionContext.forEntity(playerentity);
+        return state.isValidPosition(context.getWorld(), context.getPos()) && context.getWorld().func_217350_a(state, context.getPos(), iselectioncontext);
     }
 
     @Override
@@ -240,7 +238,7 @@ public class BackpackItem extends ItemBase {
             BackpackContext.Item context = new BackpackContext.Item(handlerName, slot);
             PacketHandler.openContainer((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getDisplayName()), context);
         }
-        return ActionResult.success(stack);
+        return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 
     @Override

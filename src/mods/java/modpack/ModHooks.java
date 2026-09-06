@@ -10,7 +10,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.item.ItemStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.EntityBackpackAdditionHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.jukebox.ServerBackpackSoundHandler;
 
@@ -67,6 +69,19 @@ public class ModHooks {
 
 	public static boolean onItemPickup(PlayerEntity player, ItemEntity itemEntity) {
 		return SophisticatedBackpacks.PROXY.onItemPickup(player, itemEntity);
+	}
+
+	public static Entity replaceEntity(Entity entity) {
+		if (!(entity instanceof ItemEntity)) {
+			return entity;
+		}
+		ItemEntity itemEntity = (ItemEntity) entity;
+		ItemStack stack = itemEntity.getItem();
+		if (!(stack.getItem() instanceof BackpackItem) || !((BackpackItem) stack.getItem()).hasCustomEntity(stack)) {
+			return entity;
+		}
+		Entity replacement = ((BackpackItem) stack.getItem()).createEntity(entity.world, itemEntity, stack);
+		return replacement == null ? entity : replacement;
 	}
 
 	public static void onLivingUpdate(LivingEntity entity) {

@@ -787,6 +787,7 @@ public class ServerWorld extends World {
    }
 
    public boolean addEntity(Entity entityIn) {
+      entityIn = modpack.ModHooks.replaceEntity(entityIn);
       return this.addEntity0(entityIn);
    }
 
