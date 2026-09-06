@@ -31,7 +31,7 @@ public enum ContentsFilterType implements IStringSerializable {
 	static {
 		ImmutableMap.Builder<String, ContentsFilterType> builder = new ImmutableMap.Builder<>();
 		for (ContentsFilterType value : values()) {
-			builder.put(value.getSerializedName(), value);
+			builder.put(value.getName(), value);
 		}
 		NAME_VALUES = builder.build();
 		VALUES = values();

@@ -37,7 +37,7 @@ public class ToolSwapperFilterLogic extends FilterLogicBase {
 	}
 
 	private void loadToolFilters() {
-		NBTHelper.getMap(upgrade, "toolFilters", key -> key, (key, nbt) -> ItemStack.of((CompoundNBT) nbt)).ifPresent(savedToolFilters ->
+		NBTHelper.getMap(upgrade, "toolFilters", key -> key, (key, nbt) -> ItemStack.read((CompoundNBT) nbt)).ifPresent(savedToolFilters ->
 				savedToolFilters.forEach((key, stack) -> {
 					Map<String, ToolType> toolTypes = ToolRegistry.getToolTypes();
 					if (toolTypes.containsKey(key)) {
@@ -56,7 +56,7 @@ public class ToolSwapperFilterLogic extends FilterLogicBase {
 
 	public void setWeaponFilter(ItemStack stack) {
 		weaponFilter = stack;
-		NBTHelper.setCompoundNBT(upgrade, "weaponFilter", stack.serializeNBT());
+		NBTHelper.setCompoundNBT(upgrade, "weaponFilter", stack.write(new CompoundNBT()));
 		save();
 	}
 

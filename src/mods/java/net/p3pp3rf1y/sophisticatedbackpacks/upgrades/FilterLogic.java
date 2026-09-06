@@ -57,7 +57,7 @@ FilterLogic extends FilterLogicBase {
 						int slot = itemTags.getInt("Slot");
 
 						if (slot >= 0 && slot < stacks.size()) {
-							ItemStack stack = ItemStack.of(itemTags);
+							ItemStack stack = ItemStack.read(itemTags);
 							stacks.set(slot, stack);
 						}
 					}

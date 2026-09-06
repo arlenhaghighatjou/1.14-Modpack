@@ -158,7 +158,7 @@ public class NBTHelper {
 	}
 
 	public static <T extends Enum<T> & IStringSerializable> CompoundNBT putEnumConstant(CompoundNBT tag, String key, T enumConstant) {
-		tag.putString(key, enumConstant.getSerializedName());
+		tag.putString(key, enumConstant.getName());
 		return tag;
 	}
 

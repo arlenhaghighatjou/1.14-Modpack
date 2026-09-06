@@ -31,7 +31,7 @@ public enum PrimaryMatch implements IStringSerializable {
 	static {
 		ImmutableMap.Builder<String, PrimaryMatch> builder = new ImmutableMap.Builder<>();
 		for (PrimaryMatch value : PrimaryMatch.values()) {
-			builder.put(value.getSerializedName(), value);
+			builder.put(value.getName(), value);
 		}
 		NAME_VALUES = builder.build();
 		VALUES = values();

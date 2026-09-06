@@ -543,7 +543,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	private void tryQuickMoveSlot(int button, Slot slot, Slot slot2) {
 		if (slot2.canTakeStack(mc.player) && slot2.getHasStack() && slot2.isSameInventory(slot)) {
 			ItemStack slotItem = slot2.getStack();
-			if (slotItem.sameItem(lastQuickMoved) && ItemStack.tagMatches(lastQuickMoved, slotItem)) {
+			if (slotItem.sameItem(lastQuickMoved) && ItemStack.areItemStackTagsEqual(lastQuickMoved, slotItem)) {
 				if (slotItem.getCount() > slotItem.getMaxStackSize()) {
 					PacketHandler.sendToServer(new TransferFullSlotMessage(slot2.slotNumber));
 				} else {

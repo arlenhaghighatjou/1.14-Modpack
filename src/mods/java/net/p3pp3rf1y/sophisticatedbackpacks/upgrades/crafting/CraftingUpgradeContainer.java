@@ -68,7 +68,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 					if (!itemstack1.isEmpty()) {
 						if (itemstack.isEmpty()) {
 							craftMatrix.setItem(i, itemstack1);
-						} else if (ItemStack.isSame(itemstack, itemstack1) && ItemStack.tagMatches(itemstack, itemstack1)) {
+						} else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)) {
 							itemstack1.grow(itemstack.getCount());
 							craftMatrix.setItem(i, itemstack1);
 						} else if (!player.inventory.add(itemstack1)) {

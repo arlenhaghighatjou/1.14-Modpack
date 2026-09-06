@@ -12,7 +12,7 @@ import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
+import net.minecraft.item.DyeItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 
@@ -70,7 +70,7 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 				}
 
 				columnBackpack = new Tuple<>(column, slotStack);
-			} else if (item.is(Tags.Items.DYES)) {
+			} else if (item instanceof DyeItem) {
 				DyeColor dyeColor = DyeColor.getColor(slotStack);
 				if (dyeColor == null) {
 					return ItemStack.EMPTY;

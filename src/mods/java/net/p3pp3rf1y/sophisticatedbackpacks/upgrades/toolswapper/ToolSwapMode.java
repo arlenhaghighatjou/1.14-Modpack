@@ -31,7 +31,7 @@ public enum ToolSwapMode implements IStringSerializable {
 	static {
 		ImmutableMap.Builder<String, ToolSwapMode> builder = new ImmutableMap.Builder<>();
 		for (ToolSwapMode value : ToolSwapMode.values()) {
-			builder.put(value.getSerializedName(), value);
+			builder.put(value.getName(), value);
 		}
 		NAME_VALUES = builder.build();
 		VALUES = values();

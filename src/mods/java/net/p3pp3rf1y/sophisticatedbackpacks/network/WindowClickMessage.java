@@ -55,7 +55,7 @@ public class WindowClickMessage {
 			syncSlotsForSpectator(player);
 		} else {
 			ItemStack stackClickResult = player.openContainer.slotClick(msg.slotNumber, msg.mouseButton, msg.clickType, player);
-			if (ItemStack.matches(msg.clickedItem, stackClickResult)) {
+			if (ItemStack.areItemStacksEqual(msg.clickedItem, stackClickResult)) {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
 				player.ignoreSlotUpdateHack = true;
 				player.openContainer.detectAndSendChanges();

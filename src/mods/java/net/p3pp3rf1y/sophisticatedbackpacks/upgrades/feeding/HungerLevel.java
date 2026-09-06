@@ -29,7 +29,7 @@ public enum HungerLevel implements IStringSerializable {
 	static {
 		ImmutableMap.Builder<String, HungerLevel> builder = new ImmutableMap.Builder<>();
 		for (HungerLevel value : HungerLevel.values()) {
-			builder.put(value.getSerializedName(), value);
+			builder.put(value.getName(), value);
 		}
 		NAME_VALUES = builder.build();
 		VALUES = values();

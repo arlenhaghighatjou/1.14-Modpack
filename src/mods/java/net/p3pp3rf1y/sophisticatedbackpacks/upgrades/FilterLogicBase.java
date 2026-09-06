@@ -47,7 +47,7 @@ public class FilterLogicBase {
 			if (!Registry.ITEM.getKey(stack.getItem()).getNamespace().equals(Registry.ITEM.getKey(filter.getItem()).getNamespace())) {
 				return false;
 			}
-		} else if (primaryMatch == PrimaryMatch.ITEM && !ItemStack.isSame(stack, filter)) {
+		} else if (primaryMatch == PrimaryMatch.ITEM && !ItemStack.areItemsEqual(stack, filter)) {
 			return false;
 		}
 
@@ -77,7 +77,7 @@ public class FilterLogicBase {
 		if (tagNames == null) {
 			return;
 		}
-		NBTHelper.setList(upgrade, parentTagKey, "tags", tagNames, t -> StringNBT.valueOf(t.toString()));
+		NBTHelper.setList(upgrade, parentTagKey, "tags", tagNames, t -> new StringNBT(t.toString()));
 	}
 
 	public void removeTagName(ResourceLocation tagName) {

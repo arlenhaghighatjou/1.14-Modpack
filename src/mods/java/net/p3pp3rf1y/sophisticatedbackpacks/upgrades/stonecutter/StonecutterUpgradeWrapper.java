@@ -25,12 +25,12 @@ public class StonecutterUpgradeWrapper extends UpgradeWrapperBase<StonecutterUpg
 			protected void onContentsChanged(int slot) {
 				super.onContentsChanged(slot);
 				if (slot == 0) {
-					upgrade.setTagInfo("input", getStackInSlot(0).serializeNBT());
+					upgrade.setTagInfo("input", getStackInSlot(0).write(new CompoundNBT()));
 				}
 				save();
 			}
 		};
-		NBTHelper.getCompound(upgrade, "input").ifPresent(tag -> inputInventory.setStackInSlot(0, ItemStack.of(tag)));
+		NBTHelper.getCompound(upgrade, "input").ifPresent(tag -> inputInventory.setStackInSlot(0, ItemStack.read(tag)));
 	}
 
 	public IItemHandlerModifiable getInputInventory() {
@@ -42,7 +42,7 @@ public class StonecutterUpgradeWrapper extends UpgradeWrapperBase<StonecutterUpg
 			NBTHelper.removeTag(upgrade, RECIPE_ID_TAG);
 			return;
 		}
-		upgrade.setTagInfo(RECIPE_ID_TAG, StringNBT.valueOf(recipeId.toString()));
+		upgrade.setTagInfo(RECIPE_ID_TAG, new StringNBT(recipeId.toString()));
 		save();
 	}
 

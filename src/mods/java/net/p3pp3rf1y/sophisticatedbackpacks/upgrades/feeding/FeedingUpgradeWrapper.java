@@ -72,7 +72,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 					player.inventory.mainInventory.set(player.inventory.currentItem, mainHandItem);
 					ItemStack containerItem = stack.getItem().onItemUseFinish(stack, world, player);
 					inventory.setStackInSlot(slot, stack);
-					if (!ItemStack.matches(containerItem, stack)) {
+					if (!ItemStack.areItemStacksEqual(containerItem, stack)) {
 						//not handling the case where player doesn't have item handler cap as the player should always have it. if that changes in the future well I guess I fix it
 						ItemHandlerLookup.get(player, Direction.UP)
 								.ifPresent(playerInventory -> InventoryHelper.insertOrDropItem(player, containerItem, inventory, playerInventory));

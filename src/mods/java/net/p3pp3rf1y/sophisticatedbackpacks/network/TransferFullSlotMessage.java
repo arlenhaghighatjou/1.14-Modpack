@@ -36,6 +36,6 @@ public class TransferFullSlotMessage {
 		ItemStack transferResult;
 		do {
 			transferResult = backpackContainer.quickMoveStack(player, msg.slotId);
-		} while (!transferResult.isEmpty() && ItemStack.isSame(slot.getStack(), transferResult));
+		} while (!transferResult.isEmpty() && ItemStack.areItemsEqual(slot.getStack(), transferResult));
 	}
 }

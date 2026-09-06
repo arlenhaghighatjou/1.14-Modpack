@@ -64,7 +64,7 @@ public class BackpackRenderInfo {
 
 	public <T extends IUpgradeRenderData> void setUpgradeRenderData(UpgradeRenderDataType<T> upgradeRenderDataType, T renderData) {
 		upgradeData.put(upgradeRenderDataType, renderData);
-		serializeUpgradeData(upgrades -> upgrades.put(upgradeRenderDataType.getName(), renderData.serializeNBT()));
+		serializeUpgradeData(upgrades -> upgrades.put(upgradeRenderDataType.getName(), renderData.write(new CompoundNBT())));
 		save();
 	}
 
@@ -148,14 +148,14 @@ public class BackpackRenderInfo {
 		boolean infoSet = false;
 		for (int i = 0; i < tanks.size(); i++) {
 			CompoundNBT tank = tanks.getCompound(i);
-			if (tank.getString(TANK_POSITION_TAG).equals(tankPosition.getSerializedName())) {
+			if (tank.getString(TANK_POSITION_TAG).equals(tankPosition.getName())) {
 				tank.put(TANK_INFO_TAG, tankInfo);
 				infoSet = true;
 			}
 		}
 		if (!infoSet) {
 			CompoundNBT tankPositionInfo = new CompoundNBT();
-			tankPositionInfo.putString(TANK_POSITION_TAG, tankPosition.getSerializedName());
+			tankPositionInfo.putString(TANK_POSITION_TAG, tankPosition.getName());
 			tankPositionInfo.put(TANK_INFO_TAG, tankInfo);
 			tanks.add(tankPositionInfo);
 			renderInfo.put(TANKS_TAG, tanks);
@@ -227,7 +227,7 @@ public class BackpackRenderInfo {
 		public CompoundNBT serialize() {
 			CompoundNBT ret = new CompoundNBT();
 			if (!item.isEmpty()) {
-				ret.put(ITEM_TAG, item.serializeNBT());
+				ret.put(ITEM_TAG, item.write(new CompoundNBT()));
 				ret.putInt(ROTATION_TAG, rotation);
 			}
 			return ret;
@@ -239,7 +239,7 @@ public class BackpackRenderInfo {
 
 		public static ItemDisplayRenderInfo deserialize(CompoundNBT tag) {
 			if (tag.contains(ITEM_TAG)) {
-				return new ItemDisplayRenderInfo(ItemStack.of(tag.getCompound(ITEM_TAG)), tag.getInt(ROTATION_TAG));
+				return new ItemDisplayRenderInfo(ItemStack.read(tag.getCompound(ITEM_TAG)), tag.getInt(ROTATION_TAG));
 			}
 			return new ItemDisplayRenderInfo();
 		}

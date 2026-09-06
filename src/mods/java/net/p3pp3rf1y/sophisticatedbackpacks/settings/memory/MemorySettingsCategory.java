@@ -113,7 +113,7 @@ public class MemorySettingsCategory implements ISettingsCategory {
 
 	private void serializeFilterItems() {
 		//noinspection ConstantConditions - item registry name exists in this content otherwise player wouldn't be able to work with it
-		NBTHelper.putMap(categoryNbt, SLOT_FILTER_ITEMS_TAG, slotFilterItems, String::valueOf, i -> StringNBT.valueOf(Registry.ITEM.getKey(i).toString()));
+		NBTHelper.putMap(categoryNbt, SLOT_FILTER_ITEMS_TAG, slotFilterItems, String::valueOf, i -> new StringNBT(Registry.ITEM.getKey(i).toString()));
 		saveNbt.accept(categoryNbt);
 	}
 

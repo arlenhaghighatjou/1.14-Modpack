@@ -309,14 +309,14 @@ public class BackpackWrapper implements IBackpackWrapper {
 
 	@Override
 	public void setColors(int clothColor, int borderColor) {
-		backpack.setTagInfo(CLOTH_COLOR_TAG, IntNBT.valueOf(clothColor));
-		backpack.setTagInfo(BORDER_COLOR_TAG, IntNBT.valueOf(borderColor));
+		backpack.setTagInfo(CLOTH_COLOR_TAG, new IntNBT(clothColor));
+		backpack.setTagInfo(BORDER_COLOR_TAG, new IntNBT(borderColor));
 		backpackSaveHandler.run();
 	}
 
 	@Override
 	public void setSortBy(SortBy sortBy) {
-		backpack.setTagInfo(SORT_BY_TAG, StringNBT.valueOf(sortBy.getSerializedName()));
+		backpack.setTagInfo(SORT_BY_TAG, new StringNBT(sortBy.getName()));
 		backpackSaveHandler.run();
 	}
 
@@ -398,8 +398,8 @@ public class BackpackWrapper implements IBackpackWrapper {
 
 	@Override
 	public void setLoot(ResourceLocation lootTableName, float lootPercentage) {
-		backpack.setTagInfo(LOOT_TABLE_NAME_TAG, StringNBT.valueOf(lootTableName.toString()));
-		backpack.setTagInfo(LOOT_PERCENTAGE_TAG, FloatNBT.valueOf(lootPercentage));
+		backpack.setTagInfo(LOOT_TABLE_NAME_TAG, new StringNBT(lootTableName.toString()));
+		backpack.setTagInfo(LOOT_PERCENTAGE_TAG, new FloatNBT(lootPercentage));
 		backpackSaveHandler.run();
 	}
 

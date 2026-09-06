@@ -105,7 +105,7 @@ public class BackpackInventoryHandler extends ItemStackHandler implements IItemH
 		CompoundNBT itemTag = new CompoundNBT();
 		itemTag.putInt("Slot", slot);
 		itemTag.putInt(REAL_COUNT_TAG, slotStack.getCount());
-		slotStack.save(itemTag);
+		slotStack.write(itemTag);
 		return itemTag;
 	}
 
@@ -119,7 +119,7 @@ public class BackpackInventoryHandler extends ItemStackHandler implements IItemH
 			int slot = itemTags.getInt("Slot");
 
 			if (slot >= 0 && slot < stacks.size()) {
-				ItemStack slotStack = ItemStack.of(itemTags);
+				ItemStack slotStack = ItemStack.read(itemTags);
 				if (itemTags.contains(REAL_COUNT_TAG)) {
 					slotStack.setCount(itemTags.getInt(REAL_COUNT_TAG));
 				}

@@ -28,7 +28,7 @@ public enum InventoryOrder implements IStringSerializable {
 	static {
 		ImmutableMap.Builder<String, InventoryOrder> builder = new ImmutableMap.Builder<>();
 		for (InventoryOrder value : InventoryOrder.values()) {
-			builder.put(value.getSerializedName(), value);
+			builder.put(value.getName(), value);
 		}
 		NAME_VALUES = builder.build();
 		VALUES = values();

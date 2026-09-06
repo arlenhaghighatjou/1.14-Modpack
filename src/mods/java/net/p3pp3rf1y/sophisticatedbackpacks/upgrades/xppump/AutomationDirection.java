@@ -29,7 +29,7 @@ public enum AutomationDirection implements IStringSerializable {
 	static {
 		ImmutableMap.Builder<String, AutomationDirection> builder = new ImmutableMap.Builder<>();
 		for (AutomationDirection value : AutomationDirection.values()) {
-			builder.put(value.getSerializedName(), value);
+			builder.put(value.getName(), value);
 		}
 		NAME_VALUES = builder.build();
 		VALUES = values();

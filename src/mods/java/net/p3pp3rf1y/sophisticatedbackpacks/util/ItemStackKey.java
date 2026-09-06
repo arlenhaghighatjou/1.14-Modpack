@@ -5,8 +5,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 
-import javax.annotation.Nullable;
-import java.lang.reflect.Field;
 
 public class ItemStackKey {
 	public ItemStack getStack() {
@@ -38,23 +36,7 @@ public class ItemStackKey {
 			//noinspection ConstantConditions - hasTag call makes sure getTag doesn't return null
 			hash = hash * 31 + stack.getTag().hashCode();
 		}
-		CompoundNBT capNbt = getCapNbt(stack);
-		if (capNbt != null && !capNbt.isEmpty()) {
-			hash = hash * 31 + capNbt.hashCode();
-		}
 		return hash;
 	}
 
-	private static final Field CAP_NBT = ObfuscationReflectionHelper.findField(ItemStack.class, "capNBT");
-
-	@Nullable
-	private static CompoundNBT getCapNbt(ItemStack stack) {
-		try {
-			return (CompoundNBT) CAP_NBT.get(stack);
-		}
-		catch (IllegalAccessException e) {
-			SophisticatedBackpacks.LOGGER.error("Error getting capNBT of stack ", e);
-			return null;
-		}
-	}
 }
