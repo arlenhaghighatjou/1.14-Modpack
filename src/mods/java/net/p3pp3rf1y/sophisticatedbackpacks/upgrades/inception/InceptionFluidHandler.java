@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.Tag;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.EmptyFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackFluidHandler;
 
 import javax.annotation.Nonnull;

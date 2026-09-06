@@ -14,12 +14,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidBlock;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidUtil;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
-import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.BucketPickupHandlerWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.ITickableUpgrade;
@@ -179,14 +177,10 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 		if (!fluidState.isEmpty()) {
 			BlockState state = world.getBlockState(pos);
 			Block block = state.getBlock();
-			IFluidHandler targetFluidHandler;
-			if (block instanceof IFluidBlock) {
-				targetFluidHandler = new FluidBlockWrapper((IFluidBlock) block, world, pos);
-			} else if (block instanceof IBucketPickupHandler) {
-				targetFluidHandler = new BucketPickupHandlerWrapper((IBucketPickupHandler) block, world, pos);
-			} else {
+			if (!(block instanceof IBucketPickupHandler)) {
 				return false;
 			}
+			IFluidHandler targetFluidHandler = new BucketPickupHandlerWrapper((IBucketPickupHandler) block, world, pos);
 			return fillFromFluidHandler(targetFluidHandler, backpackFluidHandler);
 		}
 		return false;
@@ -194,7 +188,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 
 	private boolean handleFluidContainersInHandsOfNearbyPlayers(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {
 		AxisAlignedBB searchBox = new AxisAlignedBB(pos).grow(PLAYER_SEARCH_RANGE);
-		for (PlayerEntity player : world.players()) {
+		for (PlayerEntity player : world.getPlayers()) {
 			if (searchBox.contains(player.posX, player.posY, player.posZ) && handleFluidContainerInHands(player, backpackFluidHandler)) {
 				return true;
 			}
