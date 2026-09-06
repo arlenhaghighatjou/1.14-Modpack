@@ -20,6 +20,10 @@ public class Slot {
       this.yPos = yPosition;
    }
 
+   public boolean isSameInventory(Slot other) {
+      return this.inventory == other.inventory;
+   }
+
    public int getSlotIndex() {
       return this.slotIndex;
    }

@@ -34,7 +34,7 @@ public class InventorySorter {
 			return ret != 0 ? ret : getRegistryName(first.getKey()).compareTo(getRegistryName(second.getKey()));
 		}
 
-		private int compareTags(Set<ResourceLocation> firstTags, Set<ResourceLocation> secondTags) {
+		private int compareTags(java.util.Collection<ResourceLocation> firstTags, java.util.Collection<ResourceLocation> secondTags) {
 			int ret = Integer.compare(secondTags.size(), firstTags.size());
 			if (ret != 0) {
 				return ret;

@@ -126,6 +126,9 @@ public abstract class TileEntity {
       return null;
    }
 
+   public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+   }
+
    public CompoundNBT getUpdateTag() {
       return this.writeInternal(new CompoundNBT());
    }

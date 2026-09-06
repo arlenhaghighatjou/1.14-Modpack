@@ -31,7 +31,7 @@ public class ToolFilterSlot extends Slot implements IFilterSlot, INameableEmptyS
 	}
 
 	@Override
-	public void onQuickCraft(ItemStack oldStackIn, ItemStack newStackIn) {
+	public void onSlotChange(ItemStack oldStackIn, ItemStack newStackIn) {
 		//noop
 	}
 

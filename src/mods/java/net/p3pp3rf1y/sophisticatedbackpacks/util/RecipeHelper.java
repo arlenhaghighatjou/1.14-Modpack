@@ -1,7 +1,5 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.util;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
@@ -29,17 +27,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static net.p3pp3rf1y.sophisticatedbackpacks.util.RecipeHelper.CompactingShape.*;
 
 public class RecipeHelper {
-	private static final LoadingCache<Item, Set<CompactingShape>> ITEM_COMPACTING_SHAPES = CacheBuilder.newBuilder().expireAfterAccess(120L, TimeUnit.SECONDS).build(new CacheLoader<Item, Set<CompactingShape>>() {
-		@Override
-		public Set<CompactingShape> load(Item item) {
-			return getCompactingShapes(item);
-		}
-	});
+	private static final LoadingCache<Item, Set<CompactingShape>> ITEM_COMPACTING_SHAPES = new LoadingCache<>(RecipeHelper::getCompactingShapes);
 	private static final int MAX_FOLLOW_UP_COMPACTING_RECIPES = 10;
 	private static WeakReference<World> world;
 	private static final Map<CompactedItem, CompactingResult> COMPACTING_RESULTS = new HashMap<>();
