@@ -41,6 +41,15 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
    public int getGuiTop() {
       return this.guiTop;
    }
+   protected int titleX;
+   protected int titleY;
+   protected int playerInventoryTitleX;
+   protected int playerInventoryTitleY;
+
+   protected int getSlotColor(int index) {
+      return -2130706433;
+   }
+
    protected Slot hoveredSlot;
    protected Slot clickedSlot;
    protected boolean isRightMouseClick;

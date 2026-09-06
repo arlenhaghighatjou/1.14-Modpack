@@ -78,7 +78,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 			itemstack = memorizedStack.get();
 		}
 
-		setBlitOffset(100);
+		blitOffset = 100;
 		itemRenderer.zLevel = 100.0F;
 
 		GlStateManager.enableDepthTest();
@@ -86,7 +86,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		settingsTabControl.renderGuiItem(itemRenderer, itemstack, slot);
 		GlStateManager.popMatrix();
 		itemRenderer.zLevel = 0.0F;
-		setBlitOffset(0);
+		blitOffset = 0;
 
 		if (memorizedStack.isPresent()) {
 			drawMemorizedStackOverlay(slot.xPos, slot.yPos);

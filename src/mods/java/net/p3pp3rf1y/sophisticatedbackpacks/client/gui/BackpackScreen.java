@@ -197,7 +197,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (keyCode == 256 || ClientProxy.BACKPACK_OPEN_KEYBIND.isActiveAndMatches(InputMappings.getKey(keyCode, scanCode)) && mouseNotOverBackpack()) {
+		if (keyCode == 256 || ClientProxy.BACKPACK_OPEN_KEYBIND.isActiveAndMatches(InputMappings.getInputByCode(keyCode, scanCode)) && mouseNotOverBackpack()) {
 			if (getContainer().isFirstLevelBackpack() && getContainer().getBackpackContext().wasOpenFromInventory()) {
 				mc.player.closeScreen();
 				mc.displayGuiScreen(new InventoryScreen(mc.player));
@@ -211,7 +211,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private boolean mouseNotOverBackpack() {
-		Slot selectedSlot = getSlotUnderMouse();
+		Slot selectedSlot = hoveredSlot;
 		return selectedSlot == null || !(selectedSlot.getStack().getItem() instanceof BackpackItem);
 	}
 
@@ -330,7 +330,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			}
 		}
 
-		setBlitOffset(100);
+		blitOffset = 100;
 		itemRenderer.zLevel = 100.0F;
 		if (itemstack.isEmpty() && slot.isEnabled()) {
 			renderSlotBackground(slot, i, j);
@@ -339,7 +339,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		}
 
 		itemRenderer.zLevel = 0.0F;
-		setBlitOffset(0);
+		blitOffset = 0;
 	}
 
 	private void renderStack(int i, int j, ItemStack itemstack, boolean flag, @Nullable String stackCountText) {
@@ -371,7 +371,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			if (background != null) {
 				TextureAtlasSprite textureatlassprite = mc.getTextureMap().getAtlasSprite(background);
 				mc.getTextureManager().bindTexture(net.minecraft.client.renderer.texture.AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-				blit(i, j, getBlitOffset(), 16, 16, textureatlassprite);
+				blit(i, j, blitOffset, 16, 16, textureatlassprite);
 			}
 		}
 	}
@@ -559,7 +559,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		}
 		ClientPlayerEntity player = mc.player;
 
-		short nextTransId = player.openContainer.backup(player.inventory);
+		short nextTransId = player.openContainer.getNextTransactionID(player.inventory);
 		ItemStack itemstack = player.openContainer.slotClick(slotNumber, mouseButton, type, player);
 		PacketHandler.sendToServer(new WindowClickMessage(container.windowId, slotNumber, mouseButton, type, itemstack, nextTransId));
 	}
