@@ -71,7 +71,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 					button -> {
 						PrimaryMatch next = container.getPrimaryMatch().next();
 						if (next == PrimaryMatch.TAGS) {
-							container.getFilterSlots().forEach(slot -> slot.x = BackpackScreen.DISABLED_SLOT_X_POS);
+							container.getFilterSlots().forEach(slot -> slot.xPos = BackpackScreen.DISABLED_SLOT_X_POS);
 							onTagsMatchSelected();
 						}
 						container.setPrimaryMatch(next);
@@ -156,7 +156,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 			@Override
 			protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 				if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-					super.renderBg(minecraft, mouseX, mouseY);
+					super.drawGuiContainerBackgroundLayer(minecraft, mouseX, mouseY);
 				}
 			}
 
@@ -263,12 +263,12 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 			Slot slot = container.getTagSelectionSlot();
 			slot.xPos = x - screen.getGuiLeft() + 1;
 			slot.yPos = y - screen.getGuiTop() + tagButtonsYOffset + 1;
-			container.getFilterSlots().forEach(s -> s.x = BackpackScreen.DISABLED_SLOT_X_POS);
+			container.getFilterSlots().forEach(s -> s.xPos = BackpackScreen.DISABLED_SLOT_X_POS);
 		} else {
 			int upgradeSlotNumber = 0;
 			for (S slot : container.getFilterSlots()) {
-				slot.x = x - screen.getGuiLeft() + 1 + (upgradeSlotNumber % slotsPerRow) * 18;
-				slot.y = y - screen.getGuiTop() + slotsTopYOffset + 1 + (upgradeSlotNumber / slotsPerRow) * 18;
+				slot.xPos = x - screen.getGuiLeft() + 1 + (upgradeSlotNumber % slotsPerRow) * 18;
+				slot.yPos = y - screen.getGuiTop() + slotsTopYOffset + 1 + (upgradeSlotNumber / slotsPerRow) * 18;
 				upgradeSlotNumber++;
 			}
 			container.getTagSelectionSlot().xPos = BackpackScreen.DISABLED_SLOT_X_POS;
@@ -290,13 +290,13 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 		int maxTagNameLines = getTagListHeight() / 10;
 		for (ResourceLocation tagName : tagNames) {
 			if (tagNames.size() > maxTagNameLines && count == maxTagNameLines - 1) {
-				font.drawString(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.tag_overflow"), String.valueOf(tagNames.size() - (maxTagNameLines - 1))), (float) x + 2, (float) y + 23 + count * 10, MORE_TAGS_FONT_COLOR);
+				font.drawString(new TranslationTextComponent(TranslationHelper.translUpgradeKey("tag_list.tag_overflow"), String.valueOf(tagNames.size() - (maxTagNameLines - 1))).getFormattedText(), (float) x + 2, (float) y + 23 + count * 10, MORE_TAGS_FONT_COLOR);
 				break;
 			}
 			String name = tagName.toString();
 			String shortened = name;
 			if (font.getStringWidth(name) > MAX_TAG_NAME_WIDTH) {
-				shortened = font.plainSubstrByWidth(name, MAX_TAG_NAME_WIDTH - prefixWidth, true);
+				shortened = font.trimStringToWidth(name, MAX_TAG_NAME_WIDTH - prefixWidth, true);
 				if (!shortened.equals(name)) {
 					shortened = "..." + shortened;
 				}
@@ -352,7 +352,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 		@Override
 		protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 			if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
-				super.renderBg(minecraft, mouseX, mouseY);
+				super.drawGuiContainerBackgroundLayer(minecraft, mouseX, mouseY);
 			}
 		}
 

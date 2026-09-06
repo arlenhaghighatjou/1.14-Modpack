@@ -30,7 +30,7 @@ public class CraftingUpgradeTab extends UpgradeSettingsTab<CraftingUpgradeContai
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
-		super.renderBg(minecraft, mouseX, mouseY);
+		super.drawGuiContainerBackgroundLayer(minecraft, mouseX, mouseY);
 		if (getContainer().isOpen()) {
 			GuiHelper.renderSlotsBackground(minecraft, x + 3 + craftingUIAddition.getWidth(), y + 44, 3, 3);
 			GuiHelper.blit(minecraft, x + 3 + craftingUIAddition.getWidth() + 19, y + 101, ARROW);

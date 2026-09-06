@@ -35,7 +35,7 @@ public class FluidFilterControl extends BackpackWidget {
 			Fluid fluid = container.getFluid(i);
 			if (fluid != Fluids.EMPTY) {
 				ResourceLocation texture = FluidAttributes.getStillTexture(fluid);
-				TextureAtlasSprite still = minecraft.getTextureMap().apply(texture);
+				TextureAtlasSprite still = minecraft.getTextureMap().getSprite(texture);
 				GuiHelper.renderTiledFluidTextureAtlas(still, FluidAttributes.getColor(fluid), x + i * 18 + 1, y + 1, 16, minecraft);
 			}
 		}

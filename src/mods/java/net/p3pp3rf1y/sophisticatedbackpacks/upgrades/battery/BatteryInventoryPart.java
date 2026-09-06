@@ -119,8 +119,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 		int initialGreen = BOTTOM_BAR_COLOR >> 8 & 255;
 		int initialBlue = BOTTOM_BAR_COLOR & 255;
 
-		Matrix4f matrix = matrixStack.last().pose();
-
+		
 		for (int i = 0; i < displayLevel; i++) {
 			float percentage = (float) i / (numberOfSegments - 1);
 			int red = (int) (initialRed * (1 - percentage) + finalRed * percentage);

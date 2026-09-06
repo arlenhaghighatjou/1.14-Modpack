@@ -19,7 +19,7 @@ public class CookingUpgradeRenderer implements IUpgradeRenderer<CookingUpgradeRe
 
 		if (world.rand.nextDouble() < 0.1D) {
 			Vec3d backpackBack = getPositionFromOffset.apply(Vec3d.ZERO);
-			world.playLocalSound(backpackBack.x, backpackBack.y, backpackBack.z, SoundEvents.FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+			world.playLocalSound(backpackBack.x, backpackBack.y, backpackBack.z, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 		}
 
 		double xOffset = world.rand.nextDouble() * 0.6D - 0.3D;

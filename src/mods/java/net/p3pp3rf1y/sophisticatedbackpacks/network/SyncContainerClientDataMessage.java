@@ -24,7 +24,7 @@ public class SyncContainerClientDataMessage {
 	}
 
 	public static void onMessage(SyncContainerClientDataMessage msg, ServerPlayerEntity player) {
-		handleMessage(sender, msg);
+		handleMessage(player, msg);
 	}
 
 	private static void handleMessage(@Nullable ServerPlayerEntity sender, SyncContainerClientDataMessage message) {

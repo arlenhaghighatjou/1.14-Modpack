@@ -21,7 +21,7 @@ public class BatteryUpgradeTab extends UpgradeSettingsTab<BatteryUpgradeContaine
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
-		super.renderBg(minecraft, mouseX, mouseY);
+		super.drawGuiContainerBackgroundLayer(minecraft, mouseX, mouseY);
 		if (getContainer().isOpen()) {
 			GuiHelper.renderSlotsBackground(minecraft, x + 3, y + 24, 1, 1);
 			GuiHelper.renderSlotsBackground(minecraft, x + 24, y + 24, 1, 1);
