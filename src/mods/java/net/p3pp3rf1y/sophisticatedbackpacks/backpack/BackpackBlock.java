@@ -3,6 +3,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.util.concurrent.AtomicDouble;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
@@ -63,7 +64,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;
 
-public class BackpackBlock extends Block implements IWaterLoggable {
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidHandlerLookup;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerLookup;
+
+public class BackpackBlock extends Block implements IWaterLoggable, ITileEntityProvider {
 	public static final BooleanProperty LEFT_TANK = BooleanProperty.create("left_tank");
 	public static final BooleanProperty RIGHT_TANK = BooleanProperty.create("right_tank");
 	public static final BooleanProperty BATTERY = BooleanProperty.create("battery");
@@ -72,12 +76,12 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	private static final int BEDROCK_RESISTANCE = 3600000;
 
 	public BackpackBlock() {
-		super(Properties.of(Material.WOOL).noOcclusion().strength(0.8F).sound(SoundType.WOOL));
-		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(LEFT_TANK, false).setValue(RIGHT_TANK, false));
+		super(Properties.create(Material.WOOL).hardnessAndResistance(0.8F).sound(SoundType.CLOTH));
+		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, false).with(LEFT_TANK, false).with(RIGHT_TANK, false).with(BATTERY, false));
 	}
 
 	@Override
-	public PushReaction getPistonPushReaction(BlockState pState) {
+	public PushReaction getPushReaction(BlockState pState) {
 		return PushReaction.DESTROY;
 	}
 
@@ -106,16 +110,16 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public IFluidState getFluidState(BlockState state) {
-		return Boolean.TRUE.equals(state.get(WATERLOGGED)) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+		return Boolean.TRUE.equals(state.get(WATERLOGGED)) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
 	}
 
 	@Override
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (Boolean.TRUE.equals(stateIn.get(WATERLOGGED))) {
-			worldIn.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
+			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
 		}
 
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	@Override
@@ -124,11 +128,15 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+	public float getExplosionResistance() {
+		return super.getExplosionResistance();
+	}
+
+	public float getExplosionResistance(IBlockReader world, BlockPos pos) {
 		if (hasEverlastingUpgrade(world, pos)) {
 			return BEDROCK_RESISTANCE;
 		}
-		return super.getExplosionResistance(state, world, pos, explosion);
+		return super.getExplosionResistance();
 	}
 
 	private boolean hasEverlastingUpgrade(IBlockReader world, BlockPos pos) {
@@ -140,27 +148,22 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 		return BackpackShapes.getShape(state.get(FACING), state.get(LEFT_TANK), state.get(RIGHT_TANK), state.get(BATTERY));
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+	public TileEntity createNewTileEntity(IBlockReader world) {
 		return new BackpackTileEntity();
 	}
 
 	@Override
-	public ActionResultType onItemRightClick(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		if (world.isRemote) {
-			return ActionResultType.SUCCESS;
+			return true;
 		}
 
 		ItemStack heldItem = player.getHeldItem(hand);
 		if (player.isSneaking() && heldItem.isEmpty()) {
 			putInPlayersHandAndRemove(state, world, pos, player, hand);
-			return ActionResultType.SUCCESS;
+			return true;
 		}
 
 		if (!heldItem.isEmpty() && FluidHandlerLookup.getItem(heldItem).isPresent()) {
@@ -177,13 +180,13 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 									}
 								}
 							}));
-			return ActionResultType.SUCCESS;
+			return true;
 		}
 
 		BackpackContext.Block backpackContext = new BackpackContext.Block(pos);
 		PacketHandler.openContainer((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, backpackContext),
 				getBackpackDisplayName(world, pos)), backpackContext);
-		return ActionResultType.SUCCESS;
+		return true;
 	}
 
 	private ITextComponent getBackpackDisplayName(World world, BlockPos pos) {
