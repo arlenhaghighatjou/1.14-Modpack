@@ -130,7 +130,7 @@ public class MagnetUpgradeWrapper extends UpgradeWrapperBase<MagnetUpgradeWrappe
 	}
 
 	private int pickupItems(@Nullable LivingEntity entity, World world, BlockPos pos) {
-		List<ItemEntity> itemEntities = world.getEntitiesWithinAABB(EntityType.ITEM, new AxisAlignedBB(pos).grow(upgradeItem.getRadius()), e -> true);
+		List<ItemEntity> itemEntities = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos).grow(upgradeItem.getRadius()));
 		if (itemEntities.isEmpty()) {
 			return COOLDOWN_TICKS;
 		}

@@ -112,7 +112,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 			ItemStack itemstack = ghostSlots.get(i).getStack();
 			ItemStack itemstack1 = ghostItemStacks.get(i);
 			if (!ItemStack.areItemStacksEqual(itemstack1, itemstack)) {
-				boolean clientStackChanged = !itemstack1.equals(itemstack, true);
+				boolean clientStackChanged = !ItemStack.areItemStacksEqual(itemstack1, itemstack);
 				ItemStack itemstack2 = itemstack.copy();
 				ghostItemStacks.set(i, itemstack2);
 

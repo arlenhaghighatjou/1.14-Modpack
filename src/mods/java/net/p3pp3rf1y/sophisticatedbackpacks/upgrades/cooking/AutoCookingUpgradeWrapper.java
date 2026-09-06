@@ -46,9 +46,9 @@ public class AutoCookingUpgradeWrapper<W extends AutoCookingUpgradeWrapper<W, U,
 	public AutoCookingUpgradeWrapper(IBackpackWrapper backpackWrapper, ItemStack upgrade, Consumer<ItemStack> upgradeSaveHandler, Config.Common.AutoCookingUpgradeConfig autoCookingConfig, IRecipeType<R> recipeType, float burnTimeModifier) {
 		super(backpackWrapper, upgrade, upgradeSaveHandler);
 		this.recipeType = recipeType;
-		inputFilterLogic = new FilterLogic(upgrade, upgradeSaveHandler, autoCookingConfig.inputFilterSlots.get(),
+		inputFilterLogic = new FilterLogic(upgrade, upgradeSaveHandler, autoCookingConfig.inputFilterSlots,
 				s -> RecipeHelper.getCookingRecipe(s, recipeType).isPresent(), "inputFilter");
-		fuelFilterLogic = new FilterLogic(upgrade, upgradeSaveHandler, autoCookingConfig.fuelFilterSlots.get(),
+		fuelFilterLogic = new FilterLogic(upgrade, upgradeSaveHandler, autoCookingConfig.fuelFilterSlots,
 				s -> AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(s.getItem(), 0) > 0, "fuelFilter");
 		fuelFilterLogic.setAllowByDefault();
 		fuelFilterLogic.setEmptyAllowListMatchesEverything();

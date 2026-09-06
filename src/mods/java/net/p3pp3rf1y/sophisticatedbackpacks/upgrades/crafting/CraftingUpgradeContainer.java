@@ -55,7 +55,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 				if (lastRecipe != null && lastRecipe.matches(craftMatrix, player.world)) {
 					nonnulllist = lastRecipe.getRemainingItems(craftMatrix);
 				} else {
-					nonnulllist = craftMatrix.getStackList();
+					nonnulllist = craftMatrix.getStacks();
 				}
 				for (int i = 0; i < nonnulllist.size(); ++i) {
 					ItemStack itemstack = craftMatrix.getStackInSlot(i);

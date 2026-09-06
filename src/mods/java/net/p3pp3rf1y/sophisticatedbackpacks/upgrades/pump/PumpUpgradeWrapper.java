@@ -93,7 +93,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 
 	private Optional<Integer> interactWithAttachedFluidHandlers(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {
 		for (Direction dir : Direction.values()) {
-			boolean successful = WorldHelper.getTile(world, pos.offset(dir.getDirectionVec())).map(te ->
+			boolean successful = WorldHelper.getTile(world, pos.offset(dir)).map(te ->
 					FluidHandlerLookup.get(te, dir.getOpposite()).map(fluidHandler -> {
 						if (isInput()) {
 							return fillFromFluidHandler(fluidHandler, backpackFluidHandler, getMaxInOut());
@@ -122,7 +122,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 			return fillFromBlockInRange(world, pos, backpackFluidHandler);
 		} else {
 			for (Direction dir : Direction.values()) {
-				BlockPos offsetPos = pos.offset(dir.getDirectionVec());
+				BlockPos offsetPos = pos.offset(dir);
 				if (placeFluidInWorld(world, backpackFluidHandler, dir, offsetPos)) {
 					return Optional.of(WORLD_INTERACTION_COOLDOWN_TIME);
 				}
@@ -162,7 +162,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 			}
 
 			for (Direction dir : Direction.values()) {
-				BlockPos offsetPos = pos.offset(dir.getDirectionVec());
+				BlockPos offsetPos = pos.offset(dir);
 				if (!searchedPositions.contains(offsetPos)) {
 					searchedPositions.add(offsetPos);
 					if (basePos.distanceSq(offsetPos) < PUMP_IN_WORLD_RANGE_SQR) {

@@ -158,6 +158,11 @@ public class RecipeHelper {
 
 	private static CraftingInventory getFilledCraftingInventory(Item item, int width, int height) {
 		CraftingInventory craftinginventory = new CraftingInventory(new Container(null, -1) {
+			@Override
+			public boolean canInteractWith(net.minecraft.entity.player.PlayerEntity playerIn) {
+				return false;
+			}
+
 			public boolean stillValid(PlayerEntity playerIn) {
 				return false;
 			}

@@ -366,15 +366,15 @@ public class ModItems {
 
 	private static class BackpackDispenseBehavior extends OptionalDispenseBehavior {
 		@Override
-		protected ItemStack execute(IBlockSource source, ItemStack stack) {
-			setSuccess(false);
+		protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+			this.successful = false;
 			Item item = stack.getItem();
 			if (item instanceof BackpackItem) {
 				Direction dispenserDirection = source.getBlockState().get(DispenserBlock.FACING);
 				BlockPos blockpos = source.getBlockPos().offset(dispenserDirection);
 				Direction against = source.getWorld().isAirBlock(blockpos.down()) ? dispenserDirection.getOpposite() : Direction.UP;
 
-				setSuccess(((BackpackItem) item).tryPlace(null, dispenserDirection.getAxis() == Direction.Axis.Y ? Direction.NORTH : dispenserDirection.getOpposite(), new DirectionalPlaceContext(source.getWorld(), blockpos, dispenserDirection, stack, against)) == net.minecraft.util.ActionResultType.SUCCESS);
+				this.successful = (((BackpackItem) item).tryPlace(null, dispenserDirection.getAxis() == Direction.Axis.Y ? Direction.NORTH : dispenserDirection.getOpposite(), new DirectionalPlaceContext(source.getWorld(), blockpos, dispenserDirection, stack, against)) == net.minecraft.util.ActionResultType.SUCCESS);
 			}
 
 			return stack;

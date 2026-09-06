@@ -19,6 +19,10 @@ public class CraftingInventory implements IInventory, IRecipeHelperPopulator {
         this.height = height;
     }
 
+    public NonNullList<ItemStack> getStacks() {
+        return this.stackList;
+    }
+
     public int getSizeInventory() {
         return this.stackList.size();
     }
