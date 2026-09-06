@@ -59,10 +59,12 @@ public class CommonProxy {
 	}
 
 	public void registerHandlers() {
-		ModItems.registerContent();
 		ModBlocks.registerHandlers();
 		ModFluids.registerHandlers();
 		ModParticles.registerParticles();
+		ModItems.registerContent();
+		ModItems.registerContainers();
+		ModItems.registerRecipeSerializers();
 	}
 
 	private static final int BACKPACK_COUNT_CHECK_COOLDOWN = 40;

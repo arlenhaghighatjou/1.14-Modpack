@@ -186,6 +186,9 @@ public abstract class MinecraftServer extends RecursiveEventLoop<TickDelayedTask
         this.resourceManager.addReloadListener(this.lootTableManager);
         this.resourceManager.addReloadListener(this.functionManager);
         this.resourceManager.addReloadListener(this.advancementManager);
+        java.util.List<net.minecraft.resources.IFutureReloadListener> modReloadListeners = new java.util.ArrayList<>();
+        modpack.ModHooks.addReloadListeners(modReloadListeners);
+        modReloadListeners.forEach(this.resourceManager::addReloadListener);
         this.backgroundExecutor = Util.getServerExecutor();
         this.folderName = p_i50590_10_;
     }
@@ -293,6 +296,7 @@ public abstract class MinecraftServer extends RecursiveEventLoop<TickDelayedTask
         this.loadWorlds(savehandler, worldinfo, worldsettings, ichunkstatuslistener);
         this.setDifficultyForAllWorlds(this.getDifficulty(), true);
         this.loadInitialChunks(ichunkstatuslistener);
+        net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks.serverStarted(this);
     }
 
     protected void loadWorlds(SaveHandler p_213194_1_, WorldInfo info, WorldSettings p_213194_3_, IChunkStatusListener p_213194_4_) {

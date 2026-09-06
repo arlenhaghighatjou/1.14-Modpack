@@ -10,6 +10,8 @@ import vectorwing.farmersdelight.FarmersDelight;
  * Brings up every mod in the pack in the order the game expects: content first, then the setup
  * that reads it back.
  */
+import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
+
 public class ModLoader {
 	/**
 	 * The namespaces the pack ships assets and data under. The game only reads resources from
@@ -55,6 +57,8 @@ public class ModLoader {
 
 		Waystones.registerContent();
 		Waystones.setup();
+
+		SophisticatedBackpacks.registerContent();
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -71,5 +75,7 @@ public class ModLoader {
 		FarmersDelight.clientSetup();
 
 		Waystones.setupClient();
+
+		SophisticatedBackpacks.registerClient();
 	}
 }

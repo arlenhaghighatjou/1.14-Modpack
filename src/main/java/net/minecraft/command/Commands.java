@@ -165,6 +165,8 @@ public class Commands {
          WhitelistCommand.register(this.dispatcher);
       }
 
+      net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks.registerCommands(this.dispatcher);
+
       this.dispatcher.findAmbiguities((p_201302_1_, p_201302_2_, p_201302_3_, p_201302_4_) -> {
          LOGGER.warn("Ambiguity between arguments {} and {} with inputs: {}", this.dispatcher.getPath(p_201302_2_), this.dispatcher.getPath(p_201302_3_), p_201302_4_);
       });
