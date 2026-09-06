@@ -15,15 +15,14 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 
 	public EverlastingBackpackItemEntity(EntityType<? extends ItemEntity> type, World world) {
 		super(type, world);
-		lifespan = Integer.MAX_VALUE; //set to not despawn
 	}
 
 	@Override
 	public void tick() {
 		if (!world.isRemote) {
-			double d0 = getPosX() + 0.5F - rand.nextFloat();
-			double d1 = getPosY() + rand.nextFloat() * 0.5F;
-			double d2 = getPosZ() + 0.5F - rand.nextFloat();
+			double d0 = posX + 0.5F - rand.nextFloat();
+			double d1 = posY + rand.nextFloat() * 0.5F;
+			double d2 = posZ + 0.5F - rand.nextFloat();
 			ServerWorld serverWorld = (ServerWorld) world;
 			if (rand.nextInt(20) == 0) {
 				serverWorld.spawnParticle(ParticleTypes.HAPPY_VILLAGER, d0, d1, d2, 0, 0, 0.1D, 0, 1f);
@@ -31,7 +30,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 		}
 		if (!isNoGravity()) {
 			if (isInWater() || isInLava()) {
-				onInsideBubbleColumn(false);
+				setMotion(getMotion().x, 0.06D, getMotion().z);
 				wasFloatingUp = true;
 			} else if (wasFloatingUp) {
 				setNoGravity(true);
@@ -43,16 +42,11 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 
 	@Override
 	public boolean isInWater() {
-		return getPosY() < 1 || super.isInWater();
+		return posY < 1 || super.isInWater();
 	}
 
 	@Override
-	public boolean fireImmune() {
-		return true;
-	}
-
-	@Override
-	public boolean ignoreExplosion() {
+	public boolean isImmuneToExplosions() {
 		return true;
 	}
 
@@ -70,4 +64,5 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 	public IPacket<?> createSpawnPacket() {
 		return new net.minecraft.network.play.server.SSpawnObjectPacket(this);
 	}
+
 }

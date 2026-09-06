@@ -228,7 +228,7 @@ public class ModItems {
 		UPGRADE_BASE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "upgrade_base"), new ItemBase(new Item.Properties().maxStackSize(16)));
 		BACKPACK_CONTAINER_TYPE = Registry.register(Registry.MENU, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "backpack"), new ContainerType<>(BackpackContainer::fromOpenData));
 		SETTINGS_CONTAINER_TYPE = Registry.register(Registry.MENU, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "settings"), new ContainerType<>(SettingsContainer::fromOpenData));
-		EVERLASTING_BACKPACK_ITEM_ENTITY = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "everlasting_backpack_item"), EntityType.Builder.<EverlastingBackpackItemEntity>create(EverlastingBackpackItemEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).build("everlasting_backpack_item"));
+		EVERLASTING_BACKPACK_ITEM_ENTITY = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "everlasting_backpack_item"), EntityType.Builder.<EverlastingBackpackItemEntity>create(EverlastingBackpackItemEntity::new, EntityClassification.MISC).immuneToFire().size(0.25F, 0.25F).build("everlasting_backpack_item"));
 	}
 
 
