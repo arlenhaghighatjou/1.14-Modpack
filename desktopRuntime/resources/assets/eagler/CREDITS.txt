@@ -1,6 +1,11 @@
 
- Eaglercraft 1.14.4 / EaglercraftX Developers
+ Eaglercraft 1.14.4 Modpack / Eaglercraft 1.14.4 / EaglercraftX Developers
  ~~~~~~~~~~~~~~~~~~~~~~~
+
+ arlenh7:
+  - ported multiple mods to 1.14 Eaglercraft
+  - miscellaneous bug fixes
+  - optimizations
 
  eymenwsmc:
   - Ported 1.14 to browser
@@ -10,9 +15,6 @@
 
  cirsius:
   - dozens of miscellaneous bug fixes and improvements
-
- arlenh7:
-  - small optimizations
 
  lax1dude:
   - Creator of Eaglercraft
