@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.util.fluid;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidHandlerLookup;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;

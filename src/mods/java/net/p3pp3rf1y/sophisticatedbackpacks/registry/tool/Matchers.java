@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.registry.tool;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerLookup;
+
 import net.minecraft.util.registry.Registry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

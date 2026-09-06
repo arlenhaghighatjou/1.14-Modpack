@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.tank;
 
+import net.minecraft.client.renderer.texture.AtlasTexture;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.nbt.CompoundNBT;

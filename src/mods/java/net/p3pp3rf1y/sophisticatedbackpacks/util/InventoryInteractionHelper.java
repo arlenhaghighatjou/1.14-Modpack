@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.util;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerLookup;
+
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

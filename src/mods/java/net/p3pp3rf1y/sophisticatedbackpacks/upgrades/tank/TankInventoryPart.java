@@ -1,5 +1,9 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.tank;
 
+import net.minecraft.client.renderer.texture.AtlasTexture;
+
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidHandlerLookup;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

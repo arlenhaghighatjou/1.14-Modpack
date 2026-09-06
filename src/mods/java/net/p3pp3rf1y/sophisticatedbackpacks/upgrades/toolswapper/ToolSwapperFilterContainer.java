@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.toolswapper;
 
+import net.minecraft.client.renderer.texture.AtlasTexture;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.inventory.container.PlayerContainer;

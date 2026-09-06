@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 
+import net.minecraft.util.SoundCategory;
+
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.BlockState;

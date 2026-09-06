@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.refill;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerLookup;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;

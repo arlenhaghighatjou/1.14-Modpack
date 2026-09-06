@@ -1,5 +1,9 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.stonecutter;
 
+import net.minecraft.client.audio.ISound;
+
+import net.minecraft.util.SoundCategory;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.FontRenderer;

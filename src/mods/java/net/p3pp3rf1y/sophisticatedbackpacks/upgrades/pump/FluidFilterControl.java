@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.pump;
 
+import net.minecraft.client.renderer.texture.AtlasTexture;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.fluid.Fluid;
