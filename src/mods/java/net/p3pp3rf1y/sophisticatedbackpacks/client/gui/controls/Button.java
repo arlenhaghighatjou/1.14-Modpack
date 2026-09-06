@@ -27,7 +27,7 @@ public class Button extends ButtonBase {
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		if (isMouseOver(mouseX, mouseY)) {
 			if (hoveredBackgroundTexture != null) {
 				GuiHelper.blit(minecraft, x, y, hoveredBackgroundTexture);

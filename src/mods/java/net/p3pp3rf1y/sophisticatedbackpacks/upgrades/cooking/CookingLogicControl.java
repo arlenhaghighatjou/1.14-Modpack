@@ -48,7 +48,7 @@ public class CookingLogicControl<T extends AbstractCookingRecipe> extends Compos
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		GuiHelper.blit(minecraft, x, y, FURNACE_BACKGROUND);
 	}
 

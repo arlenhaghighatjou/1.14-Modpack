@@ -50,7 +50,7 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
       return -2130706433;
    }
 
-   protected Slot hoveredSlot;
+   public Slot hoveredSlot;
 
    public Slot getSlotUnderMouse() {
       return this.hoveredSlot;

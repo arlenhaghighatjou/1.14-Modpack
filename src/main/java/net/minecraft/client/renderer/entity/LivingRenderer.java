@@ -52,7 +52,7 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
       this.shadowSize = p_i50965_3_;
    }
 
-   protected final boolean addLayer(LayerRenderer<T, M> layer) {
+   public final boolean addLayer(LayerRenderer<T, M> layer) {
       return this.layerRenderers.add(layer);
    }
 

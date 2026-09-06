@@ -154,7 +154,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 
 		addChild(new ToggleButton<Boolean>(new Position(x + 54, y + tagButtonsYOffset), ButtonDefinitions.MATCH_ANY_TAG, button -> container.setMatchAnyTag(!container.shouldMatchAnyTag()), container::shouldMatchAnyTag) {
 			@Override
-			protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+			protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 				if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
 					super.renderBg(minecraft, mouseX, mouseY);
 				}
@@ -328,7 +328,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		if (container.getPrimaryMatch() != PrimaryMatch.TAGS) {
 			GuiHelper.renderSlotsBackground(minecraft, x, y + slotsTopYOffset, slotsPerRow, fullSlotRows, slotsInExtraRow);
 		} else {
@@ -350,7 +350,7 @@ public abstract class FilterLogicControlBase<F extends FilterLogicBase, S extend
 		}
 
 		@Override
-		protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+		protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 			if (container.getPrimaryMatch() == PrimaryMatch.TAGS) {
 				super.renderBg(minecraft, mouseX, mouseY);
 			}

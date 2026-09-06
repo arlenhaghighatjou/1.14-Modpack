@@ -17,7 +17,7 @@ public class ImageButton extends ButtonBase {
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		//noop
 	}
 

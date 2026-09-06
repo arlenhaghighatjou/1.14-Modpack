@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 import static net.p3pp3rf1y.sophisticatedbackpacks.util.RecipeHelper.CompactingShape.*;
 
 public class RecipeHelper {
-	private static final LoadingCache<Item, Set<CompactingShape>> ITEM_COMPACTING_SHAPES = CacheBuilder.newBuilder().expireAfterAccess(120L, TimeUnit.SECONDS).build(new CacheLoader<Item, Set<CompactingShape>>() {
+	private static final LoadingCache<Item, Set<CompactingShape>> ITEM_COMPACTING_SHAPES = com.google.common.cache.CacheBuilder.newBuilder().expireAfterAccess(120L, TimeUnit.SECONDS).build(new CacheLoader<Item, Set<CompactingShape>>() {
 		@Override
 		public Set<CompactingShape> load(Item item) {
 			return getCompactingShapes(item);
@@ -170,7 +170,7 @@ public class RecipeHelper {
 	}
 
 	public static <T extends AbstractCookingRecipe> Optional<T> getCookingRecipe(ItemStack stack, IRecipeType<T> recipeType) {
-		return getWorld().flatMap(w -> w.getRecipeManager().getRecipe(recipeType, new RecipeWrapper(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, stack))), w));
+		return getWorld().flatMap(w -> w.getRecipeManager().getRecipe(recipeType, new RecipeWrapper(new ItemStackHandler(NonNullList.from(ItemStack.EMPTY, stack))), w));
 	}
 
 	public static Set<CompactingShape> getItemCompactingShapes(Item item) {
@@ -178,7 +178,7 @@ public class RecipeHelper {
 	}
 
 	public static List<StonecuttingRecipe> getStonecuttingRecipes(IInventory inventory) {
-		return getWorld().map(w -> w.getRecipeManager().getRecipesFor(IRecipeType.STONECUTTING, inventory, w)).orElse(Collections.emptyList());
+		return getWorld().map(w -> w.getRecipeManager().getRecipes(IRecipeType.STONECUTTING, inventory, w)).orElse(Collections.emptyList());
 	}
 
 	public enum CompactingShape {

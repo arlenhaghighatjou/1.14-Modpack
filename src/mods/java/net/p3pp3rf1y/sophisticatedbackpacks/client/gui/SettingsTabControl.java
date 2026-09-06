@@ -62,7 +62,7 @@ public abstract class SettingsTabControl<C extends ContainerScreen<?>, T extends
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		//noop
 	}
 

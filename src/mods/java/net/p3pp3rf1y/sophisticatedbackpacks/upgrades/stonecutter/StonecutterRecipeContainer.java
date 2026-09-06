@@ -171,8 +171,8 @@ public class StonecutterRecipeContainer {
 
 		@Override
 		public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
-			stack.onCraftedBy(thePlayer.world, thePlayer, stack.getCount());
-			resultInventory.awardUsedRecipes(thePlayer);
+			stack.onCrafting(thePlayer.world, thePlayer, stack.getCount());
+			resultInventory.onCrafting(thePlayer);
 			ItemStack itemstack = inputSlot.decrStackSize(1);
 			if (!itemstack.isEmpty()) {
 				updateRecipeResultSlot();

@@ -131,8 +131,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class EntityRendererManager {
-   private final Map<Class<? extends Entity>, EntityRenderer<? extends Entity>> renderers = Maps.newHashMap();
-   private final Map<String, PlayerRenderer> skinMap = Maps.newHashMap();
+   public Map<String, PlayerRenderer> getSkinMap() {
+      return this.skinMap;
+   }
+
+   public final Map<Class<? extends Entity>, EntityRenderer<? extends Entity>> renderers = Maps.newHashMap();
+   public final Map<String, PlayerRenderer> skinMap = Maps.newHashMap();
    private final PlayerRenderer playerRenderer;
    private PlayerRenderer eaglerRenderer;
    private FontRenderer textRenderer;

@@ -25,7 +25,7 @@ public class FluidFilterControl extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		GuiHelper.renderSlotsBackground(minecraft, x, y, container.getNumberOfFluidFilters(), 1);
 	}
 
@@ -35,7 +35,7 @@ public class FluidFilterControl extends BackpackWidget {
 			Fluid fluid = container.getFluid(i);
 			if (fluid != Fluids.EMPTY) {
 				ResourceLocation texture = FluidAttributes.getStillTexture(fluid);
-				TextureAtlasSprite still = minecraft.getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
+				TextureAtlasSprite still = minecraft.getTextureMap().apply(texture);
 				GuiHelper.renderTiledFluidTextureAtlas(still, FluidAttributes.getColor(fluid), x + i * 18 + 1, y + 1, 16, minecraft);
 			}
 		}

@@ -197,7 +197,7 @@ public class BackpackBlock extends Block implements IWaterLoggable, ITileEntityP
 	private static void putInPlayersHandAndRemove(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
 		ItemStack backpack = WorldHelper.getTile(world, pos, BackpackTileEntity.class).map(te -> te.getBackpackWrapper().getBackpack()).orElse(ItemStack.EMPTY);
 		player.setHeldItem(hand, backpack);
-		player.getCooldowns().addCooldown(backpack.getItem(), 5);
+		player.getCooldownTracker().addCooldown(backpack.getItem(), 5);
 		world.removeBlock(pos, false);
 
 		stopBackpackSounds(backpack, world, pos);
@@ -269,14 +269,14 @@ public class BackpackBlock extends Block implements IWaterLoggable, ITileEntityP
 	}
 
 	private static void renderUpgrades(World world, Random rand, BlockPos pos, Direction facing, BackpackRenderInfo renderInfo) {
-		if (Minecraft.getInstance().isPaused()) {
+		if (Minecraft.getInstance().isGamePaused()) {
 			return;
 		}
 		renderInfo.getUpgradeRenderData().forEach((type, data) -> UpgradeRenderRegistry.getUpgradeRenderer(type).ifPresent(renderer -> renderUpgrade(renderer, world, rand, pos, facing, type, data)));
 	}
 
 	private static Vec3d getBackpackMiddleFacePoint(BlockPos pos, Direction facing, Vec3d vector3d) {
-		return vector3d.add(0, 0, 0.41).yRot((float) (-facing.toYRot() * (Math.PI / 180F))).add(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+		return vector3d.add(0, 0, 0.41).yRot((float) (-facing.getHorizontalAngle() * (Math.PI / 180F))).add(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 	}
 
 	private static <T extends IUpgradeRenderData> void renderUpgrade(IUpgradeRenderer<T> renderer, World world, Random rand, BlockPos pos, Direction facing, UpgradeRenderDataType<?> type, IUpgradeRenderData data) {

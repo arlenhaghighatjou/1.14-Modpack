@@ -78,7 +78,7 @@ public abstract class Tab extends CompositeBackpackWidget<BackpackWidget> {
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		minecraft.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 
 		int halfHeight = height / 2;

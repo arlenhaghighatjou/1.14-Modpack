@@ -59,7 +59,7 @@ public class StonecutterRecipeControl extends BackpackWidget {
 	}
 
 	@Override
-	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY) {
 		GuiHelper.renderSlotsBackground(minecraft, x + getCenteredX(18), y, 1, 1);
 		GuiHelper.blit(minecraft, x, y + LIST_Y_OFFSET, LIST_BACKGROUND);
 		GuiHelper.blit(minecraft, x + getCenteredX(26), y + INPUT_SLOT_HEIGHT + SPACING + LIST_BACKGROUND.getHeight() + SPACING, GuiHelper.CRAFTING_RESULT_SLOT);

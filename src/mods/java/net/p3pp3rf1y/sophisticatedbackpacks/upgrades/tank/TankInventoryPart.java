@@ -128,7 +128,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		int displayLevel = (int) ((height - 2) * ((float) fill / capacity));
 
 		ResourceLocation texture = FluidAttributes.getStillTexture(fluid);
-		TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
+		TextureAtlasSprite still = Minecraft.getInstance().getTextureMap().apply(texture);
 		GuiHelper.renderTiledFluidTextureAtlas(still, FluidAttributes.getColor(fluid), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.mc);
 		renderTooltip(mouseX, mouseY, contents, capacity);
 	}

@@ -25,8 +25,8 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 		super(screenContainer, inv, titleIn);
 		ySize = 114 + getContainer().getNumberOfRows() * 18;
 		xSize = getContainer().getBackpackBackgroundProperties().getSlotsOnLine() * 18 + 14;
-		inventoryLabelY = ySize - 94;
-		inventoryLabelX = 8 + getContainer().getBackpackBackgroundProperties().getPlayerInventoryXOffset();
+		playerInventoryTitleY = ySize - 94;
+		playerInventoryTitleX = 8 + getContainer().getBackpackBackgroundProperties().getPlayerInventoryXOffset();
 	}
 
 	@Override
@@ -38,7 +38,8 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	protected void renderBg(float partialTicks, int x, int y) {
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y) {
 		BackpackBackgroundProperties backpackBackgroundProperties = getContainer().getBackpackBackgroundProperties();
 		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), getContainer().getBackpackInventorySlots().size(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());
 	}
@@ -55,7 +56,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	protected void renderLabels(int mouseX, int mouseY) {
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.renderLabels(mouseX, mouseY);
 		for (int slotId = 0; slotId < container.ghostSlots.size(); ++slotId) {
 			Slot slot = container.ghostSlots.get(slotId);
