@@ -2,7 +2,6 @@ package net.p3pp3rf1y.sophisticatedbackpacks.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.FontRenderer;
@@ -10,9 +9,7 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Rectangle2d;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,11 +19,9 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
@@ -204,8 +199,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == 256 || ClientProxy.BACKPACK_OPEN_KEYBIND.isActiveAndMatches(InputMappings.getKey(keyCode, scanCode)) && mouseNotOverBackpack()) {
 			if (getContainer().isFirstLevelBackpack() && getContainer().getBackpackContext().wasOpenFromInventory()) {
-				getMinecraft().player.closeContainer();
-				getMinecraft().setScreen(new InventoryScreen(getMinecraft().player));
+				mc.player.closeScreen();
+				mc.displayGuiScreen(new InventoryScreen(mc.player));
 				return true;
 			} else if (!getContainer().isFirstLevelBackpack()) {
 				PacketHandler.sendToServer(new BackpackOpenMessage());
@@ -258,12 +253,12 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		}
 		upgradeSwitches.forEach(us -> us.render(mouseX, mouseY, partialTicks));
 		renderErrorOverlay();
-		renderTooltip(mouseX, mouseY);
+		renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderLabels(int mouseX, int mouseY) {
-		super.renderLabels(mouseX, mouseY);
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		renderUpgradeInventoryParts(mouseX, mouseY);
 		renderUpgradeSlots(mouseX, mouseY);
 		renderRealInventorySlots(mouseX, mouseY);
@@ -274,11 +269,11 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void renderRealInventorySlots(int mouseX, int mouseY) {
-		for (int slotId = 0; slotId < menu.realInventorySlots.size(); ++slotId) {
-			Slot slot = menu.realInventorySlots.get(slotId);
-			renderSlot(slot);
+		for (int slotId = 0; slotId < container.realInventorySlots.size(); ++slotId) {
+			Slot slot = container.realInventorySlots.get(slotId);
+			drawSlot(slot);
 
-			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
+			if (isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
 				renderSlotOverlay(slot, getSlotColor(slotId));
 			}
@@ -286,16 +281,16 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void renderUpgradeSlots(int mouseX, int mouseY) {
-		for (int slotId = 0; slotId < menu.upgradeSlots.size(); ++slotId) {
-			Slot slot = menu.upgradeSlots.get(slotId);
+		for (int slotId = 0; slotId < container.upgradeSlots.size(); ++slotId) {
+			Slot slot = container.upgradeSlots.get(slotId);
 			if (slot.xPos != DISABLED_SLOT_X_POS) {
-				renderSlot(slot);
+				drawSlot(slot);
 				if (!slot.isEnabled()) {
 					renderSlotOverlay(slot, DISABLED_SLOT_COLOR);
 				}
 			}
 
-			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
+			if (isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
 				renderSlotOverlay(slot, getSlotColor(slotId));
 			}
@@ -303,35 +298,35 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	@Override
-	protected void renderSlot(Slot slot) {
+	protected void drawSlot(Slot slot) {
 		int i = slot.xPos;
 		int j = slot.yPos;
 		ItemStack itemstack = slot.getStack();
 		boolean flag = false;
-		boolean rightClickDragging = slot == clickedSlot && !draggingItem.isEmpty() && !isSplittingStack;
+		boolean rightClickDragging = slot == clickedSlot && !draggedStack.isEmpty() && !isRightMouseClick;
 		//noinspection ConstantConditions - player is not null at this point for sure
-		ItemStack itemstack1 = minecraft.player.inventory.getItemStack();
+		ItemStack itemstack1 = mc.player.inventory.getItemStack();
 		String stackCountText = null;
-		if (slot == clickedSlot && !draggingItem.isEmpty() && isSplittingStack && !itemstack.isEmpty()) {
+		if (slot == clickedSlot && !draggedStack.isEmpty() && isRightMouseClick && !itemstack.isEmpty()) {
 			itemstack = itemstack.copy();
 			itemstack.setCount(itemstack.getCount() / 2);
-		} else if (isQuickCrafting && dragSlots.contains(slot) && !itemstack1.isEmpty()) {
-			if (dragSlots.size() == 1) {
+		} else if (dragSplitting && dragSplittingSlots.contains(slot) && !itemstack1.isEmpty()) {
+			if (dragSplittingSlots.size() == 1) {
 				return;
 			}
 
-			if (BackpackContainer.canMergeItemToSlot(slot, itemstack1) && container.canDragTo(slot)) {
+			if (BackpackContainer.canMergeItemToSlot(slot, itemstack1) && container.canDragIntoSlot(slot)) {
 				itemstack = itemstack1.copy();
 				flag = true;
-				Container.getQuickCraftSlotCount(dragSlots, quickCraftingType, itemstack, slot.getStack().isEmpty() ? 0 : slot.getStack().getCount());
-				int slotLimit = slot.getSlotStackLimit(itemstack);
+				Container.computeStackSize(dragSplittingSlots, dragSplittingButton, itemstack, slot.getStack().isEmpty() ? 0 : slot.getStack().getCount());
+				int slotLimit = slot.getItemStackLimit(itemstack);
 				if (itemstack.getCount() > slotLimit) {
 					stackCountText = TextFormatting.YELLOW + CountAbbreviator.abbreviate(slotLimit);
 					itemstack.setCount(slotLimit);
 				}
 			} else {
-				dragSlots.remove(slot);
-				recalculateQuickCraftRemaining();
+				dragSplittingSlots.remove(slot);
+				updateDragSplitting();
 			}
 		}
 
@@ -372,10 +367,10 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 			itemRenderer.renderItemAndEffectIntoGUI(mc.player, memorizedStack.get(), i, j);
 			drawMemorizedStackOverlay(i, j);
 		} else {
-			Pair<ResourceLocation, ResourceLocation> pair = slot.getBackgroundLocation();
-			if (pair != null) {
-				TextureAtlasSprite textureatlassprite = mc.getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
-				mc.getTextureManager().bind(textureatlassprite.atlas().location());
+			String background = slot.getSlotTexture();
+			if (background != null) {
+				TextureAtlasSprite textureatlassprite = mc.getTextureMap().getAtlasSprite(background);
+				mc.getTextureManager().bindTexture(net.minecraft.client.renderer.texture.AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 				blit(i, j, getBlitOffset(), 16, 16, textureatlassprite);
 			}
 		}
@@ -383,12 +378,12 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	private void drawMemorizedStackOverlay(int x, int y) {
 		GlStateManager.pushMatrix();
-		GlStateManager._enableBlend();
-		GlStateManager._disableDepthTest();
+		GlStateManager.enableBlend();
+		GlStateManager.disableDepthTest();
 		mc.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 		blit(x, y, 77, 0, 16, 16);
-		GlStateManager._enableDepthTest();
-		GlStateManager._disableBlend();
+		GlStateManager.enableDepthTest();
+		GlStateManager.disableBlend();
 		GlStateManager.popMatrix();
 	}
 
@@ -412,20 +407,21 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		GlStateManager.enableDepthTest();
 	}
 
-	protected void renderBg(float partialTicks, int x, int y) {
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y) {
 		drawInventoryBackground();
 		drawUpgradeBackground();
 	}
 
 	@Override
-	protected void renderTooltip(int x, int y) {
-		if (minecraft.player.inventory.getItemStack().isEmpty() && hoveredSlot != null) {
+	protected void renderHoveredToolTip(int x, int y) {
+		if (mc.player.inventory.getItemStack().isEmpty() && hoveredSlot != null) {
 			if (hoveredSlot.getHasStack()) {
 				renderTooltip(hoveredSlot.getStack(), x, y);
 			} else if (hoveredSlot instanceof INameableEmptySlot) {
 				INameableEmptySlot emptySlot = (INameableEmptySlot) hoveredSlot;
 				if (emptySlot.hasEmptyTooltip()) {
-					renderWrappedToolTip(Collections.singletonList(emptySlot.getEmptyTooltip()), x, y, font);
+					renderTooltip(Collections.singletonList(emptySlot.getEmptyTooltip().getFormattedText()), x, y);
 				}
 			}
 		}
@@ -433,12 +429,12 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	@Override
-	public List<ITextComponent> getTooltipFromItem(ItemStack itemStack) {
-		List<ITextComponent> ret = super.getTooltipFromItem(itemStack);
+	public List<String> getTooltipFromItem(ItemStack itemStack) {
+		List<String> ret = super.getTooltipFromItem(itemStack);
 		if (itemStack.getCount() > 999) {
 			ret.add(new TranslationTextComponent("gui.sophisticatedbackpacks.tooltip.stack_count",
 					new StringTextComponent(NumberFormat.getNumberInstance().format(itemStack.getCount())).applyTextStyle(TextFormatting.DARK_AQUA))
-					.applyTextStyle(TextFormatting.GRAY)
+					.applyTextStyle(TextFormatting.GRAY).getFormattedText()
 			);
 		}
 		return ret;
@@ -500,17 +496,17 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	@Nullable
 	@Override
-	public Slot findSlot(double mouseX, double mouseY) {
-		for (int i = 0; i < menu.upgradeSlots.size(); ++i) {
-			Slot slot = menu.upgradeSlots.get(i);
-			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
+	public Slot getSelectedSlot(double mouseX, double mouseY) {
+		for (int i = 0; i < container.upgradeSlots.size(); ++i) {
+			Slot slot = container.upgradeSlots.get(i);
+			if (isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}
 
-		for (int i = 0; i < menu.realInventorySlots.size(); ++i) {
-			Slot slot = menu.realInventorySlots.get(i);
-			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
+		for (int i = 0; i < container.realInventorySlots.size(); ++i) {
+			Slot slot = container.realInventorySlots.get(i);
+			if (isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}
@@ -532,8 +528,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	private void handleQuickMoveAll(double mouseX, double mouseY, int button) {
-		Slot slot = findSlot(mouseX, mouseY);
-		if (doubleclick && !minecraft.player.inventory.getItemStack().isEmpty() && slot != null && button == 0 && container.canTakeItemForPickAll(ItemStack.EMPTY, slot) && hasShiftDown() && !lastQuickMoved.isEmpty()) {
+		Slot slot = getSelectedSlot(mouseX, mouseY);
+		if (doubleClick && !mc.player.inventory.getItemStack().isEmpty() && slot != null && button == 0 && container.canMergeSlot(ItemStack.EMPTY, slot) && hasShiftDown() && !shiftClickedSlot.isEmpty()) {
 			for (Slot slot2 : container.realInventorySlots) {
 				tryQuickMoveSlot(button, slot, slot2);
 			}
@@ -543,18 +539,18 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	private void tryQuickMoveSlot(int button, Slot slot, Slot slot2) {
 		if (slot2.canTakeStack(mc.player) && slot2.getHasStack() && slot2.isSameInventory(slot)) {
 			ItemStack slotItem = slot2.getStack();
-			if (slotItem.sameItem(lastQuickMoved) && ItemStack.areItemStackTagsEqual(lastQuickMoved, slotItem)) {
+			if (slotItem.isItemEqual(shiftClickedSlot) && ItemStack.areItemStackTagsEqual(shiftClickedSlot, slotItem)) {
 				if (slotItem.getCount() > slotItem.getMaxStackSize()) {
 					PacketHandler.sendToServer(new TransferFullSlotMessage(slot2.slotNumber));
 				} else {
-					slotClicked(slot2, slot2.slotNumber, button, ClickType.QUICK_MOVE);
+					handleMouseClick(slot2, slot2.slotNumber, button, ClickType.QUICK_MOVE);
 				}
 			}
 		}
 	}
 
 	@Override
-	protected void slotClicked(Slot slot, int slotNumber, int mouseButton, ClickType type) {
+	protected void handleMouseClick(Slot slot, int slotNumber, int mouseButton, ClickType type) {
 		if (type == ClickType.PICKUP_ALL && !container.getSlotUpgradeContainer(slot).map(c -> c.allowsPickupAll(slot)).orElse(true)) {
 			type = ClickType.PICKUP;
 		}
@@ -570,7 +566,7 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		Slot slot = findSlot(mouseX, mouseY);
+		Slot slot = getSelectedSlot(mouseX, mouseY);
 		if (hasShiftDown() && hasControlDown() && slot instanceof BackpackInventorySlot && button == 0) {
 			PacketHandler.sendToServer(new TransferFullSlotMessage(slot.slotNumber));
 			return true;
@@ -586,14 +582,14 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 				return true;
 			}
 		}
-		Slot slot = findSlot(mouseX, mouseY);
-		ItemStack itemstack = minecraft.player.inventory.getItemStack();
-		if (isQuickCrafting && slot != null && !itemstack.isEmpty()
-				&& (itemstack.getCount() > dragSlots.size() || quickCraftingType == 2)
+		Slot slot = getSelectedSlot(mouseX, mouseY);
+		ItemStack itemstack = mc.player.inventory.getItemStack();
+		if (dragSplitting && slot != null && !itemstack.isEmpty()
+				&& (itemstack.getCount() > dragSplittingSlots.size() || dragSplittingButton == 2)
 				&& BackpackContainer.canMergeItemToSlot(slot, itemstack) && slot.isItemValid(itemstack)
-				&& container.canDragTo(slot)) {
-			dragSlots.add(slot);
-			recalculateQuickCraftRemaining();
+				&& container.canDragIntoSlot(slot)) {
+			dragSplittingSlots.add(slot);
+			updateDragSplitting();
 		}
 
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
@@ -630,26 +626,26 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 	}
 
 	@Override
-	protected void recalculateQuickCraftRemaining() {
+	protected void updateDragSplitting() {
 		//noinspection ConstantConditions - can't happen here as player is definitely known
-		ItemStack cursorStack = minecraft.player.inventory.getItemStack();
-		if (!cursorStack.isEmpty() && isQuickCrafting) {
-			if (quickCraftingType == 2) {
-				quickCraftingRemainder = cursorStack.getMaxStackSize();
+		ItemStack cursorStack = mc.player.inventory.getItemStack();
+		if (!cursorStack.isEmpty() && dragSplitting) {
+			if (dragSplittingButton == 2) {
+				dragSplittingRemnant = cursorStack.getMaxStackSize();
 			} else {
-				quickCraftingRemainder = cursorStack.getCount();
+				dragSplittingRemnant = cursorStack.getCount();
 
-				for (Slot slot : dragSlots) {
+				for (Slot slot : dragSplittingSlots) {
 					ItemStack itemstack1 = cursorStack.copy();
 					ItemStack slotStack = slot.getStack();
 					int slotStackCount = slotStack.isEmpty() ? 0 : slotStack.getCount();
-					Container.getQuickCraftSlotCount(dragSlots, quickCraftingType, itemstack1, slotStackCount);
-					int j = slot.getSlotStackLimit(itemstack1);
+					Container.computeStackSize(dragSplittingSlots, dragSplittingButton, itemstack1, slotStackCount);
+					int j = slot.getItemStackLimit(itemstack1);
 					if (itemstack1.getCount() > j) {
 						itemstack1.setCount(j);
 					}
 
-					quickCraftingRemainder -= itemstack1.getCount() - slotStackCount;
+					dragSplittingRemnant -= itemstack1.getCount() - slotStackCount;
 				}
 			}
 		}
@@ -686,18 +682,16 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		GlStateManager.translatef((float) width / 2, guiTop + playerInventoryTitleY + 4, 300F);
 		FontRenderer fontrenderer = Minecraft.getInstance().fontRenderer;
 
-		int tooltipWidth = font.getStringWidth(overlayErrorMessage);
+		int tooltipWidth = font.getStringWidth(overlayErrorMessage.getFormattedText());
 
 		List<ITextComponent> wrappedTextLines = new ArrayList<>();
 		int maxLineWidth = 260;
 		if (tooltipWidth > maxLineWidth) {
 			int wrappedTooltipWidth = 0;
-			List<ITextComponent> wrappedLine = font.getSplitter().splitLines(overlayErrorMessage, maxLineWidth, Style.EMPTY);
-
-			for (ITextComponent line : wrappedLine) {
+			for (String line : font.listFormattedStringToWidth(overlayErrorMessage.getFormattedText(), maxLineWidth)) {
 				int lineWidth = font.getStringWidth(line);
 				if (lineWidth > wrappedTooltipWidth) {wrappedTooltipWidth = lineWidth;}
-				wrappedTextLines.add(line);
+				wrappedTextLines.add(new StringTextComponent(line));
 			}
 			tooltipWidth = wrappedTooltipWidth;
 		} else {
@@ -712,10 +706,8 @@ public class BackpackScreen extends ContainerScreen<BackpackContainer> {
 		float leftX = (float) -tooltipWidth / 2;
 
 		GuiHelper.renderTooltipBackground(tooltipWidth, (int) leftX, 0, tooltipHeight, ERROR_BACKGROUND_COLOR, ERROR_BORDER_COLOR, ERROR_BORDER_COLOR);
-		IRenderTypeBuffer.Impl renderTypeBuffer = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuffer());
 		GlStateManager.translated(0.0D, 0.0D, 400.0D);
-		GuiHelper.writeTooltipLines(wrappedTextLines, fontrenderer, leftX, 0, matrix4f, renderTypeBuffer, DyeColor.RED.getColorValue());
-		renderTypeBuffer.endBatch();
+		GuiHelper.writeTooltipLines(wrappedTextLines, fontrenderer, leftX, 0, DyeColor.RED.getColorValue());
 		GlStateManager.popMatrix();
 	}
 

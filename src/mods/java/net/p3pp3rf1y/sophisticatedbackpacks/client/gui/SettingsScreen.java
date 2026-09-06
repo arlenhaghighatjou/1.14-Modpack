@@ -57,13 +57,13 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	@Override
 	protected void renderLabels(int mouseX, int mouseY) {
 		super.renderLabels(mouseX, mouseY);
-		for (int slotId = 0; slotId < menu.ghostSlots.size(); ++slotId) {
-			Slot slot = menu.ghostSlots.get(slotId);
-			renderSlot(slot);
+		for (int slotId = 0; slotId < container.ghostSlots.size(); ++slotId) {
+			Slot slot = container.ghostSlots.get(slotId);
+			drawSlot(slot);
 
 			settingsTabControl.renderSlotOverlays(slot, this::renderSlotOverlay);
 
-			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
+			if (isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				hoveredSlot = slot;
 				renderSlotOverlay(slot, getSlotColor(slotId));
 			}
@@ -71,7 +71,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	protected void renderSlot(Slot slot) {
+	protected void drawSlot(Slot slot) {
 		Optional<ItemStack> memorizedStack = getContainer().getMemorizedStackInSlot(slot.getSlotIndex());
 		ItemStack itemstack = slot.getStack();
 		if (memorizedStack.isPresent()) {
@@ -95,18 +95,18 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 	private void drawMemorizedStackOverlay(int x, int y) {
 		GlStateManager.pushMatrix();
-		GlStateManager._enableBlend();
-		GlStateManager._disableDepthTest();
+		GlStateManager.enableBlend();
+		GlStateManager.disableDepthTest();
 		mc.getTextureManager().bindTexture(GuiHelper.GUI_CONTROLS);
 		blit(x, y, 77, 0, 16, 16);
-		GlStateManager._enableDepthTest();
-		GlStateManager._disableBlend();
+		GlStateManager.enableDepthTest();
+		GlStateManager.disableBlend();
 		GlStateManager.popMatrix();
 	}
 
 	@SuppressWarnings("java:S2589") // slot can actually be null despite being marked non null
 	@Override
-	protected void slotClicked(Slot slot, int slotId, int mouseButton, ClickType type) {
+	protected void handleMouseClick(Slot slot, int slotId, int mouseButton, ClickType type) {
 		//noinspection ConstantConditions
 		if (slot != null) {
 			settingsTabControl.handleSlotClick(slot, mouseButton);
@@ -115,7 +115,7 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		Slot slot = findSlot(mouseX, mouseY);
+		Slot slot = getSelectedSlot(mouseX, mouseY);
 		if (slot != null) {
 			settingsTabControl.handleSlotClick(slot, button);
 		}
@@ -124,10 +124,10 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 
 	@Nullable
 	@Override
-	protected Slot findSlot(double mouseX, double mouseY) {
-		for (int i = 0; i < menu.ghostSlots.size(); ++i) {
-			Slot slot = menu.ghostSlots.get(i);
-			if (isHovering(slot, mouseX, mouseY) && slot.isEnabled()) {
+	protected Slot getSelectedSlot(double mouseX, double mouseY) {
+		for (int i = 0; i < container.ghostSlots.size(); ++i) {
+			Slot slot = container.ghostSlots.get(i);
+			if (isSlotSelected(slot, mouseX, mouseY) && slot.isEnabled()) {
 				return slot;
 			}
 		}

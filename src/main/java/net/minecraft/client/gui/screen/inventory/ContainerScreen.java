@@ -42,9 +42,9 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
       return this.guiTop;
    }
    protected Slot hoveredSlot;
-   private Slot clickedSlot;
-   private boolean isRightMouseClick;
-   private ItemStack draggedStack = ItemStack.EMPTY;
+   protected Slot clickedSlot;
+   protected boolean isRightMouseClick;
+   protected ItemStack draggedStack = ItemStack.EMPTY;
    private int touchUpX;
    private int touchUpY;
    private Slot returningStackDestSlot;
@@ -54,15 +54,15 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
    private long dragItemDropDelay;
    protected final Set<Slot> dragSplittingSlots = Sets.newHashSet();
    protected boolean dragSplitting;
-   private int dragSplittingLimit;
-   private int dragSplittingButton;
+   protected int dragSplittingLimit;
+   protected int dragSplittingButton;
    private boolean ignoreMouseUp;
-   private int dragSplittingRemnant;
+   protected int dragSplittingRemnant;
    private long lastClickTime;
    private Slot lastClickSlot;
    private int lastClickButton;
-   private boolean doubleClick;
-   private ItemStack shiftClickedSlot = ItemStack.EMPTY;
+   protected boolean doubleClick;
+   protected ItemStack shiftClickedSlot = ItemStack.EMPTY;
    private int escWarningTimer;
 
    public ContainerScreen(T screenContainer, PlayerInventory inv, ITextComponent titleIn) {
@@ -190,7 +190,7 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
 
    protected abstract void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY);
 
-   private void drawSlot(Slot slotIn) {
+   protected void drawSlot(Slot slotIn) {
       int i = slotIn.xPos;
       int j = slotIn.yPos;
       ItemStack itemstack = slotIn.getStack();
@@ -249,7 +249,7 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
       this.blitOffset = 0;
    }
 
-   private void updateDragSplitting() {
+   protected void updateDragSplitting() {
       ItemStack itemstack = this.mc.player.inventory.getItemStack();
       if (!itemstack.isEmpty() && this.dragSplitting) {
          if (this.dragSplittingLimit == 2) {
@@ -274,7 +274,7 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
       }
    }
 
-   private Slot getSelectedSlot(double p_195360_1_, double p_195360_3_) {
+   protected Slot getSelectedSlot(double p_195360_1_, double p_195360_3_) {
       for(int i = 0; i < this.container.inventorySlots.size(); ++i) {
          Slot slot = this.container.inventorySlots.get(i);
          if (this.isSlotSelected(slot, p_195360_1_, p_195360_3_) && slot.isEnabled()) {
@@ -502,7 +502,7 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
       return true;
    }
 
-   private boolean isSlotSelected(Slot p_195362_1_, double p_195362_2_, double p_195362_4_) {
+   protected boolean isSlotSelected(Slot p_195362_1_, double p_195362_2_, double p_195362_4_) {
       return this.isPointInRegion(p_195362_1_.xPos, p_195362_1_.yPos, 16, 16, p_195362_2_, p_195362_4_);
    }
 

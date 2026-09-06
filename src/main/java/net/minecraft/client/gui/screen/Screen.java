@@ -141,6 +141,14 @@ public abstract class Screen extends FocusableGui implements IRenderable {
         }
     }
 
+    protected <T extends IGuiEventListener> T addWidget(T widget) {
+        if (widget instanceof Widget) {
+            this.buttons.add((Widget) widget);
+        }
+        this.children.add(widget);
+        return widget;
+    }
+
     protected <T extends Widget> T addButton(T p_addButton_1_) {
         this.buttons.add(p_addButton_1_);
         this.children.add(p_addButton_1_);
