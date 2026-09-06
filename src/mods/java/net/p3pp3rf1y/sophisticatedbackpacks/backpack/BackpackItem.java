@@ -75,7 +75,7 @@ public class BackpackItem extends ItemBase {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         super.fillItemCategory(group, items);
 
         if (!isInGroup(group) || this != ModItems.BACKPACK || !Config.COMMON.enabledItems.isItemEnabled(this)) {
@@ -157,7 +157,7 @@ public class BackpackItem extends ItemBase {
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
+    public ActionResultType onItemUse(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
         if (player == null || !player.isSneaking()) {
             return ActionResultType.PASS;
@@ -231,7 +231,7 @@ public class BackpackItem extends ItemBase {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
         if (!world.isRemote && player instanceof ServerPlayerEntity) {

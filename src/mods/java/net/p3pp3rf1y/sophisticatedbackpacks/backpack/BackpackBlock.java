@@ -82,12 +82,12 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public boolean hasAnalogOutputSignal(BlockState pState) {
+	public boolean hasComparatorInputOverride(BlockState pState) {
 		return true;
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState blockState, World level, BlockPos pos) {
+	public int getComparatorInputOverride(BlockState blockState, World level, BlockPos pos) {
 		return WorldHelper.getTile(level, pos, BackpackTileEntity.class).map(t -> {
 			IItemHandlerModifiable handler = t.getBackpackWrapper().getInventoryForInputOutput();
 			AtomicDouble totalFilled = new AtomicDouble(0);
@@ -110,7 +110,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (Boolean.TRUE.equals(stateIn.get(WATERLOGGED))) {
 			worldIn.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
 		}
@@ -119,7 +119,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING, WATERLOGGED, LEFT_TANK, RIGHT_TANK, BATTERY);
 	}
 
@@ -152,7 +152,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+	public ActionResultType onItemRightClick(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		if (world.isRemote) {
 			return ActionResultType.SUCCESS;
 		}
@@ -232,7 +232,7 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.entityInside(state, world, pos, entity);
 		if (!world.isRemote && entity instanceof ItemEntity) {
 			ItemEntity itemEntity = (ItemEntity) entity;

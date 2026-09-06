@@ -67,7 +67,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 	}
 
 	@Override
-	public IPacket<?> getAddEntityPacket() {
+	public IPacket<?> createSpawnPacket() {
 		return new net.minecraft.network.play.server.SSpawnObjectPacket(this);
 	}
 }
