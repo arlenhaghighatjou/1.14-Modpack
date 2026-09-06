@@ -30,7 +30,7 @@ public class InventorySorter {
 			if (firstItem == secondItem) {
 				return 0;
 			}
-			int ret = compareTags(firstItem.getTags(), secondItem.getTags());
+			int ret = compareTags(net.minecraft.tags.ItemTags.getCollection().getOwningTags(firstItem), net.minecraft.tags.ItemTags.getCollection().getOwningTags(secondItem));
 			return ret != 0 ? ret : getRegistryName(first.getKey()).compareTo(getRegistryName(second.getKey()));
 		}
 
@@ -61,7 +61,7 @@ public class InventorySorter {
 
 	private static String getRegistryName(ItemStackKey itemStackKey) {
 		//noinspection ConstantConditions - registryName is nonNull by the time it exists in itemstack form
-		return itemStackKey.getStack().getItem().getRegistryName().toString();
+		return net.minecraft.util.registry.Registry.ITEM.getKey(itemStackKey.getStack().getItem()).toString();
 	}
 
 	public static void sortHandler(IItemHandlerModifiable handler, Comparator<? super Map.Entry<ItemStackKey, Integer>> comparator, Set<Integer> noSortSlots) {

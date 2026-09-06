@@ -42,9 +42,9 @@ public class ToolSwapperFilterContainer extends FilterLogicContainerBase<ToolSwa
 		filterSlots.add(weaponFilterSlot);
 		filterLogic.get().getToolFilterTypes().forEach(toolType ->
 				{
-					ToolFilterSlot toolFilterSlot = new ToolFilterSlot(() -> filterLogic.get().getToolFilter(toolType), stack -> filterLogic.get().setToolFilter(toolType, stack), s -> s.getToolTypes().contains(toolType));
+					ToolFilterSlot toolFilterSlot = new ToolFilterSlot(() -> filterLogic.get().getToolFilter(toolType), stack -> filterLogic.get().setToolFilter(toolType, stack), s -> ToolType.of(s).contains(toolType));
 					if (EMPTY_TOOL_SLOT_BACKGROUNDS.containsKey(toolType)) {
-						toolFilterSlot.setBackgroundName(EMPTY_TOOL_SLOT_BACKGROUNDS.get(toolType.toString()));
+						toolFilterSlot.setBackgroundName(EMPTY_TOOL_SLOT_BACKGROUNDS.get(toolType.toString()).toString());
 					}
 					toolFilterSlot.setEmptyTooltip(StringUtils.capitalize(toolType.getName()));
 

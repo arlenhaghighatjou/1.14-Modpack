@@ -97,7 +97,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		if (mouseX >= screenX && mouseX < screenX + 16 && mouseY >= screenY && mouseY < screenY + height - 2) {
 			List<ITextComponent> tooltip = new ArrayList<>();
 			if (!contents.isEmpty()) {
-				tooltip.add(contents.getDisplayName());
+				tooltip.add(new net.minecraft.util.text.StringTextComponent(net.minecraft.util.registry.Registry.FLUID.getKey(contents.getFluid()).getPath()));
 			}
 			tooltip.add(getContentsTooltip(contents, capacity));
 			GuiHelper.setTooltipToRender(tooltip);
@@ -128,7 +128,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		int displayLevel = (int) ((height - 2) * ((float) fill / capacity));
 
 		ResourceLocation texture = FluidAttributes.getStillTexture(fluid);
-		TextureAtlasSprite still = Minecraft.getInstance().getTextureMap().apply(texture);
+		TextureAtlasSprite still = Minecraft.getInstance().getTextureMap().getSprite(texture);
 		GuiHelper.renderTiledFluidTextureAtlas(still, FluidAttributes.getColor(fluid), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.mc);
 		renderTooltip(mouseX, mouseY, contents, capacity);
 	}

@@ -141,10 +141,8 @@ public class StonecutterRecipeControl extends BackpackWidget {
 	}
 
 	private void renderTooltip(ItemStack itemStack, int mouseX, int mouseY) {
-		FontRenderer font = itemStack.getItem().getFontRenderer(itemStack);
-		net.minecraftforge.fml.client.gui.GuiUtils.preItemToolTip(itemStack);
-		screen.renderWrappedToolTip(screen.getTooltipFromItem(itemStack), mouseX, mouseY, (font == null ? this.font : font));
-		net.minecraftforge.fml.client.gui.GuiUtils.postItemToolTip();
+		FontRenderer font = null;
+		screen.renderTooltip(screen.getTooltipFromItem(itemStack), mouseX, mouseY);
 	}
 
 	private void onInventoryUpdate() {
@@ -171,7 +169,7 @@ public class StonecutterRecipeControl extends BackpackWidget {
 				double relativeX = mouseX - (double) (listInnerLeftX + visibleRecipeIndex % 4 * 16);
 				double relativeY = mouseY - (double) (listInnerTopY + Math.floorDiv(visibleRecipeIndex, 4) * 18);
 				if (relativeX >= 0.0D && relativeY >= 0.0D && relativeX < 16.0D && relativeY < 18.0D && container.selectRecipe(recipeIndex)) {
-					Minecraft.getInstance().getSoundHandler().play(new SimpleSound(SoundEvents.UI_STONECUTTER_SELECT_RECIPE, SoundCategory.MASTER, 1.0F, 1.0F, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F, true));
+					Minecraft.getInstance().getSoundHandler().play(new SimpleSound(SoundEvents.UI_STONECUTTER_SELECT_RECIPE.getName(), SoundCategory.MASTER, 1.0F, 1.0F, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F, true));
 					return true;
 				}
 			}
