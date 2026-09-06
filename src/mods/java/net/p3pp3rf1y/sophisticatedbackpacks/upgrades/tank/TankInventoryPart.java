@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.UpgradeInventoryPartBase;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Dimension;
@@ -72,7 +71,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 
 		ClientPlayerEntity player = screen.getMinecraft().player;
 		ItemStack cursorStack = player.inventory.getItemStack();
-		if (cursorStack.getCount() > 1 || !cursorStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
+		if (cursorStack.getCount() > 1 || !FluidHandlerLookup.getItem(cursorStack).isPresent()) {
 			return false;
 		}
 

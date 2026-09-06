@@ -8,7 +8,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
@@ -79,7 +78,7 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 	}
 
 	private boolean isValidFluidItem(ItemStack stack, boolean isOutput) {
-		return stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(fluidHandler ->
+		return FluidHandlerLookup.getItem(stack).map(fluidHandler ->
 				isValidFluidHandler(fluidHandler, isOutput)).orElse(false);
 	}
 

@@ -3,7 +3,6 @@ package net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraftforge.common.util.Constants;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemStackHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
@@ -114,8 +113,8 @@ public class BackpackInventoryHandler extends ItemStackHandler implements IItemH
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		slotTracker.clear();
-		setSize(nbt.contains("Size", Constants.NBT.TAG_INT) ? nbt.getInt("Size") : stacks.size());
-		ListNBT tagList = nbt.getList("Items", Constants.NBT.TAG_COMPOUND);
+		setSize(nbt.contains("Size", 3) ? nbt.getInt("Size") : stacks.size());
+		ListNBT tagList = nbt.getList("Items", 10);
 		for (int i = 0; i < tagList.size(); i++) {
 			CompoundNBT itemTags = tagList.getCompound(i);
 			int slot = itemTags.getInt("Slot");

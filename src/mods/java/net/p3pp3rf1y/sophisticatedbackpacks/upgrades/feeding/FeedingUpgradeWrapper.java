@@ -11,7 +11,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.ITickableUpgrade;
@@ -76,7 +75,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 					inventory.setStackInSlot(slot, stack);
 					if (!ItemStack.matches(containerItem, stack)) {
 						//not handling the case where player doesn't have item handler cap as the player should always have it. if that changes in the future well I guess I fix it
-						player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP)
+						ItemHandlerLookup.get(player, Direction.UP)
 								.ifPresent(playerInventory -> InventoryHelper.insertOrDropItem(player, containerItem, inventory, playerInventory));
 					}
 					fedPlayer.set(true);

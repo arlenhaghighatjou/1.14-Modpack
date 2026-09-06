@@ -11,9 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.ITickableUpgrade;
@@ -27,7 +24,19 @@ import javax.annotation.Nullable;
 import static net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock.*;
 import static net.p3pp3rf1y.sophisticatedbackpacks.init.ModBlocks.BACKPACK_TILE_TYPE;
 
-public class BackpackTileEntity extends TileEntity implements ITickableTileEntity {
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
+
+import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerLookup;
+
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
+
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidHandlerLookup;
+
+import net.p3pp3rf1y.sophisticatedbackpacks.util.energy.IEnergyStorage;
+
+import net.p3pp3rf1y.sophisticatedbackpacks.util.energy.EnergyStorageLookup;
+
+public class BackpackTileEntity extends TileEntity implements ITickableTileEntity, ItemHandlerLookup.IItemHandlerProvider, FluidHandlerLookup.IFluidHandlerProvider, EnergyStorageLookup.IEnergyStorageProvider {
 	private IBackpackWrapper backpackWrapper = NoopBackpackWrapper.INSTANCE;
 	private boolean updateBlockRender = true;
 
@@ -108,15 +117,18 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	}
 
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return LazyOptional.of(() -> getBackpackWrapper().getInventoryForInputOutput()).cast();
-		} else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return getBackpackWrapper().getFluidHandler().<LazyOptional<T>>map(handler -> LazyOptional.of(() -> handler).cast()).orElseGet(LazyOptional::empty);
-		} else if (cap == CapabilityEnergy.ENERGY) {
-			return getBackpackWrapper().getEnergyStorage().<LazyOptional<T>>map(storage -> LazyOptional.of(() -> storage).cast()).orElseGet(LazyOptional::empty);
-		}
-		return super.getCapability(cap, side);
+	public LazyOptional<IItemHandler> getItemHandler(@Nullable Direction side) {
+		return LazyOptional.of(() -> getBackpackWrapper().getInventoryForInputOutput());
+	}
+
+	@Override
+	public LazyOptional<IFluidHandler> getFluidHandler(@Nullable Direction side) {
+		return getBackpackWrapper().getFluidHandler().<LazyOptional<IFluidHandler>>map(handler -> LazyOptional.of(() -> handler)).orElseGet(LazyOptional::empty);
+	}
+
+	@Override
+	public LazyOptional<IEnergyStorage> getEnergyStorage(@Nullable Direction side) {
+		return getBackpackWrapper().getEnergyStorage().<LazyOptional<IEnergyStorage>>map(storage -> LazyOptional.of(() -> storage)).orElseGet(LazyOptional::empty);
 	}
 
 	public void refreshRenderState() {

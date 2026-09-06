@@ -9,7 +9,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.IServerUpdater;
 
@@ -69,7 +68,7 @@ public class FluidFilterContainer {
 			return;
 		}
 
-		carried.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(itemFluidHandler -> {
+		FluidHandlerLookup.getItem(carried).ifPresent(itemFluidHandler -> {
 			FluidStack containedFluid = itemFluidHandler.drain(FluidAttributes.BUCKET, IFluidHandler.FluidAction.SIMULATE);
 			if (!containedFluid.isEmpty()) {
 				setFluid(index, containedFluid.getRawFluid());

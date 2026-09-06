@@ -17,7 +17,6 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.tool.ToolType;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.IRegistryDataLoader;
@@ -179,7 +178,7 @@ public class ToolRegistry {
 				TOOL_TYPE_MAPPING.toolTypes.computeIfAbsent(tool, t -> new HashSet<>()).addAll(toolTypes);
 			} else {
 				String modId = toolName.split(":")[0];
-				if (!ModList.get().isLoaded(modId)) {
+				if (!modpack.ModLoader.isLoaded(modId)) {
 					SophisticatedBackpacks.LOGGER.debug("Mod {} isn't loaded skipping load of tool types for {}", modId, toolName);
 				} else {
 					SophisticatedBackpacks.LOGGER.warn("Mod {} is loaded and yet tool {} doesn't exist in registry, skipping load of tool types for it", modId, toolName);
@@ -299,7 +298,7 @@ public class ToolRegistry {
 
 		private void parseModTools(Map.Entry<String, JsonElement> property) {
 			String modId = property.getKey();
-			if (!ModList.get().isLoaded(modId)) {
+			if (!modpack.ModLoader.isLoaded(modId)) {
 				SophisticatedBackpacks.LOGGER.debug("{} mod isn't loaded, skipping ... {} ", modId, property);
 				return;
 			}

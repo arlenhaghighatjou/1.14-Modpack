@@ -4,7 +4,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.Constants;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.FilterItemStackHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.InventoryHelper;
@@ -52,7 +51,7 @@ FilterLogic extends FilterLogicBase {
 				@Override
 				public void deserializeNBT(CompoundNBT nbt) {
 					setSize(filterSlotCount);
-					ListNBT tagList = nbt.getList("Items", Constants.NBT.TAG_COMPOUND);
+					ListNBT tagList = nbt.getList("Items", 10);
 					for (int i = 0; i < tagList.size(); i++) {
 						CompoundNBT itemTags = tagList.getCompound(i);
 						int slot = itemTags.getInt("Slot");

@@ -9,7 +9,6 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.tool.SwordRegistry;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.tool.ToolRegistry;
@@ -111,7 +110,7 @@ public class RegistryLoader extends JsonReloadListener {
 			modId = JSONUtils.getString(json, "mod");
 		}
 
-		if (isDisabled(json) || (modId != null && !ModList.get().isLoaded(modId))) {
+		if (isDisabled(json) || (modId != null && !modpack.ModLoader.isLoaded(modId))) {
 			return;
 		}
 

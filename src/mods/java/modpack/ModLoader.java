@@ -22,6 +22,18 @@ public class ModLoader {
 
 	private ModLoader() {}
 
+	public static boolean isLoaded(String modId) {
+		if ("minecraft".equals(modId)) {
+			return true;
+		}
+		for (String namespace : NAMESPACES) {
+			if (namespace.equals(modId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static String[] resourceNamespaces(String... vanilla) {
 		String[] all = new String[vanilla.length + NAMESPACES.length];
 		System.arraycopy(vanilla, 0, all, 0, vanilla.length);

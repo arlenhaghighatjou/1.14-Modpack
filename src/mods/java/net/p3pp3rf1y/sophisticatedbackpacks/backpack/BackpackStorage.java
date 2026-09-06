@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
@@ -54,14 +53,14 @@ public class BackpackStorage extends WorldSavedData {
 	}
 
 	private void readAccessLogs(CompoundNBT nbt) {
-		for (INBT n : nbt.getList("accessLogRecords", Constants.NBT.TAG_COMPOUND)) {
+		for (INBT n : nbt.getList("accessLogRecords", 10)) {
 			AccessLogRecord alr = AccessLogRecord.deserializeFromNBT((CompoundNBT) n);
 			accessLogRecords.put(alr.getBackpackUuid(), alr);
 		}
 	}
 
 	private void readBackpackContents(CompoundNBT nbt) {
-		for (INBT n : nbt.getList("backpackContents", Constants.NBT.TAG_COMPOUND)) {
+		for (INBT n : nbt.getList("backpackContents", 10)) {
 			CompoundNBT uuidContentsPair = (CompoundNBT) n;
 			EaglercraftUUID uuid = NBTUtil.loadUUID(Objects.requireNonNull(uuidContentsPair.get("uuid")));
 			CompoundNBT contents = uuidContentsPair.getCompound("contents");

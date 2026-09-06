@@ -10,12 +10,10 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
+import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.WorldHelper;
 
@@ -62,7 +60,7 @@ public class Matchers {
 			@Override
 			public Optional<Predicate<BlockContext>> getPredicate(JsonElement jsonElement) {
 				String modId = jsonElement.getAsString();
-				if (!ModList.get().isLoaded(modId)) {
+				if (!modpack.ModLoader.isLoaded(modId)) {
 					SophisticatedBackpacks.LOGGER.debug("{} mod isn't loaded, skipping ...", modId);
 					return Optional.empty();
 				}
@@ -86,7 +84,7 @@ public class Matchers {
 			@Override
 			protected Optional<Predicate<BlockContext>> getPredicateFromObject(JsonObject jsonObject) {
 				return Optional.of(blockContext -> WorldHelper.getTile(blockContext.getWorld(),
-						blockContext.getPos()).map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()).orElse(false));
+						blockContext.getPos()).map(te -> ItemHandlerLookup.get(te, null).isPresent()).orElse(false));
 			}
 		});
 		ENTITY_MATCHER_FACTORIES.add(new TypedMatcherFactory<Entity>("animal") {

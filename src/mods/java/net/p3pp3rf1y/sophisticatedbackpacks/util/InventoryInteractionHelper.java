@@ -7,7 +7,6 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
@@ -28,7 +27,7 @@ public class InventoryInteractionHelper {
 
 	public static boolean tryInventoryInteraction(BlockPos pos, World world, ItemStack backpack, Direction face, PlayerEntity player) {
 		return WorldHelper.getTile(world, pos)
-				.map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, face)
+				.map(te -> ItemHandlerLookup.get(te, face)
 						.map(itemHandler -> player.world.isRemote || BackpackWrapperLookup.get(backpack)
 								.map(wrapper -> tryRunningInteractionWrappers(itemHandler, wrapper, player))
 								.orElse(false)).orElse(false)

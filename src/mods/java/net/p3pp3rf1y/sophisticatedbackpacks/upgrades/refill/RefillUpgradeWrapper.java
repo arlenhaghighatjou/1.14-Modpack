@@ -4,7 +4,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
@@ -41,7 +40,7 @@ public class RefillUpgradeWrapper extends UpgradeWrapperBase<RefillUpgradeWrappe
 		if (entity == null /*not supported in block form*/ || isInCooldown(world)) {
 			return;
 		}
-		entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(playerInvHandler -> InventoryHelper.iterate(filterLogic.getFilterHandler(), (slot, filter) -> {
+		ItemHandlerLookup.get(entity, null).ifPresent(playerInvHandler -> InventoryHelper.iterate(filterLogic.getFilterHandler(), (slot, filter) -> {
 			if (filter.isEmpty()) {
 				return;
 			}

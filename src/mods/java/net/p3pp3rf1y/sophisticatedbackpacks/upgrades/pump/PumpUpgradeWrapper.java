@@ -16,7 +16,6 @@ import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
@@ -95,7 +94,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	private Optional<Integer> interactWithAttachedFluidHandlers(World world, BlockPos pos, IFluidHandler backpackFluidHandler) {
 		for (Direction dir : Direction.values()) {
 			boolean successful = WorldHelper.getTile(world, pos.offset(dir.getDirectionVec())).map(te ->
-					te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite()).map(fluidHandler -> {
+					FluidHandlerLookup.get(te, dir.getOpposite()).map(fluidHandler -> {
 						if (isInput()) {
 							return fillFromFluidHandler(fluidHandler, backpackFluidHandler, getMaxInOut());
 						} else {
@@ -212,7 +211,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 		if (itemInHand.getCount() != 1 || itemInHand == backpackWrapper.getBackpack()) {
 			return false;
 		}
-		return itemInHand.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).map(itemFluidHandler -> {
+		return FluidHandlerLookup.getItem(itemInHand).map(itemFluidHandler -> {
 			if (isInput()) {
 				return fillFromHand(player, hand, itemFluidHandler, backpackFluidHandler);
 			} else {

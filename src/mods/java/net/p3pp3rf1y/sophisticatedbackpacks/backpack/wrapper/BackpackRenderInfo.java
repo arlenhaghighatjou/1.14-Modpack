@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraftforge.common.util.Constants;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IRenderedBatteryUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IRenderedTankUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IUpgradeRenderData;
@@ -129,7 +128,7 @@ public class BackpackRenderInfo {
 
 	private void deserializeTanks() {
 		CompoundNBT renderInfo = getRenderInfoTag();
-		ListNBT tanks = renderInfo.getList(TANKS_TAG, Constants.NBT.TAG_COMPOUND);
+		ListNBT tanks = renderInfo.getList(TANKS_TAG, 10);
 		for (int i = 0; i < tanks.size(); i++) {
 			CompoundNBT tank = tanks.getCompound(i);
 			tankRenderInfos.put(TankPosition.valueOf(tank.getString(TANK_POSITION_TAG).toUpperCase(Locale.ENGLISH)), IRenderedTankUpgrade.TankRenderInfo.deserialize(tank.getCompound(TANK_INFO_TAG)));
@@ -144,7 +143,7 @@ public class BackpackRenderInfo {
 		CompoundNBT tankInfo = tankRenderInfo.serialize();
 
 		CompoundNBT renderInfo = getRenderInfoTag();
-		ListNBT tanks = renderInfo.getList(TANKS_TAG, Constants.NBT.TAG_COMPOUND);
+		ListNBT tanks = renderInfo.getList(TANKS_TAG, 10);
 
 		boolean infoSet = false;
 		for (int i = 0; i < tanks.size(); i++) {

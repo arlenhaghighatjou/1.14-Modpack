@@ -42,9 +42,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
@@ -167,10 +165,10 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 			return ActionResultType.SUCCESS;
 		}
 
-		if (!heldItem.isEmpty() && heldItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
+		if (!heldItem.isEmpty() && FluidHandlerLookup.getItem(heldItem).isPresent()) {
 			WorldHelper.getTile(world, pos, BackpackTileEntity.class)
 					.flatMap(te -> te.getBackpackWrapper().getFluidHandler()).ifPresent(backpackFluidHandler ->
-							player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(playerInventory -> {
+							ItemHandlerLookup.get(player, null).ifPresent(playerInventory -> {
 								FluidActionResult resultOfEmptying = FluidUtil.tryEmptyContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET, player, true);
 								if (resultOfEmptying.isSuccess()) {
 									player.setItemInHand(hand, resultOfEmptying.getResult());

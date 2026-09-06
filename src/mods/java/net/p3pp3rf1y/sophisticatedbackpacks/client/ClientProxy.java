@@ -30,7 +30,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen;
@@ -175,7 +174,7 @@ public class ClientProxy extends CommonProxy {
 		BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) rayTrace;
 		BlockPos pos = blockraytraceresult.getBlockPos();
 
-		if (!WorldHelper.getTile(mc.world, pos, TileEntity.class).map(te -> te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()).orElse(false)) {
+		if (!WorldHelper.getTile(mc.world, pos, TileEntity.class).map(te -> ItemHandlerLookup.get(te, null).isPresent()).orElse(false)) {
 			return;
 		}
 

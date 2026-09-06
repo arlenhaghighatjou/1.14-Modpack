@@ -34,6 +34,10 @@ public class BucketItem extends Item {
       this.containedBlock = containedFluidIn;
    }
 
+   public Fluid getFluid() {
+      return this.containedBlock;
+   }
+
    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
       ItemStack itemstack = playerIn.getHeldItem(handIn);
       RayTraceResult raytraceresult = rayTrace(worldIn, playerIn, this.containedBlock == Fluids.EMPTY ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE);

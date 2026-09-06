@@ -1,7 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.api;
 
 import net.minecraft.fluid.Fluid;
-import net.minecraft.tags.ITag;
+import net.minecraft.tags.Tag;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem;
@@ -14,7 +14,7 @@ public interface IBackpackFluidHandler extends IFluidHandlerItem {
 	default int fill(Tag<Fluid> fluidTag, int maxFill, Fluid fallbackFluid, FluidAction action, boolean ignoreInOutLimit) {
 		for (int tank = 0; tank < getTanks(); tank++) {
 			Fluid tankFluid = getFluidInTank(tank).getFluid();
-			if (tankFluid.is(fluidTag)) {
+			if (fluidTag.contains(tankFluid)) {
 				return fill(new FluidStack(tankFluid, maxFill), action, ignoreInOutLimit);
 			}
 		}

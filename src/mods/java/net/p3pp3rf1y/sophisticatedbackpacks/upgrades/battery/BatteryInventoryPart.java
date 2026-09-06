@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.UpgradeInventoryPartBase;
 import net.p3pp3rf1y.sophisticatedbackpacks.client.gui.utils.Dimension;
@@ -77,7 +76,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 
 		ClientPlayerEntity player = screen.getMinecraft().player;
 		ItemStack cursorStack = player.inventory.getItemStack();
-		if (!cursorStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
+		if (!FluidHandlerLookup.getItem(cursorStack).isPresent()) {
 			return false;
 		}
 

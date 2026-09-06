@@ -2,7 +2,7 @@ package net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper;
 
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.ITag;
+import net.minecraft.tags.Tag;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
@@ -76,7 +76,7 @@ public class BackpackFluidHandler implements IBackpackFluidHandler {
 		int toDrain = maxDrain;
 		for (TankUpgradeWrapper tank : getAllTanks()) {
 			Fluid tankFluid = tank.getContents().getFluid();
-			if ((drained.isEmpty() && tankFluid.is(resourceTag)) || tankFluid == drained.getFluid()) {
+			if ((drained.isEmpty() && resourceTag.contains(tankFluid)) || tankFluid == drained.getFluid()) {
 				if (drained.isEmpty()) {
 					drained = tank.drain(toDrain, action, ignoreInOutLimit);
 				} else {

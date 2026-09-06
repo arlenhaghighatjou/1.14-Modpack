@@ -9,7 +9,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.Constants;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.NBTHelper;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class FluidFilterLogic {
 	}
 
 	private void deserializeFluidFilters() {
-		NBTHelper.getTagValue(upgrade, "", "fluids", (c, n1) -> c.getList(n1, Constants.NBT.TAG_STRING)).ifPresent(listNbt -> {
+		NBTHelper.getTagValue(upgrade, "", "fluids", (c, n1) -> c.getList(n1, 8)).ifPresent(listNbt -> {
 			int i = 0;
 			for (INBT elementNbt : listNbt) {
 				Fluid value = Registry.FLUID.getOrDefault(new ResourceLocation(elementNbt.getAsString()));

@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.UpgradeContainerBase;
 
@@ -40,7 +39,7 @@ public class TankClickMessage {
 		}
 		TankUpgradeContainer tankContainer = (TankUpgradeContainer) upgradeContainer;
 		ItemStack cursorStack = sender.inventory.getItemStack();
-		cursorStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(fluidHandler -> {
+		FluidHandlerLookup.getItem(cursorStack).ifPresent(fluidHandler -> {
 			TankUpgradeWrapper tankWrapper = tankContainer.getUpgradeWrapper();
 			FluidStack tankContents = tankWrapper.getContents();
 			if (tankContents.isEmpty()) {

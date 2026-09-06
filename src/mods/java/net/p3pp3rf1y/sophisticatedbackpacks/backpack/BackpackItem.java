@@ -32,10 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
@@ -247,34 +244,6 @@ public class BackpackItem extends ItemBase {
             PacketHandler.openContainer((ServerPlayerEntity) player, new SimpleNamedContainerProvider((w, p, pl) -> new BackpackContainer(w, pl, context), stack.getDisplayName()), context);
         }
         return ActionResult.success(stack);
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new ICapabilityProvider() {
-            private IBackpackWrapper wrapper = null;
-
-            @Override
-            public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-                initWrapper();
-                if (cap == CapabilityBackpackWrapper.getCapabilityInstance()) {
-                    return LazyOptional.of(() -> wrapper).cast();
-                } else if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-                    return LazyOptional.of(() -> wrapper.getInventoryForInputOutput()).cast();
-                } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY && Boolean.TRUE.equals(Config.COMMON.itemFluidHandlerEnabled)) {
-                    return wrapper.getFluidHandler().<LazyOptional<T>>map(handler -> LazyOptional.of(() -> handler).cast()).orElseGet(LazyOptional::empty);
-                } else if (cap == CapabilityEnergy.ENERGY) {
-                    return wrapper.getEnergyStorage().<LazyOptional<T>>map(storage -> LazyOptional.of(() -> storage).cast()).orElseGet(LazyOptional::empty);
-                }
-                return LazyOptional.empty();
-            }
-
-            private void initWrapper() {
-                if (wrapper == null) {
-                    wrapper = new BackpackWrapper(stack);
-                }
-            }
-        };
     }
 
     @Override

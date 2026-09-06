@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.IRegistryDataLoader;
 
@@ -92,7 +91,7 @@ public class SwordRegistry {
 				SWORD_ITEMS.add(sword);
 			} else {
 				String modId = swordName.split(":")[0];
-				if (!ModList.get().isLoaded(modId)) {
+				if (!modpack.ModLoader.isLoaded(modId)) {
 					SophisticatedBackpacks.LOGGER.debug("Mod {} isn't loaded skipping load of sword {}", modId, swordName);
 				} else {
 					SophisticatedBackpacks.LOGGER.warn("Mod {} is loaded and yet sword {} doesn't exist in registry, skipping its load", modId, swordName);
