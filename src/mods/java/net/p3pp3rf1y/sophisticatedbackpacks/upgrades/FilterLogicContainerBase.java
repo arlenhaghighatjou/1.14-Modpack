@@ -223,7 +223,7 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 
 		@Override
 		public boolean isItemValid(ItemStack stack) {
-			return stack.isEmpty() || !stack.getItem().getTags().isEmpty();
+			return stack.isEmpty() || !net.minecraft.tags.ItemTags.getCollection().getOwningTags(stack.getItem()).isEmpty();
 		}
 
 		@Override
@@ -256,7 +256,7 @@ public class FilterLogicContainerBase<T extends FilterLogicBase, S extends Slot>
 		public void putStack(ItemStack stack) {
 			this.stack = stack;
 			tagsToAdd.clear();
-			tagsToAdd.addAll(stack.getItem().getTags());
+			tagsToAdd.addAll(net.minecraft.tags.ItemTags.getCollection().getOwningTags(stack.getItem()));
 			getTagNames().forEach(tagsToAdd::remove);
 			selectedTagToAdd = 0;
 			onUpdate.run();

@@ -289,7 +289,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return false;
 		}
 
-		return tryToSwapTool(player, stack -> itemWorksOnEntity(stack, entity), entity.getType().getRegistryName());
+		return tryToSwapTool(player, stack -> itemWorksOnEntity(stack, entity), net.minecraft.util.registry.Registry.ENTITY_TYPE.getKey(entity.getType()));
 	}
 
 	private boolean itemWorksOnEntity(ItemStack stack, Entity entity) {
@@ -305,7 +305,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return false;
 		}
 
-		return tryToSwapTool(player, stack -> itemWorksOnBlock(world, pos, blockState, player, stack), blockState.getBlock().getRegistryName());
+		return tryToSwapTool(player, stack -> itemWorksOnBlock(world, pos, blockState, player, stack), net.minecraft.util.registry.Registry.BLOCK.getKey(blockState.getBlock()));
 	}
 
 	private boolean tryToSwapTool(PlayerEntity player, Predicate<ItemStack> isToolValid, @Nullable ResourceLocation targetRegistryName) {

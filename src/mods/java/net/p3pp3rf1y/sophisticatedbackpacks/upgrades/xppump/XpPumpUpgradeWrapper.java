@@ -65,13 +65,13 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWith(Enchantments.MENDING, player, ItemStack::isDamaged);
 		if (entry != null) {
 			ItemStack itemStack = entry.getValue();
-			if (!itemStack.isEmpty() && itemStack.isDamaged() && itemStack.getXpRepairRatio() > 0) {
-				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending, itemStack.getDamage() / itemStack.getXpRepairRatio());
+			if (!itemStack.isEmpty() && itemStack.isDamaged() && 2.0F > 0) {
+				float xpToTryDrain = Math.min(Config.COMMON.xpPumpUpgrade.maxXpPointsPerMending, itemStack.getDamage() / 2.0F);
 				if (xpToTryDrain > 0) {
 					backpackWrapper.getFluidHandler().ifPresent(fluidHandler -> {
 						FluidStack drained = fluidHandler.drain(ModFluids.getExperienceTag(), XpHelper.experienceToLiquid(xpToTryDrain), IFluidHandler.FluidAction.EXECUTE, false);
 						float xpDrained = XpHelper.liquidToExperience(drained.getAmount());
-						int durationToRepair = (int) (xpDrained * itemStack.getXpRepairRatio());
+						int durationToRepair = (int) (xpDrained * 2.0F);
 						itemStack.setDamage(itemStack.getDamage() - durationToRepair);
 					});
 				}

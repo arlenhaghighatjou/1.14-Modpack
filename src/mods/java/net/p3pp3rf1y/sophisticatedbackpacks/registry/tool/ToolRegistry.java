@@ -188,7 +188,7 @@ public class ToolRegistry {
 		private Set<ToolType> getToolTypes(JsonArray types) {
 			Set<ToolType> toolTypes = new HashSet<>();
 			types.forEach(e -> {
-				String toolTypeString = e.getString();
+				String toolTypeString = e.getAsString();
 				toolTypes.add(ToolType.get(toolTypeString));
 			});
 			return toolTypes;

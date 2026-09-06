@@ -99,9 +99,9 @@ FilterLogic extends FilterLogicBase {
 
 	private boolean isTagMatch(ItemStack stack) {
 		if (shouldMatchAnyTag()) {
-			return anyTagMatches(stack.getItem().getTags());
+			return anyTagMatches(net.minecraft.tags.ItemTags.getCollection().getOwningTags(stack.getItem()));
 		}
-		return allTagsMatch(stack.getItem().getTags());
+		return allTagsMatch(net.minecraft.tags.ItemTags.getCollection().getOwningTags(stack.getItem()));
 	}
 
 	private boolean allTagsMatch(Set<ResourceLocation> tags) {

@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.tank;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
+
 import net.minecraft.client.renderer.texture.AtlasTexture;
 
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidHandlerLookup;
@@ -125,9 +127,9 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 		int fill = contents.getAmount();
 		int displayLevel = (int) ((height - 2) * ((float) fill / capacity));
 
-		ResourceLocation texture = fluid.getAttributes().getStillTexture(contents);
+		ResourceLocation texture = FluidAttributes.getStillTexture(fluid);
 		TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
-		GuiHelper.renderTiledFluidTextureAtlas(still, fluid.getAttributes().getColor(), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.mc);
+		GuiHelper.renderTiledFluidTextureAtlas(still, FluidAttributes.getColor(fluid), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.mc);
 		renderTooltip(mouseX, mouseY, contents, capacity);
 	}
 

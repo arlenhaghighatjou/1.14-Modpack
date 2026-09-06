@@ -71,8 +71,18 @@ public class Slot {
       return this.getSlotStackLimit();
    }
 
+   private String backgroundName;
+
+   public Slot setBackgroundName(String name) {
+      this.backgroundName = name;
+      return this;
+   }
+
    @OnlyIn(Dist.CLIENT)
    public String getSlotTexture() {
+      if (this.backgroundName != null) {
+         return this.backgroundName;
+      }
       return null;
    }
 

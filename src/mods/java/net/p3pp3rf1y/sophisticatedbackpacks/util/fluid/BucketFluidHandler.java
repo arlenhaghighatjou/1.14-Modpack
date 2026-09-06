@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.util.fluid;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
+
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

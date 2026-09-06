@@ -60,7 +60,7 @@ public class Matchers {
 
 			@Override
 			public Optional<Predicate<BlockContext>> getPredicate(JsonElement jsonElement) {
-				String modId = jsonElement.getString();
+				String modId = jsonElement.getAsString();
 				if (!modpack.ModLoader.isLoaded(modId)) {
 					SophisticatedBackpacks.LOGGER.debug("{} mod isn't loaded, skipping ...", modId);
 					return Optional.empty();

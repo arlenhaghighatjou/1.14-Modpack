@@ -29,7 +29,7 @@ public class ModItemColors {
 				}
 				return getFluidColor(backpackWrapper.getRenderInfo(), layer == 2 ? TankPosition.LEFT : TankPosition.RIGHT);
 			}).orElse(-1);
-		}, BACKPACK.get(), IRON_BACKPACK.get(), GOLD_BACKPACK.get(), DIAMOND_BACKPACK.get(), NETHERITE_BACKPACK.get());
+		}, BACKPACK, IRON_BACKPACK, GOLD_BACKPACK, DIAMOND_BACKPACK, NETHERITE_BACKPACK);
 	}
 
 	private static int getFluidColor(BackpackRenderInfo renderInfo, TankPosition position) {

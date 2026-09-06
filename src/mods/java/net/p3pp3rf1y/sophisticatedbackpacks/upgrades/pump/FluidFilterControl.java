@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.pump;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
+
 import net.minecraft.client.renderer.texture.AtlasTexture;
 
 import net.minecraft.client.Minecraft;
@@ -32,9 +34,9 @@ public class FluidFilterControl extends BackpackWidget {
 		for (int i = 0; i < container.getNumberOfFluidFilters(); i++) {
 			Fluid fluid = container.getFluid(i);
 			if (fluid != Fluids.EMPTY) {
-				ResourceLocation texture = fluid.getAttributes().getStillTexture();
+				ResourceLocation texture = FluidAttributes.getStillTexture(fluid);
 				TextureAtlasSprite still = minecraft.getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
-				GuiHelper.renderTiledFluidTextureAtlas(still, fluid.getAttributes().getColor(), x + i * 18 + 1, y + 1, 16, minecraft);
+				GuiHelper.renderTiledFluidTextureAtlas(still, FluidAttributes.getColor(fluid), x + i * 18 + 1, y + 1, 16, minecraft);
 			}
 		}
 	}

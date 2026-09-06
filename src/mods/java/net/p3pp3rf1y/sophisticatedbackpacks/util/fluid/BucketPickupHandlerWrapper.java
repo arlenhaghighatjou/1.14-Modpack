@@ -1,5 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.util.fluid;
 
+import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
+
 import net.minecraft.block.IBucketPickupHandler;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;

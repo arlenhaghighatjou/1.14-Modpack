@@ -47,7 +47,7 @@ public class BackpackUUIDArgumentType implements ArgumentType<EaglercraftUUID> {
 			return ISuggestionProvider.suggest(BackpackAccessLogger.getBackpackUuids().stream().map(EaglercraftUUID::toString).collect(Collectors.toList()), builder);
 		} else if (context.getSource() instanceof ISuggestionProvider) {
 			ISuggestionProvider isuggestionprovider = (ISuggestionProvider) context.getSource();
-			return isuggestionprovider.customSuggestion((CommandContext<ISuggestionProvider>) context, builder);
+			return isuggestionprovider.getSuggestionsFromServer((CommandContext<ISuggestionProvider>) context, builder);
 		}
 		return Suggestions.empty();
 	}

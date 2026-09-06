@@ -357,11 +357,11 @@ public class ModItems {
 	}
 
 	public static void registerDispenseBehavior() {
-		DispenserBlock.registerBehavior(BACKPACK, new BackpackDispenseBehavior());
-		DispenserBlock.registerBehavior(IRON_BACKPACK, new BackpackDispenseBehavior());
-		DispenserBlock.registerBehavior(GOLD_BACKPACK, new BackpackDispenseBehavior());
-		DispenserBlock.registerBehavior(DIAMOND_BACKPACK, new BackpackDispenseBehavior());
-		DispenserBlock.registerBehavior(NETHERITE_BACKPACK, new BackpackDispenseBehavior());
+		DispenserBlock.registerDispenseBehavior(BACKPACK, new BackpackDispenseBehavior());
+		DispenserBlock.registerDispenseBehavior(IRON_BACKPACK, new BackpackDispenseBehavior());
+		DispenserBlock.registerDispenseBehavior(GOLD_BACKPACK, new BackpackDispenseBehavior());
+		DispenserBlock.registerDispenseBehavior(DIAMOND_BACKPACK, new BackpackDispenseBehavior());
+		DispenserBlock.registerDispenseBehavior(NETHERITE_BACKPACK, new BackpackDispenseBehavior());
 	}
 
 	private static class BackpackDispenseBehavior extends OptionalDispenseBehavior {
