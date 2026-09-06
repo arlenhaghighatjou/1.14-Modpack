@@ -104,7 +104,7 @@ FilterLogic extends FilterLogicBase {
 		return allTagsMatch(net.minecraft.tags.ItemTags.getCollection().getOwningTags(stack.getItem()));
 	}
 
-	private boolean allTagsMatch(Set<ResourceLocation> tags) {
+	private boolean allTagsMatch(java.util.Collection<ResourceLocation> tags) {
 		if (tagNames == null) {
 			initTags();
 		}
@@ -116,7 +116,7 @@ FilterLogic extends FilterLogicBase {
 		return true;
 	}
 
-	private boolean anyTagMatches(Set<ResourceLocation> tags) {
+	private boolean anyTagMatches(java.util.Collection<ResourceLocation> tags) {
 		if (tagNames == null) {
 			initTags();
 		}

@@ -38,7 +38,6 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y) {
 		BackpackBackgroundProperties backpackBackgroundProperties = getContainer().getBackpackBackgroundProperties();
 		BackpackGuiHelper.renderBackpackBackground(new Position((width - xSize) / 2, (height - ySize) / 2), getContainer().getBackpackInventorySlots().size(), getContainer().getSlotsOnLine(), backpackBackgroundProperties.getTextureName(), xSize, mc, container.getNumberOfRows());

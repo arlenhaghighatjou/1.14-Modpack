@@ -13,7 +13,7 @@ public class EnergyStorageLookup {
 
 	public static LazyOptional<IEnergyStorage> get(ItemStack stack) {
 		return BackpackWrapperLookup.get(stack)
-				.flatMap(wrapper -> wrapper.getEnergyStorage().map(storage -> LazyOptional.of(() -> storage)))
+				.resolveOptional().flatMap(wrapper -> wrapper.getEnergyStorage().map(storage -> LazyOptional.of(() -> storage)))
 				.orElseGet(LazyOptional::empty);
 	}
 

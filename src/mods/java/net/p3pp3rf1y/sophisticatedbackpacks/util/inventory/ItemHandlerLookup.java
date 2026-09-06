@@ -39,7 +39,7 @@ public class ItemHandlerLookup {
 	}
 
 	public static LazyOptional<IItemHandler> get(ItemStack stack) {
-		return BackpackWrapperLookup.get(stack).map(wrapper -> LazyOptional.of((IItemHandler) wrapper.getInventoryForInputOutput())).orElseGet(LazyOptional::empty);
+		return BackpackWrapperLookup.get(stack).map(wrapper -> LazyOptional.of(() -> (IItemHandler) wrapper.getInventoryForInputOutput())).orElseGet(LazyOptional::empty);
 	}
 
 	public interface IItemHandlerProvider {

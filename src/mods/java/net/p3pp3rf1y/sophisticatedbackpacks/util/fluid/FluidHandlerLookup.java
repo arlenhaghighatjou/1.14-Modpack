@@ -28,7 +28,7 @@ public class FluidHandlerLookup {
 			return LazyOptional.empty();
 		}
 		return BackpackWrapperLookup.get(stack)
-				.flatMap(wrapper -> wrapper.getFluidHandler().map(handler -> LazyOptional.of(() -> (IFluidHandlerItem) handler)))
+				.resolveOptional().flatMap(wrapper -> wrapper.getFluidHandler().map(handler -> LazyOptional.of(() -> (IFluidHandlerItem) handler)))
 				.orElseGet(LazyOptional::empty);
 	}
 
