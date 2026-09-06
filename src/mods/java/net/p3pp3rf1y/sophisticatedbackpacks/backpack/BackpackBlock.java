@@ -1,7 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.backpack;
 
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLookup;
-import com.google.common.util.concurrent.AtomicDouble;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.AtomicDouble;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.BlockState;

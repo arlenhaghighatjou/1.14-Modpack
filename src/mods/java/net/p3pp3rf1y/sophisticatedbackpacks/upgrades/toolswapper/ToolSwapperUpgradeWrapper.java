@@ -1,7 +1,7 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.toolswapper;
 
 import com.google.common.collect.Multimap;
-import com.google.common.util.concurrent.AtomicDouble;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.AtomicDouble;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;

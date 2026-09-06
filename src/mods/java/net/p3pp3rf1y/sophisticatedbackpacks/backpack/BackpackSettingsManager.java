@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.p3pp3rf1y.sophisticatedbackpacks.settings.backpack.BackpackSettingsCategory;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.NBTHelper;
-import org.apache.logging.log4j.util.TriConsumer;
+import net.p3pp3rf1y.sophisticatedbackpacks.util.TriConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
