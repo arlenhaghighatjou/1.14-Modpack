@@ -99,14 +99,14 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 	private void setStoreTooltip() {
 		storeButton.setTooltip(ImmutableList.of(
 				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels"), new StringTextComponent(String.valueOf(getContainer().getLevelsToStore())).applyTextStyle(TextFormatting.RED)),
-				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
+				new TranslationTextComponent(TranslationHelper.translUpgradeButton("store_levels.controls")).applyTextStyles(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
 		);
 	}
 
 	private void setTakeTooltip() {
 		takeButton.setTooltip(ImmutableList.of(
 				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels"), new StringTextComponent(String.valueOf(getContainer().getLevelsToTake())).applyTextStyle(TextFormatting.GREEN)),
-				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
+				new TranslationTextComponent(TranslationHelper.translUpgradeButton("take_levels.controls")).applyTextStyles(TextFormatting.ITALIC, TextFormatting.DARK_GRAY))
 		);
 	}
 
@@ -121,7 +121,7 @@ public class XpPumpUpgradeTab extends UpgradeSettingsTab<XpPumpUpgradeContainer>
 
 		private static final List<ITextComponent> TOOLTIP = ImmutableList.of(
 				new TranslationTextComponent(translUpgradeControl("xp_level_select.tooltip")),
-				new TranslationTextComponent(translUpgradeControl("xp_level_select.tooltip.controls")).applyTextStyle(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
+				new TranslationTextComponent(translUpgradeControl("xp_level_select.tooltip.controls")).applyTextStyles(TextFormatting.ITALIC, TextFormatting.DARK_GRAY));
 
 		protected LevelSelector(Position position, Supplier<String> getText, DoubleConsumer onScroll) {
 			super(position);

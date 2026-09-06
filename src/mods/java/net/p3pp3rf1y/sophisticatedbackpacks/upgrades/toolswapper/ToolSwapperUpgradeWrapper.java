@@ -122,12 +122,12 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean goodAtBreakingBlock(BlockState state, ItemStack stack) {
-		return stack.isCorrectToolForDrops(state) && stack.getDestroySpeed(state) > 1.5;
+		return stack.canHarvestBlock(state) && stack.getDestroySpeed(state) > 1.5;
 	}
 
 	private Optional<ToolType> getToolTypeEffectiveOnBlock(BlockState state, Block block, ItemStack stack) {
 		for (ToolType type : getToolTypes(stack)) {
-			if (block.isToolEffective(state, type)) {
+			if (ToolType.isEffectiveOn(type, state)) {
 				return Optional.of(type);
 			}
 		}
@@ -135,7 +135,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private Set<ToolType> getToolTypes(ItemStack stack) {
-		Set<ToolType> toolTypes = stack.getToolTypes();
+		Set<ToolType> toolTypes = ToolType.of(stack);
 
 		if (toolTypes.isEmpty()) {
 			return ToolRegistry.getItemToolTypes(stack);
@@ -175,7 +175,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean isTool(ItemStack stack) {
-		return !stack.getToolTypes().isEmpty() || !ToolRegistry.getItemToolTypes(stack).isEmpty() || stack.getItem() instanceof ShearsItem || SHEARS_TAG.contains(stack.getItem());
+		return !ToolType.of(stack).isEmpty() || !ToolRegistry.getItemToolTypes(stack).isEmpty() || stack.getItem() instanceof ShearsItem || SHEARS_TAG.contains(stack.getItem());
 	}
 
 	private boolean isSword(ItemStack stack, PlayerEntity player) {
@@ -183,9 +183,9 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return true;
 		}
 
-		ModifiableAttributeInstance attackDamage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		IAttributeInstance attackDamage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		if (!stack.isEmpty() && hasSwordOrNoToolTypes(stack)) {
-			return attackDamage != null && attackDamage.getModifier(Item.BASE_ATTACK_DAMAGE_UUID) != null;
+			return attackDamage != null && attackDamage.getModifier(ItemBase.ATTACK_DAMAGE_MODIFIER_ID) != null;
 		}
 		return false;
 	}

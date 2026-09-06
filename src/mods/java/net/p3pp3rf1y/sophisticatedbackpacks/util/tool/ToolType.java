@@ -28,6 +28,49 @@ public class ToolType {
 		return VALUES.computeIfAbsent(name.toLowerCase(Locale.ROOT), ToolType::new);
 	}
 
+	public static java.util.Set<ToolType> of(net.minecraft.item.ItemStack stack) {
+		net.minecraft.item.Item item = stack.getItem();
+		if (item instanceof net.minecraft.item.AxeItem) {
+			return java.util.Collections.singleton(AXE);
+		}
+		if (item instanceof net.minecraft.item.PickaxeItem) {
+			return java.util.Collections.singleton(PICKAXE);
+		}
+		if (item instanceof net.minecraft.item.ShovelItem) {
+			return java.util.Collections.singleton(SHOVEL);
+		}
+		if (item instanceof net.minecraft.item.HoeItem) {
+			return java.util.Collections.singleton(HOE);
+		}
+		if (item instanceof net.minecraft.item.ShearsItem) {
+			return java.util.Collections.singleton(SHEARS);
+		}
+		if (item instanceof net.minecraft.item.SwordItem) {
+			return java.util.Collections.singleton(SWORD);
+		}
+		return java.util.Collections.emptySet();
+	}
+
+	public static boolean isEffectiveOn(ToolType type, net.minecraft.block.BlockState state) {
+		net.minecraft.block.material.Material material = state.getMaterial();
+		if (type == PICKAXE) {
+			return material == net.minecraft.block.material.Material.ROCK || material == net.minecraft.block.material.Material.IRON || material == net.minecraft.block.material.Material.ANVIL;
+		}
+		if (type == AXE) {
+			return material == net.minecraft.block.material.Material.WOOD || material == net.minecraft.block.material.Material.PLANTS || material == net.minecraft.block.material.Material.GOURD;
+		}
+		if (type == SHOVEL) {
+			return material == net.minecraft.block.material.Material.EARTH || material == net.minecraft.block.material.Material.SAND || material == net.minecraft.block.material.Material.CLAY || material == net.minecraft.block.material.Material.SNOW || material == net.minecraft.block.material.Material.SNOW_BLOCK;
+		}
+		if (type == HOE) {
+			return material == net.minecraft.block.material.Material.LEAVES || material == net.minecraft.block.material.Material.PLANTS;
+		}
+		if (type == SHEARS) {
+			return material == net.minecraft.block.material.Material.LEAVES || material == net.minecraft.block.material.Material.WEB || material == net.minecraft.block.material.Material.WOOL;
+		}
+		return false;
+	}
+
 	public static Map<String, ToolType> getValues() {
 		return VALUES;
 	}

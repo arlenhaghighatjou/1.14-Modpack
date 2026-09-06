@@ -144,13 +144,13 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 		if (isCooking() && finishedCooking(world)) {
 			smelt(cookingRecipe);
 			if (canSmelt(cookingRecipe)) {
-				setCookTime(world, (int) (cookingRecipe.getCookingTime() * (1 / cookingSpeedMultiplier)));
+				setCookTime(world, (int) (cookingRecipe.getCookTime() * (1 / cookingSpeedMultiplier)));
 			} else {
 				setIsCooking(false);
 			}
 		} else if (!isCooking()) {
 			setIsCooking(true);
-			setCookTime(world, (int) (cookingRecipe.getCookingTime() * (1 / cookingSpeedMultiplier)));
+			setCookTime(world, (int) (cookingRecipe.getCookTime() * (1 / cookingSpeedMultiplier)));
 		}
 	}
 
@@ -168,7 +168,7 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 		}
 
 		ItemStack input = getCookInput();
-		ItemStack recipeOutput = recipe.getResultItem();
+		ItemStack recipeOutput = recipe.getRecipeOutput();
 		ItemStack output = getCookOutput();
 		if (output.isEmpty()) {
 			setCookOutput(recipeOutput.copy());
@@ -217,13 +217,13 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 			}
 			setBurnTime(world, (int) (getBurnTime(fuel, recipeType, burnTimeModifier) * fuelEfficiencyMultiplier / cookingSpeedMultiplier));
 			if (isBurning(world)) {
-				if (fuel.hasContainerItem()) {
-					setFuel(fuel.getContainerItem());
+				if (fuel.getItem().hasContainerItem()) {
+					setFuel(fuel.getItem().getContainerItem(fuel));
 				} else if (!fuel.isEmpty()) {
 					fuel.shrink(1);
 					setFuel(fuel);
 					if (fuel.isEmpty()) {
-						setFuel(fuel.getContainerItem());
+						setFuel(fuel.getItem().getContainerItem(fuel));
 					}
 				}
 			}
@@ -239,7 +239,7 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 		if (getCookInput().isEmpty()) {
 			return false;
 		}
-		ItemStack recipeOutput = cookingRecipe.getResultItem();
+		ItemStack recipeOutput = cookingRecipe.getRecipeOutput();
 		if (recipeOutput.isEmpty()) {
 			return false;
 		} else {

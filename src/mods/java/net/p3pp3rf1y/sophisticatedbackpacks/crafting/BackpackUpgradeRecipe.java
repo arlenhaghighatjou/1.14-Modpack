@@ -14,7 +14,7 @@ public class BackpackUpgradeRecipe extends ShapedRecipe implements IWrapperRecip
 	private final ShapedRecipe compose;
 
 	public BackpackUpgradeRecipe(ShapedRecipe compose) {
-		super(compose.getId(), compose.getGroup(), compose.getRecipeWidth(), compose.getRecipeHeight(), compose.getIngredients(), compose.getResultItem());
+		super(compose.getId(), compose.getGroup(), compose.getRecipeWidth(), compose.getRecipeHeight(), compose.getIngredients(), compose.getRecipeOutput());
 		this.compose = compose;
 	}
 

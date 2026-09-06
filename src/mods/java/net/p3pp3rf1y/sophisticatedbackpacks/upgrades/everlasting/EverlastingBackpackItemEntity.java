@@ -26,7 +26,7 @@ public class EverlastingBackpackItemEntity extends ItemEntity {
 			double d2 = getPosZ() + 0.5F - rand.nextFloat();
 			ServerWorld serverWorld = (ServerWorld) world;
 			if (rand.nextInt(20) == 0) {
-				serverWorld.sendParticles(ParticleTypes.HAPPY_VILLAGER, d0, d1, d2, 0, 0, 0.1D, 0, 1f);
+				serverWorld.spawnParticle(ParticleTypes.HAPPY_VILLAGER, d0, d1, d2, 0, 0, 0.1D, 0, 1f);
 			}
 		}
 		if (!isNoGravity()) {
