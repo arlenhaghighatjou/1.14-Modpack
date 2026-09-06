@@ -1484,7 +1484,7 @@ public class BackpackContainer extends Container implements ISyncedContainer {
 					!backpackWrapper.getInventoryHandler().isItemValid(0, slot.getStack())) {
 				ItemStack slotStack = slot.getStack();
 				slot.putStack(ItemStack.EMPTY);
-				if (!player.addItem(slotStack)) {
+				if (!player.inventory.addItemStackToInventory(slotStack)) {
 					player.dropItem(slotStack, false);
 				}
 			}

@@ -89,7 +89,7 @@ public class FluidFilterLogic {
 	private void serializeFluidFilters() {
 		ListNBT fluids = new ListNBT();
 		//noinspection ConstantConditions - only registered fluids get added
-		fluidFilters.forEach(f -> fluids.add(new StringNBT(Registry.ITEM.getKey(f).toString())));
+		fluidFilters.forEach(f -> fluids.add(new StringNBT(Registry.FLUID.getKey(f).toString())));
 		upgrade.getOrCreateTag().put("fluids", fluids);
 	}
 }

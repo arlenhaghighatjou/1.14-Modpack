@@ -181,7 +181,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return true;
 		}
 
-		IAttributeInstance attackDamage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		net.minecraft.entity.ai.attributes.IAttributeInstance attackDamage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		if (!stack.isEmpty() && hasSwordOrNoToolTypes(stack)) {
 			return attackDamage != null && attackDamage.getModifier(ItemBase.ATTACK_DAMAGE_MODIFIER_ID) != null;
 		}

@@ -30,7 +30,7 @@ public class BackpackInventorySlot extends Slot {
 
 	@Override
 	public void onSlotChanged() {
-		super.markDirty();
+		super.onSlotChanged();
 		// saving here as well because there are many cases where vanilla modifies stack directly without and inventory handler isn't aware of it
 		// however it does notify the slot of change
 		backpackWrapper.getInventoryHandler().onContentsChanged(slotIndex);
@@ -60,7 +60,7 @@ public class BackpackInventorySlot extends Slot {
 	@Override
 	public void putStack(ItemStack stack) {
 		inventoryHandler.setStackInSlot(slotIndex, stack);
-		setChanged();
+		onSlotChanged();
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -186,7 +186,7 @@ public class EntityBackpackAdditionHandler {
 		if (Boolean.FALSE.equals(Config.COMMON.entityBackpackAdditions.buffHealth)) {
 			return;
 		}
-		IAttributeInstance maxHealth = monster.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		net.minecraft.entity.ai.attributes.IAttributeInstance maxHealth = monster.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		if (maxHealth != null) {
 			double healthAddition = maxHealth.getBaseValue() * minDifficulty;
 			if (healthAddition > 0.1D) {

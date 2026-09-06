@@ -45,7 +45,7 @@ public class StonecutterRecipeContainer {
 		inputSlot = new SlotSuppliedHandler(upgradeContainer.getUpgradeWrapper()::getInputInventory, 0, -1, -1) {
 			@Override
 			public void onSlotChanged() {
-				super.markDirty();
+				super.onSlotChanged();
 				onCraftMatrixChanged(inputInventory);
 			}
 
@@ -53,7 +53,7 @@ public class StonecutterRecipeContainer {
 			public ItemStack decrStackSize(int amount) {
 				ItemStack ret = super.remove(amount);
 				if (getItem().isEmpty()) {
-					setChanged();
+					onSlotChanged();
 				}
 				return ret;
 			}

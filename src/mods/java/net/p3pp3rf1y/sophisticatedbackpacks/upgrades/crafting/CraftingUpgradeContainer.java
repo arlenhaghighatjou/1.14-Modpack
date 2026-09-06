@@ -112,16 +112,13 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 				Optional<ICraftingRecipe> optional = world.getServer().getRecipeManager().getRecipe(IRecipeType.CRAFTING, inventory, world);
 				if (optional.isPresent()) {
 					ICraftingRecipe craftingRecipe = optional.get();
-					if (inventoryResult.setRecipeUsed(world, serverplayerentity, craftingRecipe)) {
-						lastRecipe = craftingRecipe;
-						itemstack = lastRecipe.getCraftingResult(inventory);
-					} else {
-						lastRecipe = null;
-					}
+					inventoryResult.setRecipeUsed(craftingRecipe);
+					lastRecipe = craftingRecipe;
+					itemstack = lastRecipe.getCraftingResult(inventory);
 				}
 			}
 
-			craftingResultSlot.set(itemstack);
+			craftingResultSlot.putStack(itemstack);
 			if (serverplayerentity.openContainer instanceof BackpackContainer) {
 				((BackpackContainer) serverplayerentity.openContainer).setSlotStackToUpdate(craftingResultSlot.slotNumber, itemstack);
 			}

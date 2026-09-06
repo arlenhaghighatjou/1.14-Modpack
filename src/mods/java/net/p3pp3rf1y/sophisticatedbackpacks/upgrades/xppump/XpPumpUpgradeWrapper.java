@@ -62,7 +62,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 			return;
 		}
 
-		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.getRandomItemWith(Enchantments.MENDING, player, ItemStack::isDamaged);
+		Map.Entry<EquipmentSlotType, ItemStack> entry = EnchantmentHelper.func_222189_b(Enchantments.MENDING, player);
 		if (entry != null) {
 			ItemStack itemStack = entry.getValue();
 			if (!itemStack.isEmpty() && itemStack.isDamaged() && 2.0F > 0) {

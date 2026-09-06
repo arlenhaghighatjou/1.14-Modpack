@@ -43,7 +43,7 @@ public class ToolFilterSlot extends Slot implements IFilterSlot, INameableEmptyS
 	@Override
 	public void putStack(ItemStack stack) {
 		setTool.accept(stack);
-		setChanged();
+		onSlotChanged();
 	}
 
 	@Override

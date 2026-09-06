@@ -96,7 +96,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		}
 
 		//noinspection ConstantConditions - isFood check makes sure that food isn't null
-		int nutrition = stack.getItem().getFoodProperties().getNutrition();
+		int nutrition = stack.getItem().getFood().getHealing();
 		return (feedAtHungerLevel == HungerLevel.HALF ? (nutrition / 2) : nutrition) <= hungerLevel;
 	}
 

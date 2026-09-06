@@ -147,7 +147,7 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 	private boolean isValidForFluidPlacement(World world, BlockPos offsetPos) {
 		BlockState blockState = world.getBlockState(offsetPos);
 		Block block = blockState.getBlock();
-		return block.isAir(blockState, world, offsetPos) || (!blockState.getFluidState().isEmpty() && !blockState.getFluidState().isSource());
+		return blockState.isAir() || (!blockState.getFluidState().isEmpty() && !blockState.getFluidState().isSource());
 	}
 
 	private Optional<Integer> fillFromBlockInRange(World world, BlockPos basePos, IFluidHandler backpackFluidHandler) {

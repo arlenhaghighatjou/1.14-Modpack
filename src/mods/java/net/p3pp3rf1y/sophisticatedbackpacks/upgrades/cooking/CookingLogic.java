@@ -52,8 +52,8 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 		this.saveHandler = saveHandler;
 		this.isFuel = isFuel;
 		this.isInput = isInput;
-		cookingSpeedMultiplier = cookingUpgradeConfig.cookingSpeedMultiplier.get();
-		fuelEfficiencyMultiplier = cookingUpgradeConfig.fuelEfficiencyMultiplier.get();
+		cookingSpeedMultiplier = cookingUpgradeConfig.cookingSpeedMultiplier;
+		fuelEfficiencyMultiplier = cookingUpgradeConfig.fuelEfficiencyMultiplier;
 		this.recipeType = recipeType;
 		this.burnTimeModifier = burnTimeModifier;
 	}
