@@ -88,7 +88,7 @@ public class XpPumpUpgradeWrapper extends UpgradeWrapperBase<XpPumpUpgradeWrappe
 			}
 
 			if (direction == AutomationDirection.INPUT) {
-				if (level < player.experienceLevel || (level == player.experienceLevel && player.experienceProgress > 0)) {
+				if (level < player.experienceLevel || (level == player.experienceLevel && player.experience > 0)) {
 					tryFillTankWithPlayerExperience(player, fluidHandler, level, false);
 				}
 			} else if (direction == AutomationDirection.OUTPUT && level > player.experienceLevel) {

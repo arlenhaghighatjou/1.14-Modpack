@@ -31,7 +31,7 @@ public class Slot {
    protected void onCrafting(ItemStack stack, int amount) {
    }
 
-   protected void onSwapCraft(int p_190900_1_) {
+   public void onSwapCraft(int p_190900_1_) {
    }
 
    protected void onCrafting(ItemStack stack) {

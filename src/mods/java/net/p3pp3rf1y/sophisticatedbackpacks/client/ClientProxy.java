@@ -194,7 +194,7 @@ public class ClientProxy extends CommonProxy {
 			BackpackScreen backpackScreen = (BackpackScreen) screen;
 
 			Slot slot = backpackScreen.getSlotUnderMouse();
-			if (slot != null && slot.getStack().getStack() instanceof BackpackItem) {
+			if (slot != null && slot.getStack().getItem() instanceof BackpackItem) {
 				if (slot.getStack().getCount() == 1) {
 					PacketHandler.sendToServer(new BackpackOpenMessage(slot.slotNumber));
 				}
@@ -204,7 +204,7 @@ public class ClientProxy extends CommonProxy {
 		} else if (screen instanceof InventoryScreen) {
 			Slot slot = ((InventoryScreen) screen).getSlotUnderMouse();
 
-			if (slot != null && isSupportedPlayerInventorySlot(slot.slotNumber) && slot.getStack().getStack() instanceof BackpackItem) {
+			if (slot != null && isSupportedPlayerInventorySlot(slot.slotNumber) && slot.getStack().getItem() instanceof BackpackItem) {
 				PacketHandler.sendToServer(new BackpackOpenMessage(slot.getSlotIndex()));
 			}
 		}

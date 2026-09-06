@@ -55,7 +55,7 @@ public class XpHelper {
 
 	public static int getPlayerTotalExperience(PlayerEntity player) {
 		int currentLevelPoints = getExperienceForLevel(player.experienceLevel);
-		int partialLevelPoints = (int) (player.experienceProgress * player.getXpNeededForNextLevel());
+		int partialLevelPoints = (int) (player.experience * player.xpBarCap());
 		return currentLevelPoints + partialLevelPoints;
 	}
 }

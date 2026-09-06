@@ -20,7 +20,7 @@ public class WorldHelper {
 			return Optional.empty();
 		}
 
-		TileEntity te = world.getBlockEntity(pos);
+		TileEntity te = world.getTileEntity(pos);
 
 		if (teClass.isInstance(te)) {
 			return Optional.of(teClass.cast(te));
@@ -30,10 +30,10 @@ public class WorldHelper {
 	}
 
 	public static void notifyBlockUpdate(TileEntity tile) {
-		World world = tile.getLevel();
+		World world = tile.getWorld();
 		if (world == null) {
 			return;
 		}
-		world.sendBlockUpdated(tile.getBlockPos(), tile.getBlockState(), tile.getBlockState(), 3);
+		world.notifyBlockUpdate(tile.getPos(), tile.getBlockState(), tile.getBlockState(), 3);
 	}
 }

@@ -55,11 +55,11 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 	}
 
 	private boolean feedPlayerAndGetHungry(PlayerEntity player, World world) {
-		int hungerLevel = 20 - player.getFoodData().getFoodLevel();
+		int hungerLevel = 20 - player.getFoodStats().getFoodLevel();
 		if (hungerLevel == 0) {
 			return false;
 		}
-		return tryFeedingFoodFromBackpack(world, hungerLevel, player) && player.getFoodData().getFoodLevel() < 20;
+		return tryFeedingFoodFromBackpack(world, hungerLevel, player) && player.getFoodStats().getFoodLevel() < 20;
 	}
 
 	private boolean tryFeedingFoodFromBackpack(World world, int hungerLevel, PlayerEntity player) {

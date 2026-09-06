@@ -88,7 +88,7 @@ public class MagnetUpgradeWrapper extends UpgradeWrapperBase<MagnetUpgradeWrappe
 	}
 
 	private int pickupXpOrbs(@Nullable LivingEntity entity, World world, BlockPos pos) {
-		List<ExperienceOrbEntity> xpEntities = world.getEntitiesOfClass(ExperienceOrbEntity.class, new AxisAlignedBB(pos).grow(upgradeItem.getRadius()), e -> true);
+		List<ExperienceOrbEntity> xpEntities = world.getEntitiesWithinAABB(ExperienceOrbEntity.class, new AxisAlignedBB(pos).grow(upgradeItem.getRadius()), e -> true);
 		if (xpEntities.isEmpty()) {
 			return COOLDOWN_TICKS;
 		}
