@@ -103,7 +103,7 @@ public class ClientProxy extends CommonProxy {
 			double mouseX = mh.getMouseX() * mc.mainWindow.getScaledWidth() / mc.mainWindow.getWidth();
 			double mouseY = mh.getMouseY() * mc.mainWindow.getScaledHeight() / mc.mainWindow.getHeight();
 			BackpackContainer container = (BackpackContainer) mc.player.openContainer;
-			Slot selectedSlot = screen.findSlot(mouseX, mouseY);
+			Slot selectedSlot = screen.getSelectedSlot(mouseX, mouseY);
 			if (selectedSlot != null && !container.isPlayersInventorySlot(selectedSlot.slotNumber)) {
 				container.sort();
 				return true;

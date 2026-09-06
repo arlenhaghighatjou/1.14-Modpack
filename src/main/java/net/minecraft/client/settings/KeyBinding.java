@@ -142,6 +142,10 @@ public class KeyBinding implements Comparable<KeyBinding> {
       return this.keyCode.equals(InputMappings.INPUT_INVALID);
    }
 
+   public boolean isActiveAndMatches(InputMappings.Input input) {
+      return input.equals(this.keyCode);
+   }
+
    public boolean matchesKey(int keysym, int scancode) {
       if (keysym == InputMappings.INPUT_INVALID.getKeyCode()) {
          return this.keyCode.getType() == InputMappings.Type.SCANCODE && this.keyCode.getKeyCode() == scancode;

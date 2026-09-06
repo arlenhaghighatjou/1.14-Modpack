@@ -37,10 +37,10 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 
 		int slot;
 		for (slot = 0; slot < upgradeWrapper.getInventory().getSlots(); slot++) {
-			inventorySlots.add(new SlotSuppliedHandler(upgradeWrapper::getInventory, slot, -100, -100) {
+			slots.add(new SlotSuppliedHandler(upgradeWrapper::getInventory, slot, -100, -100) {
 				@Override
-				public void markDirty() {
-					super.markDirty();
+				public void onSlotChanged() {
+					super.onSlotChanged();
 					updateCraftingResult(player.world, player, craftMatrix, craftResult, craftingResultSlot);
 				}
 			});
@@ -49,34 +49,34 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 		craftingResultSlot = new CraftingResultSlot(player, craftMatrix, craftResult, slot, -100, -100) {
 			@Override
 			public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
-				ItemStack remainingStack = getItem();
-				checkTakeAchievements(stack);
+				ItemStack remainingStack = getStack();
+				onCrafting(stack);
 				NonNullList<ItemStack> nonnulllist;
 				if (lastRecipe != null && lastRecipe.matches(craftMatrix, player.world)) {
 					nonnulllist = lastRecipe.getRemainingItems(craftMatrix);
 				} else {
-					nonnulllist = craftMatrix.items;
+					nonnulllist = craftMatrix.getStackList();
 				}
 				for (int i = 0; i < nonnulllist.size(); ++i) {
-					ItemStack itemstack = craftMatrix.getItem(i);
+					ItemStack itemstack = craftMatrix.getStackInSlot(i);
 					ItemStack itemstack1 = nonnulllist.get(i);
 					if (!itemstack.isEmpty()) {
-						craftMatrix.removeItem(i, 1);
-						itemstack = craftMatrix.getItem(i);
+						craftMatrix.decrStackSize(i, 1);
+						itemstack = craftMatrix.getStackInSlot(i);
 					}
 
 					if (!itemstack1.isEmpty()) {
 						if (itemstack.isEmpty()) {
-							craftMatrix.setItem(i, itemstack1);
+							craftMatrix.setInventorySlotContents(i, itemstack1);
 						} else if (ItemStack.areItemsEqual(itemstack, itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1)) {
 							itemstack1.grow(itemstack.getCount());
-							craftMatrix.setItem(i, itemstack1);
-						} else if (!player.inventory.add(itemstack1)) {
+							craftMatrix.setInventorySlotContents(i, itemstack1);
+						} else if (!player.inventory.addItemStackToInventory(itemstack1)) {
 							player.dropItem(itemstack1, false);
 						}
 					}
 					if (thePlayer.openContainer instanceof BackpackContainer) {
-						Slot slot = inventorySlots.get(i);
+						Slot slot = slots.get(i);
 						((BackpackContainer) thePlayer.openContainer).setSlotStackToUpdate(slot.slotNumber, slot.getStack());
 					}
 				}

@@ -51,6 +51,11 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
    }
 
    protected Slot hoveredSlot;
+
+   public Slot getSlotUnderMouse() {
+      return this.hoveredSlot;
+   }
+
    protected Slot clickedSlot;
    protected boolean isRightMouseClick;
    protected ItemStack draggedStack = ItemStack.EMPTY;

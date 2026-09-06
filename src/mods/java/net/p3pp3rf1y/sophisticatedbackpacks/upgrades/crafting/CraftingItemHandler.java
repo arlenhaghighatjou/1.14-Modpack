@@ -38,7 +38,7 @@ public class CraftingItemHandler extends CraftingInventory {
 	}
 
 	@Override
-	public ItemStack getItem(int index) {
+	public ItemStack getStackInSlot(int index) {
 		IItemHandlerModifiable itemHandler = supplyInventory.get();
 		return index >= itemHandler.getSlots() ? ItemStack.EMPTY : itemHandler.getStackInSlot(index);
 	}
@@ -49,7 +49,7 @@ public class CraftingItemHandler extends CraftingInventory {
 	}
 
 	@Override
-	public ItemStack removeItem(int index, int count) {
+	public ItemStack decrStackSize(int index, int count) {
 		ItemStack itemstack = supplyInventory.get().extractItem(index, count, false);
 		if (!itemstack.isEmpty()) {
 			onCraftingMatrixChanged.accept(this);
@@ -66,7 +66,7 @@ public class CraftingItemHandler extends CraftingInventory {
 
 	@Override
 	public void fillStackedContents(RecipeItemHelper helper) {
-		InventoryHelper.iterate(supplyInventory.get(), (slot, stack) -> helper.accountSimpleStack(stack));
+		InventoryHelper.iterate(supplyInventory.get(), (slot, stack) -> helper.accountPlainStack(stack));
 	}
 
 }
