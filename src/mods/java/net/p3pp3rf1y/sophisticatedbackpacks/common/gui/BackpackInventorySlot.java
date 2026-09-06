@@ -69,7 +69,7 @@ public class BackpackInventorySlot extends Slot {
 	}
 
 	@Override
-	public void onQuickCraft(@Nonnull ItemStack oldStackIn, @Nonnull ItemStack newStackIn) {
+	public void onSlotChange(@Nonnull ItemStack oldStackIn, @Nonnull ItemStack newStackIn) {
 		//noop
 	}
 

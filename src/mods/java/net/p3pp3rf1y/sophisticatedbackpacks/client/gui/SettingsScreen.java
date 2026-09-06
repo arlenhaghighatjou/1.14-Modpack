@@ -166,8 +166,8 @@ public class SettingsScreen extends ContainerScreen<SettingsContainer> {
 	}
 
 	@Override
-	protected void renderTooltip(int x, int y) {
-		super.renderTooltip(x, y);
+	protected void renderHoveredToolTip(int x, int y) {
+		super.renderHoveredToolTip(x, y);
 		GuiHelper.renderTooltip(mc, x, y);
 	}
 

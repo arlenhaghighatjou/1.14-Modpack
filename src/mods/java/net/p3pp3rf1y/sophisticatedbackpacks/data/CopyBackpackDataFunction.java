@@ -45,7 +45,7 @@ public class CopyBackpackDataFunction extends LootFunction {
 
 	public static class Builder extends LootFunction.Builder<CopyBackpackDataFunction.Builder> {
 		@Override
-		protected CopyBackpackDataFunction.Builder getThis() {
+		protected CopyBackpackDataFunction.Builder doCast() {
 			return this;
 		}
 

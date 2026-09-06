@@ -207,7 +207,7 @@ public class SettingsContainer extends Container implements IContextAwareContain
 	}
 
 	@Override
-	public ItemStack clicked(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
+	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
 		return ItemStack.EMPTY;
 	}
 

@@ -15,7 +15,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackAccessLogger;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.CompletableFuture;
+import net.eymenwsmc.java.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class BackpackUUIDArgumentType implements ArgumentType<EaglercraftUUID> {

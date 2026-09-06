@@ -28,7 +28,7 @@ public class SlotSuppliedHandler extends SlotItemHandler {
 	}
 
 	@Override
-	public int getMaxStackSize() {
+	public int getSlotStackLimit() {
 		return itemHandlerSupplier.get().getSlotLimit(slot);
 	}
 }

@@ -19,20 +19,20 @@ public class HighStackCountListener implements IContainerListener {
 	}
 
 	@Override
-	public void refreshContainer(Container containerToSend, NonNullList<ItemStack> itemsList) {
+	public void sendAllContents(Container containerToSend, NonNullList<ItemStack> itemsList) {
 		PacketHandler.sendToClient(player, new SyncContainerStacksMessage(containerToSend.windowId, itemsList));
 		player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 	}
 
 	@Override
-	public void slotChanged(Container containerToSend, int slotInd, ItemStack stack) {
+	public void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack) {
 		if (!(containerToSend.getSlot(slotInd) instanceof CraftingResultSlot) && !player.ignoreSlotUpdateHack) {
 			PacketHandler.sendToClient(player, new SyncSlotStackMessage(containerToSend.windowId, slotInd, stack));
 		}
 	}
 
 	@Override
-	public void setContainerData(Container containerIn, int varToUpdate, int newValue) {
+	public void sendWindowProperty(Container containerIn, int varToUpdate, int newValue) {
 		//noop - not used in BackpackContainer
 	}
 }
