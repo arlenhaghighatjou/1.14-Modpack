@@ -17,7 +17,6 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.tool.ToolType;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.registry.IRegistryDataLoader;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.RegistryHelper;
@@ -201,7 +200,7 @@ public class ToolRegistry {
 		}
 	}
 
-	private abstract static class ToolsLoaderBase<T extends ForgeRegistryEntry<?>, C> implements IRegistryDataLoader {
+	private abstract static class ToolsLoaderBase<T, C> implements IRegistryDataLoader {
 		private final List<IMatcherFactory<C>> objectMatcherFactories;
 		private final ToolMapping<T, C> toolMapping;
 		private final Function<ResourceLocation, Optional<T>> getObjectFromRegistry;
@@ -363,7 +362,7 @@ public class ToolRegistry {
 		modsWithMapping.add(modId);
 	}
 
-	private static class ToolMapping<T extends ForgeRegistryEntry<?>, C> {
+	private static class ToolMapping<T, C> {
 		private final Function<C, T> getObjectFromContext;
 		private final Map<T, Set<Item>> notToolCache = new HashMap<>();
 

@@ -10,8 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraft.world.World;
 import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 
 import java.util.Map;
@@ -39,11 +38,11 @@ public class BackpackSoundHandler {
 		}
 	}
 
-	public static void tick(TickEvent.WorldTickEvent event) {
-		if (!backpackSounds.isEmpty() && lastPlaybackChecked < event.world.getGameTime() - SOUND_STOP_CHECK_INTERVAL) {
-			lastPlaybackChecked = event.world.getGameTime();
+	public static void tick(World world) {
+		if (!backpackSounds.isEmpty() && lastPlaybackChecked < world.getGameTime() - SOUND_STOP_CHECK_INTERVAL) {
+			lastPlaybackChecked = world.getGameTime();
 			backpackSounds.entrySet().removeIf(entry -> {
-				if (!Minecraft.getInstance().getSoundHandler().isActive(entry.getValue())) {
+				if (!Minecraft.getInstance().getSoundHandler().isPlaying(entry.getValue())) {
 					PacketHandler.sendToServer(new SoundStopNotificationMessage(entry.getKey()));
 					return true;
 				}
@@ -53,7 +52,7 @@ public class BackpackSoundHandler {
 	}
 
 	public static void playBackpackSound(SoundEvent soundEvent, EaglercraftUUID backpackUuid, BlockPos pos) {
-		playBackpackSound(backpackUuid, SimpleSound.forRecord(soundEvent, pos.getX(), pos.getY(), pos.getZ()));
+		playBackpackSound(backpackUuid, new SimpleSound(soundEvent, SoundCategory.RECORDS, 4.0F, 1.0F, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F));
 	}
 
 	public static void playBackpackSound(SoundEvent soundEvent, EaglercraftUUID backpackUuid, int entityId) {
@@ -69,8 +68,7 @@ public class BackpackSoundHandler {
 		playBackpackSound(backpackUuid, new EntityTickableSound(soundEvent, SoundCategory.RECORDS, 2, 1, entity));
 	}
 
-	@SuppressWarnings({"unused", "java:S1172"}) // needs to be here for addListener to recognize which event this method should be subscribed to
-	public static void onWorldUnload(WorldEvent.Unload evt) {
+	public static void onWorldUnload() {
 		backpackSounds.clear();
 		lastPlaybackChecked = 0;
 	}

@@ -32,7 +32,6 @@ import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.UpgradeContainerRegistry;
 import net.p3pp3rf1y.sophisticatedbackpacks.common.gui.UpgradeContainerType;
 import net.p3pp3rf1y.sophisticatedbackpacks.crafting.BackpackDyeRecipe;
 import net.p3pp3rf1y.sophisticatedbackpacks.crafting.BackpackUpgradeRecipe;
-import net.p3pp3rf1y.sophisticatedbackpacks.crafting.SmithingBackpackUpgradeRecipe;
 import net.p3pp3rf1y.sophisticatedbackpacks.crafting.UpgradeClearRecipe;
 import net.p3pp3rf1y.sophisticatedbackpacks.crafting.UpgradeNextTierRecipe;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.ContentsFilteredUpgradeContainer;
@@ -348,7 +347,6 @@ public class ModItems {
 
 	public static void registerRecipeSerializers() {
 		registerSerializer("backpack_upgrade", BackpackUpgradeRecipe.SERIALIZER);
-		registerSerializer("smithing_backpack_upgrade", SmithingBackpackUpgradeRecipe.SERIALIZER);
 		registerSerializer("upgrade_next_tier", UpgradeNextTierRecipe.SERIALIZER);
 		registerSerializer("backpack_dye", BackpackDyeRecipe.SERIALIZER);
 		registerSerializer("upgrade_clear", UpgradeClearRecipe.SERIALIZER);

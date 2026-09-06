@@ -1,12 +1,11 @@
 package net.p3pp3rf1y.sophisticatedbackpacks.registry.tool;
 
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.RegistryHelper;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class ModMatcher<T extends ForgeRegistryEntry<?>, C> implements Predicate<C> {
+public class ModMatcher<T, C> implements Predicate<C> {
 	private final String modId;
 	private final Function<C, T> getObjectFromContext;
 

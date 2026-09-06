@@ -7,11 +7,10 @@ import net.minecraft.block.AbstractRailBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.tags.Tag;
-import net.minecraft.tags.TagCollectionManager;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
@@ -34,7 +33,7 @@ public class Matchers {
 			@Override
 			protected Optional<CacheableStackPredicate> getPredicateFromObject(JsonObject jsonObject) {
 				String tagName = JSONUtils.getString(jsonObject, "tag");
-				Tag<Item> tag = TagCollectionManager.getInstance().getItems().getTag(new ResourceLocation(tagName));
+				Tag<Item> tag = ItemTags.getCollection().get(new ResourceLocation(tagName));
 				return tag == null ? Optional.empty() : Optional.of(new ItemTagMatcher(tag));
 			}
 		});
@@ -102,7 +101,7 @@ public class Matchers {
 		ENTITY_MATCHER_FACTORIES.add(new TypedMatcherFactory<Entity>("bee") {
 			@Override
 			protected Optional<Predicate<Entity>> getPredicateFromObject(JsonObject jsonObject) {
-				return Optional.of(entity -> entity instanceof BeeEntity);
+				return Optional.empty();
 			}
 		});
 		ENTITY_MATCHER_FACTORIES.add(new TypedMatcherFactory<Entity>("tameable") {
