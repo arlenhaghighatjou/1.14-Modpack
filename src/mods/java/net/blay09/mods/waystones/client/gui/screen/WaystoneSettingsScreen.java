@@ -13,9 +13,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.blay09.mods.waystones.client.gui.widget.CheckboxButton;
-import org.lwjgl.glfw.GLFW;
 
 public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsContainer> {
+    private static final int KEY_ESCAPE = 256;
+    private static final int KEY_ENTER = 257;
+
 
     private TextFieldWidget textField;
     private Button btnDone;
@@ -84,13 +86,13 @@ public class WaystoneSettingsScreen extends ContainerScreen<WaystoneSettingsCont
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+        if (keyCode == KEY_ENTER) {
             btnDone.onPress();
             return true;
         }
 
         if (textField.keyPressed(keyCode, scanCode, modifiers) || textField.isFocused()) {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            if (keyCode == KEY_ESCAPE) {
                 this.mc.player.closeScreen();
             }
 
