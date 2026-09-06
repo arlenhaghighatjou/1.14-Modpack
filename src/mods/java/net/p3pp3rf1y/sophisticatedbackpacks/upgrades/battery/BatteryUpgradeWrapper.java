@@ -160,11 +160,11 @@ public class BatteryUpgradeWrapper extends UpgradeWrapperBase<BatteryUpgradeWrap
 	@Override
 	public void tick(@Nullable LivingEntity entity, World world, BlockPos pos) {
 		if (energyStored < getMaxEnergyStored()) {
-			inventory.getStackInSlot(INPUT_SLOT).getCapability(null).ifPresent(this::receiveFromStorage);
+			inventory.getStackInSlot(INPUT_SLOT).ifPresent(this::receiveFromStorage);
 		}
 
 		if (energyStored > 0) {
-			inventory.getStackInSlot(OUTPUT_SLOT).getCapability(null).ifPresent(this::extractToStorage);
+			inventory.getStackInSlot(OUTPUT_SLOT).ifPresent(this::extractToStorage);
 		}
 	}
 

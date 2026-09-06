@@ -579,6 +579,10 @@ public abstract class PlayerEntity extends LivingEntity {
     }
 
     public ItemEntity dropItem(ItemStack droppedItem, boolean dropAround, boolean traceItem) {
+        if (droppedItem.getItem() instanceof net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem
+                && !((net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem) droppedItem.getItem()).onDroppedByPlayer(droppedItem, this)) {
+            return null;
+        }
         if (droppedItem.isEmpty()) {
             return null;
         } else {

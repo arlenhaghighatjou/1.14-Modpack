@@ -200,10 +200,10 @@ public class TankUpgradeWrapper extends UpgradeWrapperBase<TankUpgradeWrapper, T
 		}
 
 		AtomicBoolean didSomething = new AtomicBoolean(false);
-		inventory.getStackInSlot(INPUT_SLOT).getCapability(null).ifPresent(fluidHandler ->
+		inventory.getStackInSlot(INPUT_SLOT).ifPresent(fluidHandler ->
 				didSomething.set(drainHandler(fluidHandler, stack -> inventory.setStackInSlot(INPUT_SLOT, stack)))
 		);
-		inventory.getStackInSlot(OUTPUT_SLOT).getCapability(null).ifPresent(fluidHandler ->
+		inventory.getStackInSlot(OUTPUT_SLOT).ifPresent(fluidHandler ->
 				didSomething.set(fillHandler(fluidHandler, stack -> inventory.setStackInSlot(OUTPUT_SLOT, stack)))
 		);
 

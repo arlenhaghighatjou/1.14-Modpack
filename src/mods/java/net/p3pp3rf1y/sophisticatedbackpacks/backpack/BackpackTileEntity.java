@@ -94,7 +94,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		CompoundNBT tag = pkt.getTag();
+		CompoundNBT tag = pkt.getNbtCompound();
 		setBackpackFromNbt(tag);
 		if (tag.getBoolean("updateBlockRender")) {
 			WorldHelper.notifyBlockUpdate(this);
@@ -143,7 +143,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 		}
 		state = state.with(BATTERY, renderInfo.getBatteryRenderInfo().isPresent());
 		world.setBlockState(pos, state);
-		world.updateNeighborsAt(pos, state.getBlock());
+		world.notifyNeighborsOfStateChange(pos, state.getBlock());
 		WorldHelper.notifyBlockUpdate(this);
 	}
 }

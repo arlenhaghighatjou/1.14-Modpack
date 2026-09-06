@@ -153,14 +153,14 @@ public class BackpackShapes {
 
 		private static VoxelShape rotateShapeOnce(VoxelShape shape) {
 			List<VoxelShape> shapes = new ArrayList<>();
-			shape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> shapes.add(VoxelShapes.makeCuboidShape(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
+			shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> shapes.add(VoxelShapes.makeCuboidShape(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
 			return or(shapes.stream());
 		}
 	}
 
 	private static VoxelShape or(Stream<VoxelShape> shapes) {
-		return shapes.reduce((v1, v2) -> VoxelShapes.joinUnoptimized(v1, v2, IBooleanFunction.OR))
-			.map(VoxelShape::optimize)
+		return shapes.reduce((v1, v2) -> VoxelShapes.combine(v1, v2, IBooleanFunction.OR))
+			.map(VoxelShape::simplify)
 			.orElse(VoxelShapes.empty());
 	}
 }

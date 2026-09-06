@@ -372,9 +372,9 @@ public class ModItems {
 			if (item instanceof BackpackItem) {
 				Direction dispenserDirection = source.getBlockState().get(DispenserBlock.FACING);
 				BlockPos blockpos = source.getBlockPos().offset(dispenserDirection);
-				Direction against = source.getWorld().isEmptyBlock(blockpos.down()) ? dispenserDirection.getOpposite() : Direction.UP;
+				Direction against = source.getWorld().isAirBlock(blockpos.down()) ? dispenserDirection.getOpposite() : Direction.UP;
 
-				setSuccess(((BackpackItem) item).tryPlace(null, dispenserDirection.getAxis() == Direction.Axis.Y ? Direction.NORTH : dispenserDirection.getOpposite(), new DirectionalPlaceContext(source.getWorld(), blockpos, dispenserDirection, stack, against)).consumesAction());
+				setSuccess(((BackpackItem) item).tryPlace(null, dispenserDirection.getAxis() == Direction.Axis.Y ? Direction.NORTH : dispenserDirection.getOpposite(), new DirectionalPlaceContext(source.getWorld(), blockpos, dispenserDirection, stack, against)) == net.minecraft.util.ActionResultType.SUCCESS);
 			}
 
 			return stack;

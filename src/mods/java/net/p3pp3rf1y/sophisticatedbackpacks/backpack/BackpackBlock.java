@@ -197,7 +197,7 @@ public class BackpackBlock extends Block implements IWaterLoggable, ITileEntityP
 	private static void putInPlayersHandAndRemove(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
 		ItemStack backpack = WorldHelper.getTile(world, pos, BackpackTileEntity.class).map(te -> te.getBackpackWrapper().getBackpack()).orElse(ItemStack.EMPTY);
 		player.setHeldItem(hand, backpack);
-		player.getCooldownTracker().addCooldown(backpack.getItem(), 5);
+		player.getCooldownTracker().setCooldown(backpack.getItem(), 5);
 		world.removeBlock(pos, false);
 
 		stopBackpackSounds(backpack, world, pos);
@@ -236,19 +236,15 @@ public class BackpackBlock extends Block implements IWaterLoggable, ITileEntityP
 
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		super.entityInside(state, world, pos, entity);
+		super.onEntityCollision(state, world, pos, entity);
 		if (!world.isRemote && entity instanceof ItemEntity) {
 			ItemEntity itemEntity = (ItemEntity) entity;
 			WorldHelper.getTile(world, pos, BackpackTileEntity.class).ifPresent(te -> tryToPickup(world, itemEntity, te.getBackpackWrapper()));
 		}
 	}
 
-	@Override
 	public boolean canEntityDestroy(BlockState state, IBlockReader world, BlockPos pos, Entity entity) {
-		if (hasEverlastingUpgrade(world, pos)) {
-			return false;
-		}
-		return super.canEntityDestroy(state, world, pos, entity);
+		return !hasEverlastingUpgrade(world, pos);
 	}
 
 	private void tryToPickup(World world, ItemEntity itemEntity, IBackpackWrapper w) {
@@ -276,7 +272,7 @@ public class BackpackBlock extends Block implements IWaterLoggable, ITileEntityP
 	}
 
 	private static Vec3d getBackpackMiddleFacePoint(BlockPos pos, Direction facing, Vec3d vector3d) {
-		return vector3d.add(0, 0, 0.41).yRot((float) (-facing.getHorizontalAngle() * (Math.PI / 180F))).add(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+		return vector3d.add(0, 0, 0.41).rotateYaw((float) (-facing.getHorizontalAngle() * (Math.PI / 180F))).add(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 	}
 
 	private static <T extends IUpgradeRenderData> void renderUpgrade(IUpgradeRenderer<T> renderer, World world, Random rand, BlockPos pos, Direction facing, UpgradeRenderDataType<?> type, IUpgradeRenderData data) {

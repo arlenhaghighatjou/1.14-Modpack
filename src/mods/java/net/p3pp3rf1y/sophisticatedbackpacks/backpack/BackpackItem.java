@@ -265,22 +265,14 @@ public class BackpackItem extends ItemBase {
     }
 
     @Nullable
-    @Override
     public EquipmentSlotType getEquipmentSlot(ItemStack stack) {
         return EquipmentSlotType.CHEST;
     }
 
-    @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return slotChanged;
     }
 
-    @Override
-    public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) {
-        return stack.getItem() == ModItems.GOLD_BACKPACK;
-    }
-
-    @Override
     public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
         if (!(player.openContainer instanceof BackpackContainer)) {
             return true;

@@ -773,6 +773,9 @@ public abstract class MobEntity extends LivingEntity {
     }
 
     public static EquipmentSlotType getSlotForItemStack(ItemStack stack) {
+        if (stack.getItem() instanceof net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem) {
+            return EquipmentSlotType.CHEST;
+        }
         Item item = stack.getItem();
         if (item != Blocks.CARVED_PUMPKIN.asItem() && (!(item instanceof BlockItem) || !(((BlockItem) item).getBlock() instanceof AbstractSkullBlock))) {
             if (item instanceof ArmorItem) {
