@@ -54,6 +54,6 @@ public class ContextButton extends ButtonBase {
 
 	@Override
 	protected void renderWidget(int mouseX, int mouseY, float partialTicks) {
-		drawCenteredString(Minecraft.getInstance().fontRenderer, getTitle.get(), x + width / 2, y - 4 + height / 2, 16777215 | (255 << 24));
+		drawCenteredString(Minecraft.getInstance().fontRenderer, getTitle.get().getFormattedText(), x + width / 2, y - 4 + height / 2, 16777215 | (255 << 24));
 	}
 }

@@ -12,7 +12,7 @@ class ToolTypeMatcher implements CacheableStackPredicate {
 
 	@Override
 	public boolean test(ItemStack stack) {
-		return stack.getToolTypes().contains(toolType);
+		return net.p3pp3rf1y.sophisticatedbackpacks.util.tool.ToolType.of(stack).contains(toolType);
 	}
 
 	@Override

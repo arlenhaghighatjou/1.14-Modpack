@@ -42,24 +42,15 @@ public class ToolRegistry {
 
 	private static final String TOOLS_PROPERTY = "tools";
 
-	private static final Field TOOL_TYPES = ObfuscationReflectionHelper.findField(ToolType.class, "VALUES");
 
 	public static Map<String, ToolType> getToolTypes() {
-		try {
-			Map<String, ToolType> toolTypes = new HashMap<>();
-
-			//noinspection unchecked
-			((Map<String, ToolType>) TOOL_TYPES.get(null)).forEach((key, value) -> {
-				if (!SWORD_TOOL_TYPES_TO_SKIP.contains(key)) {
-					toolTypes.put(key, value);
-				}
-			});
-
-			return toolTypes;
-		}
-		catch (IllegalAccessException e) {
-			return Collections.emptyMap();
-		}
+		Map<String, ToolType> toolTypes = new HashMap<>();
+		ToolType.getValues().forEach((key, value) -> {
+			if (!SWORD_TOOL_TYPES_TO_SKIP.contains(key)) {
+				toolTypes.put(key, value);
+			}
+		});
+		return toolTypes;
 	}
 
 	static {

@@ -71,7 +71,7 @@ public class BackpackDyeRecipe extends SpecialRecipe {
 
 				columnBackpack = new Tuple<>(column, slotStack);
 			} else if (item instanceof DyeItem) {
-				DyeColor dyeColor = DyeColor.getColor(slotStack);
+				DyeColor dyeColor = (slotStack.getItem() instanceof net.minecraft.item.DyeItem ? ((net.minecraft.item.DyeItem) slotStack.getItem()).getDyeColor() : null);
 				if (dyeColor == null) {
 					return ItemStack.EMPTY;
 				}

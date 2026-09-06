@@ -53,7 +53,7 @@ public class PlayDiscMessage {
 	}
 
 	private static void handleMessage(PlayDiscMessage msg) {
-		Item discItem = Item.byId(msg.musicDiscItemId);
+		Item discItem = Item.getItemById(msg.musicDiscItemId);
 		if (!(discItem instanceof MusicDiscItem)) {
 			return;
 		}

@@ -50,7 +50,7 @@ public class WindowClickMessage {
 			return;
 		}
 
-		player.resetLastActionTime();
+		player.markPlayerActive();
 		if (player.isSpectator()) {
 			syncSlotsForSpectator(player);
 		} else {
@@ -63,7 +63,7 @@ public class WindowClickMessage {
 				player.ignoreSlotUpdateHack = false;
 			} else {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));
-				player.openContainer.setSynched(player, false);
+				player.openContainer.setCanCraft(player, false);
 				PacketHandler.sendToClient(player, new SyncContainerStacksMessage(player.openContainer.windowId, player.openContainer.getInventory()));
 				player.connection.sendPacket(new SSetSlotPacket(-1, -1, player.inventory.getItemStack()));
 			}

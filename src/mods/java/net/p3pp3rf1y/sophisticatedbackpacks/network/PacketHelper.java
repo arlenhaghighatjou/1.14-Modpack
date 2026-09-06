@@ -14,8 +14,8 @@ public class PacketHelper {
 		} else {
 			int i = packetBuffer.readVarInt();
 			int j = packetBuffer.readInt();
-			ItemStack itemstack = new ItemStack(Item.byId(i), j);
-			itemstack.readShareTag(packetBuffer.readCompoundTag());
+			ItemStack itemstack = new ItemStack(Item.getItemById(i), j);
+			itemstack.setTag(packetBuffer.readCompoundTag());
 			return itemstack;
 		}
 	}
@@ -29,8 +29,8 @@ public class PacketHelper {
 			packetBuffer.writeVarInt(Item.getIdFromItem(item));
 			packetBuffer.writeInt(stack.getCount());
 			CompoundNBT compoundnbt = null;
-			if (item.isDamageable(stack) || item.shouldOverrideMultiplayerNbt()) {
-				compoundnbt = stack.getShareTag();
+			if (item.isDamageable()) {
+				compoundnbt = stack.getTag();
 			}
 
 			packetBuffer.writeCompoundTag(compoundnbt);

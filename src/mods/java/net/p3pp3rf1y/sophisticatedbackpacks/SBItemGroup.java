@@ -8,7 +8,7 @@ public class SBItemGroup extends ItemGroup {
 	private ItemStack tabIcon;
 
 	SBItemGroup() {
-		super(SophisticatedBackpacks.MOD_ID);
+		super(ItemGroup.GROUPS.length, SophisticatedBackpacks.MOD_ID);
 	}
 
 	@Override
