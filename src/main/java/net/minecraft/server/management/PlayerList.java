@@ -200,6 +200,7 @@ public abstract class PlayerList {
 
         playerIn.addSelfToInternalCraftingInventory();
         net.blay09.mods.waystones.handler.LoginHandler.onPlayerLogin(playerIn);
+        modpack.ModHooks.onPlayerLoggedIn(playerIn);
     }
 
     protected void sendScoreboard(ServerScoreboard scoreboardIn, ServerPlayerEntity playerIn) {

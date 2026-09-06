@@ -19,6 +19,7 @@ import net.minecraft.item.crafting.SmokingRecipe;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
@@ -225,7 +226,7 @@ public class ModItems {
 		PUMP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "pump_upgrade"), new PumpUpgradeItem(false, false));
 		ADVANCED_PUMP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "advanced_pump_upgrade"), new PumpUpgradeItem(true, true));
 		XP_PUMP_UPGRADE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "xp_pump_upgrade"), new XpPumpUpgradeItem());
-		UPGRADE_BASE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "upgrade_base"), new ItemBase(new Item.Properties().stacksTo(16)));
+		UPGRADE_BASE = Registry.register(Registry.ITEM, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "upgrade_base"), new ItemBase(new Item.Properties().maxStackSize(16)));
 		BACKPACK_CONTAINER_TYPE = Registry.register(Registry.MENU, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "backpack"), new ContainerType<>(BackpackContainer::fromOpenData));
 		SETTINGS_CONTAINER_TYPE = Registry.register(Registry.MENU, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "settings"), new ContainerType<>(SettingsContainer::fromOpenData));
 		EVERLASTING_BACKPACK_ITEM_ENTITY = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(SophisticatedBackpacks.MOD_ID, "everlasting_backpack_item"), EntityType.Builder.<EverlastingBackpackItemEntity>create(EverlastingBackpackItemEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).build("everlasting_backpack_item"));
@@ -299,9 +300,13 @@ public class ModItems {
 		UpgradeContainerRegistry.register(Registry.ITEM.getKey(ADVANCED_PUMP_UPGRADE), ADVANCED_PUMP_TYPE);
 		UpgradeContainerRegistry.register(Registry.ITEM.getKey(XP_PUMP_UPGRADE), XP_PUMP_TYPE);
 
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			ScreenManager.register(BACKPACK_CONTAINER_TYPE, BackpackScreen::constructScreen);
-			ScreenManager.register(SETTINGS_CONTAINER_TYPE, SettingsScreen::constructScreen);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void registerClient() {
+		{
+			ScreenManager.registerFactory(BACKPACK_CONTAINER_TYPE, BackpackScreen::constructScreen);
+			ScreenManager.registerFactory(SETTINGS_CONTAINER_TYPE, SettingsScreen::constructScreen);
 
 			UpgradeGuiManager.registerTab(PICKUP_BASIC_TYPE, PickupUpgradeTab.Basic::new);
 			UpgradeGuiManager.registerTab(PICKUP_ADVANCED_TYPE, PickupUpgradeTab.Advanced::new);
@@ -338,16 +343,19 @@ public class ModItems {
 			UpgradeGuiManager.registerTab(PUMP_TYPE, PumpUpgradeTab.Basic::new);
 			UpgradeGuiManager.registerTab(ADVANCED_PUMP_TYPE, PumpUpgradeTab.Advanced::new);
 			UpgradeGuiManager.registerTab(XP_PUMP_TYPE, XpPumpUpgradeTab::new);
-		});
+		}
 	}
 
 	public static void registerRecipeSerializers() {
+		registerSerializer("backpack_upgrade", BackpackUpgradeRecipe.SERIALIZER);
+		registerSerializer("smithing_backpack_upgrade", SmithingBackpackUpgradeRecipe.SERIALIZER);
+		registerSerializer("upgrade_next_tier", UpgradeNextTierRecipe.SERIALIZER);
+		registerSerializer("backpack_dye", BackpackDyeRecipe.SERIALIZER);
+		registerSerializer("upgrade_clear", UpgradeClearRecipe.SERIALIZER);
+	}
 
-		evt.getRegistry().register(BackpackUpgradeRecipe.SERIALIZER.setRegistryName(SophisticatedBackpacks.MOD_ID, "backpack_upgrade"));
-		evt.getRegistry().register(SmithingBackpackUpgradeRecipe.SERIALIZER.setRegistryName(SophisticatedBackpacks.MOD_ID, "smithing_backpack_upgrade"));
-		evt.getRegistry().register(UpgradeNextTierRecipe.SERIALIZER.setRegistryName(SophisticatedBackpacks.MOD_ID, "upgrade_next_tier"));
-		evt.getRegistry().register(BackpackDyeRecipe.SERIALIZER.setRegistryName(SophisticatedBackpacks.MOD_ID, "backpack_dye"));
-		evt.getRegistry().register(UpgradeClearRecipe.SERIALIZER.setRegistryName(SophisticatedBackpacks.MOD_ID, "upgrade_clear"));
+	private static void registerSerializer(String name, IRecipeSerializer<?> serializer) {
+		Registry.register(Registry.RECIPE_SERIALIZER, new ResourceLocation(SophisticatedBackpacks.MOD_ID, name), serializer);
 	}
 
 	public static void registerDispenseBehavior() {

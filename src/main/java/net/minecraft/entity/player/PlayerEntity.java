@@ -919,6 +919,7 @@ public abstract class PlayerEntity extends LivingEntity {
     }
 
     public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
+        modpack.ModHooks.onAttackEntity(this);
         if (targetEntity.canBeAttackedWithItem()) {
             if (!targetEntity.hitByEntity(this)) {
                 float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();

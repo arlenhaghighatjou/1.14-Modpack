@@ -21,23 +21,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.resources.IFutureReloadListener;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.LazyOptional;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
-import net.minecraftforge.event.entity.EntityMobGriefingEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
+
+import java.util.List;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IAttackEntityResponseUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBlockClickResponseUpgrade;
@@ -65,38 +55,22 @@ public class CommonProxy {
 	private final PlayerInventoryProvider playerInventoryProvider = new PlayerInventoryProvider();
 
 	public void registerHandlers() {
-		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		ModItems.registerHandlers(modBus);
-		ModBlocks.registerHandlers(modBus);
-		ModFluids.registerHandlers(modBus);
-		ModParticles.registerParticles(modBus);
-		IEventBus eventBus = MinecraftForge.EVENT_BUS;
-		eventBus.addListener(this::onItemPickup);
-		eventBus.addListener(this::onLivingSpecialSpawn);
-		eventBus.addListener(this::onLivingDrops);
-		eventBus.addListener(this::onCauldronInteract);
-		eventBus.addListener(this::onEntityMobGriefing);
-		eventBus.addListener(this::onEntityLeaveWorld);
-		eventBus.addListener(ServerBackpackSoundHandler::tick);
-		eventBus.addListener(this::onBlockClick);
-		eventBus.addListener(this::onAttackEntity);
-		eventBus.addListener(EntityBackpackAdditionHandler::onLivingUpdate);
-		eventBus.addListener(this::onAddReloadListener);
-		eventBus.addListener(this::onPlayerLoggedIn);
-		eventBus.addListener(this::onPlayerChangedDimension);
-		eventBus.addListener(this::onWorldTick);
+		ModItems.registerHandlers();
+		ModBlocks.registerHandlers();
+		ModFluids.registerHandlers();
+		ModParticles.registerParticles();
 	}
 
 	private static final int BACKPACK_COUNT_CHECK_COOLDOWN = 40;
 	private long nextBackpackCountCheck = 0;
 
-	private void onWorldTick(TickEvent.WorldTickEvent event) {
-		if (event.world.isRemote || event.phase != TickEvent.Phase.END || Boolean.FALSE.equals(Config.COMMON.nerfsConfig.tooManyBackpacksSlowness) || nextBackpackCountCheck > event.world.getGameTime()) {
+	public void onWorldTick(World world) {
+		if (world.isRemote || Boolean.FALSE.equals(Config.COMMON.nerfsConfig.tooManyBackpacksSlowness) || nextBackpackCountCheck > world.getGameTime()) {
 			return;
 		}
-		nextBackpackCountCheck = event.world.getGameTime() + BACKPACK_COUNT_CHECK_COOLDOWN;
+		nextBackpackCountCheck = world.getGameTime() + BACKPACK_COUNT_CHECK_COOLDOWN;
 
-		event.world.players().forEach(player -> {
+		world.getPlayers().forEach(player -> {
 			AtomicInteger numberOfBackpacks = new AtomicInteger(0);
 			SophisticatedBackpacks.PROXY.getPlayerInventoryProvider().runOnBackpacks(player, (backpack, handlerName, identifier, slot) -> {
 				numberOfBackpacks.incrementAndGet();
@@ -105,7 +79,7 @@ public class CommonProxy {
 			int maxNumberOfBackpacks = Config.COMMON.nerfsConfig.maxNumberOfBackpacks;
 			if (numberOfBackpacks.get() > maxNumberOfBackpacks) {
 				int numberOfSlownessLevels = Math.min(10, (int) Math.ceil((numberOfBackpacks.get() - maxNumberOfBackpacks) * Config.COMMON.nerfsConfig.slownessLevelsPerAdditionalBackpack));
-				player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, BACKPACK_COUNT_CHECK_COOLDOWN * 2, numberOfSlownessLevels - 1, false, false));
+				player.addPotionEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, BACKPACK_COUNT_CHECK_COOLDOWN * 2, numberOfSlownessLevels - 1, false, false));
 			}
 		});
 	}
@@ -114,38 +88,34 @@ public class CommonProxy {
 		return playerInventoryProvider;
 	}
 
-	private void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-		PacketHandler.sendToClient((ServerPlayerEntity) event.getPlayer(), new SyncPlayerSettingsMessage(BackpackSettingsManager.getPlayerBackpackSettingsTag(event.getPlayer())));
+	public void onPlayerChangedDimension(ServerPlayerEntity player) {
+		PacketHandler.sendToClient(player, new SyncPlayerSettingsMessage(BackpackSettingsManager.getPlayerBackpackSettingsTag(player)));
 	}
 
-	private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		PacketHandler.sendToClient((ServerPlayerEntity) event.getPlayer(), new SyncPlayerSettingsMessage(BackpackSettingsManager.getPlayerBackpackSettingsTag(event.getPlayer())));
+	public void onPlayerLoggedIn(ServerPlayerEntity player) {
+		PacketHandler.sendToClient(player, new SyncPlayerSettingsMessage(BackpackSettingsManager.getPlayerBackpackSettingsTag(player)));
 	}
 
-	private void onAddReloadListener(AddReloadListenerEvent event) {
-		event.addListener(registryLoader);
+	public void addReloadListeners(List<IFutureReloadListener> listeners) {
+		listeners.add(registryLoader);
 	}
 
-	private void onCauldronInteract(PlayerInteractEvent.RightClickBlock event) {
-		PlayerEntity player = event.getPlayer();
-		Hand hand = event.getHand();
+	public boolean onCauldronInteract(PlayerEntity player, Hand hand, World world, BlockPos pos) {
 		ItemStack backpack = player.getHeldItem(hand);
 		if (!(backpack.getItem() instanceof BackpackItem)) {
-			return;
+			return false;
 		}
 
-		BlockPos pos = event.getPos();
-		World world = event.getWorld();
 		BlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 		if (block != Blocks.CAULDRON) {
-			return;
+			return false;
 		}
 		int level = state.get(CauldronBlock.LEVEL);
 
 		LazyOptional<IBackpackWrapper> backpackWrapperCapability = BackpackWrapperLookup.get(backpack);
 		if (level == 0 || backpackWrapperCapability.map(this::hasDefaultColor).orElse(true)) {
-			return;
+			return false;
 		}
 
 		if (!world.isRemote) {
@@ -155,20 +125,17 @@ public class CommonProxy {
 			});
 		}
 
-		event.setCanceled(true);
-		event.setCancellationResult(ActionResultType.SUCCESS);
+		return true;
 	}
 
 	private boolean hasDefaultColor(IBackpackWrapper wrapper) {
 		return wrapper.getBorderColor() == BackpackWrapper.DEFAULT_BORDER_COLOR && wrapper.getClothColor() == BackpackWrapper.DEFAULT_CLOTH_COLOR;
 	}
 
-	private void onBlockClick(PlayerInteractEvent.LeftClickBlock event) {
-		if (event.getWorld().isRemote) {
+	public void onBlockClick(PlayerEntity player, BlockPos pos) {
+		if (player.world.isRemote) {
 			return;
 		}
-		PlayerEntity player = event.getPlayer();
-		BlockPos pos = event.getPos();
 		playerInventoryProvider.runOnBackpacks(player, (backpack, inventoryHandlerName, identifier, slot) -> BackpackWrapperLookup.get(backpack)
 				.map(wrapper -> {
 					for (IBlockClickResponseUpgrade upgrade : wrapper.getUpgradeHandler().getWrappersThatImplement(IBlockClickResponseUpgrade.class)) {
@@ -180,8 +147,7 @@ public class CommonProxy {
 				}).orElse(false));
 	}
 
-	private void onAttackEntity(AttackEntityEvent event) {
-		PlayerEntity player = event.getPlayer();
+	public void onAttackEntity(PlayerEntity player) {
 		if (player.world.isRemote) {
 			return;
 		}
@@ -196,42 +162,35 @@ public class CommonProxy {
 				}).orElse(false));
 	}
 
-	private void onLivingSpecialSpawn(LivingSpawnEvent.SpecialSpawn event) {
-		Entity entity = event.getEntity();
+	public void onLivingSpecialSpawn(LivingEntity entity) {
 		if (entity instanceof MonsterEntity) {
 			MonsterEntity monster = (MonsterEntity) entity;
-			if (monster.getItemBySlot(EquipmentSlotType.CHEST).isEmpty()) {
+			if (monster.getItemStackFromSlot(EquipmentSlotType.CHEST).isEmpty()) {
 				EntityBackpackAdditionHandler.addBackpack(monster);
 			}
 		}
 	}
 
-	private void onLivingDrops(LivingDropsEvent event) {
-		EntityBackpackAdditionHandler.handleBackpackDrop(event);
-	}
-
-	private void onEntityMobGriefing(EntityMobGriefingEvent event) {
-		if (event.getEntity() instanceof CreeperEntity) {
-			EntityBackpackAdditionHandler.removeBeneficialEffects((CreeperEntity) event.getEntity());
+	public void onEntityMobGriefing(Entity entity) {
+		if (entity instanceof CreeperEntity) {
+			EntityBackpackAdditionHandler.removeBeneficialEffects((CreeperEntity) entity);
 		}
 	}
 
-	private void onEntityLeaveWorld(EntityLeaveWorldEvent event) {
-		if (!(event.getEntity() instanceof MonsterEntity)) {
+	public void onEntityLeaveWorld(Entity entity) {
+		if (!(entity instanceof MonsterEntity)) {
 			return;
 		}
-		EntityBackpackAdditionHandler.removeBackpackUuid((MonsterEntity) event.getEntity());
+		EntityBackpackAdditionHandler.removeBackpackUuid((MonsterEntity) entity);
 	}
 
-	private void onItemPickup(EntityItemPickupEvent event) {
-		ItemEntity itemEntity = event.getItem();
+	public boolean onItemPickup(PlayerEntity player, ItemEntity itemEntity) {
 		if (itemEntity.getItem().isEmpty()) {
-			return;
+			return false;
 		}
 
 		AtomicReference<ItemStack> remainingStackSimulated = new AtomicReference<>(itemEntity.getItem().copy());
-		PlayerEntity player = event.getPlayer();
-		World world = player.getCommandSenderWorld();
+		World world = player.world;
 		playerInventoryProvider.runOnBackpacks(player, (backpack, inventoryHandlerName, identifier, slot) -> BackpackWrapperLookup.get(backpack)
 				.map(wrapper -> {
 					remainingStackSimulated.set(InventoryHelper.runPickupOnBackpack(world, remainingStackSimulated.get(), wrapper, true));
@@ -247,8 +206,9 @@ public class CommonProxy {
 				itemEntity.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (RandHelper.getRandomMinusOneToOne(rand) * 0.7F + 1.0F) * 2.0F);
 			}
 			itemEntity.setItem(ItemStack.EMPTY);
-			event.setCanceled(true);
+			return true;
 		}
+		return false;
 	}
 
 }

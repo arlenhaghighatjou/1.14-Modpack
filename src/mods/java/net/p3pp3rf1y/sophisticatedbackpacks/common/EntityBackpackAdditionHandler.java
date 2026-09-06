@@ -9,8 +9,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -26,12 +26,10 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraft.util.DamageSource;
+
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage;
 import net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems;
@@ -191,7 +189,7 @@ public class EntityBackpackAdditionHandler {
 		if (Boolean.FALSE.equals(Config.COMMON.entityBackpackAdditions.buffHealth)) {
 			return;
 		}
-		ModifiableAttributeInstance maxHealth = monster.getAttribute(Attributes.MAX_HEALTH);
+		IAttributeInstance maxHealth = monster.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		if (maxHealth != null) {
 			double healthAddition = maxHealth.getBaseValue() * minDifficulty;
 			if (healthAddition > 0.1D) {
@@ -255,16 +253,15 @@ public class EntityBackpackAdditionHandler {
 		}
 	}
 
-	static void handleBackpackDrop(LivingDropsEvent event) {
-		if (event.getEntity().getTags().contains(SPAWNED_WITH_BACKPACK)) {
-			LivingEntity mob = event.getEntityLiving();
+	public static void handleBackpackDrop(LivingEntity mob, DamageSource source, int lootingLevel) {
+		if (mob.getTags().contains(SPAWNED_WITH_BACKPACK)) {
 			ItemStack backpack = mob.getItemStackFromSlot(EquipmentSlotType.CHEST);
-			if (event.getSource().getEntity() instanceof PlayerEntity && !(event.getSource().getEntity() instanceof FakePlayer) &&
-					Math.max(mob.world.rand.nextFloat() - event.getLootingLevel() * Config.COMMON.entityBackpackAdditions.lootingChanceIncreasePerLevel, 0.0F) < Config.COMMON.entityBackpackAdditions.backpackDropChance) {
+			if (source.getTrueSource() instanceof PlayerEntity &&
+					Math.max(mob.world.rand.nextFloat() - lootingLevel * Config.COMMON.entityBackpackAdditions.lootingChanceIncreasePerLevel, 0.0F) < Config.COMMON.entityBackpackAdditions.backpackDropChance) {
 				ItemEntity backpackEntity = new ItemEntity(mob.world, mob.posX, mob.posY, mob.posZ, backpack);
-				event.getDrops().add(backpackEntity);
+				mob.world.addEntity(backpackEntity);
 				mob.setItemStackToSlot(EquipmentSlotType.CHEST, ItemStack.EMPTY);
-				event.getEntity().getTags().remove(SPAWNED_WITH_BACKPACK);
+				mob.getTags().remove(SPAWNED_WITH_BACKPACK);
 			} else {
 				removeContentsUuid(backpack);
 			}
@@ -273,16 +270,16 @@ public class EntityBackpackAdditionHandler {
 
 	public static void removeBeneficialEffects(CreeperEntity creeper) {
 		if (creeper.getTags().contains(SPAWNED_WITH_BACKPACK)) {
-			creeper.getActiveEffects().removeIf(e -> e.getEffect().isBeneficial());
+			creeper.getActivePotionEffects().removeIf(e -> e.getEffect().isBeneficial());
 		}
 	}
 
 	public static void removeBackpackUuid(MonsterEntity entity) {
-		if (!entity.isDeadOrDying() || !entity.getTags().contains(SPAWNED_WITH_BACKPACK)) {
+		if (entity.isAlive() || !entity.getTags().contains(SPAWNED_WITH_BACKPACK)) {
 			return;
 		}
 
-		ItemStack stack = entity.getItemBySlot(EquipmentSlotType.CHEST);
+		ItemStack stack = entity.getItemStackFromSlot(EquipmentSlotType.CHEST);
 		removeContentsUuid(stack);
 	}
 
@@ -291,8 +288,7 @@ public class EntityBackpackAdditionHandler {
 				.ifPresent(backpackWrapper -> backpackWrapper.getContentsUuid().ifPresent(uuid -> BackpackStorage.get().removeBackpackContents(uuid)));
 	}
 
-	public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-		LivingEntity entity = event.getEntityLiving();
+	public static void onLivingUpdate(LivingEntity entity) {
 		if (!entity.getTags().contains(SPAWNED_WITH_JUKEBOX_UPGRADE)) {
 			return;
 		}

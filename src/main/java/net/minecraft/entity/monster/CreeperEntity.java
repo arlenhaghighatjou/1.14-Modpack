@@ -200,6 +200,7 @@ public class CreeperEntity extends MonsterEntity {
     }
 
     private void explode() {
+        modpack.ModHooks.onMobGriefing(this);
         if (!this.world.isRemote) {
             Explosion.Mode explosion$mode = this.world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
             float f = this.getPowered() ? 2.0F : 1.0F;

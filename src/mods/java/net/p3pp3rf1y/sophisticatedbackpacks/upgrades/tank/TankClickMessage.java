@@ -55,7 +55,7 @@ public class TankClickMessage {
 		});
 	}
 
-	private static void drainHandler(ServerPlayerEntity sender, net.minecraftforge.fluids.capability.IFluidHandlerItem fluidHandler, TankUpgradeWrapper tankWrapper) {
+	private static void drainHandler(ServerPlayerEntity sender, net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.IFluidHandlerItem fluidHandler, TankUpgradeWrapper tankWrapper) {
 		tankWrapper.drainHandler(fluidHandler, itemStackIn -> {
 			sender.inventory.setCarried(itemStackIn);
 			sender.connection.sendPacket(new SSetSlotPacket(-1, -1, sender.inventory.getItemStack()));

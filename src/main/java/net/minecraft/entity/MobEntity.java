@@ -860,6 +860,7 @@ public abstract class MobEntity extends LivingEntity {
     }
 
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, ILivingEntityData spawnDataIn, CompoundNBT dataTag) {
+        modpack.ModHooks.onSpecialSpawn(this);
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
         if (this.rand.nextFloat() < 0.05F) {
             this.setLeftHanded(true);

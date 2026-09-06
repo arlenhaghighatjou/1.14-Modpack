@@ -267,6 +267,9 @@ public class ItemEntity extends Entity {
 
    public void onCollideWithPlayer(PlayerEntity entityIn) {
       if (!this.world.isRemote) {
+         if (this.pickupDelay == 0 && modpack.ModHooks.onItemPickup(entityIn, this)) {
+            return;
+         }
          ItemStack itemstack = this.getItem();
          Item item = itemstack.getItem();
          int i = itemstack.getCount();

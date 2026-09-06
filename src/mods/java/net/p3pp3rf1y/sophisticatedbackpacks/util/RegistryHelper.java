@@ -3,7 +3,8 @@ package net.p3pp3rf1y.sophisticatedbackpacks.util;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import org.apache.commons.lang3.Validate;
 
@@ -26,7 +27,16 @@ public class RegistryHelper {
 		return itemKey;
 	}
 
-	public static Optional<ResourceLocation> getRegistryName(ForgeRegistryEntry<?> registryEntry) {
-		return Optional.ofNullable(Registry.ITEM.getKey(registryEntry));
+	public static Optional<ResourceLocation> getRegistryName(Object registryEntry) {
+		if (registryEntry instanceof Item) {
+			return Optional.ofNullable(Registry.ITEM.getKey((Item) registryEntry));
+		}
+		if (registryEntry instanceof Block) {
+			return Optional.ofNullable(Registry.BLOCK.getKey((Block) registryEntry));
+		}
+		if (registryEntry instanceof EntityType) {
+			return Optional.ofNullable(Registry.ENTITY_TYPE.getKey((EntityType<?>) registryEntry));
+		}
+		return Optional.empty();
 	}
 }

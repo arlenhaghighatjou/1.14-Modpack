@@ -393,6 +393,7 @@ public class ServerWorld extends World {
       }
 
       iprofiler.endSection();
+      modpack.ModHooks.onWorldTickEnd(this);
    }
 
    public void func_217441_a(Chunk p_217441_1_, int p_217441_2_) {
@@ -895,6 +896,7 @@ public class ServerWorld extends World {
    }
 
    public void onEntityRemoved(Entity entityIn) {
+      modpack.ModHooks.onEntityLeaveWorld(entityIn);
       if (entityIn instanceof EnderDragonEntity) {
          for(EnderDragonPartEntity enderdragonpartentity : ((EnderDragonEntity)entityIn).func_213404_dT()) {
             enderdragonpartentity.remove();

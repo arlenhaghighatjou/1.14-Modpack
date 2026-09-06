@@ -1094,6 +1094,7 @@ public abstract class LivingEntity extends Entity {
         }
 
         this.dropInventory();
+        modpack.ModHooks.onLivingDrops(this, p_213345_1_, i);
     }
 
     protected void dropInventory() {
@@ -2060,6 +2061,7 @@ public abstract class LivingEntity extends Entity {
     }
 
     public void livingTick() {
+        modpack.ModHooks.onLivingUpdate(this);
         if (this.jumpTicks > 0) {
             --this.jumpTicks;
         }

@@ -6,7 +6,6 @@ import net.minecraft.nbt.ListNBT;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemHandlerHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemStackHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IInsertResponseUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IOverflowResponseUpgrade;

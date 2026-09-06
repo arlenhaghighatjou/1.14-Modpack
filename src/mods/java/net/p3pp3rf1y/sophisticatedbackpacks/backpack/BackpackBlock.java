@@ -44,7 +44,6 @@ import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.minecraftforge.fluids.FluidUtil;
 import net.p3pp3rf1y.sophisticatedbackpacks.network.PacketHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IUpgradeRenderData;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IUpgradeRenderer;

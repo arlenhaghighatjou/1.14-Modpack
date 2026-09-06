@@ -6,7 +6,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.UUIDCodec;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -104,7 +103,7 @@ public class NBTHelper {
 
 	public static Optional<EaglercraftUUID> getUniqueId(ItemStack stack, String key) {
 		//noinspection ConstantConditions - contains check is run before this get so it won't be null
-		return getTagValue(stack, key, (compound, k) -> NBTUtil.loadUUID(compound.get(k)));
+		return getTagValue(stack, key, CompoundNBT::getUniqueId);
 	}
 
 	public static void setCompoundNBT(ItemStack stack, String key, CompoundNBT tag) {
@@ -172,7 +171,7 @@ public class NBTHelper {
 	}
 
 	public static void setUniqueId(ItemStack stack, String key, EaglercraftUUID uuid) {
-		stack.getOrCreateTag().putIntArray(key, UUIDCodec.uuidToIntArray(uuid));
+		stack.getOrCreateTag().putUniqueId(key, uuid);
 	}
 
 	public static void removeTag(ItemStack stack, String key) {

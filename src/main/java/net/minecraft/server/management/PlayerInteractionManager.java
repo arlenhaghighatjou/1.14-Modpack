@@ -143,6 +143,7 @@ public class PlayerInteractionManager {
                 BlockState blockstate = this.world.getBlockState(p_225416_1_);
                 if (!blockstate.isAir()) {
                     blockstate.onBlockClicked(this.world, p_225416_1_, this.player);
+                    modpack.ModHooks.onBlockClick(this.player, p_225416_1_);
                     f = blockstate.getPlayerRelativeBlockHardness(this.player, this.player.world, p_225416_1_);
                 }
 
@@ -271,6 +272,9 @@ public class PlayerInteractionManager {
 
     public ActionResultType func_219441_a(PlayerEntity p_219441_1_, World p_219441_2_, ItemStack p_219441_3_, Hand p_219441_4_, BlockRayTraceResult p_219441_5_) {
         BlockPos blockpos = p_219441_5_.getPos();
+        if (modpack.ModHooks.onRightClickBlock(p_219441_1_, p_219441_4_, p_219441_2_, blockpos)) {
+            return ActionResultType.SUCCESS;
+        }
         BlockState blockstate = p_219441_2_.getBlockState(blockpos);
         if (this.gameType == GameType.SPECTATOR) {
             INamedContainerProvider inamedcontainerprovider = blockstate.getContainer(p_219441_2_, blockpos);
