@@ -6,10 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -214,16 +212,17 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private void updateBestWeapons(AtomicReference<ItemStack> bestAxe, AtomicDouble bestAxeDamage, AtomicReference<ItemStack> bestSword, AtomicDouble bestSwordDamage, ItemStack stack) {
-		ModifiableAttributeInstance attribute = new ModifiableAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE, a -> {});
-		Multimap<Attribute, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EquipmentSlotType.MAINHAND);
-		if (!attributeModifiers.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE)) {
+		Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EquipmentSlotType.MAINHAND);
+		String attackDamageName = SharedMonsterAttributes.ATTACK_DAMAGE.getName();
+		if (!attributeModifiers.containsKey(attackDamageName)) {
 			return;
 		}
-		attributeModifiers.get(SharedMonsterAttributes.ATTACK_DAMAGE).forEach(m -> {
-			attribute.removeModifier(m);
-			attribute.addTransientModifier(m);
-		});
-		double damageValue = attribute.getValue();
+		double damageValue = SharedMonsterAttributes.ATTACK_DAMAGE.getDefaultValue();
+		for (AttributeModifier m : attributeModifiers.get(attackDamageName)) {
+			if (m.getOperation() == AttributeModifier.Operation.ADDITION) {
+				damageValue += m.getAmount();
+			}
+		}
 		if (getToolTypes(stack).contains(ToolType.AXE)) {
 			if (damageValue > bestAxeDamage.get()) {
 				bestAxe.set(stack);
