@@ -16,7 +16,7 @@ public class ItemBase extends Item {
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
 		if (Config.COMMON.enabledItems.isItemEnabled(this)) {
-			super.fillItemCategory(group, items);
+			super.fillItemGroup(group, items);
 		}
 	}
 }

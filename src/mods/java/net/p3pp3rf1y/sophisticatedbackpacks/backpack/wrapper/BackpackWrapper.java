@@ -140,7 +140,7 @@ public class BackpackWrapper implements IBackpackWrapper {
 	}
 
 	private void markBackpackContentsDirty() {
-		BackpackStorage.get().setDirty();
+		BackpackStorage.get().markDirty();
 	}
 
 	@Override

@@ -59,7 +59,7 @@ public class CommonProxy {
 	}
 
 	public void registerHandlers() {
-		ModItems.registerHandlers();
+		ModItems.registerContent();
 		ModBlocks.registerHandlers();
 		ModFluids.registerHandlers();
 		ModParticles.registerParticles();

@@ -20,6 +20,10 @@ public class Slot {
       this.yPos = yPosition;
    }
 
+   public int getSlotIndex() {
+      return this.slotIndex;
+   }
+
    public void onSlotChange(ItemStack p_75220_1_, ItemStack p_75220_2_) {
       int i = p_75220_2_.getCount() - p_75220_1_.getCount();
       if (i > 0) {

@@ -82,7 +82,7 @@ public class TranslationHelper {
 
 	public static List<StringTextComponent> getTranslatedLines(String translateKey, @Nullable Object parameters, TextFormatting... textFormattings) {
 		List<StringTextComponent> ret = getTranslatedLines(translateKey, parameters);
-		ret.forEach(l -> l.applyTextStyle(textFormattings));
+		ret.forEach(l -> l.applyTextStyles(textFormattings));
 		return ret;
 	}
 
@@ -104,7 +104,7 @@ public class TranslationHelper {
 	}
 
 	public static String translate(String translateKey, Object... parameters) {
-		return I18n.get(translateKey, parameters);
+		return I18n.format(translateKey, parameters);
 	}
 
 	public static String translKeybind(String keybindName) {

@@ -64,7 +64,7 @@ public class BackpackRenderInfo {
 
 	public <T extends IUpgradeRenderData> void setUpgradeRenderData(UpgradeRenderDataType<T> upgradeRenderDataType, T renderData) {
 		upgradeData.put(upgradeRenderDataType, renderData);
-		serializeUpgradeData(upgrades -> upgrades.put(upgradeRenderDataType.getName(), renderData.write(new CompoundNBT())));
+		serializeUpgradeData(upgrades -> upgrades.put(upgradeRenderDataType.getName(), renderData.serializeNBT()));
 		save();
 	}
 
