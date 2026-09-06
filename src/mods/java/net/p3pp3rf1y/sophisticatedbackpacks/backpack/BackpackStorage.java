@@ -5,7 +5,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
@@ -35,17 +35,17 @@ public class BackpackStorage extends WorldSavedData {
 		{
 			MinecraftServer server = MinecraftServer.getCurrentServer();
 			if (server != null) {
-				ServerWorld overworld = server.getLevel(World.OVERWORLD);
+				ServerWorld overworld = server.getWorld(DimensionType.OVERWORLD);
 				//noinspection ConstantConditions - by this time overworld is loaded
-				DimensionSavedDataManager storage = overworld.getDataStorage();
-				return storage.computeIfAbsent(BackpackStorage::new, SAVED_DATA_NAME);
+				DimensionSavedDataManager storage = overworld.getSavedData();
+				return storage.getOrCreate(BackpackStorage::new, SAVED_DATA_NAME);
 			}
 		}
 		return clientStorageCopy;
 	}
 
 	@Override
-	public void load(CompoundNBT nbt) {
+	public void read(CompoundNBT nbt) {
 		readBackpackContents(nbt);
 		readAccessLogs(nbt);
 	}
@@ -60,14 +60,14 @@ public class BackpackStorage extends WorldSavedData {
 	private void readBackpackContents(CompoundNBT nbt) {
 		for (INBT n : nbt.getList("backpackContents", 10)) {
 			CompoundNBT uuidContentsPair = (CompoundNBT) n;
-			EaglercraftUUID uuid = NBTUtil.loadUUID(Objects.requireNonNull(uuidContentsPair.get("uuid")));
+			EaglercraftUUID uuid = uuidContentsPair.getUniqueId("uuid");
 			CompoundNBT contents = uuidContentsPair.getCompound("contents");
 			backpackContents.put(uuid, contents);
 		}
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
+	public CompoundNBT write(CompoundNBT compound) {
 		CompoundNBT ret = new CompoundNBT();
 		writeBackpackContents(ret);
 		writeAccessLogs(ret);
@@ -78,7 +78,7 @@ public class BackpackStorage extends WorldSavedData {
 		ListNBT backpackContentsNbt = new ListNBT();
 		for (Map.Entry<EaglercraftUUID, CompoundNBT> entry : backpackContents.entrySet()) {
 			CompoundNBT uuidContentsPair = new CompoundNBT();
-			uuidContentsPair.put("uuid", NBTUtil.createUUID(entry.getKey()));
+			uuidContentsPair.putUniqueId("uuid", entry.getKey());
 			uuidContentsPair.put("contents", entry.getValue());
 			backpackContentsNbt.add(uuidContentsPair);
 		}
@@ -95,14 +95,14 @@ public class BackpackStorage extends WorldSavedData {
 
 	public CompoundNBT getOrCreateBackpackContents(EaglercraftUUID backpackUuid) {
 		return backpackContents.computeIfAbsent(backpackUuid, uuid -> {
-			setDirty();
+			markDirty();
 			return new CompoundNBT();
 		});
 	}
 
 	public void putAccessLog(AccessLogRecord alr) {
 		accessLogRecords.put(alr.getBackpackUuid(), alr);
-		setDirty();
+		markDirty();
 	}
 
 	public void removeBackpackContents(EaglercraftUUID backpackUuid) {
@@ -140,7 +140,7 @@ public class BackpackStorage extends WorldSavedData {
 			return false;
 		});
 		if (numberRemoved.get() > 0) {
-			setDirty();
+			markDirty();
 		}
 		return numberRemoved.get();
 	}
