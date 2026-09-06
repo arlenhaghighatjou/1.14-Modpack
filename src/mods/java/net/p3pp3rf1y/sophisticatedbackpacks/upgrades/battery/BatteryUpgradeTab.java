@@ -31,8 +31,8 @@ public class BatteryUpgradeTab extends UpgradeSettingsTab<BatteryUpgradeContaine
 	@Override
 	protected void moveSlotsToTab() {
 		List<Slot> slots = getContainer().getSlots();
-		positionSlot(inventorySlots.get(BatteryUpgradeWrapper.INPUT_SLOT), screen.getGuiLeft(), screen.getGuiTop(), 4);
-		positionSlot(inventorySlots.get(BatteryUpgradeWrapper.OUTPUT_SLOT), screen.getGuiLeft(), screen.getGuiTop(), 25);
+		positionSlot(slots.get(BatteryUpgradeWrapper.INPUT_SLOT), screen.getGuiLeft(), screen.getGuiTop(), 4);
+		positionSlot(slots.get(BatteryUpgradeWrapper.OUTPUT_SLOT), screen.getGuiLeft(), screen.getGuiTop(), 25);
 	}
 
 	private void positionSlot(Slot slot, int screenGuiLeft, int screenGuiTop, int xOffset) {

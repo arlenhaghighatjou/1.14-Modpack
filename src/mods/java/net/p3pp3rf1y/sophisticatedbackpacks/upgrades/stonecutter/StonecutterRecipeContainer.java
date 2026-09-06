@@ -138,7 +138,7 @@ public class StonecutterRecipeContainer {
 		if (!recipes.isEmpty() && isIndexInRecipeBounds(selectedRecipe.get())) {
 			StonecuttingRecipe stonecuttingrecipe = recipes.get(selectedRecipe.get());
 			resultInventory.setRecipeUsed(stonecuttingrecipe);
-			outputSlot.set(stonecuttingrecipe.getCraftingResult(inputInventory));
+			outputSlot.putStack(stonecuttingrecipe.getCraftingResult(inputInventory));
 		} else {
 			outputSlot.putStack(ItemStack.EMPTY);
 		}

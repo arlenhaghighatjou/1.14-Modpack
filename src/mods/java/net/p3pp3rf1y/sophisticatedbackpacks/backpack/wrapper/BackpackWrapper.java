@@ -47,7 +47,7 @@ public class BackpackWrapper implements IBackpackWrapper {
 	private static final String OPEN_TAB_ID_TAG = "openTabId";
 	private static final String SORT_BY_TAG = "sortBy";
 	private static final String CONTENTS_UUID_TAG = "contentsUuid";
-	private static final String INVENTORY_SLOTS_TAG = "inventorySlots";
+	private static final String INVENTORY_SLOTS_TAG = "slots";
 	private static final String UPGRADE_SLOTS_TAG = "upgradeSlots";
 	private static final String LOOT_TABLE_NAME_TAG = "lootTableName";
 	private static final String LOOT_PERCENTAGE_TAG = "lootPercentage";
@@ -114,10 +114,10 @@ public class BackpackWrapper implements IBackpackWrapper {
 	}
 
 	private int getNumberOfInventorySlots() {
-		Optional<Integer> inventorySlots = NBTHelper.getInt(backpack, INVENTORY_SLOTS_TAG);
+		Optional<Integer> slots = NBTHelper.getInt(backpack, INVENTORY_SLOTS_TAG);
 
-		if (inventorySlots.isPresent()) {
-			return inventorySlots.get();
+		if (slots.isPresent()) {
+			return slots.get();
 		}
 
 		int itemInventorySlots = ((BackpackItem) backpack.getItem()).getNumberOfSlots();

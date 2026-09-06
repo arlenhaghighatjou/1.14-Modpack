@@ -155,7 +155,7 @@ public class ToolRegistry {
 
 			for (JsonElement toolElement : tools) {
 				if (toolElement.isJsonPrimitive()) {
-					parseTool(toolElement.getAsString(), toolTypes);
+					parseTool(toolElement.getString(), toolTypes);
 				} else {
 					Matchers.getItemMatcher(toolElement)
 							.ifPresent(toolMatcher -> TOOL_TYPE_MAPPING.predicateToolTypes.computeIfAbsent(toolMatcher, p -> new HashSet<>()).addAll(toolTypes));
@@ -188,7 +188,7 @@ public class ToolRegistry {
 		private Set<ToolType> getToolTypes(JsonArray types) {
 			Set<ToolType> toolTypes = new HashSet<>();
 			types.forEach(e -> {
-				String toolTypeString = e.getAsString();
+				String toolTypeString = e.getString();
 				toolTypes.add(ToolType.get(toolTypeString));
 			});
 			return toolTypes;
@@ -258,8 +258,8 @@ public class ToolRegistry {
 				return;
 			}
 			for (JsonElement jsonElement : blocksArray) {
-				if (jsonElement.isJsonPrimitive() && jsonElement.getAsString().contains(":")) {
-					parseObjectEntry(tools, jsonElement.getAsString());
+				if (jsonElement.isJsonPrimitive() && jsonElement.getString().contains(":")) {
+					parseObjectEntry(tools, jsonElement.getString());
 				} else {
 					parseObjectPredicateEntry(tools, jsonElement);
 				}
@@ -320,7 +320,7 @@ public class ToolRegistry {
 
 	protected static Tuple<Set<Item>, Set<CacheableStackPredicate>> getItemsAndItemPredicates(Map.Entry<String, JsonElement> property) {
 		if (property.getValue().isJsonArray()) {
-			JsonArray toolArray = JSONUtils.convertToJsonArray(property.getValue(), "");
+			JsonArray toolArray = JSONUtils.getJsonArray(property.getValue(), "");
 			return getItemsAndItemPredicates(toolArray);
 		} else {
 			SophisticatedBackpacks.LOGGER.error("Invalid tools list - needs to be an array {}", property.getValue());
@@ -333,7 +333,7 @@ public class ToolRegistry {
 		Set<CacheableStackPredicate> itemPredicates = new HashSet<>();
 		for (JsonElement jsonElement : toolArray) {
 			if (jsonElement.isJsonPrimitive()) {
-				ResourceLocation itemName = new ResourceLocation(jsonElement.getAsString());
+				ResourceLocation itemName = new ResourceLocation(jsonElement.getString());
 				if (!Registry.ITEM.keySet().contains(itemName)) {
 					SophisticatedBackpacks.LOGGER.debug("{} isn't loaded in item registry, skipping ...", itemName);
 				}

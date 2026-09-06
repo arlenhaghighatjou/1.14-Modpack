@@ -90,7 +90,7 @@ public class FilterLogicBase {
 
 	protected void initTags() {
 		tagNames = NBTHelper.getCollection(upgrade, parentTagKey, "tags", 8,
-				elementNbt -> Optional.of(new ResourceLocation(elementNbt.getAsString())), TreeSet::new).orElse(new TreeSet<>());
+				elementNbt -> Optional.of(new ResourceLocation(elementNbt.getString())), TreeSet::new).orElse(new TreeSet<>());
 	}
 
 	public void setAllowList(boolean isAllowList) {

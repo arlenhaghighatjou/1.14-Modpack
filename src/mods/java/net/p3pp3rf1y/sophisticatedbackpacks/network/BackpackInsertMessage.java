@@ -37,7 +37,7 @@ public class BackpackInsertMessage {
 			ItemStack heldItem = player.inventory.getItemStack();
 			player.inventory.setCarried(wrapper.getInventoryForUpgradeProcessing().insertItem(heldItem, false));
 			player.ignoreSlotUpdateHack = false;
-			player.broadcastCarriedItem();
+			player.detectAndSendChanges();
 
 		});
 	}

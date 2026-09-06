@@ -32,7 +32,7 @@ public class FluidFilterLogic {
 		NBTHelper.getTagValue(upgrade, "", "fluids", (c, n1) -> c.getList(n1, 8)).ifPresent(listNbt -> {
 			int i = 0;
 			for (INBT elementNbt : listNbt) {
-				Fluid value = Registry.FLUID.getOrDefault(new ResourceLocation(elementNbt.getAsString()));
+				Fluid value = Registry.FLUID.getOrDefault(new ResourceLocation(elementNbt.getString()));
 				if (value != null) {
 					fluidFilters.set(i, value);
 				}

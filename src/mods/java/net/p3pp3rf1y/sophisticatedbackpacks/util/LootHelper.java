@@ -30,16 +30,16 @@ public class LootHelper {
 
 	public static void fillWithLoot(Random rand, List<ItemStack> loot, IItemHandlerModifiable inventory) {
 		List<Integer> slots = InventoryHelper.getEmptySlotsRandomized(inventory, rand);
-		InventoryHelper.shuffleItems(loot, inventorySlots.size(), rand);
+		InventoryHelper.shuffleItems(loot, slots.size(), rand);
 
 		for (ItemStack lootStack : loot) {
-			if (inventorySlots.isEmpty()) {
+			if (slots.isEmpty()) {
 				SophisticatedBackpacks.LOGGER.warn("Tried to over-fill backpack");
 				return;
 			}
 
 			if (!lootStack.isEmpty()) {
-				inventory.setStackInSlot(inventorySlots.remove(inventorySlots.size() - 1), lootStack);
+				inventory.setStackInSlot(slots.remove(slots.size() - 1), lootStack);
 			}
 		}
 	}

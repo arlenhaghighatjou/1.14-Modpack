@@ -23,9 +23,9 @@ public class TankUpgradeContainer extends UpgradeContainerBase<TankUpgradeWrappe
 
 	public TankUpgradeContainer(PlayerEntity player, int upgradeContainerId, TankUpgradeWrapper upgradeWrapper, UpgradeContainerType<TankUpgradeWrapper, TankUpgradeContainer> type) {
 		super(player, upgradeContainerId, upgradeWrapper, type);
-		inventorySlots.add(new TankIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.INPUT_SLOT, -100, -100, translUpgradeSlotTooltip("tank_input"))
+		slots.add(new TankIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.INPUT_SLOT, -100, -100, translUpgradeSlotTooltip("tank_input"))
 				.setBackground(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_TANK_INPUT_SLOT_BACKGROUND));
-		inventorySlots.add(new TankIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.OUTPUT_SLOT, -100, -100, translUpgradeSlotTooltip("tank_output"))
+		slots.add(new TankIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.OUTPUT_SLOT, -100, -100, translUpgradeSlotTooltip("tank_output"))
 				.setBackground(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_TANK_OUTPUT_SLOT_BACKGROUND));
 	}
 

@@ -11,13 +11,13 @@ public class BackpackGuiHelper {
 
 	private BackpackGuiHelper() {}
 
-	public static void renderBackpackBackground(Position position, int inventorySlots, int slotsOnLine, ResourceLocation textureName, int xSize, Minecraft minecraft, int numberOfSlotRows) {
+	public static void renderBackpackBackground(Position position, int slots, int slotsOnLine, ResourceLocation textureName, int xSize, Minecraft minecraft, int numberOfSlotRows) {
 		int x = position.getX();
 		int y = position.getY();
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		minecraft.getTextureManager().bindTexture(textureName);
-		int slotRows = inventorySlots / slotsOnLine;
-		int remainingSlots = inventorySlots % slotsOnLine;
+		int slotRows = slots / slotsOnLine;
+		int remainingSlots = slots % slotsOnLine;
 		int slotsHeight = 18 * numberOfSlotRows;
 		int halfSlotHeight = slotsHeight / 2;
 		AbstractGui.blit(x, y, 0, 0, xSize, BackpackScreen.SLOTS_Y_OFFSET + halfSlotHeight, 256, 256);

@@ -61,7 +61,7 @@ public class BackpackSoundHandler {
 			return;
 		}
 
-		Entity entity = world.getEntity(entityId);
+		Entity entity = world.getEntityByID(entityId);
 		if (!(entity instanceof LivingEntity)) {
 			return;
 		}

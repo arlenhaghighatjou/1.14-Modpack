@@ -59,7 +59,7 @@ public class WindowClickMessage {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, true));
 				player.ignoreSlotUpdateHack = true;
 				player.openContainer.detectAndSendChanges();
-				player.broadcastCarriedItem();
+				player.detectAndSendChanges();
 				player.ignoreSlotUpdateHack = false;
 			} else {
 				player.connection.sendPacket(new SConfirmTransactionPacket(msg.windowId, msg.actionNumber, false));

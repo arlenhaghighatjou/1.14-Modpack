@@ -33,7 +33,7 @@ public abstract class ButtonBase extends BackpackWidget {
 		}
 		onClick.accept(button);
 		if (Boolean.TRUE.equals(Config.CLIENT.playButtonSound)) {
-			Minecraft.getInstance().getSoundHandler().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			Minecraft.getInstance().getSoundHandler().play(new SimpleSound(SoundEvents.UI_BUTTON_CLICK, SoundCategory.MASTER, 1.0F, 1.0F, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F, true));
 		}
 		return true;
 	}

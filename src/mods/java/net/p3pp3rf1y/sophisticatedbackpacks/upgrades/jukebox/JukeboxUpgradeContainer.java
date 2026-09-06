@@ -15,7 +15,7 @@ public class JukeboxUpgradeContainer extends UpgradeContainerBase<JukeboxUpgrade
 
 	public JukeboxUpgradeContainer(PlayerEntity player, int upgradeContainerId, JukeboxUpgradeItem.Wrapper upgradeWrapper, UpgradeContainerType<JukeboxUpgradeItem.Wrapper, JukeboxUpgradeContainer> type) {
 		super(player, upgradeContainerId, upgradeWrapper, type);
-		inventorySlots.add(new SlotItemHandler(upgradeWrapper.getDiscInventory(), 0, -100, -100) {
+		slots.add(new SlotItemHandler(upgradeWrapper.getDiscInventory(), 0, -100, -100) {
 			@Override
 			public void markDirty() {
 				super.markDirty();

@@ -23,9 +23,9 @@ public class BatteryUpgradeContainer extends UpgradeContainerBase<BatteryUpgrade
 
 	public BatteryUpgradeContainer(PlayerEntity player, int upgradeContainerId, BatteryUpgradeWrapper upgradeWrapper, UpgradeContainerType<BatteryUpgradeWrapper, BatteryUpgradeContainer> type) {
 		super(player, upgradeContainerId, upgradeWrapper, type);
-		inventorySlots.add(new BatteryIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.INPUT_SLOT, -100, -100, translUpgradeSlotTooltip("battery_input"))
+		slots.add(new BatteryIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.INPUT_SLOT, -100, -100, translUpgradeSlotTooltip("battery_input"))
 				.setBackground(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_BATTERY_INPUT_SLOT_BACKGROUND));
-		inventorySlots.add(new BatteryIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.OUTPUT_SLOT, -100, -100, translUpgradeSlotTooltip("battery_output"))
+		slots.add(new BatteryIOSlot(() -> this.upgradeWrapper.getInventory(), TankUpgradeWrapper.OUTPUT_SLOT, -100, -100, translUpgradeSlotTooltip("battery_output"))
 				.setBackground(AtlasTexture.LOCATION_BLOCKS_TEXTURE, EMPTY_BATTERY_OUTPUT_SLOT_BACKGROUND));
 	}
 

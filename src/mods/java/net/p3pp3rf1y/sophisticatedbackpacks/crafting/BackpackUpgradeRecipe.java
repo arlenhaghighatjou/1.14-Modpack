@@ -14,7 +14,7 @@ public class BackpackUpgradeRecipe extends ShapedRecipe implements IWrapperRecip
 	private final ShapedRecipe compose;
 
 	public BackpackUpgradeRecipe(ShapedRecipe compose) {
-		super(compose.getId(), compose.getGroup(), compose.getRecipeWidth(), compose.getRecipeHeight(), compose.getIngredients(), compose.getRecipeOutput());
+		super(compose.getId(), compose.getGroup(), compose.getWidth(), compose.getHeight(), compose.getIngredients(), compose.getRecipeOutput());
 		this.compose = compose;
 	}
 
@@ -25,7 +25,7 @@ public class BackpackUpgradeRecipe extends ShapedRecipe implements IWrapperRecip
 
 	@Override
 	public ItemStack getCraftingResult(CraftingInventory inv) {
-		ItemStack upgradedBackpack = super.assemble(inv);
+		ItemStack upgradedBackpack = super.getCraftingResult(inv);
 		getBackpack(inv).flatMap(backpack -> Optional.ofNullable(backpack.getTag())).ifPresent(tag -> upgradedBackpack.setTag(tag.copy()));
 		BackpackWrapperLookup.get(upgradedBackpack).ifPresent(wrapper -> {
 			BackpackItem backpackItem = ((BackpackItem) upgradedBackpack.getItem());
@@ -53,7 +53,7 @@ public class BackpackUpgradeRecipe extends ShapedRecipe implements IWrapperRecip
 
 	public static class Serializer extends RecipeWrapperSerializer<ShapedRecipe, BackpackUpgradeRecipe> {
 		public Serializer() {
-			super(BackpackUpgradeRecipe::new, IRecipeSerializer.SHAPED_RECIPE);
+			super(BackpackUpgradeRecipe::new, IRecipeSerializer.CRAFTING_SHAPED);
 		}
 	}
 }

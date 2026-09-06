@@ -13,7 +13,7 @@ public class UpgradeNextTierRecipe extends ShapedRecipe implements IWrapperRecip
 	private final ShapedRecipe compose;
 
 	public UpgradeNextTierRecipe(ShapedRecipe compose) {
-		super(compose.getId(), compose.getGroup(), compose.getRecipeWidth(), compose.getRecipeHeight(), compose.getIngredients(), compose.getRecipeOutput());
+		super(compose.getId(), compose.getGroup(), compose.getWidth(), compose.getHeight(), compose.getIngredients(), compose.getRecipeOutput());
 		this.compose = compose;
 	}
 
@@ -24,7 +24,7 @@ public class UpgradeNextTierRecipe extends ShapedRecipe implements IWrapperRecip
 
 	@Override
 	public ItemStack getCraftingResult(CraftingInventory inv) {
-		ItemStack nextTier = super.assemble(inv);
+		ItemStack nextTier = super.getCraftingResult(inv);
 		getUpgrade(inv).ifPresent(upgrade -> nextTier.setTag(upgrade.getTag()));
 		return nextTier;
 	}
@@ -46,7 +46,7 @@ public class UpgradeNextTierRecipe extends ShapedRecipe implements IWrapperRecip
 
 	public static class Serializer extends RecipeWrapperSerializer<ShapedRecipe, UpgradeNextTierRecipe> {
 		public Serializer() {
-			super(UpgradeNextTierRecipe::new, IRecipeSerializer.SHAPED_RECIPE);
+			super(UpgradeNextTierRecipe::new, IRecipeSerializer.CRAFTING_SHAPED);
 		}
 	}
 }

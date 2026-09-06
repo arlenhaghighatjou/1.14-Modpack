@@ -88,7 +88,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 				return stack;
 			}
 		};
-		inventorySlots.add(craftingResultSlot);
+		slots.add(craftingResultSlot);
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class CraftingUpgradeContainer extends UpgradeContainerBase<CraftingUpgra
 
 	@Override
 	public List<Slot> getRecipeSlots() {
-		return inventorySlots.subList(0, 9);
+		return slots.subList(0, 9);
 	}
 
 	@Override

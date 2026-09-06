@@ -45,7 +45,7 @@ public class InceptionUpgradeItem extends UpgradeItemBase<InceptionUpgradeWrappe
 	@Override
 	public UpgradeSlotChangeResult canRemoveUpgradeFrom(IBackpackWrapper backpackWrapper) {
 		Set<Integer> slots = InventoryHelper.getItemSlots(backpackWrapper.getInventoryHandler(), stack -> stack.getItem() instanceof BackpackItem);
-		if (!inventorySlots.isEmpty()) {
+		if (!slots.isEmpty()) {
 			return new UpgradeSlotChangeResult.Fail(translError("remove.inception_sub_backpack"), Collections.emptySet(), slots, Collections.emptySet());
 		}
 		return new UpgradeSlotChangeResult.Success();
