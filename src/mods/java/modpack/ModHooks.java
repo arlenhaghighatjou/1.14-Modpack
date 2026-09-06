@@ -37,7 +37,8 @@ public class ModHooks {
 	}
 
 	public static boolean onRightClickBlock(PlayerEntity player, Hand hand, World world, BlockPos pos) {
-		return SophisticatedBackpacks.PROXY.onCauldronInteract(player, hand, world, pos);
+		return net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock.playerInteract(player, world, pos)
+				|| SophisticatedBackpacks.PROXY.onCauldronInteract(player, hand, world, pos);
 	}
 
 	public static void onBlockClick(PlayerEntity player, BlockPos pos) {

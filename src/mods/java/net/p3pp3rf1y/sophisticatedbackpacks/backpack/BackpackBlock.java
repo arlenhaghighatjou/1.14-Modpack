@@ -38,7 +38,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidActionResult;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidAttributes;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.fluid.FluidUtil;
@@ -170,11 +169,11 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 							ItemHandlerLookup.get(player, null).ifPresent(playerInventory -> {
 								FluidActionResult resultOfEmptying = FluidUtil.tryEmptyContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET, player, true);
 								if (resultOfEmptying.isSuccess()) {
-									player.setItemInHand(hand, resultOfEmptying.getResult());
+									player.setHeldItem(hand, resultOfEmptying.getResult());
 								} else {
 									FluidActionResult resultOfFilling = FluidUtil.tryFillContainerAndStow(heldItem, backpackFluidHandler, playerInventory, FluidAttributes.BUCKET, player, true);
 									if (resultOfFilling.isSuccess()) {
-										player.setItemInHand(hand, resultOfFilling.getResult());
+										player.setHeldItem(hand, resultOfFilling.getResult());
 									}
 								}
 							}));
@@ -206,38 +205,26 @@ public class BackpackBlock extends Block implements IWaterLoggable {
 
 	private static void stopBackpackSounds(ItemStack backpack, World world, BlockPos pos) {
 		BackpackWrapperLookup.get(backpack).ifPresent(wrapper -> wrapper.getContentsUuid().ifPresent(uuid ->
-				ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, Vec3d.atCenterOf(pos), uuid))
+				ServerBackpackSoundHandler.stopPlayingDisc((ServerWorld) world, new Vec3d(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D), uuid))
 		);
 	}
 
-	public static void playerInteract(PlayerInteractEvent.RightClickBlock event) {
-		PlayerEntity player = event.getPlayer();
-		World world = player.world;
-		BlockPos pos = event.getPos();
-
-		if (!player.isSneaking() || !hasEmptyMainHandAndSomethingInOffhand(player) || didntInteractWithBackpack(event)) {
-			return;
-		}
-
-		if (world.isRemote) {
-			event.setCanceled(true);
-			event.setCancellationResult(ActionResultType.SUCCESS);
-			return;
+	public static boolean playerInteract(PlayerEntity player, World world, BlockPos pos) {
+		if (!player.isSneaking() || !hasEmptyMainHandAndSomethingInOffhand(player)) {
+			return false;
 		}
 
 		BlockState state = world.getBlockState(pos);
 		if (!(state.getBlock() instanceof BackpackBlock)) {
-			return;
+			return false;
+		}
+
+		if (world.isRemote) {
+			return true;
 		}
 
 		putInPlayersHandAndRemove(state, world, pos, player, player.getHeldItemMainhand().isEmpty() ? Hand.MAIN_HAND : Hand.OFF_HAND);
-
-		event.setCanceled(true);
-		event.setCancellationResult(ActionResultType.SUCCESS);
-	}
-
-	private static boolean didntInteractWithBackpack(PlayerInteractEvent.RightClickBlock event) {
-		return !(event.getWorld().getBlockState(event.getPos()).getBlock() instanceof BackpackBlock);
+		return true;
 	}
 
 	private static boolean hasEmptyMainHandAndSomethingInOffhand(PlayerEntity player) {

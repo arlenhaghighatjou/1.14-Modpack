@@ -9,7 +9,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.SmokingRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
@@ -49,12 +49,12 @@ public class AutoCookingUpgradeWrapper<W extends AutoCookingUpgradeWrapper<W, U,
 		inputFilterLogic = new FilterLogic(upgrade, upgradeSaveHandler, autoCookingConfig.inputFilterSlots.get(),
 				s -> RecipeHelper.getCookingRecipe(s, recipeType).isPresent(), "inputFilter");
 		fuelFilterLogic = new FilterLogic(upgrade, upgradeSaveHandler, autoCookingConfig.fuelFilterSlots.get(),
-				s -> ForgeHooks.getBurnTime(s, recipeType) > 0, "fuelFilter");
+				s -> AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(s.getItem(), 0) > 0, "fuelFilter");
 		fuelFilterLogic.setAllowByDefault();
 		fuelFilterLogic.setEmptyAllowListMatchesEverything();
 
 		isValidInput = s -> RecipeHelper.getCookingRecipe(s, recipeType).isPresent() && inputFilterLogic.matchesFilter(s);
-		isValidFuel = s -> ForgeHooks.getBurnTime(s, recipeType) > 0 && fuelFilterLogic.matchesFilter(s);
+		isValidFuel = s -> AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(s.getItem(), 0) > 0 && fuelFilterLogic.matchesFilter(s);
 		cookingLogic = new CookingLogic<>(upgrade, upgradeSaveHandler, isValidFuel, isValidInput, autoCookingConfig, recipeType, burnTimeModifier);
 	}
 
@@ -93,7 +93,7 @@ public class AutoCookingUpgradeWrapper<W extends AutoCookingUpgradeWrapper<W, U,
 		}
 
 		ItemStack fuel = cookingLogic.getFuel();
-		if (!fuel.isEmpty() && ForgeHooks.getBurnTime(fuel, recipeType) <= 0 && inventory.insertItem(fuel, true).getCount() < fuel.getCount()) {
+		if (!fuel.isEmpty() && AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(fuel.getItem(), 0) <= 0 && inventory.insertItem(fuel, true).getCount() < fuel.getCount()) {
 			ItemStack ret = inventory.insertItem(fuel, false);
 			cookingLogic.getCookingInventory().extractItem(CookingLogic.FUEL_SLOT, fuel.getCount() - ret.getCount(), false);
 		}

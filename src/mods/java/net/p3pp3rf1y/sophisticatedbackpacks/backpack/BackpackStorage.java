@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.fml.common.thread.SidedThreadGroups;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.p3pp3rf1y.sophisticatedbackpacks.SophisticatedBackpacks;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackSettingsHandler;
 
@@ -34,8 +32,8 @@ public class BackpackStorage extends WorldSavedData {
 	}
 
 	public static BackpackStorage get() {
-		if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
-			MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		{
+			MinecraftServer server = MinecraftServer.getCurrentServer();
 			if (server != null) {
 				ServerWorld overworld = server.getLevel(World.OVERWORLD);
 				//noinspection ConstantConditions - by this time overworld is loaded

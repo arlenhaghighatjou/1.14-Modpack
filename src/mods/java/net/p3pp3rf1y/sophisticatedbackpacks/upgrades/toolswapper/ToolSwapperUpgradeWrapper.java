@@ -2,14 +2,13 @@ package net.p3pp3rf1y.sophisticatedbackpacks.upgrades.toolswapper;
 
 import com.google.common.collect.Multimap;
 import com.google.common.util.concurrent.AtomicDouble;
-import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -20,8 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IForgeShearable;
-import net.minecraftforge.common.Tags;
+import net.minecraft.tags.ItemTags;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.tool.ToolType;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IAttackEntityResponseUpgrade;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
@@ -52,6 +50,7 @@ import java.util.function.Predicate;
 
 public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpgradeWrapper, ToolSwapperUpgradeItem>
 		implements IBlockClickResponseUpgrade, IAttackEntityResponseUpgrade, IBlockToolSwapUpgrade, IEntityToolSwapUpgrade {
+	private static final net.minecraft.tags.Tag<net.minecraft.item.Item> SHEARS_TAG = new ItemTags.Wrapper(new net.minecraft.util.ResourceLocation("forge:shears"));
 	private static final ToolType SWORD_TOOL_TYPE = ToolType.get("sword");
 
 	private final ToolSwapperFilterLogic filterLogic;
@@ -176,7 +175,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean isTool(ItemStack stack) {
-		return !stack.getToolTypes().isEmpty() || !ToolRegistry.getItemToolTypes(stack).isEmpty() || stack.getItem() instanceof ShearsItem || stack.getItem().is(Tags.Items.SHEARS);
+		return !stack.getToolTypes().isEmpty() || !ToolRegistry.getItemToolTypes(stack).isEmpty() || stack.getItem() instanceof ShearsItem || SHEARS_TAG.contains(stack.getItem());
 	}
 
 	private boolean isSword(ItemStack stack, PlayerEntity player) {
@@ -184,7 +183,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 			return true;
 		}
 
-		ModifiableAttributeInstance attackDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
+		ModifiableAttributeInstance attackDamage = player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		if (!stack.isEmpty() && hasSwordOrNoToolTypes(stack)) {
 			return attackDamage != null && attackDamage.getModifier(Item.BASE_ATTACK_DAMAGE_UUID) != null;
 		}
@@ -215,12 +214,12 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private void updateBestWeapons(AtomicReference<ItemStack> bestAxe, AtomicDouble bestAxeDamage, AtomicReference<ItemStack> bestSword, AtomicDouble bestSwordDamage, ItemStack stack) {
-		ModifiableAttributeInstance attribute = new ModifiableAttributeInstance(Attributes.ATTACK_DAMAGE, a -> {});
+		ModifiableAttributeInstance attribute = new ModifiableAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE, a -> {});
 		Multimap<Attribute, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EquipmentSlotType.MAINHAND);
-		if (!attributeModifiers.containsKey(Attributes.ATTACK_DAMAGE)) {
+		if (!attributeModifiers.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE)) {
 			return;
 		}
-		attributeModifiers.get(Attributes.ATTACK_DAMAGE).forEach(m -> {
+		attributeModifiers.get(SharedMonsterAttributes.ATTACK_DAMAGE).forEach(m -> {
 			attribute.removeModifier(m);
 			attribute.addTransientModifier(m);
 		});
@@ -396,15 +395,15 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 	}
 
 	private boolean isShearsItem(ItemStack stack) {
-		return stack.getItem() instanceof ShearsItem || stack.getItem().is(Tags.Items.SHEARS);
+		return stack.getItem() instanceof ShearsItem || SHEARS_TAG.contains(stack.getItem());
 	}
 
 	private boolean isShearInteractionBlock(World world, BlockPos pos, ItemStack stack, Block block) {
-		return (block instanceof IForgeShearable && ((IForgeShearable) block).isShearable(stack, world, pos)) || block instanceof BeehiveBlock;
+		return block instanceof net.minecraft.block.IGrowable || block == net.minecraft.block.Blocks.VINE || block == net.minecraft.block.Blocks.TRIPWIRE;
 	}
 
 	private boolean isShearableEntity(Entity entity, ItemStack stack) {
-		return entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(stack, entity.world, entity.getPosition());
+		return entity instanceof net.minecraft.entity.passive.SheepEntity || entity instanceof net.minecraft.entity.passive.MooshroomEntity || entity instanceof net.minecraft.entity.passive.SnowGolemEntity;
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.IItemHandlerModifiable;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.IBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.ITickableUpgrade;
@@ -71,7 +70,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 				player.inventory.mainInventory.set(player.inventory.currentItem, stack);
 				if (stack.use(world, player, Hand.MAIN_HAND).getResult() == ActionResultType.CONSUME) {
 					player.inventory.mainInventory.set(player.inventory.currentItem, mainHandItem);
-					ItemStack containerItem = ForgeEventFactory.onItemUseFinish(player, stack.copy(), 0, stack.getItem().finishUsingItem(stack, world, player));
+					ItemStack containerItem = stack.getItem().onItemUseFinish(stack, world, player);
 					inventory.setStackInSlot(slot, stack);
 					if (!ItemStack.matches(containerItem, stack)) {
 						//not handling the case where player doesn't have item handler cap as the player should always have it. if that changes in the future well I guess I fix it

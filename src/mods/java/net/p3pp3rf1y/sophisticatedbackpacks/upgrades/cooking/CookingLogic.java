@@ -8,7 +8,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.inventory.ItemStackHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.Config;
 import net.p3pp3rf1y.sophisticatedbackpacks.util.NBTHelper;
@@ -257,7 +257,7 @@ public class CookingLogic<T extends AbstractCookingRecipe> {
 	}
 
 	private static <T extends AbstractCookingRecipe> int getBurnTime(ItemStack fuel, IRecipeType<T> recipeType, float burnTimeModifier) {
-		return (int) (ForgeHooks.getBurnTime(fuel, recipeType) * burnTimeModifier);
+		return (int) (AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(fuel.getItem(), 0) * burnTimeModifier);
 	}
 
 	public ItemStack getCookOutput() {
