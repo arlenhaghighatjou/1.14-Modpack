@@ -4,7 +4,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapperLook
 import net.minecraft.util.registry.Registry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.primitives.Ints;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -56,21 +56,18 @@ public class EntityBackpackAdditionHandler {
 	private static final String SPAWNED_WITH_JUKEBOX_UPGRADE = SophisticatedBackpacks.MOD_ID + ":jukebox";
 
 	private static final List<WeightedElement<Item>> HELMET_CHANCES = ImmutableList.of(
-			new WeightedElement<>(1, Items.NETHERITE_HELMET),
 			new WeightedElement<>(3, Items.DIAMOND_HELMET),
 			new WeightedElement<>(9, Items.GOLDEN_HELMET),
 			new WeightedElement<>(27, Items.IRON_HELMET),
 			new WeightedElement<>(81, Items.LEATHER_HELMET)
 	);
 	private static final List<WeightedElement<Item>> LEGGINGS_CHANCES = ImmutableList.of(
-			new WeightedElement<>(1, Items.NETHERITE_LEGGINGS),
 			new WeightedElement<>(3, Items.DIAMOND_LEGGINGS),
 			new WeightedElement<>(9, Items.GOLDEN_LEGGINGS),
 			new WeightedElement<>(27, Items.IRON_LEGGINGS),
 			new WeightedElement<>(81, Items.LEATHER_LEGGINGS)
 	);
 	private static final List<WeightedElement<Item>> BOOTS_CHANCES = ImmutableList.of(
-			new WeightedElement<>(1, Items.NETHERITE_BOOTS),
 			new WeightedElement<>(3, Items.DIAMOND_BOOTS),
 			new WeightedElement<>(9, Items.GOLDEN_BOOTS),
 			new WeightedElement<>(27, Items.IRON_BOOTS),
@@ -103,8 +100,8 @@ public class EntityBackpackAdditionHandler {
 			return;
 		}
 
-		float localDifficulty = monster.world.getCurrentDifficultyAt(monster.getPosition()).getEffectiveDifficulty();
-		int index = Ints.constrainToRange((int) Math.floor(DIFFICULTY_BACKPACK_CHANCES.size() / MAX_LOCAL_DIFFICULTY * localDifficulty - 0.1f), 0, DIFFICULTY_BACKPACK_CHANCES.size());
+		float localDifficulty = monster.world.getDifficultyForLocation(monster.getPosition()).getAdditionalDifficulty();
+		int index = MathHelper.clamp((int) Math.floor(DIFFICULTY_BACKPACK_CHANCES.size() / MAX_LOCAL_DIFFICULTY * localDifficulty - 0.1f), 0, DIFFICULTY_BACKPACK_CHANCES.size());
 
 		RandHelper.getRandomWeightedElement(rnd, DIFFICULTY_BACKPACK_CHANCES.get(index)).ifPresent(backpackAddition -> {
 			ItemStack backpack = new ItemStack(backpackAddition.getBackpackItem());
@@ -127,11 +124,11 @@ public class EntityBackpackAdditionHandler {
 			if (armorPiece != Items.AIR) {
 				ItemStack armorStack = new ItemStack(armorPiece);
 				if (rnd.nextInt(6 - minDifficulty) == 0) {
-					float additionalDifficulty = monster.world.getCurrentDifficultyAt(monster.getPosition()).getSpecialMultiplier();
+					float additionalDifficulty = monster.world.getDifficultyForLocation(monster.getPosition()).getClampedAdditionalDifficulty();
 					int level = (int) (5F + additionalDifficulty * 18F + minDifficulty * 6);
-					EnchantmentHelper.enchantItem(rnd, armorStack, level, true);
+					EnchantmentHelper.addRandomEnchantment(rnd, armorStack, level, true);
 				}
-				monster.setItemSlot(slot, armorStack);
+				monster.setItemStackToSlot(slot, armorStack);
 			}
 		});
 	}
@@ -149,7 +146,7 @@ public class EntityBackpackAdditionHandler {
 						}
 					}
 				}));
-		monster.setItemSlot(EquipmentSlotType.CHEST, backpack);
+		monster.setItemStackToSlot(EquipmentSlotType.CHEST, backpack);
 		monster.setDropChance(EquipmentSlotType.CHEST, 0);
 	}
 
@@ -193,35 +190,32 @@ public class EntityBackpackAdditionHandler {
 		if (maxHealth != null) {
 			double healthAddition = maxHealth.getBaseValue() * minDifficulty;
 			if (healthAddition > 0.1D) {
-				maxHealth.addPermanentModifier(new AttributeModifier("Backpack bearer health bonus", healthAddition, AttributeModifier.Operation.ADDITION));
+				maxHealth.applyModifier(new AttributeModifier("Backpack bearer health bonus", healthAddition, AttributeModifier.Operation.ADDITION));
 			}
 			monster.setHealth(monster.getMaxHealth());
 		}
 	}
 
 	private static Optional<SpawnEggItem> getSpawnEgg(EntityType<?> entityType) {
-		Map<EntityType<?>, SpawnEggItem> eggs = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, null, "field_195987_b");
-		return eggs == null ? Optional.empty() : Optional.ofNullable(eggs.get(entityType));
+		return Optional.ofNullable(SpawnEggItem.getEgg(entityType));
 	}
 
 	private static int getPrimaryColor(SpawnEggItem egg) {
-		Integer primaryColor = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195988_c");
-		return primaryColor == null ? -1 : primaryColor;
+		return egg.getPrimaryColor();
 	}
 
 	private static int getSecondaryColor(SpawnEggItem egg) {
-		Integer secondaryColor = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195989_d");
-		return secondaryColor == null ? -1 : secondaryColor;
+		return egg.getSecondaryColor();
 	}
 
 	private static final List<ApplicableEffect> APPLICABLE_EFFECTS = ImmutableList.of(
-			new ApplicableEffect(Effects.DAMAGE_RESISTANCE, 2),
+			new ApplicableEffect(Effects.RESISTANCE, 2),
 			new ApplicableEffect(Effects.FIRE_RESISTANCE),
 			new ApplicableEffect(Effects.ABSORPTION),
 			new ApplicableEffect(Effects.HEALTH_BOOST),
 			new ApplicableEffect(Effects.REGENERATION, 2),
-			new ApplicableEffect(Effects.MOVEMENT_SPEED),
-			new ApplicableEffect(Effects.DAMAGE_BOOST));
+			new ApplicableEffect(Effects.SPEED),
+			new ApplicableEffect(Effects.STRENGTH));
 
 	private static void setLoot(MonsterEntity monster, IBackpackWrapper backpackWrapper, int difficulty) {
 		MinecraftServer server = monster.world.getServer();

@@ -36,7 +36,7 @@ public class CraftingResultSlot extends Slot {
       this.onCrafting(stack);
    }
 
-   protected void onSwapCraft(int p_190900_1_) {
+   public void onSwapCraft(int p_190900_1_) {
       this.amountCrafted += p_190900_1_;
    }
 

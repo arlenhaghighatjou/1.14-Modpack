@@ -119,6 +119,14 @@ public class SpawnEggItem extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
+    public int getPrimaryColor() {
+        return this.primaryColor;
+    }
+
+    public int getSecondaryColor() {
+        return this.secondaryColor;
+    }
+
     public int getColor(int tintIndex) {
         return tintIndex == 0 ? this.primaryColor : this.secondaryColor;
     }
