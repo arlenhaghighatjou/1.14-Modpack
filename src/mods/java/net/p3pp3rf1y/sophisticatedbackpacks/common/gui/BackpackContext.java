@@ -314,12 +314,12 @@ public abstract class BackpackContext {
 		}
 
 		public static BackpackContext fromBuffer(PacketBuffer packetBuffer) {
-			return new BackpackContext.Block(BlockPos.of(packetBuffer.readLong()));
+			return new BackpackContext.Block(BlockPos.fromLong(packetBuffer.readLong()));
 		}
 
 		@Override
 		public void addToBuffer(PacketBuffer packetBuffer) {
-			packetBuffer.writeLong(pos.asLong());
+			packetBuffer.writeLong(pos.toLong());
 		}
 
 		@Override
@@ -359,7 +359,7 @@ public abstract class BackpackContext {
 		}
 
 		public static BackpackContext fromBuffer(PacketBuffer packetBuffer) {
-			return new BackpackContext.BlockSubBackpack(BlockPos.of(packetBuffer.readLong()), packetBuffer.readInt());
+			return new BackpackContext.BlockSubBackpack(BlockPos.fromLong(packetBuffer.readLong()), packetBuffer.readInt());
 		}
 
 		@Override

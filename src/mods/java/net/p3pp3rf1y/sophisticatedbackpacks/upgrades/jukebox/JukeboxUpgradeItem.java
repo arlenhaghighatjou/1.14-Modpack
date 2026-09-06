@@ -65,13 +65,13 @@ public class JukeboxUpgradeItem extends UpgradeItemBase<JukeboxUpgradeItem.Wrapp
 
 		public void play(World world, BlockPos pos) {
 			play(world, (serverWorld, backpackUuid) ->
-					ServerBackpackSoundHandler.startPlayingDisc(serverWorld, pos, backpackUuid, Item.getId(getDisc().getItem()), () -> setIsPlaying(false)));
+					ServerBackpackSoundHandler.startPlayingDisc(serverWorld, pos, backpackUuid, Item.getIdFromItem(getDisc().getItem()), () -> setIsPlaying(false)));
 		}
 
 		public void play(LivingEntity entity) {
 			play(entity.world, (world, backpackUuid) ->
 					ServerBackpackSoundHandler.startPlayingDisc(world, entity.getPositionVec(), backpackUuid, entity.getId(),
-							Item.getId(getDisc().getItem()), () -> setIsPlaying(false)));
+							Item.getIdFromItem(getDisc().getItem()), () -> setIsPlaying(false)));
 		}
 
 		private void play(World world, BiConsumer<ServerWorld, EaglercraftUUID> play) {

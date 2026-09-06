@@ -19,11 +19,11 @@ public class BlockToolSwapMessage {
 	}
 
 	public static void encode(BlockToolSwapMessage msg, PacketBuffer packetBuffer) {
-		packetBuffer.writeLong(msg.pos.asLong());
+		packetBuffer.writeLong(msg.pos.toLong());
 	}
 
 	public static BlockToolSwapMessage decode(PacketBuffer packetBuffer) {
-		return new BlockToolSwapMessage(BlockPos.of(packetBuffer.readLong()));
+		return new BlockToolSwapMessage(BlockPos.fromLong(packetBuffer.readLong()));
 	}
 
 	static void onMessage(BlockToolSwapMessage msg, ServerPlayerEntity player) {

@@ -236,7 +236,7 @@ public class ClientProxy extends CommonProxy {
 		ClientPlayerEntity player = mc.player;
 		ItemStack held = player.inventory.getItemStack();
 		if (!held.isEmpty() && !(held.getItem() instanceof BackpackItem)) {
-			Slot under = containerGui.getSlotUnderMouse();
+			Slot under = containerGui.hoveredSlot;
 			
 			for (Slot s : menu.inventorySlots) {
 				ItemStack stack = s.getStack();
@@ -270,7 +270,7 @@ public class ClientProxy extends CommonProxy {
 		Screen screen = mc.currentScreen;
 		if (screen instanceof ContainerScreen<?> && !(screen instanceof CreativeScreen) && button == 1 && mc.player != null) {
 			ContainerScreen<?> container = (ContainerScreen<?>) screen;
-			Slot under = container.getSlotUnderMouse();
+			Slot under = container.hoveredSlot;
 			ItemStack held = mc.player.inventory.getItemStack();
 
 			if (under != null && !held.isEmpty() && under.canTakeStack(mc.player)) {

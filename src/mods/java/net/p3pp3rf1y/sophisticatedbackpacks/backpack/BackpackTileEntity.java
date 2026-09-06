@@ -45,7 +45,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 	public void setBackpack(ItemStack backpack) {
 		backpackWrapper = BackpackWrapperLookup.get(backpack).orElse(NoopBackpackWrapper.INSTANCE);
 		backpackWrapper.setBackpackSaveHandler(() -> {
-			setChanged();
+			markDirty();
 			updateBlockRender = false;
 			WorldHelper.notifyBlockUpdate(this);
 		});
@@ -89,7 +89,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 		CompoundNBT updateTag = getUpdateTag();
 		updateTag.putBoolean("updateBlockRender", updateBlockRender);
 		updateBlockRender = true;
-		return new SUpdateTileEntityPacket(worldPosition, 1, updateTag);
+		return new SUpdateTileEntityPacket(pos, 1, updateTag);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 		if (world.isRemote) {
 			return;
 		}
-		backpackWrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class).forEach(upgrade -> upgrade.tick(null, world, getBlockPos()));
+		backpackWrapper.getUpgradeHandler().getWrappersThatImplement(ITickableUpgrade.class).forEach(upgrade -> upgrade.tick(null, world, getPos()));
 	}
 
 	@Override
@@ -142,8 +142,8 @@ public class BackpackTileEntity extends TileEntity implements ITickableTileEntit
 			}
 		}
 		state = state.with(BATTERY, renderInfo.getBatteryRenderInfo().isPresent());
-		world.setBlockAndUpdate(worldPosition, state);
-		world.updateNeighborsAt(worldPosition, state.getBlock());
+		world.setBlockAndUpdate(pos, state);
+		world.updateNeighborsAt(pos, state.getBlock());
 		WorldHelper.notifyBlockUpdate(this);
 	}
 }

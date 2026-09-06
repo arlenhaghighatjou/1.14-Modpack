@@ -41,7 +41,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		}
 
 		if (entity == null) {
-			world.getEntities(EntityType.PLAYER, new AxisAlignedBB(pos).grow(FEEDING_RANGE), p -> true).forEach(p -> feedPlayerAndGetHungry(p, world));
+			world.getEntitiesWithinAABB(EntityType.PLAYER, new AxisAlignedBB(pos).grow(FEEDING_RANGE), p -> true).forEach(p -> feedPlayerAndGetHungry(p, world));
 		} else {
 			if (feedPlayerAndGetHungry((PlayerEntity) entity, world)) {
 				setCooldown(world, STILL_HUNGRY_COOLDOWN);
@@ -65,7 +65,7 @@ public class FeedingUpgradeWrapper extends UpgradeWrapperBase<FeedingUpgradeWrap
 		IItemHandlerModifiable inventory = backpackWrapper.getInventoryForUpgradeProcessing();
 		AtomicBoolean fedPlayer = new AtomicBoolean(false);
 		InventoryHelper.iterate(inventory, (slot, stack) -> {
-			if (stack.isEdible() && filterLogic.matchesFilter(stack) && (isHungryEnoughForFood(hungerLevel, stack) || shouldFeedImmediatelyWhenHurt() && hungerLevel > 0 && isHurt)) {
+			if (stack.isFood() && filterLogic.matchesFilter(stack) && (isHungryEnoughForFood(hungerLevel, stack) || shouldFeedImmediatelyWhenHurt() && hungerLevel > 0 && isHurt)) {
 				ItemStack mainHandItem = player.getHeldItemMainhand();
 				player.inventory.mainInventory.set(player.inventory.currentItem, stack);
 				if (stack.use(world, player, Hand.MAIN_HAND).getResult() == ActionResultType.CONSUME) {

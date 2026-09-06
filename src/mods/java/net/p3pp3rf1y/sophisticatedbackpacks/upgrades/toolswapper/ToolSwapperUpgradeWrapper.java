@@ -321,7 +321,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 		boolean itemInHandIsValid = isToolValid.test(mainHandStack);
 
 		IItemHandlerSimpleInserter backpackInventory = backpackWrapper.getInventoryForUpgradeProcessing();
-		if (itemInHandIsValid && toolCache.stream().noneMatch(st -> ItemStack.isSameIgnoreDurability(st, mainHandStack))) {
+		if (itemInHandIsValid && toolCache.stream().noneMatch(st -> ItemStack.isItemEqualIgnoreDurability(st, mainHandStack))) {
 			toolCache.offer(mainHandStack);
 		}
 		ItemStack tool = findToolToSwap(backpackInventory, isToolValid);
@@ -371,7 +371,7 @@ public class ToolSwapperUpgradeWrapper extends UpgradeWrapperBase<ToolSwapperUpg
 
 	private boolean hasEquivalentItem(Collection<ItemStack> alreadyGivenBefore, ItemStack stack) {
 		for (ItemStack givenTool : alreadyGivenBefore) {
-			if (ItemStack.isSameIgnoreDurability(givenTool, stack)) {
+			if (ItemStack.isItemEqualIgnoreDurability(givenTool, stack)) {
 				return true;
 			}
 		}

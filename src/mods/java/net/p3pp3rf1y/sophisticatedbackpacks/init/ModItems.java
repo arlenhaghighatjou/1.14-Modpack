@@ -371,10 +371,10 @@ public class ModItems {
 			Item item = stack.getItem();
 			if (item instanceof BackpackItem) {
 				Direction dispenserDirection = source.getBlockState().get(DispenserBlock.FACING);
-				BlockPos blockpos = source.getPos().relative(dispenserDirection);
-				Direction against = source.getLevel().isEmptyBlock(blockpos.below()) ? dispenserDirection.getOpposite() : Direction.UP;
+				BlockPos blockpos = source.getBlockPos().offset(dispenserDirection);
+				Direction against = source.getWorld().isEmptyBlock(blockpos.down()) ? dispenserDirection.getOpposite() : Direction.UP;
 
-				setSuccess(((BackpackItem) item).tryPlace(null, dispenserDirection.getAxis() == Direction.Axis.Y ? Direction.NORTH : dispenserDirection.getOpposite(), new DirectionalPlaceContext(source.getLevel(), blockpos, dispenserDirection, stack, against)).consumesAction());
+				setSuccess(((BackpackItem) item).tryPlace(null, dispenserDirection.getAxis() == Direction.Axis.Y ? Direction.NORTH : dispenserDirection.getOpposite(), new DirectionalPlaceContext(source.getWorld(), blockpos, dispenserDirection, stack, against)).consumesAction());
 			}
 
 			return stack;

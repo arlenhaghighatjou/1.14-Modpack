@@ -24,10 +24,10 @@ public class PlayerInventoryProvider {
 	public PlayerInventoryProvider() {
 		addPlayerInventoryHandler(MAIN_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> player.inventory.mainInventory.size(),
 				(player, identifier, slot) -> player.inventory.mainInventory.get(slot), true, false, false);
-		addPlayerInventoryHandler(OFFHAND_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> player.inventory.offhand.size(),
-				(player, identifier, slot) -> player.inventory.offhand.get(slot), false, false, false);
+		addPlayerInventoryHandler(OFFHAND_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> player.inventory.offHandInventory.size(),
+				(player, identifier, slot) -> player.inventory.offHandInventory.get(slot), false, false, false);
 		addPlayerInventoryHandler(ARMOR_INVENTORY, gameTime -> PlayerInventoryHandler.SINGLE_IDENTIFIER, (player, identifier) -> 1,
-				(player, identifier, slot) -> player.inventory.armor.get(EquipmentSlotType.CHEST.getIndex()), false, true, false);
+				(player, identifier, slot) -> player.inventory.armorInventory.get(EquipmentSlotType.CHEST.getIndex()), false, true, false);
 
 	}
 

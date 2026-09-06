@@ -32,7 +32,7 @@ public class BackpackShapes {
 	}
 
 	private static int getKey(Direction dir, boolean leftTank, boolean rightTank, boolean battery) {
-		return dir.get2DDataValue() << 3 | b2i(leftTank) << 2 | b2i(rightTank) << 1 | b2i(battery);
+		return dir.getHorizontalIndex() << 3 | b2i(leftTank) << 2 | b2i(rightTank) << 1 | b2i(battery);
 	}
 
 	private static int b2i(boolean value) {
@@ -140,7 +140,7 @@ public class BackpackShapes {
 		}
 
 		public VoxelShape getRotatedShape(Direction to) {
-			int index = (to.get2DDataValue() + 4) % 4;
+			int index = (to.getHorizontalIndex() + 4) % 4;
 			if (shapes[index] == null) {
 				for (int i = 1; i <= index; ++i) {
 					if (shapes[i] == null) {

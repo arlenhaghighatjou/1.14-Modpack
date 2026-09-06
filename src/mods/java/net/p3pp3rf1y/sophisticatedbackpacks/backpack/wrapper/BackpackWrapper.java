@@ -370,7 +370,7 @@ public class BackpackWrapper implements IBackpackWrapper {
 
 	private ItemStack cloneBackpack(IBackpackWrapper originalWrapper) {
 		ItemStack backpackCopy = originalWrapper.getBackpack().copy();
-		backpackCopy.removeTagKey(CONTENTS_UUID_TAG);
+		backpackCopy.removeChildTag(CONTENTS_UUID_TAG);
 		return BackpackWrapperLookup.get(backpackCopy)
 				.map(wrapperCopy -> {
 							originalWrapper.copyDataTo(wrapperCopy);
@@ -440,8 +440,8 @@ public class BackpackWrapper implements IBackpackWrapper {
 		ResourceLocation lootTableName = new ResourceLocation(lootName);
 		float lootPercentage = NBTHelper.getFloat(backpack, LOOT_PERCENTAGE_TAG).orElse(0f);
 
-		backpack.removeTagKey(LOOT_TABLE_NAME_TAG);
-		backpack.removeTagKey(LOOT_PERCENTAGE_TAG);
+		backpack.removeChildTag(LOOT_TABLE_NAME_TAG);
+		backpack.removeChildTag(LOOT_PERCENTAGE_TAG);
 
 		ServerWorld world = (ServerWorld) playerEntity.world;
 

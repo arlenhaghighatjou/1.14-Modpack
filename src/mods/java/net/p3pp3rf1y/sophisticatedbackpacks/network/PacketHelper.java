@@ -26,7 +26,7 @@ public class PacketHelper {
 		} else {
 			packetBuffer.writeBoolean(true);
 			Item item = stack.getItem();
-			packetBuffer.writeVarInt(Item.getId(item));
+			packetBuffer.writeVarInt(Item.getIdFromItem(item));
 			packetBuffer.writeInt(stack.getCount());
 			CompoundNBT compoundnbt = null;
 			if (item.isDamageable(stack) || item.shouldOverrideMultiplayerNbt()) {

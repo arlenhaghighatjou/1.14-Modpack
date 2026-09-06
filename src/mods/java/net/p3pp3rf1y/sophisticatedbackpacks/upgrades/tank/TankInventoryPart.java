@@ -41,19 +41,19 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 
 	@Override
 	public void render(int mouseX, int mouseY) {
-		GuiHelper.blit(screen.getMinecraft(), getTankLeft(), pos.getY(), GuiHelper.BAR_BACKGROUND_TOP);
+		GuiHelper.blit(screen.mc, getTankLeft(), pos.getY(), GuiHelper.BAR_BACKGROUND_TOP);
 		int yOffset = 18;
 		for (int i = 0; i < (height - 36) / 18; i++) {
-			GuiHelper.blit(screen.getMinecraft(), getTankLeft(), pos.getY() + yOffset, GuiHelper.BAR_BACKGROUND_MIDDLE);
+			GuiHelper.blit(screen.mc, getTankLeft(), pos.getY() + yOffset, GuiHelper.BAR_BACKGROUND_MIDDLE);
 			yOffset += 18;
 		}
-		GuiHelper.blit(screen.getMinecraft(), getTankLeft(), pos.getY() + yOffset, GuiHelper.BAR_BACKGROUND_BOTTOM);
+		GuiHelper.blit(screen.mc, getTankLeft(), pos.getY() + yOffset, GuiHelper.BAR_BACKGROUND_BOTTOM);
 
 		renderFluid(mouseX, mouseY);
 
 		yOffset = 0;
 		for (int i = 0; i < height / 18; i++) {
-			GuiHelper.blit(screen.getMinecraft(), getTankLeft() + 1, pos.getY() + yOffset, OVERLAY);
+			GuiHelper.blit(screen.mc, getTankLeft() + 1, pos.getY() + yOffset, OVERLAY);
 			yOffset += 18;
 		}
 	}
@@ -69,7 +69,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 			return false;
 		}
 
-		ClientPlayerEntity player = screen.getMinecraft().player;
+		ClientPlayerEntity player = screen.mc.player;
 		ItemStack cursorStack = player.inventory.getItemStack();
 		if (cursorStack.getCount() > 1 || !FluidHandlerLookup.getItem(cursorStack).isPresent()) {
 			return false;
@@ -123,7 +123,7 @@ public class TankInventoryPart extends UpgradeInventoryPartBase<TankUpgradeConta
 
 		ResourceLocation texture = fluid.getAttributes().getStillTexture(contents);
 		TextureAtlasSprite still = Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(texture);
-		GuiHelper.renderTiledFluidTextureAtlas(still, fluid.getAttributes().getColor(), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.getMinecraft());
+		GuiHelper.renderTiledFluidTextureAtlas(still, fluid.getAttributes().getColor(), pos.getX() + 10, pos.getY() + 1 + height - 2 - displayLevel, displayLevel, screen.mc);
 		renderTooltip(mouseX, mouseY, contents, capacity);
 	}
 

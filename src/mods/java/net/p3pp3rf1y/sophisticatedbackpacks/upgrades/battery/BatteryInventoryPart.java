@@ -43,24 +43,24 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 
 	@Override
 	public void render(int mouseX, int mouseY) {
-		GuiHelper.blit(screen.getMinecraft(), getTankLeft(), pos.getY(), TANK_BACKGROUND_TOP);
+		GuiHelper.blit(screen.mc, getTankLeft(), pos.getY(), TANK_BACKGROUND_TOP);
 		int yOffset = 18;
 		for (int i = 0; i < (height - 36) / 18; i++) {
-			GuiHelper.blit(screen.getMinecraft(), getTankLeft(), pos.getY() + yOffset, TANK_BACKGROUND_MIDDLE);
+			GuiHelper.blit(screen.mc, getTankLeft(), pos.getY() + yOffset, TANK_BACKGROUND_MIDDLE);
 			yOffset += 18;
 		}
-		GuiHelper.blit(screen.getMinecraft(), getTankLeft(), pos.getY() + yOffset, TANK_BACKGROUND_BOTTOM);
+		GuiHelper.blit(screen.mc, getTankLeft(), pos.getY() + yOffset, TANK_BACKGROUND_BOTTOM);
 
 		yOffset = 0;
 		for (int i = 0; i < height / 18; i++) {
-			GuiHelper.blit(screen.getMinecraft(), getTankLeft() + 1, pos.getY() + yOffset, OVERLAY);
+			GuiHelper.blit(screen.mc, getTankLeft() + 1, pos.getY() + yOffset, OVERLAY);
 			yOffset += 18;
 		}
 
 		renderCharge(mouseX, mouseY);
 
-		GuiHelper.blit(screen.getMinecraft(), getTankLeft() + 1, pos.getY(), CONNECTION_TOP);
-		GuiHelper.blit(screen.getMinecraft(), getTankLeft() + 1, pos.getY() + height - 4, CONNECTION_BOTTOM);
+		GuiHelper.blit(screen.mc, getTankLeft() + 1, pos.getY(), CONNECTION_TOP);
+		GuiHelper.blit(screen.mc, getTankLeft() + 1, pos.getY() + height - 4, CONNECTION_BOTTOM);
 	}
 
 	private int getTankLeft() {
@@ -74,7 +74,7 @@ public class BatteryInventoryPart extends UpgradeInventoryPartBase<BatteryUpgrad
 			return false;
 		}
 
-		ClientPlayerEntity player = screen.getMinecraft().player;
+		ClientPlayerEntity player = screen.mc.player;
 		ItemStack cursorStack = player.inventory.getItemStack();
 		if (!FluidHandlerLookup.getItem(cursorStack).isPresent()) {
 			return false;

@@ -156,14 +156,14 @@ public class PumpUpgradeWrapper extends UpgradeWrapperBase<PumpUpgradeWrapper, P
 		while (!nextPositions.isEmpty()) {
 			BlockPos pos = nextPositions.poll();
 			if (fillFromBlock(world, pos, backpackFluidHandler)) {
-				return Optional.of((int) (Math.max(1, Math.sqrt(basePos.distSqr(pos))) * WORLD_INTERACTION_COOLDOWN_TIME));
+				return Optional.of((int) (Math.max(1, Math.sqrt(basePos.distanceSq(pos))) * WORLD_INTERACTION_COOLDOWN_TIME));
 			}
 
 			for (Direction dir : Direction.values()) {
 				BlockPos offsetPos = pos.offset(dir.getDirectionVec());
 				if (!searchedPositions.contains(offsetPos)) {
 					searchedPositions.add(offsetPos);
-					if (basePos.distSqr(offsetPos) < PUMP_IN_WORLD_RANGE_SQR) {
+					if (basePos.distanceSq(offsetPos) < PUMP_IN_WORLD_RANGE_SQR) {
 						nextPositions.add(offsetPos);
 					}
 				}
