@@ -168,6 +168,9 @@ public class EaglerIntegratedServerWorker {
                 case IPCPacket02InitWorld.ID: {
                     tryStopServer();
                     IPCPacket02InitWorld pkt = (IPCPacket02InitWorld) ipc;
+
+                    Bootstrap.register();
+
                     newWorldSettings = new WorldSettings(pkt.seed, GameType.getByID(pkt.gamemode), pkt.structures,
                             pkt.hardcore, WorldType.WORLD_TYPES[pkt.worldType]);
                     newWorldSettings.setGeneratorOptions(pkt.worldArgs != null ? new com.google.gson.JsonParser().parse(pkt.worldArgs) : null);
